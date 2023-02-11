@@ -1,0 +1,12 @@
+const String whitePawn = 'assets/pieces/base/white_pawn.png';
+const String blackPawn = 'assets/pieces/base/black_pawn.png';
+const String whiteRook = 'assets/pieces/base/white_rook.png';
+const String blackRook = 'assets/pieces/base/black_rook.png';
+const String whiteKnight = 'assets/pieces/base/white_knight.png';
+const String blackKnight = 'assets/pieces/base/black_knight.png';
+const String whiteBishop = 'assets/pieces/base/white_bishop.png';
+const String blackBishop = 'assets/pieces/base/black_bishop.png';
+const String whiteQueen = 'assets/pieces/base/white_queen.png';
+const String blackQueen = 'assets/pieces/base/black_queen.png';
+const String whiteKing = 'assets/pieces/base/white_king.png';
+const String blackKing = 'assets/pieces/base/black_king.png';
