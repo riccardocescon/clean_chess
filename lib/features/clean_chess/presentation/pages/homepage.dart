@@ -56,8 +56,63 @@ class _HomepageState extends State<Homepage> {
         centerTitle: true,
       ),
       body: _body(context, puzzle),
+      bottomNavigationBar: Container(
+        color: Colors.grey.shade900,
+        height: 60,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _bottomMenuButton(
+              icon: Icons.arrow_back_ios_rounded,
+              onPressed: () {
+                final previousMoveFen = puzzle.previousMoveFen;
+                BlocProvider.of<BoardBloc>(context).add(
+                  SetFenEvent(board: widget.board, fen: previousMoveFen),
+                );
+              },
+            ),
+            _bottomMenuButton(
+              icon: Icons.refresh_rounded,
+              onPressed: () {
+                setState(() {});
+              },
+            ),
+            _bottomMenuButton(
+              icon: Icons.arrow_forward_ios_rounded,
+              onPressed: () {
+                final nextMove = puzzle.nextMove(widget.board.toFen());
+                if (nextMove == null) return;
+                BlocProvider.of<BoardBloc>(context).add(
+                  PieceMoveEvent(
+                    board: widget.board,
+                    movement: nextMove,
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
+
+  Widget _bottomMenuButton({
+    required IconData icon,
+    required Function() onPressed,
+  }) =>
+      SizedBox(
+        width: 60,
+        height: 60,
+        child: IconButton(
+          onPressed: onPressed,
+          padding: EdgeInsets.zero,
+          icon: Icon(
+            icon,
+            size: 26,
+            color: Colors.grey.shade300,
+          ),
+        ),
+      );
 
   Widget _body(context, Puzzle puzzle) {
     return Container(
@@ -65,92 +120,37 @@ class _HomepageState extends State<Homepage> {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          Text(
-            puzzle.title.capitalize(),
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+          SizedBox(
+            height: 80,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Text(
+                    puzzle.title.capitalize(),
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  puzzle.id,
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            puzzle.id,
-            style: const TextStyle(
-              fontSize: 14,
-            ),
-            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
-          AspectRatio(
-            aspectRatio: 1,
-            child: _board(context),
-          ),
           Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: MaterialButton(
-                      onPressed: () {
-                        final previousMoveFen = puzzle.previousMoveFen;
-                        BlocProvider.of<BoardBloc>(context).add(
-                          SetFenEvent(
-                              board: widget.board, fen: previousMoveFen),
-                        );
-                      },
-                      color: Colors.grey.shade300,
-                      padding: EdgeInsets.zero,
-                      child: Icon(
-                        Icons.arrow_back_ios_rounded,
-                        size: 26,
-                        color: Colors.grey.shade900,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: MaterialButton(
-                      onPressed: () {
-                        setState(() {});
-                      },
-                      color: Colors.grey.shade300,
-                      padding: EdgeInsets.zero,
-                      child: Icon(
-                        Icons.refresh_rounded,
-                        size: 26,
-                        color: Colors.grey.shade900,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: MaterialButton(
-                      onPressed: () {
-                        final nextMove = puzzle.nextMove(widget.board.toFen());
-                        if (nextMove == null) return;
-                        BlocProvider.of<BoardBloc>(context).add(
-                          PieceMoveEvent(
-                            board: widget.board,
-                            movement: nextMove,
-                          ),
-                        );
-                      },
-                      color: Colors.grey.shade300,
-                      padding: EdgeInsets.zero,
-                      child: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 26,
-                        color: Colors.grey.shade900,
-                      ),
-                    ),
-                  ),
-                ],
+            child: Center(
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: _board(context),
               ),
             ),
           ),
@@ -160,33 +160,32 @@ class _HomepageState extends State<Homepage> {
   }
 
   Widget _board(context) {
-    return BlocConsumer<BoardBloc, BoardState>(
-      listener: (context, state) => print(state),
-      builder: (_, state) {
-        return GridView.count(
-          crossAxisCount: 8,
-          physics: const NeverScrollableScrollPhysics(),
-          children: List.generate(64, (index) {
-            final square = widget.board.squares[index ~/ 8][index % 8];
-            return Container(
-              decoration: BoxDecoration(
-                color: getColor(index, state, square.coord),
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(14),
+      child: BlocConsumer<BoardBloc, BoardState>(
+        listener: (context, state) => print(state),
+        builder: (_, state) {
+          return GridView.count(
+            crossAxisCount: 8,
+            physics: const NeverScrollableScrollPhysics(),
+            children: List.generate(64, (index) {
+              final square = widget.board.squares[index ~/ 8][index % 8];
+              return Container(
+                decoration: BoxDecoration(
+                  color: getColor(index, state, square.coord),
                 ),
-              ),
-              child: Stack(
-                children: [
-                  _cellName(square.coord),
-                  if (square.piece != null) _piece(square, context),
-                  // _cellPowerWidget(square),
-                ],
-              ),
-            );
-          }),
-        );
-      },
+                child: Stack(
+                  children: [
+                    _cellName(square.coord),
+                    if (square.piece != null) _piece(square, context),
+                    // _cellPowerWidget(square),
+                  ],
+                ),
+              );
+            }),
+          );
+        },
+      ),
     );
   }
 
@@ -204,7 +203,7 @@ class _HomepageState extends State<Homepage> {
           coord,
           style: TextStyle(
             color: Colors.grey.shade200,
-            fontSize: 12,
+            fontSize: 10,
           ),
         ),
       );
@@ -225,6 +224,9 @@ class _HomepageState extends State<Homepage> {
       );
 
   Color getColor(int index, BoardState state, String squareCoord) {
+    final Color blackCell = Color(0xFF8E806A);
+    final Color whiteCell = Color(0xFFC3B091);
+
     if (state is BoardPlaning) {
       if (state.interactableSquares.map((e) => e.coord).contains(squareCoord)) {
         return Colors.red.shade700;
@@ -235,6 +237,6 @@ class _HomepageState extends State<Homepage> {
     if (row == 0) {
       cellColor = (index % 2) == 0 ? 1 : 0;
     }
-    return cellColor == 0 ? Colors.grey.shade700 : Colors.grey.shade800;
+    return cellColor == 0 ? whiteCell : blackCell;
   }
 }
