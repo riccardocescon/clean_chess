@@ -11,10 +11,4 @@ class Square {
 
   bool isControlledBy(PieceColor color) =>
       color == PieceColor.white ? whiteControl > 0 : blackControl > 0;
-
-  Square.clone(Square square)
-      : coord = square.coord,
-        piece = square.piece,
-        whiteControl = square.whiteControl,
-        blackControl = square.blackControl;
 }

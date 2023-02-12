@@ -60,9 +60,29 @@ class Board {
     }
   }
 
-  Board.clone(Board board) {
-    squares = board.squares
-        .map((row) => row.map((square) => Square.clone(square)).toList())
-        .toList();
+  String toFen() {
+    String fen = '';
+    for (int column = 0; column < 8; column++) {
+      int emptySpaces = 0;
+      for (int row = 0; row < 8; row++) {
+        final square = squares[column][row];
+        if (square.piece == null) {
+          emptySpaces++;
+        } else {
+          if (emptySpaces > 0) {
+            fen += emptySpaces.toString();
+            emptySpaces = 0;
+          }
+          fen += piece_helper.fenLetter(square.piece!);
+        }
+      }
+      if (emptySpaces > 0) {
+        fen += emptySpaces.toString();
+      }
+      if (column < 7) {
+        fen += '/';
+      }
+    }
+    return fen;
   }
 }

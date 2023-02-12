@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:clean_chess/core/utilities/enums.dart';
 import 'package:clean_chess/core/utilities/extensions.dart';
@@ -11,12 +12,10 @@ import 'package:clean_chess/features/clean_chess/presentation/bloc/board_bloc.da
 import 'package:clean_chess/features/clean_chess/presentation/bloc/board_event.dart';
 import 'package:clean_chess/features/clean_chess/presentation/bloc/board_state.dart';
 import 'package:clean_chess/main.dart';
-import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({
     super.key,
     required this.board,
@@ -24,24 +23,28 @@ class Homepage extends StatelessWidget {
 
   final Board board;
 
-  Puzzle _getRandomPuzzle() =>
-      Puzzle.fromString(csvItem: puzzleDb[0].join(','));
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  Puzzle _getRandomPuzzle() => Puzzle.fromString(
+      csvItem: puzzleDb[Random().nextInt(puzzleDb.length)].join(','));
+
+  void _autoFirstMove(Puzzle puzzle) {
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      final nextMove = puzzle.nextMove(widget.board.toFen());
+      BlocProvider.of<BoardBloc>(context).add(
+        PieceMoveEvent(board: widget.board, movement: nextMove!),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final puzzle = _getRandomPuzzle();
-    // board.squares[4][4].piece = King(color: PieceColor.white);
-    // board.squares[7][7].piece = Rook(color: PieceColor.white);
-    // board.squares[7][0].piece = Rook(color: PieceColor.white);
-    // board.squares[2][4].piece = Pawn(color: PieceColor.black);
-    // board.squares[4][4].piece!.totalMoves = 1;
-    // board.squares[4][3].piece = Pawn(color: PieceColor.white);
-    // board.squares[4][3].piece!.totalMoves = 1;
-    // board.squares[3][3].blackControl++;
-    // board.squares[3][5].blackControl++;
-    // String initialFen =
-    //     "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-    board.setFen(puzzle.fen);
+    _autoFirstMove(puzzle);
+    widget.board.setFen(puzzle.fen);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -68,11 +71,88 @@ class Homepage extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            puzzle.id,
+            style: const TextStyle(
+              fontSize: 14,
+            ),
+            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
           AspectRatio(
             aspectRatio: 1,
             child: _board(context),
+          ),
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: MaterialButton(
+                      onPressed: () {
+                        final previousMoveFen = puzzle.previousMoveFen;
+                        BlocProvider.of<BoardBloc>(context).add(
+                          SetFenEvent(
+                              board: widget.board, fen: previousMoveFen),
+                        );
+                      },
+                      color: Colors.grey.shade300,
+                      padding: EdgeInsets.zero,
+                      child: Icon(
+                        Icons.arrow_back_ios_rounded,
+                        size: 26,
+                        color: Colors.grey.shade900,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: MaterialButton(
+                      onPressed: () {
+                        setState(() {});
+                      },
+                      color: Colors.grey.shade300,
+                      padding: EdgeInsets.zero,
+                      child: Icon(
+                        Icons.refresh_rounded,
+                        size: 26,
+                        color: Colors.grey.shade900,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: MaterialButton(
+                      onPressed: () {
+                        final nextMove = puzzle.nextMove(widget.board.toFen());
+                        if (nextMove == null) return;
+                        BlocProvider.of<BoardBloc>(context).add(
+                          PieceMoveEvent(
+                            board: widget.board,
+                            movement: nextMove,
+                          ),
+                        );
+                      },
+                      color: Colors.grey.shade300,
+                      padding: EdgeInsets.zero,
+                      child: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 26,
+                        color: Colors.grey.shade900,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -81,15 +161,13 @@ class Homepage extends StatelessWidget {
 
   Widget _board(context) {
     return BlocConsumer<BoardBloc, BoardState>(
-      listener: (context, state) {
-        print(state);
-      },
+      listener: (context, state) => print(state),
       builder: (_, state) {
         return GridView.count(
           crossAxisCount: 8,
           physics: const NeverScrollableScrollPhysics(),
           children: List.generate(64, (index) {
-            final square = board.squares[index ~/ 8][index % 8];
+            final square = widget.board.squares[index ~/ 8][index % 8];
             return Container(
               decoration: BoxDecoration(
                 color: getColor(index, state, square.coord),

@@ -21,6 +21,10 @@ class BoardMove extends BoardState {
   const BoardMove();
 }
 
+class BoardLoading extends BoardState {
+  const BoardLoading();
+}
+
 class BoardError extends BoardState {
   final String message;
   const BoardError(this.message);

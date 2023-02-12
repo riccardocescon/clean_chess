@@ -4,6 +4,7 @@ import 'package:clean_chess/features/clean_chess/domain/entities/piece_selected_
 import 'package:clean_chess/features/clean_chess/data/models/square.dart';
 import 'package:clean_chess/core/error/failures.dart';
 import 'package:clean_chess/features/clean_chess/domain/repositories/board_repository.dart';
+import 'package:clean_chess/features/clean_chess/presentation/bloc/board_event.dart';
 import 'package:dartz/dartz.dart';
 import 'package:clean_chess/core/utilities/extensions.dart';
 
@@ -314,5 +315,82 @@ class BoardRepositoryImpl implements BoardRepository {
     }
 
     return Right(squares);
+  }
+
+  @override
+  Either<Failure, bool> pieceMove(PieceMoveEvent params) {
+    // {f2g3} {e6e7} {b2b1} {b3c1} {b1c1} {h6c1}
+    final board = params.board;
+    final movement = params.movement;
+
+    final startingMovement = movement.substring(0, 2);
+    final endingMovement = movement.substring(2);
+
+    final startingSquare =
+        board.squares.expand((element) => element).firstWhere(
+              (element) => element.coord == startingMovement,
+            );
+
+    if (startingSquare.piece == null) {
+      return const Left(InvalidMoveFailure("No piece on starting square"));
+    }
+
+    final piece = startingSquare.piece!;
+
+    final controlledSquares = pieceSelected(
+      PieceSelectedParams(
+        board: board,
+        squareCoord: startingMovement,
+      ),
+    );
+
+    for (final cell in controlledSquares.getOrElse(() => [])) {
+      if (piece.color == PieceColor.white) {
+        cell.whiteControl--;
+      } else {
+        cell.blackControl--;
+      }
+    }
+
+    startingSquare.piece = null;
+
+    final endingSquare = board.squares.expand((element) => element).firstWhere(
+          (element) => element.coord == endingMovement,
+        );
+
+    if (endingSquare.piece != null) {
+      final enemyControlledSquares = pieceSelected(
+        PieceSelectedParams(
+          board: board,
+          squareCoord: endingMovement,
+        ),
+      );
+
+      for (final cell in enemyControlledSquares.getOrElse(() => [])) {
+        if (endingSquare.piece!.color == PieceColor.white) {
+          cell.whiteControl--;
+        } else {
+          cell.blackControl--;
+        }
+      }
+    }
+
+    endingSquare.piece = piece;
+    final newControlledSquares = pieceSelected(
+      PieceSelectedParams(
+        board: board,
+        squareCoord: endingMovement,
+      ),
+    );
+
+    for (final cell in newControlledSquares.getOrElse(() => [])) {
+      if (piece.color == PieceColor.white) {
+        cell.whiteControl++;
+      } else {
+        cell.blackControl++;
+      }
+    }
+
+    return const Right(true);
   }
 }

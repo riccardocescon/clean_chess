@@ -18,6 +18,9 @@ class Puzzle {
   late final String title;
   late final PieceColor turnColor;
 
+  String _currentMove = '';
+  List<String> _validFens = [];
+
   Puzzle.fromString({required String csvItem}) {
     final List<String> csvItemSplit = csvItem.split(',');
     id = csvItemSplit[0].padLeft(4, '0');
@@ -26,5 +29,29 @@ class Puzzle {
     rating = int.parse(csvItemSplit[3]);
     title = csvItemSplit[7];
     turnColor = fen.split(' ')[1] == 'w' ? PieceColor.white : PieceColor.black;
+  }
+
+  String? nextMove(String currentFen) {
+    if (_currentMove.isEmpty) {
+      _currentMove = moves.first;
+      _validFens.add(currentFen);
+      return _currentMove;
+    }
+    final int currentMoveIndex = moves.toList().indexOf(_currentMove);
+    if (currentMoveIndex == moves.length - 1) return null;
+    _currentMove = moves.elementAt(currentMoveIndex + 1);
+    _validFens.add(currentFen);
+    return _currentMove;
+  }
+
+  String get previousMoveFen {
+    final int currentMoveIndex = moves.toList().indexOf(_currentMove);
+    if (currentMoveIndex <= 0) {
+      _currentMove = '';
+      return fen;
+    }
+
+    _currentMove = moves.elementAt(currentMoveIndex - 1);
+    return _validFens.removeLast();
   }
 }
