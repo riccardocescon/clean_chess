@@ -28,6 +28,17 @@ void main() {
       expect("e4", result.getOrElse(() => []).last.coord);
     });
 
+    test("Doubled move Blocked", () {
+      final square = board.squares[6][4];
+      square.piece = Pawn(color: PieceColor.white);
+      board.squares[5][4].piece = Pawn(color: PieceColor.black);
+      final result = repo.pieceSelected(
+        PieceSelectedParams(board: board, squareCoord: square.coord),
+      );
+      expect(true, result.isRight());
+      expect(0, result.getOrElse(() => []).length);
+    });
+
     test("Straight vertical move", () {
       final square = board.squares[5][4];
       square.piece = Pawn(color: PieceColor.white);
@@ -120,6 +131,17 @@ void main() {
       expect(2, result.getOrElse(() => []).length);
       expect("e6", result.getOrElse(() => []).first.coord);
       expect("e5", result.getOrElse(() => []).last.coord);
+    });
+
+    test("Doubled move Blocked", () {
+      final square = board.squares[1][4];
+      square.piece = Pawn(color: PieceColor.black);
+      board.squares[2][4].piece = Pawn(color: PieceColor.white);
+      final result = repo.pieceSelected(
+        PieceSelectedParams(board: board, squareCoord: square.coord),
+      );
+      expect(true, result.isRight());
+      expect(0, result.getOrElse(() => []).length);
     });
 
     test("Straight vertical move", () {

@@ -39,6 +39,7 @@ dependencies:
   get_it: ^7.2.0
   dartz: ^0.10.1
   equatable: ^2.0.5
+  csv: ^5.0.1
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +66,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/pieces/base/
+    - assets/puzzles/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

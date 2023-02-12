@@ -50,9 +50,10 @@ class BoardRepositoryImpl implements BoardRepository {
     final List<Square> squares = [];
 
     for (final cell in forwardCells) {
-      if (cell.piece == null) {
-        squares.add(cell);
+      if (cell.piece != null) {
+        break;
       }
+      squares.add(cell);
     }
 
     // Add diagonal moves

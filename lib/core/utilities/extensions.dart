@@ -1,3 +1,4 @@
+import 'package:clean_chess/features/clean_chess/data/models/piece.dart';
 import 'package:clean_chess/features/clean_chess/data/models/square.dart';
 
 import 'enums.dart';
@@ -146,5 +147,11 @@ extension KnightDirectionHelper on KnightDirection {
     };
 
     return values[this]!;
+  }
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 }

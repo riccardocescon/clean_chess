@@ -1,11 +1,19 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:clean_chess/core/utilities/enums.dart';
+import 'package:clean_chess/core/utilities/extensions.dart';
 import 'package:clean_chess/features/clean_chess/data/models/board.dart';
 import 'package:clean_chess/features/clean_chess/data/models/piece.dart';
+import 'package:clean_chess/features/clean_chess/data/models/puzzle.dart';
 import 'package:clean_chess/features/clean_chess/data/models/square.dart';
 import 'package:clean_chess/features/clean_chess/presentation/bloc/board_bloc.dart';
 import 'package:clean_chess/features/clean_chess/presentation/bloc/board_event.dart';
 import 'package:clean_chess/features/clean_chess/presentation/bloc/board_state.dart';
+import 'package:clean_chess/main.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Homepage extends StatelessWidget {
@@ -16,17 +24,24 @@ class Homepage extends StatelessWidget {
 
   final Board board;
 
+  Puzzle _getRandomPuzzle() =>
+      Puzzle.fromString(csvItem: puzzleDb[0].join(','));
+
   @override
   Widget build(BuildContext context) {
-    board.squares[4][4].piece = King(color: PieceColor.white);
+    final puzzle = _getRandomPuzzle();
+    // board.squares[4][4].piece = King(color: PieceColor.white);
     // board.squares[7][7].piece = Rook(color: PieceColor.white);
     // board.squares[7][0].piece = Rook(color: PieceColor.white);
-    board.squares[2][4].piece = Pawn(color: PieceColor.black);
+    // board.squares[2][4].piece = Pawn(color: PieceColor.black);
     // board.squares[4][4].piece!.totalMoves = 1;
     // board.squares[4][3].piece = Pawn(color: PieceColor.white);
     // board.squares[4][3].piece!.totalMoves = 1;
-    board.squares[3][3].blackControl++;
-    board.squares[3][5].blackControl++;
+    // board.squares[3][3].blackControl++;
+    // board.squares[3][5].blackControl++;
+    // String initialFen =
+    //     "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    board.setFen(puzzle.fen);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -37,17 +52,29 @@ class Homepage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: _body(context),
+      body: _body(context, puzzle),
     );
   }
 
-  Widget _body(context) {
+  Widget _body(context, Puzzle puzzle) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: _board(context),
+      child: Column(
+        children: [
+          Text(
+            puzzle.title.capitalize(),
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          AspectRatio(
+            aspectRatio: 1,
+            child: _board(context),
+          ),
+        ],
       ),
     );
   }
@@ -75,6 +102,7 @@ class Homepage extends StatelessWidget {
                 children: [
                   _cellName(square.coord),
                   if (square.piece != null) _piece(square, context),
+                  // _cellPowerWidget(square),
                 ],
               ),
             );
@@ -83,6 +111,13 @@ class Homepage extends StatelessWidget {
       },
     );
   }
+
+  Widget _cellPowerWidget(Square square) => Column(
+        children: [
+          Text("w:${square.whiteControl}"),
+          Text("b:${square.blackControl}"),
+        ],
+      );
 
   Widget _cellName(String coord) => Positioned(
         bottom: 2,
