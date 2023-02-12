@@ -1,62 +1,63 @@
-import 'package:flutter/material.dart';
+import 'package:clean_chess/core/mixins/trackable_move.dart';
+import 'package:clean_chess/core/utilities/enums.dart';
+import 'package:clean_chess/core/utilities/extensions.dart';
 
-@immutable
-abstract class Piece {
+abstract class Piece with TrackableMove {
   final String imagePath;
-  final String color;
-  const Piece({required this.color, required this.imagePath});
+  final PieceColor color;
+  Piece({required this.color, required this.imagePath});
 }
 
 class Pawn extends Piece {
-  const Pawn({
-    required String color,
+  Pawn({
+    required PieceColor color,
   }) : super(
           color: color,
-          imagePath: 'assets/pieces/base/${color}_pawn.png',
+          imagePath: 'assets/pieces/base/${color.path}_pawn.png',
         );
 }
 
 class Rook extends Piece {
-  const Rook({
-    required String color,
+  Rook({
+    required PieceColor color,
   }) : super(
           color: color,
-          imagePath: 'assets/pieces/base/${color}_rook.png',
+          imagePath: 'assets/pieces/base/${color.path}_rook.png',
         );
 }
 
 class Knight extends Piece {
-  const Knight({
-    required String color,
+  Knight({
+    required PieceColor color,
   }) : super(
           color: color,
-          imagePath: 'assets/pieces/base/${color}_knight.png',
+          imagePath: 'assets/pieces/base/${color.path}_knight.png',
         );
 }
 
 class Bishop extends Piece {
-  const Bishop({
-    required String color,
+  Bishop({
+    required PieceColor color,
   }) : super(
           color: color,
-          imagePath: 'assets/pieces/base/${color}_bishop.png',
+          imagePath: 'assets/pieces/base/${color.path}_bishop.png',
         );
 }
 
 class Queen extends Piece {
-  const Queen({
-    required String color,
+  Queen({
+    required PieceColor color,
   }) : super(
           color: color,
-          imagePath: 'assets/pieces/base/${color}_queen.png',
+          imagePath: 'assets/pieces/base/${color.path}_queen.png',
         );
 }
 
 class King extends Piece {
-  const King({
-    required String color,
+  King({
+    required PieceColor color,
   }) : super(
           color: color,
-          imagePath: 'assets/pieces/base/${color}_king.png',
+          imagePath: 'assets/pieces/base/${color.path}_king.png',
         );
 }
