@@ -2,6 +2,7 @@ import 'package:clean_chess/core/utilities/navigation.dart';
 import 'package:clean_chess/features/clean_chess/data/models/board.dart';
 import 'package:clean_chess/features/clean_chess/presentation/bloc/board_bloc.dart';
 import 'package:clean_chess/features/clean_chess/presentation/pages/homepage.dart';
+import 'package:clean_chess/features/clean_chess/presentation/pages/new_homepage.dart';
 import 'package:clean_chess/injection_container.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +24,10 @@ void main() async {
 
   runApp(
     MaterialApp(
-      initialRoute: Navigation.homepage,
+      initialRoute: Navigation.newHomepage,
+      // initialRoute: Navigation.homepage,
       routes: {
+        Navigation.newHomepage: (context) => const NewHomepage(),
         Navigation.homepage: (context) => BlocProvider(
               create: (context) => sl<BoardBloc>(),
               child: Homepage(
