@@ -19,6 +19,7 @@ class Puzzle {
   late final PieceColor turnColor;
 
   String _currentMove = '';
+  String get lastMove => _currentMove;
   List<String> _validFens = [];
 
   Puzzle.fromString({required String csvItem}) {

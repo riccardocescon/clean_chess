@@ -20,6 +20,9 @@ class BoardRepositoryImpl implements BoardRepository {
           (square) => square.coord == params.squareCoord,
         );
     final piece = square.piece!;
+    if (piece.color != board.colorTurn) {
+      return const Left(InvalidMoveFailure("It's not your turn"));
+    }
     if (piece is Pawn) {
       return _getPawnMoves(board, square);
     } else if (piece is Bishop) {
@@ -326,6 +329,10 @@ class BoardRepositoryImpl implements BoardRepository {
     final startingMovement = movement.substring(0, 2);
     final endingMovement = movement.substring(2);
 
+    if (startingMovement == endingMovement) {
+      return const Left(InvalidMoveFailure("Cannot move to same square"));
+    }
+
     final startingSquare =
         board.squares.expand((element) => element).firstWhere(
               (element) => element.coord == startingMovement,
@@ -337,12 +344,24 @@ class BoardRepositoryImpl implements BoardRepository {
 
     final piece = startingSquare.piece!;
 
+    if (piece.color != board.colorTurn) {
+      return const Left(InvalidMoveFailure("Not your turn"));
+    }
+
     final controlledSquares = pieceSelected(
       PieceSelectedParams(
         board: board,
         squareCoord: startingMovement,
       ),
     );
+
+    final validMove = controlledSquares.getOrElse(() => []).any(
+          (element) => element.coord == endingMovement,
+        );
+
+    if (!validMove) {
+      return const Left(InvalidMoveFailure("Piece cannot move to that square"));
+    }
 
     for (final cell in controlledSquares.getOrElse(() => [])) {
       if (piece.color == PieceColor.white) {
@@ -390,6 +409,8 @@ class BoardRepositoryImpl implements BoardRepository {
         cell.blackControl++;
       }
     }
+
+    board.pieceMoved();
 
     return const Right(true);
   }

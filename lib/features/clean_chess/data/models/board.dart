@@ -7,9 +7,19 @@ import 'package:clean_chess/features/clean_chess/domain/entities/piece_selected_
 
 class Board {
   late List<List<Square>> squares;
-  Board({required this.squares});
+  late PieceColor _colorTurn;
+  PieceColor get colorTurn => _colorTurn;
 
-  void reset() {
+  Board({required this.squares, required PieceColor colorTurn}) {
+    _colorTurn = colorTurn;
+  }
+
+  void pieceMoved() {
+    _colorTurn =
+        _colorTurn == PieceColor.white ? PieceColor.black : PieceColor.white;
+  }
+
+  void _reset() {
     for (final square in squares.expand((element) => element)) {
       square.piece = null;
       square.whiteControl = 0;
@@ -18,7 +28,7 @@ class Board {
   }
 
   void setFen(String fen) {
-    reset();
+    _reset();
     // r6k/pp2r2p/4Rp1Q/3p4/8/1N1P2R1/PqP2bPP/7K b - - 0 24,
     final List<String> fenSplit = fen.split(' ');
     final List<String> fenRows = fenSplit[0].split('/');
@@ -30,13 +40,42 @@ class Board {
         if (int.tryParse(letter) == null) {
           // Piece
           final piece = piece_helper.fromFenLetter(letter);
-          squares[column][currentCell].piece = piece;
+          final square = squares[column][currentCell];
+          square.piece = piece;
           currentCell++;
+          if (piece is Pawn) {
+            piece.totalMoves = 1;
+            if (piece.color == PieceColor.white && square.coord[1] == "2") {
+              piece.totalMoves = 0;
+            } else if (piece.color == PieceColor.black &&
+                square.coord[1] == "7") {
+              piece.totalMoves = 0;
+            }
+          } else if (piece is King) {
+            piece.totalMoves = 1;
+            if (piece.color == PieceColor.white && square.coord == "e1") {
+              piece.totalMoves = 0;
+            } else if (piece.color == PieceColor.black &&
+                square.coord == "e8") {
+              piece.totalMoves = 0;
+            }
+          }
         } else {
           // Spaces
           currentCell += int.parse(letter);
         }
       }
+    }
+
+    recalculateControl();
+
+    _colorTurn = fenSplit[1] == 'w' ? PieceColor.white : PieceColor.black;
+  }
+
+  void recalculateControl() {
+    for (final square in squares.expand((element) => element)) {
+      square.whiteControl = 0;
+      square.blackControl = 0;
     }
 
     for (final square in squares
@@ -60,7 +99,7 @@ class Board {
     }
   }
 
-  String toFen() {
+  String get toFen {
     String fen = '';
     for (int column = 0; column < 8; column++) {
       int emptySpaces = 0;
@@ -83,6 +122,6 @@ class Board {
         fen += '/';
       }
     }
-    return fen;
+    return "$fen ${_colorTurn == PieceColor.white ? 'w' : 'b'} - - 0 1";
   }
 }

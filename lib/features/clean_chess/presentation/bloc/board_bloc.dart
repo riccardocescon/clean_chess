@@ -20,6 +20,7 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
     required this.pieceMove,
   }) : super(const BoardInitial()) {
     on<PieceSelectedEvent>((event, emit) async {
+      emit(const BoardLoading());
       if (isPlanning) {
         emit(const BoardInitial());
         isPlanning = false;
@@ -39,12 +40,16 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
     });
     on<PieceMoveEvent>(
       (event, emit) async {
+        isPlanning = false;
         emit(const BoardMove());
         final result = await pieceMove.call(event);
         result.fold(
           (failure) => emit(BoardError(failure.message)),
-          (success) => emit(const BoardInitial()),
+          (success) {
+            emit(const BoardMoved());
+          },
         );
+
         emit(const BoardInitial());
       },
     );

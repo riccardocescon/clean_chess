@@ -1,3 +1,4 @@
+import 'package:clean_chess/core/utilities/enums.dart';
 import 'package:clean_chess/features/clean_chess/data/models/board.dart';
 import 'package:clean_chess/features/clean_chess/data/models/square.dart';
 import 'package:clean_chess/features/clean_chess/data/repositories/board_repository_impl.dart';
@@ -20,7 +21,10 @@ Future<void> init() async {
     squares.add(rows);
   }
 
-  sl.registerSingleton<Board>(Board(squares: squares));
+  sl.registerSingleton<Board>(Board(
+    squares: squares,
+    colorTurn: PieceColor.white,
+  ));
 
   // Features - Clean Chess
   // Bloc

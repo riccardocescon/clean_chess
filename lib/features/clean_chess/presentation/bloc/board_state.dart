@@ -21,6 +21,10 @@ class BoardMove extends BoardState {
   const BoardMove();
 }
 
+class BoardMoved extends BoardState {
+  const BoardMoved();
+}
+
 class BoardLoading extends BoardState {
   const BoardLoading();
 }
