@@ -1,4 +1,6 @@
 import 'package:clean_chess/chess/abstractions/iboard_api.dart';
+import 'package:clean_chess/chess/models/cell.dart';
+import 'package:clean_chess/chess/abstractions/piece.dart';
 import 'package:clean_chess/chess/models/fen.dart';
 import 'package:clean_chess/core/utilities/enums.dart';
 import 'package:dartz/dartz.dart';
@@ -46,6 +48,12 @@ class PuzzleBoardAPI extends IBoardAPI {
   @override
   Either<Failure, Move> previousMove() {
     // TODO: implement previousMove
+    throw UnimplementedError();
+  }
+
+  @override
+  Either<Failure, Iterable<Cell>> planPath(Piece piece) {
+    // TODO: implement planPath
     throw UnimplementedError();
   }
 }
