@@ -116,6 +116,19 @@ class Board {
     return const Right(Empty());
   }
 
+  Either<Failure, Iterable<Cell>> planPath(Cell cell) {
+    final pathPlanners = {
+      Pawn: getPawnMoves,
+      Rook: getRookMoves,
+      Knight: getKnightMoves,
+      Bishop: getBishopMoves,
+      Queen: getQueenMoves,
+      King: getKingMoves,
+    };
+
+    return pathPlanners[cell.piece!.runtimeType]!(cell);
+  }
+
   //#region Piece Moves Helpers
   @visibleForTesting
   Either<Failure, Iterable<Cell>> getPawnMoves(Cell cell) {
@@ -123,12 +136,9 @@ class Board {
     final maybeBoardCell = getCell(cell.coord);
     if (maybeBoardCell.isLeft()) return maybeBoardCell.left;
 
-    final boardCell = maybeBoardCell.right;
+    final Cell boardCell = maybeBoardCell.right;
 
     // Asserts
-    if (boardCell == null) {
-      return Left(CellNotFoundOnBoard('No cell found ${cell.coord}'));
-    }
 
     if (boardCell.piece == null) {
       return Left(
@@ -143,7 +153,10 @@ class Board {
     }
 
     // Get free cells in the direction of the pawn
-    final moveLength = boardCell.piece!.moveTimes == 0 ? 2 : 1;
+    final moveLength = boardCell.piece!.moveTimes == 0 &&
+            (boardCell.row == 2 || boardCell.row == 7)
+        ? 2
+        : 1;
 
     final pieceColor = boardCell.piece!.color;
 
@@ -162,7 +175,7 @@ class Board {
 
     // Get the valid cells
     final validCells = (freeCells.right as Iterable<Cell>).toList();
-    if (validCells.last.piece?.color == pieceColor) {
+    if (validCells.isNotEmpty && validCells.last.piece?.color == pieceColor) {
       validCells.removeLast();
     }
 
@@ -176,10 +189,15 @@ class Board {
       boardCell.piece!.color,
     );
     if (topRightCell.isLeft()) return topRightCell.left;
-    final rightCell = (topRightCell.right as Iterable<Cell>).first;
-    final isEnemyRight =
-        rightCell.piece != null && rightCell.piece?.color != pieceColor;
-    if (isEnemyRight) validCells.addAll((topRightCell.right as Iterable<Cell>));
+    final rightCells = (topRightCell.right as Iterable<Cell>);
+    if (rightCells.isNotEmpty) {
+      final rightCell = (topRightCell.right as Iterable<Cell>).first;
+      final isEnemyRight =
+          rightCell.piece != null && rightCell.piece?.color != pieceColor;
+      if (isEnemyRight) {
+        validCells.addAll((topRightCell.right as Iterable<Cell>));
+      }
+    }
 
     final topLeftCell = getFreeDiagonalCells(
       boardCell,
@@ -190,10 +208,13 @@ class Board {
       boardCell.piece!.color,
     );
     if (topLeftCell.isLeft()) return topLeftCell.left;
-    final leftCell = (topLeftCell.right as Iterable<Cell>).first;
-    final isEnemyLeft =
-        leftCell.piece != null && leftCell.piece?.color != pieceColor;
-    if (isEnemyLeft) validCells.addAll((topLeftCell.right as Iterable<Cell>));
+    final leftCells = (topLeftCell.right as Iterable<Cell>);
+    if (leftCells.isNotEmpty) {
+      final leftCell = (topLeftCell.right as Iterable<Cell>).first;
+      final isEnemyLeft =
+          leftCell.piece != null && leftCell.piece?.color != pieceColor;
+      if (isEnemyLeft) validCells.addAll((topLeftCell.right as Iterable<Cell>));
+    }
 
     // En passant
     if (pieceColor == PieceColor.white) {

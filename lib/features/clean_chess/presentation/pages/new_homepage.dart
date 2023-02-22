@@ -1,9 +1,11 @@
 import 'dart:developer';
 
+import 'package:clean_chess/chess/abstractions/piece.dart';
 import 'package:clean_chess/chess/apis/puzzle_board_api.dart';
 import 'package:clean_chess/chess/models/board.dart';
 import 'package:clean_chess/chess/models/cell.dart';
 import 'package:clean_chess/chess/models/fen.dart';
+import 'package:clean_chess/chess/models/tuple.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +18,14 @@ class NewHomepage extends StatefulWidget {
 
 class _NewHomepageState extends State<NewHomepage> {
   late Board board;
+
+  Tuple<Piece?, List<Cell>> plannedCells = Tuple(null, []);
+
+  // Customizable colors
+  final Color splashColor = Colors.grey.shade800;
+  final Color plannedCellsColor = Colors.indigo.shade700;
+  final blackCell = const Color.fromARGB(255, 181, 136, 99);
+  final whiteCell = const Color.fromARGB(255, 240, 217, 181);
 
   @override
   void initState() {
@@ -56,37 +66,70 @@ class _NewHomepageState extends State<NewHomepage> {
       );
 
   Widget _cell(Cell cell) {
-    return MaterialButton(
-      onPressed: () {},
-      color: getCellColor(cell.id),
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: Text(cell.coord),
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      decoration: BoxDecoration(
+        color: plannedCells.second.contains(cell)
+            ? plannedCellsColor
+            : getCellColor(cell.id),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            if (cell.piece == null) return;
+
+            if (cell.piece == plannedCells.first) {
+              plannedCells.second.clear();
+              plannedCells.first = null;
+              setState(() {});
+              return;
+            }
+
+            final paths = PuzzleBoardAPI().planPath(cell.piece!);
+            if (paths.isLeft()) {
+              log('Error: ${paths.left}');
+              return;
+            }
+
+            final cells = paths.right as Iterable<Cell>;
+            plannedCells.second.clear();
+            plannedCells.second.addAll(cells);
+            plannedCells.first = cell.piece;
+            setState(() {});
+          },
+          splashColor: splashColor,
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(cell.coord),
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text(cell.id.toString()),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: cell.piece != null
+                      ? Image.asset(
+                          cell.piece!.imagePath,
+                          width: 50,
+                          height: 50,
+                        )
+                      : Container(),
+                ),
+              ],
+            ),
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Text(cell.id.toString()),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: cell.piece != null
-                ? Image.asset(
-                    cell.piece!.imagePath,
-                    width: 50,
-                    height: 50,
-                  )
-                : Container(),
-          ),
-        ],
+        ),
       ),
     );
   }
 
   Color getCellColor(int index) {
-    const blackCell = Color.fromARGB(255, 181, 136, 99);
-    const whiteCell = Color.fromARGB(255, 240, 217, 181);
     int cellColor = (index % 2);
     int row = (index ~/ 8) % 2;
     if (row == 0) {
