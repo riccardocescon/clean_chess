@@ -14,3 +14,11 @@ class PieceFenInvalidFailure extends Failure {
 class InvalidFen extends Failure {
   InvalidFen() : super("Invalid FEN");
 }
+
+class CellNotFoundOnBoard extends Failure {
+  CellNotFoundOnBoard(String message) : super(message);
+}
+
+class UnexpectedPieceType extends Failure {
+  UnexpectedPieceType(String message) : super(message);
+}
