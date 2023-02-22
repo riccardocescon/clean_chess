@@ -220,6 +220,10 @@ class Board {
       validCells.removeLast();
     }
 
+    if (calculateControl) {
+      validCells.clear();
+    }
+
     // Add diagonal moves
     final topRightCell = getFreeDiagonalCells(
       boardCell,
