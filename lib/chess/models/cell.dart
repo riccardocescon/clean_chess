@@ -13,6 +13,9 @@ class Cell {
   @visibleForTesting
   int blackControl = 0;
 
+  int get whitePower => whiteControl;
+  int get blackPower => blackControl;
+
   void addControl(PieceColor color) {
     if (color == PieceColor.white) {
       whiteControl++;

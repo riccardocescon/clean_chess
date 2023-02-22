@@ -64,6 +64,31 @@ class Board {
     }
 
     _board = emptyBoard._board;
+
+    final cellsWithPieces = cells.where((element) => element.piece != null);
+    List<Cell> cellsWithKing = [];
+    for (final cell in cellsWithPieces) {
+      if (cell.piece is King) {
+        cellsWithKing.add(cell);
+        continue;
+      }
+
+      final moves = controlledCells(cell);
+      if (moves.isLeft()) throw Exception(moves.left);
+
+      for (final Cell targetCell in moves.right) {
+        targetCell.addControl(cell.piece!.color);
+      }
+    }
+
+    for (final cell in cellsWithKing) {
+      final moves = controlledCells(cell);
+      if (moves.isLeft()) throw Exception(moves.left);
+
+      for (final targetCell in moves.right) {
+        targetCell.addControl(cell.piece!.color);
+      }
+    }
   }
 
   String toFen() {
@@ -129,9 +154,25 @@ class Board {
     return pathPlanners[cell.piece!.runtimeType]!(cell);
   }
 
+  Either<Failure, Iterable<Cell>> controlledCells(Cell cell) {
+    final pathPlanners = {
+      Pawn: getPawnMoves,
+      Rook: getRookMoves,
+      Knight: getKnightMoves,
+      Bishop: getBishopMoves,
+      Queen: getQueenMoves,
+      King: getKingMoves,
+    };
+
+    return pathPlanners[cell.piece!.runtimeType]!(cell, calculateControl: true);
+  }
+
   //#region Piece Moves Helpers
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getPawnMoves(Cell cell) {
+  Either<Failure, Iterable<Cell>> getPawnMoves(
+    Cell cell, {
+    bool calculateControl = false,
+  }) {
     // Get the reference cell from the board
     final maybeBoardCell = getCell(cell.coord);
     if (maybeBoardCell.isLeft()) return maybeBoardCell.left;
@@ -187,6 +228,7 @@ class Board {
           ? DiagonalDirection.topRight
           : DiagonalDirection.bottomRight,
       boardCell.piece!.color,
+      calculateControl: calculateControl,
     );
     if (topRightCell.isLeft()) return topRightCell.left;
     final rightCells = (topRightCell.right as Iterable<Cell>);
@@ -194,7 +236,7 @@ class Board {
       final rightCell = (topRightCell.right as Iterable<Cell>).first;
       final isEnemyRight =
           rightCell.piece != null && rightCell.piece?.color != pieceColor;
-      if (isEnemyRight) {
+      if (isEnemyRight || calculateControl) {
         validCells.addAll((topRightCell.right as Iterable<Cell>));
       }
     }
@@ -206,6 +248,7 @@ class Board {
           ? DiagonalDirection.topLeft
           : DiagonalDirection.bottomLeft,
       boardCell.piece!.color,
+      calculateControl: calculateControl,
     );
     if (topLeftCell.isLeft()) return topLeftCell.left;
     final leftCells = (topLeftCell.right as Iterable<Cell>);
@@ -213,7 +256,9 @@ class Board {
       final leftCell = (topLeftCell.right as Iterable<Cell>).first;
       final isEnemyLeft =
           leftCell.piece != null && leftCell.piece?.color != pieceColor;
-      if (isEnemyLeft) validCells.addAll((topLeftCell.right as Iterable<Cell>));
+      if (isEnemyLeft || calculateControl) {
+        validCells.addAll((topLeftCell.right as Iterable<Cell>));
+      }
     }
 
     // En passant
@@ -277,7 +322,10 @@ class Board {
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getKnightMoves(Cell cell) {
+  Either<Failure, Iterable<Cell>> getKnightMoves(
+    Cell cell, {
+    bool calculateControl = false,
+  }) {
     final maybeBoardCell = getCell(cell.coord);
     if (maybeBoardCell.isLeft()) return maybeBoardCell.left;
 
@@ -317,7 +365,8 @@ class Board {
 
       if (currentBoardCell.piece == null) {
         cells.add(currentBoardCell);
-      } else if (currentBoardCell.piece?.color != pieceColor) {
+      } else if (currentBoardCell.piece?.color != pieceColor ||
+          calculateControl) {
         cells.add(currentBoardCell);
       }
     }
@@ -327,10 +376,11 @@ class Board {
 
   @visibleForTesting
   Either<Failure, Iterable<Cell>> getBishopMoves(
-    Cell cell, [
+    Cell cell, {
     bool ignorePieceTypeAssert = false,
     int directionLength = 7,
-  ]) {
+    bool calculateControl = false,
+  }) {
     final maybeBoardCell = getCell(cell.coord);
     if (maybeBoardCell.isLeft()) return maybeBoardCell.left;
 
@@ -359,6 +409,7 @@ class Board {
       directionLength,
       DiagonalDirection.topRight,
       pieceColor,
+      calculateControl: calculateControl,
     );
     if (topRightCells.isLeft()) return topRightCells.left;
 
@@ -370,6 +421,7 @@ class Board {
       directionLength,
       DiagonalDirection.topLeft,
       pieceColor,
+      calculateControl: calculateControl,
     );
     if (topLeftCells.isLeft()) return topLeftCells.left;
 
@@ -381,6 +433,7 @@ class Board {
       directionLength,
       DiagonalDirection.bottomRight,
       pieceColor,
+      calculateControl: calculateControl,
     );
     if (bottomRightCells.isLeft()) return bottomRightCells.left;
 
@@ -392,6 +445,7 @@ class Board {
       directionLength,
       DiagonalDirection.bottomLeft,
       pieceColor,
+      calculateControl: calculateControl,
     );
     if (bottomLeftCells.isLeft()) return bottomLeftCells.left;
 
@@ -402,10 +456,11 @@ class Board {
 
   @visibleForTesting
   Either<Failure, Iterable<Cell>> getRookMoves(
-    Cell cell, [
+    Cell cell, {
     bool ignorePieceTypeAssert = false,
     int directionLength = 7,
-  ]) {
+    bool calculateControl = false,
+  }) {
     final maybeBoardCell = getCell(cell.coord);
     if (maybeBoardCell.isLeft()) return maybeBoardCell.left;
 
@@ -434,6 +489,7 @@ class Board {
       directionLength,
       StraightDirection.verticalTop,
       pieceColor,
+      calculateControl: calculateControl,
     );
     if (topCells.isLeft()) return topCells.left;
 
@@ -445,6 +501,7 @@ class Board {
       directionLength,
       StraightDirection.verticalBottom,
       pieceColor,
+      calculateControl: calculateControl,
     );
     if (bottomCells.isLeft()) return bottomCells.left;
 
@@ -456,6 +513,7 @@ class Board {
       directionLength,
       StraightDirection.horizontalLeft,
       pieceColor,
+      calculateControl: calculateControl,
     );
     if (leftCells.isLeft()) return leftCells.left;
 
@@ -467,6 +525,7 @@ class Board {
       directionLength,
       StraightDirection.horizontalRight,
       pieceColor,
+      calculateControl: calculateControl,
     );
     if (rightCells.isLeft()) return rightCells.left;
 
@@ -476,22 +535,46 @@ class Board {
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getQueenMoves(Cell cell) {
-    final horizontalCells = getRookMoves(cell, true);
+  Either<Failure, Iterable<Cell>> getQueenMoves(
+    Cell cell, {
+    bool calculateControl = false,
+  }) {
+    final horizontalCells = getRookMoves(
+      cell,
+      ignorePieceTypeAssert: true,
+      calculateControl: calculateControl,
+    );
     if (horizontalCells.isLeft()) return horizontalCells.left;
 
-    final diagonalCells = getBishopMoves(cell, true);
+    final diagonalCells = getBishopMoves(
+      cell,
+      ignorePieceTypeAssert: true,
+      calculateControl: calculateControl,
+    );
     if (diagonalCells.isLeft()) return diagonalCells.left;
 
     return Right([...horizontalCells.right, ...diagonalCells.right]);
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getKingMoves(Cell cell) {
-    final horizontalCells = getRookMoves(cell, true, 1);
+  Either<Failure, Iterable<Cell>> getKingMoves(
+    Cell cell, {
+    bool calculateControl = false,
+  }) {
+    final horizontalCells = getRookMoves(
+      cell,
+      ignorePieceTypeAssert: true,
+      directionLength: 1,
+      calculateControl: calculateControl,
+    );
     if (horizontalCells.isLeft()) return horizontalCells.left;
 
-    final diagonalCells = getBishopMoves(cell, true, 1);
+    final diagonalCells = getBishopMoves(
+      cell,
+      ignorePieceTypeAssert: true,
+      directionLength: 1,
+      calculateControl: calculateControl,
+    );
     if (diagonalCells.isLeft()) return diagonalCells.left;
 
     List<Cell> cells = [...horizontalCells.right, ...diagonalCells.right];
@@ -523,10 +606,12 @@ class Board {
       cells.addAll(rightCastlingCells.right as Iterable<Cell>);
     }
 
-    // Remove cells that are under attack
-    cells.removeWhere(
-      (element) => element.getEnemyControl(cell.piece!.color) > 0,
-    );
+    if (!calculateControl) {
+      // Remove cells that are under attack
+      cells.removeWhere(
+        (element) => element.getEnemyControl(cell.piece!.color) > 0,
+      );
+    }
 
     return Right(cells);
   }
@@ -539,6 +624,9 @@ class Board {
     Cell cellRef,
     bool rightDirection,
   ) {
+    final isOnStartingPoint = cellRef.coord == 'e1' || cellRef.coord == 'e8';
+    if (!isOnStartingPoint) return const Right([]);
+
     final pieceColor = cellRef.piece!.color;
 
     // Check if king is under attack
@@ -579,8 +667,9 @@ class Board {
     Cell cellRef,
     int moveLength,
     StraightDirection direction,
-    PieceColor pieceColor,
-  ) {
+    PieceColor pieceColor, {
+    bool calculateControl = false,
+  }) {
     final isHorizontal = direction == StraightDirection.horizontalLeft ||
         direction == StraightDirection.horizontalRight;
     final lengthAmount =
@@ -602,7 +691,7 @@ class Board {
       final cell = _getCellFromCoord(currentCoord);
       if (cell.isLeft()) return cell.left;
       if (cell.right.piece != null) {
-        if (cell.right.piece!.color != pieceColor) {
+        if (cell.right.piece!.color != pieceColor || calculateControl) {
           cells.add(cell.right);
         }
         break;
@@ -619,8 +708,9 @@ class Board {
     Cell cellRef,
     int moveLength,
     DiagonalDirection direction,
-    PieceColor pieceColor,
-  ) {
+    PieceColor pieceColor, {
+    bool calculateControl = false,
+  }) {
     List<Cell> cells = [];
     for (int i = 1; i <= moveLength; i++) {
       final currentRow = cellRef.row + (i * direction.y);
@@ -631,7 +721,7 @@ class Board {
       final cell = _getCellFromCoord(currentCoord);
       if (cell.isLeft()) return cell.left;
       if (cell.right.piece != null) {
-        if (cell.right.piece!.color != pieceColor) {
+        if (cell.right.piece!.color != pieceColor || calculateControl) {
           cells.add(cell.right);
         }
         break;
