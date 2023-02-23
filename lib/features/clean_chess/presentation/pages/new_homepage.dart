@@ -11,14 +11,14 @@ import 'package:clean_chess/chess/models/tuple.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
 import 'package:flutter/material.dart';
 
-class NewHomepage extends StatefulWidget {
-  const NewHomepage({super.key});
+class Homepage extends StatefulWidget {
+  const Homepage({super.key});
 
   @override
-  State<NewHomepage> createState() => _NewHomepageState();
+  State<Homepage> createState() => _HomepageState();
 }
 
-class _NewHomepageState extends State<NewHomepage> {
+class _HomepageState extends State<Homepage> {
   late Board board;
 
   Tuple<Piece?, List<Cell>> plannedCells = Tuple(null, []);
