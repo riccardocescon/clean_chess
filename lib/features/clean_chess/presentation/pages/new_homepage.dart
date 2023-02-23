@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:clean_chess/chess/abstractions/piece.dart';
 import 'package:clean_chess/chess/apis/puzzle_board_api.dart';
+import 'package:clean_chess/chess/error/failures.dart';
 import 'package:clean_chess/chess/models/board.dart';
 import 'package:clean_chess/chess/models/cell.dart';
 import 'package:clean_chess/chess/models/fen.dart';
@@ -37,7 +38,7 @@ class _NewHomepageState extends State<NewHomepage> {
       Fen.fromRaw('r6k/pp2r2p/4Rp1Q/3p4/8/1N1P2R1/PqP2bPP/7K b - - 0 24,'),
     );
     if (boardRequest.isLeft()) {
-      log('Error: ${boardRequest.left}');
+      _snackbarError(boardRequest.left);
       board = Board.empty();
     } else {
       board = boardRequest.right;
@@ -54,61 +55,57 @@ class _NewHomepageState extends State<NewHomepage> {
           children: [
             _powerHud(),
             Center(child: _grid()),
-            _bottomBar(),
           ],
         ),
       ),
+      bottomNavigationBar: _bottomBar(),
     );
   }
 
-  Widget _bottomBar() => Positioned(
-        bottom: 0,
-        left: 0,
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          color: Colors.grey.shade900,
-          height: 80,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                onPressed: () {
-                  final previousMove = PuzzleBoardAPI().previousMove();
-                  if (previousMove.isLeft()) {
-                    log('Error: ${previousMove.left}');
-                    return;
-                  }
-                  Board requestedMove = previousMove.right as Board;
-                  board = requestedMove;
-                  plannedCells.first = null;
-                  plannedCells.second = [];
-                  setState(() {});
-                },
-                icon: const Icon(
-                  Icons.arrow_back_ios_new,
-                  color: Colors.white,
-                ),
+  Widget _bottomBar() => Container(
+        width: MediaQuery.of(context).size.width,
+        color: Colors.grey.shade900,
+        height: 80,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(
+              onPressed: () {
+                final previousMove = PuzzleBoardAPI().previousMove();
+                if (previousMove.isLeft()) {
+                  _snackbarError(previousMove.left);
+                  return;
+                }
+                Board requestedMove = previousMove.right as Board;
+                board = requestedMove;
+                plannedCells.first = null;
+                plannedCells.second = [];
+                setState(() {});
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.white,
               ),
-              IconButton(
-                onPressed: () {
-                  final nextmove = PuzzleBoardAPI().nextMove();
-                  if (nextmove.isLeft()) {
-                    log('Error: ${nextmove.left}');
-                    return;
-                  }
-                  Board requestedMove = nextmove.right as Board;
-                  board = requestedMove;
-                  plannedCells.first = null;
-                  plannedCells.second = [];
-                  setState(() {});
-                },
-                icon: const Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.white,
-                ),
-              )
-            ],
-          ),
+            ),
+            IconButton(
+              onPressed: () {
+                final nextmove = PuzzleBoardAPI().nextMove();
+                if (nextmove.isLeft()) {
+                  _snackbarError(nextmove.left);
+                  return;
+                }
+                Board requestedMove = nextmove.right as Board;
+                board = requestedMove;
+                plannedCells.first = null;
+                plannedCells.second = [];
+                setState(() {});
+              },
+              icon: const Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.white,
+              ),
+            )
+          ],
         ),
       );
 
@@ -242,7 +239,7 @@ class _NewHomepageState extends State<NewHomepage> {
     final moveRequest = Move(pieceCell, cell);
     final moveResult = PuzzleBoardAPI().move(moveRequest);
     if (moveResult.isLeft()) {
-      log('Error: ${moveResult.left}');
+      _snackbarError(moveResult.left);
       return;
     }
 
@@ -256,7 +253,7 @@ class _NewHomepageState extends State<NewHomepage> {
     if (cell.piece == null) return;
     final paths = PuzzleBoardAPI().planPath(cell);
     if (paths.isLeft()) {
-      log('Error: ${paths.left}');
+      _snackbarError(paths.left);
       return;
     }
 
@@ -265,5 +262,22 @@ class _NewHomepageState extends State<NewHomepage> {
     plannedCells.second.addAll(cells);
     plannedCells.first = cell.piece;
     setState(() {});
+  }
+
+  void _snackbarError(Failure failure) {
+    log(failure.message);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          failure.message,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.red,
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 }

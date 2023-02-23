@@ -5,9 +5,11 @@ import 'package:clean_chess/chess/models/cell.dart';
 import 'package:clean_chess/chess/models/fen.dart';
 import 'package:clean_chess/chess/models/move.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 
 abstract class IBoardAPI {
-  abstract Board board;
+  @protected
+  Board board = Board.empty();
 
   Either<Failure, Board> move(Move move);
   Either<Failure, Iterable<Cell>> planPath(Cell cell);

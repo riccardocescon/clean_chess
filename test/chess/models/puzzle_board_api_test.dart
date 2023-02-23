@@ -26,7 +26,7 @@ void main() {
   );
 
   test("Move Rook", () {
-    final e4 = PuzzleBoardAPI().board.cells.firstWhere((e) => e.coord == "e4");
+    final e4 = PuzzleBoardAPI()._board.cells.firstWhere((e) => e.coord == "e4");
     final rook = e4.piece! as Rook;
 
     final paths = PuzzleBoardAPI().planPath(rook);

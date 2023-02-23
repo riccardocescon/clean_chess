@@ -10,6 +10,14 @@ import 'package:clean_chess/chess/models/move.dart';
 import 'package:clean_chess/chess/models/board.dart';
 import 'package:clean_chess/chess/error/failures.dart';
 
+/// This class is used to manage the board state for a puzzle.
+/// It is a singleton, so it can be accessed from anywhere in the app.
+///
+/// This class holds the current state of the board.
+/// The [board] property can be accessed only from this class.
+/// All API calls that return a [Board] will return a clone of the current board.
+///
+/// All API calls MUST return an Either<Failure, dynamic>.
 class PuzzleBoardAPI extends IBoardAPI {
   // Singleton
   PuzzleBoardAPI._privateConstructor();
@@ -18,12 +26,14 @@ class PuzzleBoardAPI extends IBoardAPI {
     return _instance;
   }
 
+  /// The player whose turn it is
   PieceColor _currentPlayerTurn = PieceColor.white;
 
+  /// Index of the current on-screen move
+  ///
+  /// This is used to show previous moves on the board
+  /// and to prevent the user from making a move on a previous move.
   int _currentMoveIndex = 0;
-
-  @override
-  Board board = Board.empty();
 
   @override
   Either<Failure, Board> fromFen(Fen fen) {
