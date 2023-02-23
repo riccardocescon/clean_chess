@@ -12,9 +12,9 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
 class Board {
-  final letters = 'abcdefgh';
-
   late final Iterable<Iterable<Cell>> _board;
+  final List<String> _movesFen = [];
+  int get totalMoves => _movesFen.length - 1; // -1 because of initial position
 
   Iterable<Cell> get cells => _board.expand((element) => element);
 
@@ -34,6 +34,11 @@ class Board {
       }
     }
     _board = cells;
+  }
+
+  Board.clone(Board board) {
+    _board = board._board.map((e) => e.map((e) => Cell.clone(e)).toList());
+    _movesFen.addAll(board._movesFen);
   }
 
   Board.fromFen(Fen fen) {
@@ -65,6 +70,8 @@ class Board {
     }
 
     _board = emptyBoard._board;
+
+    _movesFen.add(toFen());
 
     _calculateControlledCells();
   }
@@ -122,7 +129,9 @@ class Board {
         fen += '/';
       }
     }
-    return fen;
+
+    //TODO : Complete Fen Generation
+    return "$fen w KQkq - 0 1";
   }
 
   Either<Failure, Cell> getCell(String coord) {
@@ -205,32 +214,12 @@ class Board {
       );
     }
 
-    // final pieceControlledCells = controlledCells(move.from);
-    // if (pieceControlledCells.isLeft()) return pieceControlledCells.left;
+    this.cells.firstWhere((element) => element.coord == move.to.coord).piece =
+        move.from.piece;
+    this.cells.firstWhere((element) => element.coord == move.from.coord).piece =
+        null;
 
-    // for (final currentControlledCells
-    //     in pieceControlledCells.right as Iterable<Cell>) {
-    //   currentControlledCells.removeControl(piece.color);
-    // }
-
-    // if (targetCell.piece != null) {
-    //   final enemyMoves = controlledCells(targetCell);
-    //   if (enemyMoves.isLeft()) return enemyMoves.left;
-
-    //   for (final currentControlledCells in enemyMoves.right as Iterable<Cell>) {
-    //     currentControlledCells.removeControl(targetCell.piece!.color);
-    //   }
-    // }
-
-    move.to.piece = piece;
-    move.from.piece = null;
-
-    // final newMoves = controlledCells(targetCell);
-    // if (newMoves.isLeft()) return newMoves.left;
-
-    // for (final currentControlledCells in newMoves.right as Iterable<Cell>) {
-    //   currentControlledCells.addControl(piece.color);
-    // }
+    _movesFen.add(toFen());
 
     for (final currentCell in this.cells) {
       currentCell.resetControl();
@@ -239,6 +228,16 @@ class Board {
     _calculateControlledCells();
 
     return const Right(Empty());
+  }
+
+  Either<Failure, String> getMove(int index) {
+    if (index < 0 || index >= _movesFen.length) {
+      return Left(
+        InvalidMoveIndexFailure('Invalid move index $index'),
+      );
+    }
+
+    return Right(_movesFen[index]);
   }
 
   //#region Piece Moves Helpers
@@ -343,14 +342,14 @@ class Board {
     if (pieceColor == PieceColor.white) {
       if (cell.row == 5 && cell.piece!.moveTimes == 2) {
         final leftCell =
-            getCell("${letters[letters.indexOf(cell.column) - 1]}5");
+            getCell("${_rowNames[_rowNames.indexOf(cell.column) - 1]}5");
         final rightCell =
-            getCell("${letters[letters.indexOf(cell.column) + 1]}5");
+            getCell("${_rowNames[_rowNames.indexOf(cell.column) + 1]}5");
         if (leftCell.isRight() && leftCell.right.piece is Pawn) {
           final pawn = leftCell.right.piece as Pawn;
           if (pawn.moveTimes == 1 && pawn.color == PieceColor.black) {
             final enPassantCell =
-                getCell("${letters[letters.indexOf(cell.column) - 1]}6");
+                getCell("${_rowNames[_rowNames.indexOf(cell.column) - 1]}6");
             if (enPassantCell.isRight()) {
               validCells.add(enPassantCell.right);
             }
@@ -360,7 +359,7 @@ class Board {
           final pawn = rightCell.right.piece as Pawn;
           if (pawn.moveTimes == 1 && pawn.color == PieceColor.black) {
             final enPassantCell =
-                getCell("${letters[letters.indexOf(cell.column) + 1]}6");
+                getCell("${_rowNames[_rowNames.indexOf(cell.column) + 1]}6");
             if (enPassantCell.isRight()) {
               validCells.add(enPassantCell.right);
             }
@@ -370,14 +369,14 @@ class Board {
     } else {
       if (cell.row == 4 && cell.piece!.moveTimes == 2) {
         final leftCell =
-            getCell("${letters[letters.indexOf(cell.column) - 1]}4");
+            getCell("${_rowNames[_rowNames.indexOf(cell.column) - 1]}4");
         final rightCell =
-            getCell("${letters[letters.indexOf(cell.column) + 1]}4");
+            getCell("${_rowNames[_rowNames.indexOf(cell.column) + 1]}4");
         if (leftCell.isRight() && leftCell.right.piece is Pawn) {
           final pawn = leftCell.right.piece as Pawn;
           if (pawn.moveTimes == 1 && pawn.color == PieceColor.white) {
             final enPassantCell =
-                getCell("${letters[letters.indexOf(cell.column) - 1]}3");
+                getCell("${_rowNames[_rowNames.indexOf(cell.column) - 1]}3");
             if (enPassantCell.isRight()) {
               validCells.add(enPassantCell.right);
             }
@@ -387,7 +386,7 @@ class Board {
           final pawn = rightCell.right.piece as Pawn;
           if (pawn.moveTimes == 1 && pawn.color == PieceColor.white) {
             final enPassantCell =
-                getCell("${letters[letters.indexOf(cell.column) + 1]}3");
+                getCell("${_rowNames[_rowNames.indexOf(cell.column) + 1]}3");
             if (enPassantCell.isRight()) {
               validCells.add(enPassantCell.right);
             }
@@ -429,13 +428,13 @@ class Board {
     for (final currentDirectionCell in KnightDirection.values) {
       final currentRow = boardCell.row + currentDirectionCell.x;
       final currentColumn =
-          letters.indexOf(boardCell.column) + currentDirectionCell.y;
+          _rowNames.indexOf(boardCell.column) + currentDirectionCell.y;
 
       if (currentRow < 1 || currentRow > 8) continue;
       if (currentColumn < 0 || currentColumn > 7) continue;
 
       final currentCell = getCell(
-        '${letters[currentColumn]}$currentRow',
+        '${_rowNames[currentColumn]}$currentRow',
       );
       if (currentCell.isLeft()) return currentCell.left;
 
@@ -758,9 +757,9 @@ class Board {
       late String currentCoord;
       if (isHorizontal) {
         final currentColumn =
-            letters.indexOf(cellRef.column) + (i * direction.x);
+            _rowNames.indexOf(cellRef.column) + (i * direction.x);
         if (currentColumn < 0 || currentColumn > 7) break;
-        currentCoord = "${letters[currentColumn]}${cellRef.row}";
+        currentCoord = "${_rowNames[currentColumn]}${cellRef.row}";
       } else {
         final currentRow = cellRef.row + (i * direction.y);
         if (currentRow < 1 || currentRow > 8) break;
@@ -792,10 +791,11 @@ class Board {
     List<Cell> cells = [];
     for (int i = 1; i <= moveLength; i++) {
       final currentRow = cellRef.row + (i * direction.y);
-      final currentColumn = letters.indexOf(cellRef.column) + (i * direction.x);
+      final currentColumn =
+          _rowNames.indexOf(cellRef.column) + (i * direction.x);
       if (currentRow < 1 || currentRow > 8) break;
       if (currentColumn < 0 || currentColumn > 7) break;
-      final currentCoord = "${letters[currentColumn]}$currentRow";
+      final currentCoord = "${_rowNames[currentColumn]}$currentRow";
       final cell = _getCellFromCoord(currentCoord);
       if (cell.isLeft()) return cell.left;
       if (cell.right.piece != null) {

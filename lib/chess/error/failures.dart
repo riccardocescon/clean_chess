@@ -30,3 +30,19 @@ class InvalidPlayerTurnFailure extends Failure {
 class InvalidMoveFailure extends Failure {
   InvalidMoveFailure(String message) : super(message);
 }
+
+class NoPreviousMoveFailure extends Failure {
+  NoPreviousMoveFailure() : super("No previous move");
+}
+
+class NoNextMoveFailure extends Failure {
+  NoNextMoveFailure() : super("No next move");
+}
+
+class InvalidMoveIndexFailure extends Failure {
+  InvalidMoveIndexFailure(String message) : super(message);
+}
+
+class CannotMoveOnPreviousMoveFailure extends Failure {
+  CannotMoveOnPreviousMoveFailure() : super("Cannot move on previous move");
+}

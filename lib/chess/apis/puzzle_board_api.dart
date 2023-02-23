@@ -2,12 +2,10 @@ import 'package:clean_chess/chess/abstractions/iboard_api.dart';
 import 'package:clean_chess/chess/models/cell.dart';
 import 'package:clean_chess/chess/abstractions/piece.dart';
 import 'package:clean_chess/chess/models/fen.dart';
-import 'package:clean_chess/chess/models/pieces.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
 import 'package:clean_chess/core/utilities/enums.dart';
 import 'package:clean_chess/core/utilities/extensions.dart';
 import 'package:dartz/dartz.dart';
-import 'package:clean_chess/chess/utilities/utils.dart';
 import 'package:clean_chess/chess/models/move.dart';
 import 'package:clean_chess/chess/models/board.dart';
 import 'package:clean_chess/chess/error/failures.dart';
@@ -21,6 +19,8 @@ class PuzzleBoardAPI extends IBoardAPI {
   }
 
   PieceColor _currentPlayerTurn = PieceColor.white;
+
+  int _currentMoveIndex = 0;
 
   @override
   Board board = Board.empty();
@@ -40,38 +40,60 @@ class PuzzleBoardAPI extends IBoardAPI {
 
   @override
   Either<Failure, Board> move(Move move) {
+    if (_currentMoveIndex != board.totalMoves) {
+      return Left(CannotMoveOnPreviousMoveFailure());
+    }
     final result = board.movePiece(move);
     if (result.isLeft()) return Left(result.left);
-    _currentPlayerTurn = _currentPlayerTurn == PieceColor.white
-        ? PieceColor.black
-        : PieceColor.white;
-
-    return Right(board);
+    _invertTurn();
+    _currentMoveIndex++;
+    return Right(Board.clone(board));
   }
 
   @override
-  Either<Failure, Move> nextMove() {
-    // TODO: implement nextMove
-    throw UnimplementedError();
+  Either<Failure, Board> nextMove() {
+    if (_currentMoveIndex == board.totalMoves) return Left(NoNextMoveFailure());
+    final result = board.getMove(_currentMoveIndex + 1);
+    if (result.isLeft()) return Left(result.left);
+    _currentMoveIndex++;
+    _invertTurn();
+    return Right(Board.fromFen(Fen.fromRaw(result.right)));
   }
 
   @override
-  Either<Failure, Move> previousMove() {
-    // TODO: implement previousMove
-    throw UnimplementedError();
+  Either<Failure, Board> previousMove() {
+    if (_currentMoveIndex == 0) return Left(NoPreviousMoveFailure());
+    final result = board.getMove(_currentMoveIndex - 1);
+    if (result.isLeft()) return Left(result.left);
+    _currentMoveIndex--;
+    _invertTurn();
+    return Right(Board.fromFen(Fen.fromRaw(result.right)));
   }
 
   @override
-  Either<Failure, Iterable<Cell>> planPath(Piece piece) {
+  Either<Failure, Iterable<Cell>> planPath(Cell cell) {
+    if (_currentMoveIndex != board.totalMoves) {
+      return Left(CannotMoveOnPreviousMoveFailure());
+    }
+
+    final boardCell =
+        board.cells.firstWhereOrNull((e) => e.coord == cell.coord);
+    if (boardCell == null) {
+      return Left(PieceNotFoundOnCellFailure("Piece not found on cell $cell"));
+    }
+
+    final piece = boardCell.piece as Piece;
+
     if (piece.color != _currentPlayerTurn) {
       return Left(InvalidPlayerTurnFailure());
     }
-    final cell = board.cells.firstWhereOrNull((e) => e.piece == piece);
-    if (cell == null) {
-      return Left(
-        PieceNotFoundOnCellFailure("Piece not found on any cell on board"),
-      );
-    }
-    return board.planPath(cell);
+
+    return board.planPath(boardCell);
+  }
+
+  void _invertTurn() {
+    _currentPlayerTurn = _currentPlayerTurn == PieceColor.white
+        ? PieceColor.black
+        : PieceColor.white;
   }
 }

@@ -1,8 +1,9 @@
 import 'package:clean_chess/chess/abstractions/piece.dart';
 import 'package:clean_chess/core/utilities/enums.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-class Cell {
+class Cell with EquatableMixin {
   final int id;
   final String coord;
   Piece? piece;
@@ -49,6 +50,16 @@ class Cell {
 
   Cell(this.id, this.coord, {this.piece});
 
+  Cell.clone(Cell cell)
+      : id = cell.id,
+        coord = cell.coord,
+        piece = cell.piece,
+        whiteControl = cell.whiteControl,
+        blackControl = cell.blackControl;
+
   String get column => coord[0];
   int get row => int.parse(coord.substring(1));
+
+  @override
+  List<Object?> get props => [id, coord, piece, whiteControl, blackControl];
 }

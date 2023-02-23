@@ -54,11 +54,63 @@ class _NewHomepageState extends State<NewHomepage> {
           children: [
             _powerHud(),
             Center(child: _grid()),
+            _bottomBar(),
           ],
         ),
       ),
     );
   }
+
+  Widget _bottomBar() => Positioned(
+        bottom: 0,
+        left: 0,
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          color: Colors.grey.shade900,
+          height: 80,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              IconButton(
+                onPressed: () {
+                  final previousMove = PuzzleBoardAPI().previousMove();
+                  if (previousMove.isLeft()) {
+                    log('Error: ${previousMove.left}');
+                    return;
+                  }
+                  Board requestedMove = previousMove.right as Board;
+                  board = requestedMove;
+                  plannedCells.first = null;
+                  plannedCells.second = [];
+                  setState(() {});
+                },
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                  color: Colors.white,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  final nextmove = PuzzleBoardAPI().nextMove();
+                  if (nextmove.isLeft()) {
+                    log('Error: ${nextmove.left}');
+                    return;
+                  }
+                  Board requestedMove = nextmove.right as Board;
+                  board = requestedMove;
+                  plannedCells.first = null;
+                  plannedCells.second = [];
+                  setState(() {});
+                },
+                icon: const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.white,
+                ),
+              )
+            ],
+          ),
+        ),
+      );
 
   Widget _powerHud() => Positioned(
         top: 0,
@@ -202,7 +254,7 @@ class _NewHomepageState extends State<NewHomepage> {
 
   void _pieceSelection(Cell cell) {
     if (cell.piece == null) return;
-    final paths = PuzzleBoardAPI().planPath(cell.piece!);
+    final paths = PuzzleBoardAPI().planPath(cell);
     if (paths.isLeft()) {
       log('Error: ${paths.left}');
       return;

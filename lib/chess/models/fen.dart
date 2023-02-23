@@ -1,8 +1,10 @@
 import 'package:clean_chess/core/utilities/enums.dart';
+import 'package:equatable/equatable.dart';
 
-class Fen {
+class Fen with EquatableMixin {
   final String fen;
   final PieceColor turn;
+  //TODO: add castling, en passant, halfmove clock, fullmove number
 
   Fen(this.fen, this.turn);
 
@@ -10,4 +12,7 @@ class Fen {
   Fen.fromRaw(String fen)
       : fen = fen.split(" ").first,
         turn = fen.split(" ")[1] == "b" ? PieceColor.black : PieceColor.white;
+
+  @override
+  List<Object?> get props => [fen, turn];
 }
