@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 
 abstract class IBoardAPI {
   @protected
+  @visibleForTesting
   Board board = Board.empty();
 
   Either<Failure, Board> move(Move move);
