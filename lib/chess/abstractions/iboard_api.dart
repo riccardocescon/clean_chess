@@ -10,7 +10,7 @@ import 'package:dartz/dartz.dart';
 abstract class IBoardAPI {
   abstract Board board;
 
-  Either<Failure, Empty> move(Move move);
+  Either<Failure, Board> move(Move move);
   Either<Failure, Iterable<Cell>> planPath(Piece piece);
   Fen getFen();
   Either<Failure, Board> fromFen(Fen fen);

@@ -2,6 +2,7 @@ import 'package:clean_chess/chess/abstractions/piece.dart';
 import 'package:clean_chess/chess/error/failures.dart';
 import 'package:clean_chess/chess/models/cell.dart';
 import 'package:clean_chess/chess/models/fen.dart';
+import 'package:clean_chess/chess/models/move.dart';
 import 'package:clean_chess/chess/models/pieces.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
 import 'package:clean_chess/chess/utilities/utils.dart';
@@ -65,6 +66,10 @@ class Board {
 
     _board = emptyBoard._board;
 
+    _calculateControlledCells();
+  }
+
+  void _calculateControlledCells() {
     final cellsWithPieces = cells.where((element) => element.piece != null);
     List<Cell> cellsWithKing = [];
     for (final cell in cellsWithPieces) {
@@ -165,6 +170,75 @@ class Board {
     };
 
     return pathPlanners[cell.piece!.runtimeType]!(cell, calculateControl: true);
+  }
+
+  Either<Failure, Empty> movePiece(Move move) {
+    final piece = move.from.piece;
+    if (piece == null) {
+      return Left(
+        PieceNotFoundOnCellFailure('No piece found on ${move.from.coord}'),
+      );
+    }
+
+    final moves = planPath(move.from);
+    if (moves.isLeft()) return moves.left;
+
+    final cells = moves.right as Iterable<Cell>;
+
+    final targetCell = cells.firstWhereOrNull(
+      (element) => element.coord == move.to.coord,
+    );
+
+    if (targetCell == null) {
+      return Left(
+        InvalidMoveFailure(
+          'Invalid move from ${move.from.coord} to ${move.to.coord}',
+        ),
+      );
+    }
+
+    if (targetCell.piece?.color == piece.color) {
+      return Left(
+        InvalidMoveFailure(
+          'Invalid move from ${move.from.coord} to ${move.to.coord}',
+        ),
+      );
+    }
+
+    // final pieceControlledCells = controlledCells(move.from);
+    // if (pieceControlledCells.isLeft()) return pieceControlledCells.left;
+
+    // for (final currentControlledCells
+    //     in pieceControlledCells.right as Iterable<Cell>) {
+    //   currentControlledCells.removeControl(piece.color);
+    // }
+
+    // if (targetCell.piece != null) {
+    //   final enemyMoves = controlledCells(targetCell);
+    //   if (enemyMoves.isLeft()) return enemyMoves.left;
+
+    //   for (final currentControlledCells in enemyMoves.right as Iterable<Cell>) {
+    //     currentControlledCells.removeControl(targetCell.piece!.color);
+    //   }
+    // }
+
+    move.to.piece = piece;
+    move.from.piece = null;
+
+    // final newMoves = controlledCells(targetCell);
+    // if (newMoves.isLeft()) return newMoves.left;
+
+    // for (final currentControlledCells in newMoves.right as Iterable<Cell>) {
+    //   currentControlledCells.addControl(piece.color);
+    // }
+
+    for (final currentCell in this.cells) {
+      currentCell.resetControl();
+    }
+
+    _calculateControlledCells();
+
+    return const Right(Empty());
   }
 
   //#region Piece Moves Helpers

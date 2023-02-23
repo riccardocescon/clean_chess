@@ -22,3 +22,11 @@ class CellNotFoundOnBoard extends Failure {
 class UnexpectedPieceType extends Failure {
   UnexpectedPieceType(String message) : super(message);
 }
+
+class InvalidPlayerTurnFailure extends Failure {
+  InvalidPlayerTurnFailure() : super("Invalid player turn");
+}
+
+class InvalidMoveFailure extends Failure {
+  InvalidMoveFailure(String message) : super(message);
+}

@@ -34,6 +34,11 @@ class Cell {
     }
   }
 
+  void resetControl() {
+    whiteControl = 0;
+    blackControl = 0;
+  }
+
   int getEnemyControl(PieceColor color) {
     if (color == PieceColor.white) {
       return blackControl;

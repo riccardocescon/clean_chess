@@ -5,6 +5,7 @@ import 'package:clean_chess/chess/apis/puzzle_board_api.dart';
 import 'package:clean_chess/chess/models/board.dart';
 import 'package:clean_chess/chess/models/cell.dart';
 import 'package:clean_chess/chess/models/fen.dart';
+import 'package:clean_chess/chess/models/move.dart';
 import 'package:clean_chess/chess/models/tuple.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
 import 'package:flutter/material.dart';
@@ -104,26 +105,11 @@ class _NewHomepageState extends State<NewHomepage> {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            if (cell.piece == null) return;
-
-            if (cell.piece == plannedCells.first) {
-              plannedCells.second.clear();
-              plannedCells.first = null;
-              setState(() {});
-              return;
+            if (plannedCells.first != null) {
+              _cellSelection(cell);
+            } else {
+              _pieceSelection(cell);
             }
-
-            final paths = PuzzleBoardAPI().planPath(cell.piece!);
-            if (paths.isLeft()) {
-              log('Error: ${paths.left}');
-              return;
-            }
-
-            final cells = paths.right as Iterable<Cell>;
-            plannedCells.second.clear();
-            plannedCells.second.addAll(cells);
-            plannedCells.first = cell.piece;
-            setState(() {});
           },
           splashColor: splashColor,
           child: Padding(
@@ -187,5 +173,45 @@ class _NewHomepageState extends State<NewHomepage> {
       cellColor = (index % 2) == 0 ? 1 : 0;
     }
     return cellColor == 0 ? whiteCell : blackCell;
+  }
+
+  void _cellSelection(Cell cell) {
+    // If selected piece is the same as the one selected, deselect it
+    if (cell.piece == plannedCells.first) {
+      plannedCells.second.clear();
+      plannedCells.first = null;
+      setState(() {});
+      return;
+    }
+
+    final pieceCell = board.cells
+        .firstWhere((element) => element.piece == plannedCells.first);
+
+    final moveRequest = Move(pieceCell, cell);
+    final moveResult = PuzzleBoardAPI().move(moveRequest);
+    if (moveResult.isLeft()) {
+      log('Error: ${moveResult.left}');
+      return;
+    }
+
+    board = moveResult.right as Board;
+    plannedCells.first = null;
+    plannedCells.second.clear();
+    setState(() {});
+  }
+
+  void _pieceSelection(Cell cell) {
+    if (cell.piece == null) return;
+    final paths = PuzzleBoardAPI().planPath(cell.piece!);
+    if (paths.isLeft()) {
+      log('Error: ${paths.left}');
+      return;
+    }
+
+    final cells = paths.right as Iterable<Cell>;
+    plannedCells.second.clear();
+    plannedCells.second.addAll(cells);
+    plannedCells.first = cell.piece;
+    setState(() {});
   }
 }

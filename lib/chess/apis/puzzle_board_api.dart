@@ -3,6 +3,7 @@ import 'package:clean_chess/chess/models/cell.dart';
 import 'package:clean_chess/chess/abstractions/piece.dart';
 import 'package:clean_chess/chess/models/fen.dart';
 import 'package:clean_chess/chess/models/pieces.dart';
+import 'package:clean_chess/chess/utilities/extensions.dart';
 import 'package:clean_chess/core/utilities/enums.dart';
 import 'package:clean_chess/core/utilities/extensions.dart';
 import 'package:dartz/dartz.dart';
@@ -18,6 +19,8 @@ class PuzzleBoardAPI extends IBoardAPI {
   factory PuzzleBoardAPI() {
     return _instance;
   }
+
+  PieceColor _currentPlayerTurn = PieceColor.white;
 
   @override
   Board board = Board.empty();
@@ -36,9 +39,14 @@ class PuzzleBoardAPI extends IBoardAPI {
   Fen getFen() => Fen(board.toFen(), PieceColor.white);
 
   @override
-  Either<Failure, Empty> move(Move move) {
-    // TODO: implement move
-    throw UnimplementedError();
+  Either<Failure, Board> move(Move move) {
+    final result = board.movePiece(move);
+    if (result.isLeft()) return Left(result.left);
+    _currentPlayerTurn = _currentPlayerTurn == PieceColor.white
+        ? PieceColor.black
+        : PieceColor.white;
+
+    return Right(board);
   }
 
   @override
@@ -55,6 +63,9 @@ class PuzzleBoardAPI extends IBoardAPI {
 
   @override
   Either<Failure, Iterable<Cell>> planPath(Piece piece) {
+    if (piece.color != _currentPlayerTurn) {
+      return Left(InvalidPlayerTurnFailure());
+    }
     final cell = board.cells.firstWhereOrNull((e) => e.piece == piece);
     if (cell == null) {
       return Left(
