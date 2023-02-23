@@ -1,4 +1,4 @@
-import 'package:clean_chess/core/utilities/enums.dart';
+import 'package:clean_chess/chess/core/utilities/enums.dart';
 import 'package:flutter/material.dart';
 
 abstract class Piece {

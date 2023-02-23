@@ -6,8 +6,8 @@ import 'package:clean_chess/chess/models/move.dart';
 import 'package:clean_chess/chess/models/pieces.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
 import 'package:clean_chess/chess/utilities/utils.dart';
-import 'package:clean_chess/core/utilities/enums.dart';
-import 'package:clean_chess/core/utilities/extensions.dart';
+import 'package:clean_chess/chess/core/utilities/enums.dart';
+import 'package:clean_chess/chess/core/utilities/extensions.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 

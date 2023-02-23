@@ -1,5 +1,5 @@
 import 'package:clean_chess/chess/abstractions/piece.dart';
-import 'package:clean_chess/core/utilities/enums.dart';
+import 'package:clean_chess/chess/core/utilities/enums.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
