@@ -214,10 +214,14 @@ class Board {
       );
     }
 
+    final movedPiece = move.from.piece!;
+
     this.cells.firstWhere((element) => element.coord == move.to.coord).piece =
-        move.from.piece;
+        movedPiece;
     this.cells.firstWhere((element) => element.coord == move.from.coord).piece =
         null;
+
+    movedPiece.hasMoved();
 
     _movesFen.add(toFen());
 

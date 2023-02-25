@@ -10,6 +10,8 @@ abstract class Piece {
   int _moveTimes = 0;
   int get moveTimes => _moveTimes;
 
+  void hasMoved() => _moveTimes++;
+
   @visibleForTesting
   set setMoveTimes(int value) => _moveTimes = value;
 }
