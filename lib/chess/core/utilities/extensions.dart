@@ -15,6 +15,7 @@ extension PieceColorHelper on PieceColor {
   String get path => this == PieceColor.white ? 'white' : 'black';
   PieceColor get opposite =>
       this == PieceColor.white ? PieceColor.black : PieceColor.white;
+  String get fenValue => this == PieceColor.white ? 'w' : 'b';
 }
 
 extension StraightDirectionHelper on StraightDirection {

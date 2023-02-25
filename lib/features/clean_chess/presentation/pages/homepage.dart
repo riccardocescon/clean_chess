@@ -9,6 +9,7 @@ import 'package:clean_chess/chess/models/fen.dart';
 import 'package:clean_chess/chess/models/move.dart';
 import 'package:clean_chess/chess/models/tuple.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
+import 'package:clean_chess/main.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatefulWidget {
@@ -35,7 +36,8 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     final boardRequest = PuzzleBoardAPI().fromFen(
-      Fen.fromRaw('r6k/pp2r2p/4Rp1Q/3p4/8/1N1P2R1/PqP2bPP/7K b - - 0 24,'),
+      Fen.fromRaw('r6k/pp2r2p/4Rp1Q/3p4/8/1N1P2R1/PqP2bPP/7K b - - 0 24'),
+      // getRandomPuzzle().fen,
     );
     if (boardRequest.isLeft()) {
       _snackbarError(boardRequest.left);
@@ -84,6 +86,20 @@ class _HomepageState extends State<Homepage> {
               },
               icon: const Icon(
                 Icons.arrow_back_ios_new,
+                color: Colors.white,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                final fen = PuzzleBoardAPI().getFen();
+                if (fen.isLeft()) {
+                  _snackbarError(fen.left);
+                  return;
+                }
+                log((fen.right as Fen).fen);
+              },
+              icon: const Icon(
+                Icons.download_rounded,
                 color: Colors.white,
               ),
             ),

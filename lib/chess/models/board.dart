@@ -13,8 +13,22 @@ import 'package:flutter/material.dart';
 
 class Board {
   late final Iterable<Iterable<Cell>> _board;
-  final List<String> _movesFen = [];
-  int get totalMoves => _movesFen.length - 1; // -1 because of initial position
+  Move? _lastMove;
+
+  /// Total amount of known moves
+  /// -1 because of initial position
+  ///
+  /// Known moves are moves that are stored in [_knownMovesFen]
+  /// If the board was build from a FEN during a game,
+  /// the moves before the FEN are not known
+  final List<String> _knownMovesFen = [];
+  int get totalKnownMoves => _knownMovesFen.length - 1;
+
+  int _halfmoveClock = 0;
+  int get halfmoveClock => _halfmoveClock;
+
+  int _fullmoveNumber = 1;
+  int get fullmoveNumber => _fullmoveNumber;
 
   Iterable<Cell> get cells => _board.expand((element) => element);
 
@@ -38,13 +52,15 @@ class Board {
 
   Board.clone(Board board) {
     _board = board._board.map((e) => e.map((e) => Cell.clone(e)).toList());
-    _movesFen.addAll(board._movesFen);
+    _knownMovesFen.addAll(board._knownMovesFen);
   }
 
   Board.fromFen(Fen fen) {
     // r6k/pp2r2p/4Rp1Q/3p4/8/1N1P2R1/PqP2bPP/7K b - - 0 24,
     final emptyBoard = Board.empty();
-    final rows = fen.fen.split('/');
+    final rows = fen.positions.split('/');
+
+    // Positions
     for (int column = 8; column > 0; column--) {
       final currentRow = rows[8 - column];
       int currentCell = 0;
@@ -58,6 +74,7 @@ class Board {
           final piece = getPieceFromFen(currentLetter);
           if (piece.isLeft()) throw Exception(piece.left);
 
+          (piece.right as Piece).setMovesFromFen();
           final coord = _rowNames[currentCell] + column.toString();
           emptyBoard._board
               .expand((element) => element)
@@ -71,9 +88,106 @@ class Board {
 
     _board = emptyBoard._board;
 
-    _movesFen.add(toFen());
+    _knownMovesFen.add(positionsGen());
 
     _calculateControlledCells();
+
+    // Castling
+    _setCastlingRightsFromFen(fen.castlingRights);
+
+    // En passant
+    _setEnPassantRightsFromFen(fen.enPassantSquare);
+
+    // Halfmove clock
+    _halfmoveClock = fen.halfmoveClock;
+
+    // Fullmove number
+    _fullmoveNumber = fen.fullmoveNumber;
+  }
+
+  void _setCastlingRightsFromFen(String castlingRights) {
+    if (castlingRights != '-') {
+      final whiteQueenSide = castlingRights.contains('Q');
+      final whiteKingSide = castlingRights.contains('K');
+      if (whiteQueenSide || whiteKingSide) {
+        final cell = getCell('e1');
+        if (cell.isLeft()) throw Exception(cell.left);
+
+        if (cell.right.piece is! King) throw InvalidFen();
+
+        (cell.right.piece! as King).setCastlingRightFromFen();
+        if (whiteQueenSide) {
+          final cell = getCell('a1');
+          if (cell.isLeft()) throw Exception(cell.left);
+
+          if (cell.right.piece is! Rook) throw InvalidFen();
+
+          (cell.right.piece! as Rook).setCastlingRightFromFen();
+        }
+        if (whiteKingSide) {
+          final cell = getCell('h1');
+          if (cell.isLeft()) throw Exception(cell.left);
+
+          if (cell.right.piece is! Rook) throw InvalidFen();
+
+          (cell.right.piece! as Rook).setCastlingRightFromFen();
+        }
+      }
+
+      final blackQueenSide = castlingRights.contains('q');
+      final blackKingSide = castlingRights.contains('k');
+      if (blackQueenSide || blackKingSide) {
+        final cell = getCell('e8');
+        if (cell.isLeft()) throw Exception(cell.left);
+
+        if (cell.right.piece is! King) throw InvalidFen();
+
+        (cell.right.piece! as King).setCastlingRightFromFen();
+        if (blackQueenSide) {
+          final cell = getCell('a8');
+          if (cell.isLeft()) throw Exception(cell.left);
+
+          if (cell.right.piece is! Rook) throw InvalidFen();
+
+          (cell.right.piece! as Rook).setCastlingRightFromFen();
+        }
+        if (blackKingSide) {
+          final cell = getCell('h8');
+          if (cell.isLeft()) throw Exception(cell.left);
+
+          if (cell.right.piece is! Rook) throw InvalidFen();
+
+          (cell.right.piece! as Rook).setCastlingRightFromFen();
+        }
+      }
+    }
+  }
+
+  void _setEnPassantRightsFromFen(String enPassantSquare) {
+    if (enPassantSquare != '-') {
+      final maybeCell = getCell(enPassantSquare);
+      if (maybeCell.isLeft()) throw Exception(maybeCell.left);
+
+      final cell = maybeCell.right as Cell;
+
+      if (cell.piece != null) throw InvalidFen();
+
+      if (cell.row == 3 || cell.row == 6) {
+        final startRow = cell.row == 3 ? 2 : 7;
+        final cellStart = getCell('${cell.column}$startRow');
+        if (cellStart.isLeft()) throw Exception(cellStart.left);
+
+        final endRow = cell.row == 3 ? 4 : 5;
+        final cellEnd = getCell('${cell.column}$endRow');
+        if (cellEnd.isLeft()) throw Exception(cellEnd.left);
+
+        if (cellEnd.right.piece is! Pawn) throw InvalidFen();
+
+        (cellEnd.right.piece! as Pawn).setEnPassantRightFromFen();
+
+        _lastMove = Move(cellStart.right, cellEnd.right);
+      }
+    }
   }
 
   void _calculateControlledCells() {
@@ -103,7 +217,7 @@ class Board {
     }
   }
 
-  String toFen() {
+  String positionsGen() {
     String fen = '';
     for (int column = 8; column > 0; column--) {
       int emptySpaces = 0;
@@ -130,8 +244,7 @@ class Board {
       }
     }
 
-    //TODO : Complete Fen Generation
-    return "$fen w KQkq - 0 1";
+    return fen;
   }
 
   Either<Failure, Cell> getCell(String coord) {
@@ -214,7 +327,19 @@ class Board {
       );
     }
 
+    _lastMove = move;
     final movedPiece = move.from.piece!;
+
+    // Update clocks
+    if (movedPiece is Pawn || targetCell.piece != null) {
+      _halfmoveClock = 0;
+    } else {
+      _halfmoveClock++;
+    }
+
+    if (movedPiece.color == PieceColor.black) {
+      _fullmoveNumber++;
+    }
 
     this.cells.firstWhere((element) => element.coord == move.to.coord).piece =
         movedPiece;
@@ -223,7 +348,7 @@ class Board {
 
     movedPiece.hasMoved();
 
-    _movesFen.add(toFen());
+    _knownMovesFen.add(positionsGen());
 
     for (final currentCell in this.cells) {
       currentCell.resetControl();
@@ -235,13 +360,44 @@ class Board {
   }
 
   Either<Failure, String> getMove(int index) {
-    if (index < 0 || index >= _movesFen.length) {
+    if (index < 0 || index >= _knownMovesFen.length) {
       return Left(
         InvalidMoveIndexFailure('Invalid move index $index'),
       );
     }
 
-    return Right(_movesFen[index]);
+    return Right(_knownMovesFen[index]);
+  }
+
+  Either<Failure, bool> canCastle({
+    required PieceColor color,
+    required bool isHColumn,
+  }) {
+    final king = cells.firstWhere(
+      (element) => element.piece is King && element.piece!.color == color,
+    );
+
+    final castleRight = _getCastlingCells(king, isHColumn);
+    if (castleRight.isLeft()) return castleRight.left;
+
+    return Right((castleRight.right as Iterable<Cell>).isNotEmpty);
+  }
+
+  Either<Failure, String?> enPassantSquare() {
+    if (_lastMove == null) return const Right(null);
+
+    final lastCellMove = _lastMove!.to;
+
+    if (lastCellMove.piece is! Pawn) return const Right(null);
+    if ((lastCellMove.piece as Pawn).getMoveTimes != 1)
+      return const Right(null);
+
+    // Check if the pawn is in the correct row
+    if (_lastMove!.to.row != 5 && _lastMove!.to.row != 4) {
+      return const Right(null);
+    }
+
+    return Right(_lastMove!.from.coord);
   }
 
   //#region Piece Moves Helpers
@@ -271,7 +427,7 @@ class Board {
     }
 
     // Get free cells in the direction of the pawn
-    final moveLength = boardCell.piece!.moveTimes == 0 &&
+    final moveLength = boardCell.piece!.getMoveTimes == 0 &&
             (boardCell.row == 2 || boardCell.row == 7)
         ? 2
         : 1;
@@ -344,14 +500,14 @@ class Board {
 
     // En passant
     if (pieceColor == PieceColor.white) {
-      if (cell.row == 5 && cell.piece!.moveTimes == 2) {
+      if (cell.row == 5 && cell.piece!.getMoveTimes == 2) {
         final leftCell =
             getCell("${_rowNames[_rowNames.indexOf(cell.column) - 1]}5");
         final rightCell =
             getCell("${_rowNames[_rowNames.indexOf(cell.column) + 1]}5");
         if (leftCell.isRight() && leftCell.right.piece is Pawn) {
           final pawn = leftCell.right.piece as Pawn;
-          if (pawn.moveTimes == 1 && pawn.color == PieceColor.black) {
+          if (pawn.getMoveTimes == 1 && pawn.color == PieceColor.black) {
             final enPassantCell =
                 getCell("${_rowNames[_rowNames.indexOf(cell.column) - 1]}6");
             if (enPassantCell.isRight()) {
@@ -361,7 +517,7 @@ class Board {
         }
         if (rightCell.isRight() && rightCell.right.piece is Pawn) {
           final pawn = rightCell.right.piece as Pawn;
-          if (pawn.moveTimes == 1 && pawn.color == PieceColor.black) {
+          if (pawn.getMoveTimes == 1 && pawn.color == PieceColor.black) {
             final enPassantCell =
                 getCell("${_rowNames[_rowNames.indexOf(cell.column) + 1]}6");
             if (enPassantCell.isRight()) {
@@ -371,14 +527,14 @@ class Board {
         }
       }
     } else {
-      if (cell.row == 4 && cell.piece!.moveTimes == 2) {
+      if (cell.row == 4 && cell.piece!.getMoveTimes == 2) {
         final leftCell =
             getCell("${_rowNames[_rowNames.indexOf(cell.column) - 1]}4");
         final rightCell =
             getCell("${_rowNames[_rowNames.indexOf(cell.column) + 1]}4");
         if (leftCell.isRight() && leftCell.right.piece is Pawn) {
           final pawn = leftCell.right.piece as Pawn;
-          if (pawn.moveTimes == 1 && pawn.color == PieceColor.white) {
+          if (pawn.getMoveTimes == 1 && pawn.color == PieceColor.white) {
             final enPassantCell =
                 getCell("${_rowNames[_rowNames.indexOf(cell.column) - 1]}3");
             if (enPassantCell.isRight()) {
@@ -388,7 +544,7 @@ class Board {
         }
         if (rightCell.isRight() && rightCell.right.piece is Pawn) {
           final pawn = rightCell.right.piece as Pawn;
-          if (pawn.moveTimes == 1 && pawn.color == PieceColor.white) {
+          if (pawn.getMoveTimes == 1 && pawn.color == PieceColor.white) {
             final enPassantCell =
                 getCell("${_rowNames[_rowNames.indexOf(cell.column) + 1]}3");
             if (enPassantCell.isRight()) {
@@ -661,7 +817,7 @@ class Board {
     List<Cell> cells = [...horizontalCells.right, ...diagonalCells.right];
 
     // Add castling
-    if (cell.piece!.moveTimes == 0) {
+    if (cell.piece!.getMoveTimes == 0) {
       final leftCastlingCells = _getCastlingCells(cell, false);
       if (leftCastlingCells.isLeft()) return leftCastlingCells.left;
 
