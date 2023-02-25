@@ -23,6 +23,8 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final bool mobileBulild = true;
+
   late Board board;
   late Puzzle puzzle;
 
@@ -70,25 +72,48 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SizedBox(
-        width: double.infinity,
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.topCenter,
-              child: Text(
-                puzzle.name,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+    return SafeArea(
+      child: Scaffold(
+        body: SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    puzzle.name,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(height: 50),
+                Expanded(
+                  child: Column(
+                    children: [
+                      _grid(),
+                      Expanded(child: _hudSection()),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            SizedBox(
-              width: 400,
-              height: MediaQuery.of(context).size.height,
+          ),
+        ),
+        bottomNavigationBar: _bottomBar(),
+      ),
+    );
+  }
+
+  Widget _hudSection() => Container(
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          children: [
+            Expanded(
               child: Column(
                 children: [
                   _powerHud(),
@@ -96,13 +121,55 @@ class _HomepageState extends State<Homepage> {
                 ],
               ),
             ),
-            Center(child: _grid()),
+            Expanded(
+              child: Visibility(
+                visible: _showThreatsHud,
+                child: _threatsTable(),
+              ),
+            ),
           ],
         ),
-      ),
-      bottomNavigationBar: _bottomBar(),
-    );
-  }
+      );
+
+  Widget _threatsTable() => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    whiteKing,
+                    scale: 3,
+                  ),
+                  _enemyThreats(_whiteKingThreats),
+                ],
+              ),
+            ),
+            Container(
+              width: 1,
+              height: MediaQuery.of(context).size.height * 0.5,
+              color: Colors.white,
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    blackKing,
+                    scale: 3,
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  _enemyThreats(_blackKingThreats),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
 
   Widget _bottomBar() => Container(
         width: MediaQuery.of(context).size.width,
@@ -167,9 +234,10 @@ class _HomepageState extends State<Homepage> {
   Widget _powerHud() => Padding(
         padding: const EdgeInsets.all(20),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Text("Power: HUD", style: TextStyle(fontSize: 20)),
+            const Text("Power: HUD", style: TextStyle(fontSize: 16)),
+            const SizedBox(width: 15),
             Switch(
               value: _showPowerHud,
               onChanged: (value) => setState(() {
@@ -185,9 +253,10 @@ class _HomepageState extends State<Homepage> {
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Text("Threats: HUD", style: TextStyle(fontSize: 20)),
+                const Text("Threats: HUD", style: TextStyle(fontSize: 16)),
+                const SizedBox(width: 10),
                 Switch(
                   value: _showThreatsHud,
                   onChanged: (value) => setState(() {
@@ -196,46 +265,6 @@ class _HomepageState extends State<Homepage> {
                 ),
               ],
             ),
-            if (_showThreatsHud)
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.5,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.asset(
-                            whiteKing,
-                            scale: 2,
-                          ),
-                          _enemyThreats(_whiteKingThreats),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: 1,
-                      height: MediaQuery.of(context).size.height * 0.5,
-                      color: Colors.white,
-                    ),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.asset(
-                            blackKing,
-                            scale: 2,
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          _enemyThreats(_blackKingThreats),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
           ],
         ),
       );
@@ -250,12 +279,12 @@ class _HomepageState extends State<Homepage> {
                   children: [
                     Image.asset(
                       threat.first.imagePath,
-                      scale: 2,
+                      scale: 3.5,
                     ),
                     Text(
                       threat.second.toString(),
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 20,
                         fontWeight: FontWeight.w600,
                         color: threat.second == 1
                             ? Colors.red
@@ -274,11 +303,13 @@ class _HomepageState extends State<Homepage> {
   Widget _grid() => ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: SizedBox(
-          width: 600,
-          height: 600,
-          child: GridView.count(
-            crossAxisCount: 8,
-            children: board.cells.map((e) => _cell(e)).toList(),
+          width: double.maxFinite,
+          child: AspectRatio(
+            aspectRatio: 1,
+            child: GridView.count(
+              crossAxisCount: 8,
+              children: board.cells.map((e) => _cell(e)).toList(),
+            ),
           ),
         ),
       );
