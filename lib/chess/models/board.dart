@@ -4,6 +4,7 @@ import 'package:clean_chess/chess/models/cell.dart';
 import 'package:clean_chess/chess/models/fen.dart';
 import 'package:clean_chess/chess/models/move.dart';
 import 'package:clean_chess/chess/models/pieces.dart';
+import 'package:clean_chess/chess/models/tuple.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
 import 'package:clean_chess/chess/utilities/utils.dart';
 import 'package:clean_chess/chess/core/utilities/enums.dart';
@@ -88,9 +89,11 @@ class Board {
 
     _board = emptyBoard._board;
 
-    _knownMovesFen.add(positionsGen());
+    _knownMovesFen.add(positionsFen());
 
     _calculateControlledCells();
+
+    _calculateKingThreats();
 
     // Castling
     _setCastlingRightsFromFen(fen.castlingRights);
@@ -190,34 +193,7 @@ class Board {
     }
   }
 
-  void _calculateControlledCells() {
-    final cellsWithPieces = cells.where((element) => element.piece != null);
-    List<Cell> cellsWithKing = [];
-    for (final cell in cellsWithPieces) {
-      if (cell.piece is King) {
-        cellsWithKing.add(cell);
-        continue;
-      }
-
-      final moves = controlledCells(cell);
-      if (moves.isLeft()) throw Exception(moves.left);
-
-      for (final Cell targetCell in moves.right) {
-        targetCell.addControl(cell.piece!.color);
-      }
-    }
-
-    for (final cell in cellsWithKing) {
-      final moves = controlledCells(cell);
-      if (moves.isLeft()) throw Exception(moves.left);
-
-      for (final targetCell in moves.right) {
-        targetCell.addControl(cell.piece!.color);
-      }
-    }
-  }
-
-  String positionsGen() {
+  String positionsFen() {
     String fen = '';
     for (int column = 8; column > 0; column--) {
       int emptySpaces = 0;
@@ -348,13 +324,14 @@ class Board {
 
     movedPiece.hasMoved();
 
-    _knownMovesFen.add(positionsGen());
+    _knownMovesFen.add(positionsFen());
 
     for (final currentCell in this.cells) {
       currentCell.resetControl();
     }
 
     _calculateControlledCells();
+    _calculateKingThreats();
 
     return const Right(Empty());
   }
@@ -976,6 +953,170 @@ class Board {
     return cell != null
         ? Right(cell)
         : Left(CellNotFoundOnBoard('No cell found $coord'));
+  }
+
+  //#endregion
+
+  //#region Statistics
+
+  final List<Tuple<Cell, int>> _whiteKingThreats = [];
+  final List<Tuple<Cell, int>> _blackKingThreats = [];
+
+  Iterable<Tuple<Cell, int>> get whiteKingThreats => _whiteKingThreats.map(
+        (e) => Tuple(Cell.clone(e.first), e.second),
+      );
+  Iterable<Tuple<Cell, int>> get blackKingThreats => _blackKingThreats.map(
+        (e) => Tuple(Cell.clone(e.first), e.second),
+      );
+
+  void _calculateKingThreats() {
+    _whiteKingThreats.clear();
+    _blackKingThreats.clear();
+
+    final whiteKingCell = cells.firstWhere(
+      (element) =>
+          element.piece is King && element.piece!.color == PieceColor.white,
+    );
+    final blackKingCell = cells.firstWhere(
+      (element) =>
+          element.piece is King && element.piece!.color == PieceColor.black,
+    );
+
+    _addStraightDirectionThreats(whiteKingCell);
+    _addStraightDirectionThreats(blackKingCell);
+
+    _addDiagonalDirectionThreats(whiteKingCell);
+    _addDiagonalDirectionThreats(blackKingCell);
+
+    _addKnightThreats(whiteKingCell);
+    _addKnightThreats(blackKingCell);
+  }
+
+  void _addStraightDirectionThreats(Cell kingCell) {
+    assert(kingCell.piece is King);
+    final kingColor = kingCell.piece!.color;
+    for (final direction in StraightDirection.values) {
+      int directionPieces = -1; // -1 because the piece itself is not counted
+      for (int i = 1; i <= 8; i++) {
+        final currentRow = kingCell.row + (i * direction.y);
+        final currentColumn =
+            _rowNames.indexOf(kingCell.column) + (i * direction.x);
+
+        if (currentRow < 1 || currentRow > 8) break;
+        if (currentColumn < 0 || currentColumn > 7) break;
+
+        final currentCoord = "${_rowNames[currentColumn]}$currentRow";
+        final maybeCell = _getCellFromCoord(currentCoord);
+        if (maybeCell.isLeft()) throw Exception(maybeCell.left);
+
+        if (maybeCell.right.piece == null) continue;
+
+        final cell = maybeCell.right as Cell;
+        final piece = cell.piece!;
+        directionPieces++;
+        if (piece.color == kingColor) continue;
+
+        if (piece is Rook || piece is Queen) {
+          if (kingColor == PieceColor.white) {
+            _whiteKingThreats.add(Tuple(cell, directionPieces));
+          } else {
+            _blackKingThreats.add(Tuple(cell, directionPieces));
+          }
+        }
+      }
+    }
+  }
+
+  void _addDiagonalDirectionThreats(Cell kingCell) {
+    assert(kingCell.piece is King);
+    final kingColor = kingCell.piece!.color;
+    for (final direction in DiagonalDirection.values) {
+      int directionPieces = -1; // -1 because the piece itself is not counted
+      for (int i = 1; i <= 8; i++) {
+        final currentRow = kingCell.row + (i * direction.y);
+        final currentColumn =
+            _rowNames.indexOf(kingCell.column) + (i * direction.x);
+
+        if (currentRow < 1 || currentRow > 8) break;
+        if (currentColumn < 0 || currentColumn > 7) break;
+
+        final currentCoord = "${_rowNames[currentColumn]}$currentRow";
+        final maybeCell = _getCellFromCoord(currentCoord);
+        if (maybeCell.isLeft()) throw Exception(maybeCell.left);
+
+        if (maybeCell.right.piece == null) continue;
+
+        final cell = maybeCell.right as Cell;
+        final piece = cell.piece!;
+        directionPieces++;
+        if (piece.color == kingColor) continue;
+
+        if (piece is Bishop || piece is Queen) {
+          if (kingColor == PieceColor.white) {
+            _whiteKingThreats.add(Tuple(cell, directionPieces));
+          } else {
+            _blackKingThreats.add(Tuple(cell, directionPieces));
+          }
+        }
+      }
+    }
+  }
+
+  void _addKnightThreats(Cell kingCell) {
+    assert(kingCell.piece is King);
+    final kingColor = kingCell.piece!.color;
+    for (final direction in KnightDirection.values) {
+      final currentRow = kingCell.row + direction.y;
+      final currentColumn = _rowNames.indexOf(kingCell.column) + direction.x;
+
+      if (currentRow < 1 || currentRow > 8) continue;
+      if (currentColumn < 0 || currentColumn > 7) continue;
+
+      final currentCoord = "${_rowNames[currentColumn]}$currentRow";
+      final maybeCell = _getCellFromCoord(currentCoord);
+      if (maybeCell.isLeft()) throw Exception(maybeCell.left);
+
+      if (maybeCell.right.piece == null) continue;
+
+      final cell = maybeCell.right as Cell;
+      final piece = cell.piece!;
+      if (piece.color == kingColor) continue;
+
+      if (piece is Knight) {
+        if (kingColor == PieceColor.white) {
+          _whiteKingThreats.add(Tuple(cell, 0));
+        } else {
+          _blackKingThreats.add(Tuple(cell, 0));
+        }
+      }
+    }
+  }
+
+  void _calculateControlledCells() {
+    final cellsWithPieces = cells.where((element) => element.piece != null);
+    List<Cell> cellsWithKing = [];
+    for (final cell in cellsWithPieces) {
+      if (cell.piece is King) {
+        cellsWithKing.add(cell);
+        continue;
+      }
+
+      final moves = controlledCells(cell);
+      if (moves.isLeft()) throw Exception(moves.left);
+
+      for (final Cell targetCell in moves.right) {
+        targetCell.addControl(cell.piece!.color);
+      }
+    }
+
+    for (final cell in cellsWithKing) {
+      final moves = controlledCells(cell);
+      if (moves.isLeft()) throw Exception(moves.left);
+
+      for (final targetCell in moves.right) {
+        targetCell.addControl(cell.piece!.color);
+      }
+    }
   }
 
   //#endregion

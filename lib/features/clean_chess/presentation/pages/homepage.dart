@@ -2,11 +2,14 @@ import 'dart:developer';
 
 import 'package:clean_chess/chess/abstractions/piece.dart';
 import 'package:clean_chess/chess/apis/puzzle_board_api.dart';
+import 'package:clean_chess/chess/core/utilities/assets.dart';
+import 'package:clean_chess/chess/core/utilities/enums.dart';
+import 'package:clean_chess/chess/core/utilities/extensions.dart';
 import 'package:clean_chess/chess/error/failures.dart';
 import 'package:clean_chess/chess/models/board.dart';
 import 'package:clean_chess/chess/models/cell.dart';
-import 'package:clean_chess/chess/models/fen.dart';
 import 'package:clean_chess/chess/models/move.dart';
+import 'package:clean_chess/chess/models/puzzle.dart';
 import 'package:clean_chess/chess/models/tuple.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
 import 'package:clean_chess/main.dart';
@@ -21,6 +24,7 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   late Board board;
+  late Puzzle puzzle;
 
   Tuple<Piece?, List<Cell>> plannedCells = Tuple(null, []);
 
@@ -32,20 +36,36 @@ class _HomepageState extends State<Homepage> {
 
   // Settings
   bool _showPowerHud = false;
+  bool _showThreatsHud = true;
+
+  // Statistics
+  Iterable<Tuple<Piece, int>> _whiteKingThreats = [];
+  Iterable<Tuple<Piece, int>> _blackKingThreats = [];
 
   @override
   void initState() {
-    final boardRequest = PuzzleBoardAPI().fromFen(
-      Fen.fromRaw('r6k/pp2r2p/4Rp1Q/3p4/8/1N1P2R1/PqP2bPP/7K b - - 0 24'),
-      // getRandomPuzzle().fen,
-    );
+    _setupNewPuzzle(debugPuzzle: true);
+    super.initState();
+  }
+
+  void _setupNewPuzzle({bool debugPuzzle = false}) {
+    puzzle =
+        debugPuzzle ? Puzzle.fromLichessDB(puzzleDb.first) : getRandomPuzzle();
+    final boardRequest = PuzzleBoardAPI().fromFen(puzzle.fen);
     if (boardRequest.isLeft()) {
       _snackbarError(boardRequest.left);
       board = Board.empty();
     } else {
       board = boardRequest.right;
     }
-    super.initState();
+    _refreshThreats();
+  }
+
+  void _refreshThreats() {
+    setState(() {
+      _whiteKingThreats = PuzzleBoardAPI().getKingThreats(PieceColor.white);
+      _blackKingThreats = PuzzleBoardAPI().getKingThreats(PieceColor.black);
+    });
   }
 
   @override
@@ -55,7 +75,27 @@ class _HomepageState extends State<Homepage> {
         width: double.infinity,
         child: Stack(
           children: [
-            _powerHud(),
+            Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                puzzle.name,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 400,
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [
+                  _powerHud(),
+                  _threatsHud(),
+                ],
+              ),
+            ),
             Center(child: _grid()),
           ],
         ),
@@ -82,6 +122,9 @@ class _HomepageState extends State<Homepage> {
                 board = requestedMove;
                 plannedCells.first = null;
                 plannedCells.second = [];
+
+                _refreshThreats();
+
                 setState(() {});
               },
               icon: const Icon(
@@ -90,16 +133,9 @@ class _HomepageState extends State<Homepage> {
               ),
             ),
             IconButton(
-              onPressed: () {
-                final fen = PuzzleBoardAPI().getFen();
-                if (fen.isLeft()) {
-                  _snackbarError(fen.left);
-                  return;
-                }
-                log((fen.right as Fen).fen);
-              },
+              onPressed: () => _setupNewPuzzle(),
               icon: const Icon(
-                Icons.download_rounded,
+                Icons.refresh_rounded,
                 color: Colors.white,
               ),
             ),
@@ -114,6 +150,9 @@ class _HomepageState extends State<Homepage> {
                 board = requestedMove;
                 plannedCells.first = null;
                 plannedCells.second = [];
+
+                _refreshThreats();
+
                 setState(() {});
               },
               icon: const Icon(
@@ -125,24 +164,111 @@ class _HomepageState extends State<Homepage> {
         ),
       );
 
-  Widget _powerHud() => Positioned(
-        top: 0,
-        left: 0,
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const Text("Power: HUD", style: TextStyle(fontSize: 20)),
-              Switch(
-                value: _showPowerHud,
-                onChanged: (value) => setState(() {
-                  _showPowerHud = value;
-                }),
-              ),
-            ],
-          ),
+  Widget _powerHud() => Padding(
+        padding: const EdgeInsets.all(20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Text("Power: HUD", style: TextStyle(fontSize: 20)),
+            Switch(
+              value: _showPowerHud,
+              onChanged: (value) => setState(() {
+                _showPowerHud = value;
+              }),
+            ),
+          ],
         ),
+      );
+
+  Widget _threatsHud() => Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Text("Threats: HUD", style: TextStyle(fontSize: 20)),
+                Switch(
+                  value: _showThreatsHud,
+                  onChanged: (value) => setState(() {
+                    _showThreatsHud = value;
+                  }),
+                ),
+              ],
+            ),
+            if (_showThreatsHud)
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Image.asset(
+                            whiteKing,
+                            scale: 2,
+                          ),
+                          _enemyThreats(_whiteKingThreats),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 1,
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      color: Colors.white,
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Image.asset(
+                            blackKing,
+                            scale: 2,
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          _enemyThreats(_blackKingThreats),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      );
+
+  Widget _enemyThreats(Iterable<Tuple<Piece, int>> threats) => Column(
+        children: threats
+            .map(
+              (threat) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset(
+                      threat.first.imagePath,
+                      scale: 2,
+                    ),
+                    Text(
+                      threat.second.toString(),
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                        color: threat.second == 1
+                            ? Colors.red
+                            : threat.second == 2
+                                ? Colors.orange
+                                : Colors.amber,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+            .toList(),
       );
 
   Widget _grid() => ClipRRect(
@@ -262,6 +388,9 @@ class _HomepageState extends State<Homepage> {
     board = moveResult.right as Board;
     plannedCells.first = null;
     plannedCells.second.clear();
+
+    _refreshThreats();
+
     setState(() {});
   }
 
