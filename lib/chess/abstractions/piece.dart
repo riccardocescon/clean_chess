@@ -7,11 +7,14 @@ abstract class Piece {
   String get toFen;
   abstract final PieceColor color;
 
-  int _moveTimes = 0;
-  int get moveTimes => _moveTimes;
+  @protected
+  int moveTimes = 0;
+  int get getMoveTimes => moveTimes;
 
-  void hasMoved() => _moveTimes++;
+  void hasMoved() => moveTimes++;
+
+  void setMovesFromFen() => moveTimes = 1000;
 
   @visibleForTesting
-  set setMoveTimes(int value) => _moveTimes = value;
+  set setMoveTimes(int value) => moveTimes = value;
 }

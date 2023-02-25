@@ -2,6 +2,7 @@ import 'package:clean_chess/chess/abstractions/iboard_api.dart';
 import 'package:clean_chess/chess/models/cell.dart';
 import 'package:clean_chess/chess/abstractions/piece.dart';
 import 'package:clean_chess/chess/models/fen.dart';
+import 'package:clean_chess/chess/models/pieces.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
 import 'package:clean_chess/chess/core/utilities/enums.dart';
 import 'package:clean_chess/chess/core/utilities/extensions.dart';
@@ -39,6 +40,7 @@ class PuzzleBoardAPI extends IBoardAPI {
   Either<Failure, Board> fromFen(Fen fen) {
     try {
       board = Board.fromFen(fen);
+      _currentPlayerTurn = fen.turn;
       return Right(board);
     } catch (e) {
       return Left(InvalidFen());
@@ -46,11 +48,67 @@ class PuzzleBoardAPI extends IBoardAPI {
   }
 
   @override
-  Fen getFen() => Fen(board.toFen(), PieceColor.white);
+  Either<Failure, Fen> getFen() {
+    String castlingRights = "";
+
+    // Castling rights
+    final whiteKingSide = board.canCastle(
+      color: PieceColor.white,
+      isHColumn: true,
+    );
+    if (whiteKingSide.isLeft()) return Left(whiteKingSide.left);
+    if (whiteKingSide.right) castlingRights += "K";
+
+    final whiteQueenSide = board.canCastle(
+      color: PieceColor.white,
+      isHColumn: false,
+    );
+    if (whiteQueenSide.isLeft()) return Left(whiteQueenSide.left);
+    if (whiteQueenSide.right) castlingRights += "Q";
+
+    final blackKingSide = board.canCastle(
+      color: PieceColor.black,
+      isHColumn: true,
+    );
+    if (blackKingSide.isLeft()) return Left(blackKingSide.left);
+    if (blackKingSide.right) castlingRights += "k";
+
+    final blackQueenSide = board.canCastle(
+      color: PieceColor.black,
+      isHColumn: false,
+    );
+    if (blackQueenSide.isLeft()) return Left(blackQueenSide.left);
+    if (blackQueenSide.right) castlingRights += "q";
+
+    if (castlingRights.isEmpty) castlingRights = "-";
+
+    // En passant
+    final enPassantSquare = board.enPassantSquare();
+    if (enPassantSquare.isLeft()) return Left(enPassantSquare.left);
+
+    final enPassant = (enPassantSquare.right as String?) ?? "-";
+
+    // Halfmove clock
+    final int halfmoveClock = board.halfmoveClock;
+
+    // Fullmove number
+    final int fullmoveNumber = board.fullmoveNumber;
+
+    return Right(
+      Fen(
+        board.positionsGen(),
+        _currentPlayerTurn,
+        castlingRights,
+        enPassant,
+        halfmoveClock,
+        fullmoveNumber,
+      ),
+    );
+  }
 
   @override
   Either<Failure, Board> move(Move move) {
-    if (_currentMoveIndex != board.totalMoves) {
+    if (_currentMoveIndex != board.totalKnownMoves) {
       return Left(CannotMoveOnPreviousMoveFailure());
     }
     final result = board.movePiece(move);
@@ -62,7 +120,8 @@ class PuzzleBoardAPI extends IBoardAPI {
 
   @override
   Either<Failure, Board> nextMove() {
-    if (_currentMoveIndex == board.totalMoves) return Left(NoNextMoveFailure());
+    if (_currentMoveIndex == board.totalKnownMoves)
+      return Left(NoNextMoveFailure());
     final result = board.getMove(_currentMoveIndex + 1);
     if (result.isLeft()) return Left(result.left);
     _currentMoveIndex++;
@@ -82,7 +141,7 @@ class PuzzleBoardAPI extends IBoardAPI {
 
   @override
   Either<Failure, Iterable<Cell>> planPath(Cell cell) {
-    if (_currentMoveIndex != board.totalMoves) {
+    if (_currentMoveIndex != board.totalKnownMoves) {
       return Left(CannotMoveOnPreviousMoveFailure());
     }
 

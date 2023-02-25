@@ -15,6 +15,8 @@ class Pawn extends Piece {
   @override
   final PieceColor color;
 
+  void setEnPassantRightFromFen() => moveTimes = 0;
+
   Pawn(this.color);
 }
 
@@ -60,6 +62,8 @@ class Rook extends Piece {
   @override
   String get toFen => color == PieceColor.white ? 'R' : 'r';
 
+  void setCastlingRightFromFen() => moveTimes = 0;
+
   @override
   final PieceColor color;
 
@@ -91,6 +95,8 @@ class King extends Piece {
 
   @override
   String get toFen => color == PieceColor.white ? 'K' : 'k';
+
+  void setCastlingRightFromFen() => moveTimes = 0;
 
   @override
   final PieceColor color;

@@ -14,7 +14,7 @@ abstract class IBoardAPI {
 
   Either<Failure, Board> move(Move move);
   Either<Failure, Iterable<Cell>> planPath(Cell cell);
-  Fen getFen();
+  Either<Failure, Fen> getFen();
   Either<Failure, Board> fromFen(Fen fen);
   Either<Failure, Board> previousMove();
   Either<Failure, Board> nextMove();
