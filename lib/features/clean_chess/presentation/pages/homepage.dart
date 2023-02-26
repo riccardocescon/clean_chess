@@ -83,42 +83,11 @@ class _HomepageState extends State<Homepage> {
             child: OrientationBuilder(
               builder: (context, orientation) {
                 isLandscape = orientation == Orientation.landscape;
-                return Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Text(
-                        puzzle.name,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 50),
-                    Expanded(
-                      child: isLandscape
-                          ? Row(
-                              children: [
-                                Expanded(
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: _hudSection(),
-                                  ),
-                                ),
-                                _grid(),
-                              ],
-                            )
-                          : Column(
-                              children: [
-                                _grid(),
-                                Expanded(child: _hudSection()),
-                              ],
-                            ),
-                    ),
-                  ],
-                );
+                if (isLandscape) {
+                  return _landscapeLayout();
+                } else {
+                  return _portraitLayout();
+                }
               },
             ),
           ),
@@ -128,7 +97,89 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget _hudSection() => SizedBox(
+  Widget _portraitLayout() => Column(
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Text(
+              puzzle.name,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(height: 50),
+          Expanded(
+            child: Column(
+              children: [
+                _portaitGrid(),
+                Expanded(child: _portaitHudSection()),
+              ],
+            ),
+          ),
+        ],
+      );
+
+  Widget _landscapeLayout() => Column(
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Text(
+              puzzle.name,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(height: 50),
+          Expanded(
+            child: isLandscape
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: _landscapeHudSection(),
+                        ),
+                      ),
+                      _landScapeGrid(),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      _landScapeGrid(),
+                      Expanded(child: _landscapeHudSection()),
+                    ],
+                  ),
+          ),
+        ],
+      );
+
+  Widget _portaitHudSection() => SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          children: [
+            Column(
+              children: [
+                _powerHud(),
+                _threatsHud(),
+              ],
+            ),
+            Expanded(
+              child: Visibility(
+                visible: _showThreatsHud,
+                child: _threatsTable(),
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget _landscapeHudSection() => SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Row(
           children: [
@@ -139,7 +190,7 @@ class _HomepageState extends State<Homepage> {
               ],
             ),
             ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: isLandscape ? 500 : 300),
+              constraints: const BoxConstraints(maxWidth: 500),
               child: Visibility(
                 visible: _showThreatsHud,
                 child: _threatsTable(),
@@ -334,7 +385,54 @@ class _HomepageState extends State<Homepage> {
             .toList(),
       );
 
-  Widget _grid() => Column(
+  Widget _portaitGrid() => Column(
+        children: [
+          Row(
+            children: [
+              const Text(
+                "Current Turn: ",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: turn == PieceColor.white ? Colors.white : Colors.black,
+                  border: Border.all(
+                    color: Colors.indigo.shade300,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                alignment: Alignment.bottomCenter,
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                width: double.maxFinite,
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: GridView.count(
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 8,
+                    children: board.cells.map((e) => _cell(e)).toList(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+
+  Widget _landScapeGrid() => Column(
         children: [
           Row(
             children: [
@@ -410,7 +508,13 @@ class _HomepageState extends State<Homepage> {
               children: [
                 Align(
                   alignment: Alignment.topLeft,
-                  child: Text(cell.coord),
+                  child: Text(
+                    cell.coord,
+                    style: TextStyle(
+                      fontSize: isLandscape ? 12 : 10,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
                 // Align(
                 //   alignment: Alignment.bottomRight,
