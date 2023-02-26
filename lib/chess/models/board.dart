@@ -469,9 +469,7 @@ class Board {
 
     // Get the valid cells
     final validCells = (freeCells.right as Iterable<Cell>).toList();
-    if (validCells.isNotEmpty && validCells.last.piece?.color == pieceColor) {
-      validCells.removeLast();
-    }
+    validCells.removeWhere((element) => element.piece != null);
 
     if (calculateControl) {
       validCells.clear();

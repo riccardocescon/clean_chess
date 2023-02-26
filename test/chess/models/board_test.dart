@@ -108,6 +108,19 @@ void main() {
         expect(result.right.first.coord, 'e3');
         expect(result.right.last.coord, 'e4');
       });
+
+      test("Pawn Forward Enemy Move", () {
+        final e2 = board.cells.firstWhere((element) => element.coord == 'e2');
+        e2.piece = Pawn(PieceColor.white);
+        final e3 = board.cells.firstWhere((element) => element.coord == 'e3');
+        e3.piece = Queen(PieceColor.black);
+
+        final result = board.getPawnMoves(e2);
+
+        expect(result.isRight(), true);
+        expect(result.right.length, 0);
+      });
+
       test("White Pawn Diagonal Move", () {
         final e2 = board.cells.firstWhere((element) => element.coord == 'e2');
         e2.piece = Pawn(PieceColor.white);
