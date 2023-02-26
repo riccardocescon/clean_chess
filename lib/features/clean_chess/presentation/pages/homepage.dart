@@ -4,7 +4,6 @@ import 'package:clean_chess/chess/abstractions/piece.dart';
 import 'package:clean_chess/chess/apis/puzzle_board_api.dart';
 import 'package:clean_chess/chess/core/utilities/assets.dart';
 import 'package:clean_chess/chess/core/utilities/enums.dart';
-import 'package:clean_chess/chess/core/utilities/extensions.dart';
 import 'package:clean_chess/chess/error/failures.dart';
 import 'package:clean_chess/chess/models/board.dart';
 import 'package:clean_chess/chess/models/cell.dart';
@@ -25,6 +24,7 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   late Board board;
   late Puzzle puzzle;
+  late PieceColor turn;
 
   Tuple<Piece?, List<Cell>> plannedCells = Tuple(null, []);
 
@@ -61,6 +61,7 @@ class _HomepageState extends State<Homepage> {
     } else {
       board = boardRequest.right;
     }
+    turn = puzzle.fen.turn;
     _refreshThreats();
   }
 
@@ -207,7 +208,15 @@ class _HomepageState extends State<Homepage> {
                 plannedCells.first = null;
                 plannedCells.second = [];
 
-                _refreshThreats();
+                _invertTurn();
+                setState(() {
+                  _whiteKingThreats = board.whiteKingThreats.map(
+                    (e) => Tuple(e.first.piece!, e.second),
+                  );
+                  _blackKingThreats = board.blackKingThreats.map(
+                    (e) => Tuple(e.first.piece!, e.second),
+                  );
+                });
 
                 setState(() {});
               },
@@ -235,7 +244,15 @@ class _HomepageState extends State<Homepage> {
                 plannedCells.first = null;
                 plannedCells.second = [];
 
-                _refreshThreats();
+                _invertTurn();
+                setState(() {
+                  _whiteKingThreats = board.whiteKingThreats.map(
+                    (e) => Tuple(e.first.piece!, e.second),
+                  );
+                  _blackKingThreats = board.blackKingThreats.map(
+                    (e) => Tuple(e.first.piece!, e.second),
+                  );
+                });
 
                 setState(() {});
               },
@@ -317,27 +334,64 @@ class _HomepageState extends State<Homepage> {
             .toList(),
       );
 
-  Widget _grid() => ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: SizedBox(
-          width: MediaQuery.of(context).size.height * 0.8,
-          height: MediaQuery.of(context).size.height * 0.8,
-          child: GridView.count(
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 8,
-            children: board.cells.map((e) => _cell(e)).toList(),
+  Widget _grid() => Column(
+        children: [
+          Row(
+            children: [
+              const Text(
+                "Current Turn: ",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: turn == PieceColor.white ? Colors.white : Colors.black,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                alignment: Alignment.bottomCenter,
+              ),
+            ],
           ),
-        ),
+          Expanded(
+            child: Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.height * 0.7,
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  child: GridView.count(
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 8,
+                    children: board.cells.map((e) => _cell(e)).toList(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       );
 
   Widget _cell(Cell cell) {
+    Color cellColor = plannedCells.second.contains(cell)
+        ? plannedCellsColor
+        : getCellColor(cell.id);
+    if (plannedCells.first != null) {
+      final pieceCell = board.cells
+          .firstWhere((element) => element.piece == plannedCells.first);
+      if (pieceCell == cell) {
+        cellColor = Colors.indigo.shade400;
+      }
+    }
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(2),
-        color: plannedCells.second.contains(cell)
-            ? plannedCellsColor
-            : getCellColor(cell.id),
+        color: cellColor,
       ),
       child: Material(
         color: Colors.transparent,
@@ -422,6 +476,13 @@ class _HomepageState extends State<Homepage> {
       return;
     }
 
+    if (cell.piece != null && cell.piece!.color == turn) {
+      plannedCells.second.clear();
+      plannedCells.first = cell.piece;
+      _pieceSelection(cell);
+      return;
+    }
+
     final pieceCell = board.cells
         .firstWhere((element) => element.piece == plannedCells.first);
 
@@ -435,6 +496,7 @@ class _HomepageState extends State<Homepage> {
     board = moveResult.right as Board;
     plannedCells.first = null;
     plannedCells.second.clear();
+    _invertTurn();
 
     _refreshThreats();
 
@@ -443,6 +505,7 @@ class _HomepageState extends State<Homepage> {
 
   void _pieceSelection(Cell cell) {
     if (cell.piece == null) return;
+
     final paths = PuzzleBoardAPI().planPath(cell);
     if (paths.isLeft()) {
       _snackbarError(paths.left);
@@ -468,8 +531,16 @@ class _HomepageState extends State<Homepage> {
           ),
         ),
         backgroundColor: Colors.red,
-        duration: const Duration(seconds: 2),
+        duration: const Duration(milliseconds: 500),
       ),
     );
+  }
+
+  void _invertTurn() {
+    if (turn == PieceColor.white) {
+      turn = PieceColor.black;
+    } else {
+      turn = PieceColor.white;
+    }
   }
 }

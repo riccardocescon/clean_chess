@@ -1,4 +1,5 @@
 import 'package:clean_chess/chess/abstractions/piece.dart';
+import 'package:clean_chess/chess/core/utilities/defines.dart';
 import 'package:clean_chess/chess/error/failures.dart';
 import 'package:clean_chess/chess/models/cell.dart';
 import 'package:clean_chess/chess/models/fen.dart';
@@ -1004,10 +1005,10 @@ class Board {
   final List<Tuple<Cell, int>> _whiteKingThreats = [];
   final List<Tuple<Cell, int>> _blackKingThreats = [];
 
-  Iterable<Tuple<Cell, int>> get whiteKingThreats => _whiteKingThreats.map(
+  Threats get whiteKingThreats => _whiteKingThreats.map(
         (e) => Tuple(Cell.clone(e.first), e.second),
       );
-  Iterable<Tuple<Cell, int>> get blackKingThreats => _blackKingThreats.map(
+  Threats get blackKingThreats => _blackKingThreats.map(
         (e) => Tuple(Cell.clone(e.first), e.second),
       );
 
