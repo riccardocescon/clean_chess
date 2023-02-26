@@ -90,6 +90,16 @@ class Board {
 
     _board = emptyBoard._board;
 
+    final nonMovedPawns = _board
+        .expand((element) => element)
+        .where((element) => element.piece is Pawn)
+        .where((element) =>
+            (element.piece!.color == PieceColor.black && element.row == 7) ||
+            (element.piece!.color == PieceColor.white && element.row == 2));
+    for (final currentPawn in nonMovedPawns) {
+      (currentPawn.piece! as Pawn).setNonMovedPawn();
+    }
+
     _knownMovesFen.add(fen.fen);
 
     _calculateControlledCells();

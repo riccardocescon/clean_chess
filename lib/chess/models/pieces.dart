@@ -16,6 +16,7 @@ class Pawn extends Piece {
   final PieceColor color;
 
   void setEnPassantRightFromFen() => moveTimes = 0;
+  void setNonMovedPawn() => moveTimes = 0;
 
   Pawn(this.color);
 }
