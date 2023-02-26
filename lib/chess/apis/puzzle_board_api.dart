@@ -42,6 +42,7 @@ class PuzzleBoardAPI extends IBoardAPI {
     try {
       board = Board.fromFen(fen);
       _currentPlayerTurn = fen.turn;
+      _currentMoveIndex = 0;
       return Right(board);
     } catch (e) {
       return Left(InvalidFen());
