@@ -23,8 +23,6 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  final bool mobileBulild = true;
-
   late Board board;
   late Puzzle puzzle;
 
@@ -43,6 +41,9 @@ class _HomepageState extends State<Homepage> {
   // Statistics
   Iterable<Tuple<Piece, int>> _whiteKingThreats = [];
   Iterable<Tuple<Piece, int>> _blackKingThreats = [];
+
+  // Utils
+  bool isLandscape = false;
 
   @override
   void initState() {
@@ -77,30 +78,47 @@ class _HomepageState extends State<Homepage> {
         body: SizedBox(
           width: double.infinity,
           child: Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Text(
-                    puzzle.name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+            padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+            child: OrientationBuilder(
+              builder: (context, orientation) {
+                isLandscape = orientation == Orientation.landscape;
+                return Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        puzzle.name,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 50),
-                Expanded(
-                  child: Column(
-                    children: [
-                      _grid(),
-                      Expanded(child: _hudSection()),
-                    ],
-                  ),
-                ),
-              ],
+                    const SizedBox(height: 50),
+                    Expanded(
+                      child: isLandscape
+                          ? Row(
+                              children: [
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: _hudSection(),
+                                  ),
+                                ),
+                                _grid(),
+                              ],
+                            )
+                          : Column(
+                              children: [
+                                _grid(),
+                                Expanded(child: _hudSection()),
+                              ],
+                            ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),
@@ -109,19 +127,18 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget _hudSection() => Container(
+  Widget _hudSection() => SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Row(
           children: [
-            Expanded(
-              child: Column(
-                children: [
-                  _powerHud(),
-                  _threatsHud(),
-                ],
-              ),
+            Column(
+              children: [
+                _powerHud(),
+                _threatsHud(),
+              ],
             ),
-            Expanded(
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: isLandscape ? 500 : 300),
               child: Visibility(
                 visible: _showThreatsHud,
                 child: _threatsTable(),
@@ -303,13 +320,12 @@ class _HomepageState extends State<Homepage> {
   Widget _grid() => ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: SizedBox(
-          width: double.maxFinite,
-          child: AspectRatio(
-            aspectRatio: 1,
-            child: GridView.count(
-              crossAxisCount: 8,
-              children: board.cells.map((e) => _cell(e)).toList(),
-            ),
+          width: MediaQuery.of(context).size.height * 0.8,
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: GridView.count(
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 8,
+            children: board.cells.map((e) => _cell(e)).toList(),
           ),
         ),
       );

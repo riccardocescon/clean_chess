@@ -50,61 +50,10 @@ class PuzzleBoardAPI extends IBoardAPI {
 
   @override
   Either<Failure, Fen> getFen() {
-    String castlingRights = "";
+    final fen = board.positionsFen(_currentPlayerTurn);
+    if (fen.isLeft()) return Left(fen.left);
 
-    // Castling rights
-    final whiteKingSide = board.canCastle(
-      color: PieceColor.white,
-      isHColumn: true,
-    );
-    if (whiteKingSide.isLeft()) return Left(whiteKingSide.left);
-    if (whiteKingSide.right) castlingRights += "K";
-
-    final whiteQueenSide = board.canCastle(
-      color: PieceColor.white,
-      isHColumn: false,
-    );
-    if (whiteQueenSide.isLeft()) return Left(whiteQueenSide.left);
-    if (whiteQueenSide.right) castlingRights += "Q";
-
-    final blackKingSide = board.canCastle(
-      color: PieceColor.black,
-      isHColumn: true,
-    );
-    if (blackKingSide.isLeft()) return Left(blackKingSide.left);
-    if (blackKingSide.right) castlingRights += "k";
-
-    final blackQueenSide = board.canCastle(
-      color: PieceColor.black,
-      isHColumn: false,
-    );
-    if (blackQueenSide.isLeft()) return Left(blackQueenSide.left);
-    if (blackQueenSide.right) castlingRights += "q";
-
-    if (castlingRights.isEmpty) castlingRights = "-";
-
-    // En passant
-    final enPassantSquare = board.enPassantSquare();
-    if (enPassantSquare.isLeft()) return Left(enPassantSquare.left);
-
-    final enPassant = (enPassantSquare.right as String?) ?? "-";
-
-    // Halfmove clock
-    final int halfmoveClock = board.halfmoveClock;
-
-    // Fullmove number
-    final int fullmoveNumber = board.fullmoveNumber;
-
-    return Right(
-      Fen(
-        board.positionsFen(),
-        _currentPlayerTurn,
-        castlingRights,
-        enPassant,
-        halfmoveClock,
-        fullmoveNumber,
-      ),
-    );
+    return Right(Fen.fromRaw(fen.right));
   }
 
   @override

@@ -89,7 +89,7 @@ class Board {
 
     _board = emptyBoard._board;
 
-    _knownMovesFen.add(positionsFen());
+    _knownMovesFen.add(fen.fen);
 
     _calculateControlledCells();
 
@@ -193,7 +193,9 @@ class Board {
     }
   }
 
-  String positionsFen() {
+  Either<Failure, String> positionsFen(
+    PieceColor turn,
+  ) {
     String fen = '';
     for (int column = 8; column > 0; column--) {
       int emptySpaces = 0;
@@ -220,7 +222,44 @@ class Board {
       }
     }
 
-    return fen;
+    String castlingRights = '';
+    final whiteRightCastle =
+        canCastle(color: PieceColor.white, isHColumn: true);
+    if (whiteRightCastle.isLeft()) return Left(whiteRightCastle.left);
+    if (whiteRightCastle.right) {
+      castlingRights += 'K';
+    }
+    final whiteLeftCastle =
+        canCastle(color: PieceColor.white, isHColumn: false);
+    if (whiteLeftCastle.isLeft()) return Left(whiteLeftCastle.left);
+    if (whiteLeftCastle.right) {
+      castlingRights += 'Q';
+    }
+    final blackRightCastle =
+        canCastle(color: PieceColor.black, isHColumn: true);
+    if (blackRightCastle.isLeft()) return Left(blackRightCastle.left);
+    if (blackRightCastle.right) {
+      castlingRights += 'k';
+    }
+    final blackLeftCastle =
+        canCastle(color: PieceColor.black, isHColumn: false);
+    if (blackLeftCastle.isLeft()) return Left(blackLeftCastle.left);
+    if (blackLeftCastle.right) {
+      castlingRights += 'q';
+    }
+
+    if (castlingRights.isEmpty) {
+      castlingRights = '-';
+    }
+
+    final canEnPassant = enPassantSquare();
+    if (canEnPassant.isLeft()) return Left(canEnPassant.left);
+
+    final enPassant = (canEnPassant.right as String?) ?? "-";
+
+    return Right(
+      "$fen ${turn.fenValue} $castlingRights $enPassant $halfmoveClock $fullmoveNumber",
+    );
   }
 
   Either<Failure, Cell> getCell(String coord) {
@@ -324,7 +363,10 @@ class Board {
 
     movedPiece.hasMoved();
 
-    _knownMovesFen.add(positionsFen());
+    final fen = positionsFen(piece.color);
+    if (fen.isLeft()) return fen.left;
+
+    _knownMovesFen.add(fen.right);
 
     for (final currentCell in this.cells) {
       currentCell.resetControl();
