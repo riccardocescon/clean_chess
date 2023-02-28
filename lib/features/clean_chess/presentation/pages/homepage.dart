@@ -11,6 +11,7 @@ import 'package:clean_chess/chess/models/move.dart';
 import 'package:clean_chess/chess/models/puzzle.dart';
 import 'package:clean_chess/chess/models/tuple.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
+import 'package:clean_chess/core/clean_chess/utilities/style.dart';
 import 'package:clean_chess/main.dart';
 import 'package:flutter/material.dart';
 
@@ -31,8 +32,6 @@ class _HomepageState extends State<Homepage> {
   // Customizable colors
   final Color splashColor = Colors.indigo.shade800;
   final Color plannedCellsColor = Colors.indigo.shade700;
-  final blackCell = const Color.fromARGB(255, 181, 136, 99);
-  final whiteCell = const Color.fromARGB(255, 240, 217, 181);
 
   // Settings
   bool _showPowerHud = false;
@@ -76,6 +75,9 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(puzzle.name),
+        ),
         body: SizedBox(
           width: double.infinity,
           child: Padding(
@@ -99,18 +101,18 @@ class _HomepageState extends State<Homepage> {
 
   Widget _portraitLayout() => Column(
         children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Text(
-              puzzle.name,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const SizedBox(height: 50),
+          // Align(
+          //   alignment: Alignment.topCenter,
+          //   child: Text(
+          //     puzzle.name,
+          //     style: const TextStyle(
+          //       color: Colors.white,
+          //       fontSize: 20,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          // ),
+          // const SizedBox(height: 50),
           Expanded(
             child: Column(
               children: [
@@ -209,8 +211,8 @@ class _HomepageState extends State<Homepage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Image.asset(
-                    whiteKing,
-                    scale: 3,
+                    flatWhiteKing,
+                    scale: 7,
                   ),
                   _enemyThreats(_whiteKingThreats),
                 ],
@@ -226,8 +228,8 @@ class _HomepageState extends State<Homepage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Image.asset(
-                    blackKing,
-                    scale: 3,
+                    flatBlackKing,
+                    scale: 7,
                   ),
                   const SizedBox(
                     height: 5,
@@ -364,7 +366,7 @@ class _HomepageState extends State<Homepage> {
                   children: [
                     Image.asset(
                       threat.first.imagePath,
-                      scale: 3.5,
+                      scale: 9,
                     ),
                     Text(
                       threat.second.toString(),
@@ -560,15 +562,6 @@ class _HomepageState extends State<Homepage> {
         ),
       ),
     );
-  }
-
-  Color getCellColor(int index) {
-    int cellColor = (index % 2);
-    int row = (index ~/ 8) % 2;
-    if (row == 0) {
-      cellColor = (index % 2) == 0 ? 1 : 0;
-    }
-    return cellColor == 0 ? whiteCell : blackCell;
   }
 
   void _cellSelection(Cell cell) {
