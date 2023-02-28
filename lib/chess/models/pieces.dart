@@ -26,7 +26,8 @@ class Bishop extends Piece {
   final String name = 'Bishop';
 
   @override
-  String get imagePath => color == PieceColor.white ? whiteBishop : blackBishop;
+  String get imagePath =>
+      color == PieceColor.white ? flatWhiteBishop : flatBlackBishop;
 
   @override
   String get toFen => color == PieceColor.white ? 'B' : 'b';
@@ -42,7 +43,8 @@ class Knight extends Piece {
   final String name = 'Knight';
 
   @override
-  String get imagePath => color == PieceColor.white ? whiteKnight : blackKnight;
+  String get imagePath =>
+      color == PieceColor.white ? flatWhiteKnight : flatBlackKnight;
 
   @override
   String get toFen => color == PieceColor.white ? 'N' : 'n';
@@ -58,7 +60,8 @@ class Rook extends Piece {
   final String name = 'Rook';
 
   @override
-  String get imagePath => color == PieceColor.white ? whiteRook : blackRook;
+  String get imagePath =>
+      color == PieceColor.white ? flatWhiteRook : flatBlackRook;
 
   @override
   String get toFen => color == PieceColor.white ? 'R' : 'r';
@@ -76,7 +79,8 @@ class Queen extends Piece {
   final String name = 'Queen';
 
   @override
-  String get imagePath => color == PieceColor.white ? whiteQueen : blackQueen;
+  String get imagePath =>
+      color == PieceColor.white ? flatWhiteQueen : flatBlackQueen;
 
   @override
   String get toFen => color == PieceColor.white ? 'Q' : 'q';
@@ -92,7 +96,8 @@ class King extends Piece {
   final String name = 'King';
 
   @override
-  String get imagePath => color == PieceColor.white ? whiteKing : blackKing;
+  String get imagePath =>
+      color == PieceColor.white ? flatWhiteKing : flatBlackKing;
 
   @override
   String get toFen => color == PieceColor.white ? 'K' : 'k';

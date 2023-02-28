@@ -419,8 +419,9 @@ class Board {
     final lastCellMove = _lastMove!.to;
 
     if (lastCellMove.piece is! Pawn) return const Right(null);
-    if ((lastCellMove.piece as Pawn).getMoveTimes != 1)
+    if ((lastCellMove.piece as Pawn).getMoveTimes != 1) {
       return const Right(null);
+    }
 
     // Check if the pawn is in the correct row
     if (_lastMove!.to.row != 5 && _lastMove!.to.row != 4) {
