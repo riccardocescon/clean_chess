@@ -55,7 +55,7 @@ void main() {
       expect(cells.isRight(), true);
       expect(cells.right.length, 3);
       expect(cells.right.first.coord, 'f4');
-      expect(cells.right[1].coord, 'g4');
+      expect(cells.right.elementAt(1).coord, 'g4');
       expect(cells.right.last.coord, 'h4');
     });
   });
@@ -74,7 +74,7 @@ void main() {
       expect(cells.isRight(), true);
       expect(cells.right.length, 3);
       expect(cells.right.first.coord, 'f5');
-      expect(cells.right[1].coord, 'g6');
+      expect(cells.right.elementAt(1).coord, 'g6');
       expect(cells.right.last.coord, 'h7');
     });
     test("Black Bishop 4 Move", () {
@@ -90,7 +90,7 @@ void main() {
       expect(cells.isRight(), true);
       expect(cells.right.length, 3);
       expect(cells.right.first.coord, 'f3');
-      expect(cells.right[1].coord, 'g2');
+      expect(cells.right.elementAt(1).coord, 'g2');
       expect(cells.right.last.coord, 'h1');
     });
   });
@@ -132,7 +132,7 @@ void main() {
         expect(result.isRight(), true);
         expect(result.right.length, 3);
         expect(result.right.first.coord, 'e3');
-        expect(result.right[1].coord, 'e4');
+        expect(result.right.elementAt(1).coord, 'e4');
         expect(result.right.last.coord, 'f3');
       });
 
@@ -147,7 +147,7 @@ void main() {
         expect(result.isRight(), true);
         expect(result.right.length, 3);
         expect(result.right.first.coord, 'e6');
-        expect(result.right[1].coord, 'e5');
+        expect(result.right.elementAt(1).coord, 'e5');
         expect(result.right.last.coord, 'f6');
       });
 
