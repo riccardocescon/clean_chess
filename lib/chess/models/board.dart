@@ -320,8 +320,11 @@ class Board {
     return pathPlanners[cell.piece!.runtimeType]!(cell, calculateControl: true);
   }
 
-  Either<Failure, Empty> movePiece(Move move) {
-    final piece = move.from.piece;
+  Future<Either<Failure, Empty>> movePiece(
+    Move move,
+    Future<Piece> Function() onPawnPromotion,
+  ) async {
+    Piece? piece = move.from.piece;
     if (piece == null) {
       return Left(
         PieceNotFoundOnCellFailure('No piece found on ${move.from.coord}'),
@@ -371,8 +374,16 @@ class Board {
         movedPiece;
     this.cells.firstWhere((element) => element.coord == move.from.coord).piece =
         null;
-
     movedPiece.hasMoved();
+
+    final isPawnPromotion = movedPiece is Pawn &&
+        (move.to.coord[1] == '1' || move.to.coord[1] == '8');
+    if (isPawnPromotion) {
+      final promotedPiece = await onPawnPromotion();
+      this.cells.firstWhere((element) => element.coord == move.to.coord).piece =
+          promotedPiece;
+      piece = promotedPiece;
+    }
 
     final fen = positionsFen(piece.color);
     if (fen.isLeft()) return fen.left;

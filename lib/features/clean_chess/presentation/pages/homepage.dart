@@ -8,9 +8,11 @@ import 'package:clean_chess/chess/error/failures.dart';
 import 'package:clean_chess/chess/models/board.dart';
 import 'package:clean_chess/chess/models/cell.dart';
 import 'package:clean_chess/chess/models/move.dart';
+import 'package:clean_chess/chess/models/pieces.dart';
 import 'package:clean_chess/chess/models/puzzle.dart';
 import 'package:clean_chess/chess/models/tuple.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
+import 'package:clean_chess/core/clean_chess/presentation/dialogs/pawn_promotion_dialog.dart';
 import 'package:clean_chess/core/clean_chess/utilities/style.dart';
 import 'package:clean_chess/main.dart';
 import 'package:flutter/material.dart';
@@ -564,7 +566,7 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  void _cellSelection(Cell cell) {
+  void _cellSelection(Cell cell) async {
     // If selected piece is the same as the one selected, deselect it
     if (cell.piece == plannedCells.first) {
       plannedCells.second.clear();
@@ -584,7 +586,11 @@ class _HomepageState extends State<Homepage> {
         .firstWhere((element) => element.piece == plannedCells.first);
 
     final moveRequest = Move(pieceCell, cell);
-    final moveResult = PuzzleBoardAPI().move(moveRequest);
+    final moveResult = await PuzzleBoardAPI().move(
+      moveRequest,
+      onPawnPromotion: () =>
+          showPawnPromotionPanel(context, pieceCell.piece!.color),
+    );
     if (moveResult.isLeft()) {
       _snackbarError(moveResult.left);
       return;

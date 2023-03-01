@@ -58,11 +58,14 @@ class PuzzleBoardAPI extends IBoardAPI {
   }
 
   @override
-  Either<Failure, Board> move(Move move) {
+  Future<Either<Failure, Board>> move(
+    Move move, {
+    required Future<Piece> Function() onPawnPromotion,
+  }) async {
     if (_currentMoveIndex != board.totalKnownMoves) {
       return Left(CannotMoveOnPreviousMoveFailure());
     }
-    final result = board.movePiece(move);
+    final result = await board.movePiece(move, onPawnPromotion);
     if (result.isLeft()) return Left(result.left);
     _invertTurn();
     _currentMoveIndex++;
