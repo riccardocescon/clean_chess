@@ -1,4 +1,5 @@
 import 'package:clean_chess/chess/models/fen.dart';
+import 'package:clean_chess/chess/core/utilities/extensions.dart';
 
 class Puzzle {
   late final String id;
@@ -7,9 +8,9 @@ class Puzzle {
   late final String matchLink;
 
   Puzzle.fromLichessDB(List raw) {
-    id = raw[0];
+    id = raw[0].toString().padLeft(5, '0');
     fen = Fen.fromRaw(raw[1]);
-    name = raw[7];
+    name = (raw[7] as String).capitalize();
     matchLink = raw[8];
   }
 }

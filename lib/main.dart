@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:clean_chess/chess/core/utilities/navigation.dart';
 import 'package:clean_chess/chess/models/puzzle.dart';
 import 'package:clean_chess/features/clean_chess/presentation/pages/homepage.dart';
+import 'package:clean_chess/features/clean_chess/presentation/pages/homescreen.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,8 +29,9 @@ void main() async {
 
   runApp(
     MaterialApp(
-      initialRoute: Navigation.homepage,
+      initialRoute: Navigation.homescreen,
       routes: {
+        Navigation.homescreen: (context) => const HomeScreen(),
         Navigation.homepage: (context) => const Homepage(),
       },
       theme: ThemeData.dark(),
