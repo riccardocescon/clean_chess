@@ -17,7 +17,9 @@ Future<Piece> showPawnPromotionPanel(
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: turn == PieceColor.white
+                    ? Colors.grey.shade300
+                    : Colors.grey.shade700,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
