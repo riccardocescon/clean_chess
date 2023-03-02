@@ -596,7 +596,7 @@ class _HomepageState extends State<Homepage> {
       return;
     }
 
-    board = moveResult.right as Board;
+    board = moveResult.right;
     plannedCells.first = null;
     plannedCells.second.clear();
     _invertTurn();
@@ -606,16 +606,16 @@ class _HomepageState extends State<Homepage> {
     setState(() {});
   }
 
-  void _pieceSelection(Cell cell) {
+  void _pieceSelection(Cell cell) async {
     if (cell.piece == null) return;
 
-    final paths = PuzzleBoardAPI().planPath(cell);
+    final paths = await PuzzleBoardAPI().planPath(cell);
     if (paths.isLeft()) {
       _snackbarError(paths.left);
       return;
     }
 
-    final cells = paths.right as Iterable<Cell>;
+    final cells = paths.right;
     plannedCells.second.clear();
     plannedCells.second.addAll(cells);
     plannedCells.first = cell.piece;

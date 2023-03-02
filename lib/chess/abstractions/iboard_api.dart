@@ -18,7 +18,7 @@ abstract class IBoardAPI {
     Move move, {
     required Future<Piece> Function() onPawnPromotion,
   });
-  Either<Failure, Iterable<Cell>> planPath(Cell cell);
+  Future<Either<Failure, Iterable<Cell>>> planPath(Cell cell);
   Either<Failure, Fen> getFen();
   Either<Failure, Board> fromFen(Fen fen);
   Either<Failure, Board> previousMove();

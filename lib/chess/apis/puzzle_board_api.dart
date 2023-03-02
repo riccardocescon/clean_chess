@@ -95,7 +95,7 @@ class PuzzleBoardAPI extends IBoardAPI {
   }
 
   @override
-  Either<Failure, Iterable<Cell>> planPath(Cell cell) {
+  Future<Either<Failure, Iterable<Cell>>> planPath(Cell cell) async {
     if (_currentMoveIndex != board.totalKnownMoves) {
       return Left(CannotMoveOnPreviousMoveFailure());
     }
@@ -112,7 +112,7 @@ class PuzzleBoardAPI extends IBoardAPI {
       return Left(InvalidPlayerTurnFailure());
     }
 
-    return board.planPath(boardCell);
+    return await board.planPath(boardCell);
   }
 
   void _invertTurn() {
