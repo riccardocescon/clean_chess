@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:clean_chess/chess/abstractions/piece.dart';
 import 'package:clean_chess/chess/apis/puzzle_board_api.dart';
@@ -8,11 +9,11 @@ import 'package:clean_chess/chess/error/failures.dart';
 import 'package:clean_chess/chess/models/board.dart';
 import 'package:clean_chess/chess/models/cell.dart';
 import 'package:clean_chess/chess/models/move.dart';
-import 'package:clean_chess/chess/models/pieces.dart';
 import 'package:clean_chess/chess/models/puzzle.dart';
 import 'package:clean_chess/chess/models/tuple.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
 import 'package:clean_chess/core/clean_chess/presentation/dialogs/pawn_promotion_dialog.dart';
+import 'package:clean_chess/core/clean_chess/presentation/widgets/arrow.dart';
 import 'package:clean_chess/core/clean_chess/utilities/style.dart';
 import 'package:clean_chess/main.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,8 @@ class _HomepageState extends State<Homepage> {
 
   // Settings
   bool _showPowerHud = false;
-  bool _showThreatsHud = true;
+  bool _showThreatsHud = false;
+  bool _planMode = false;
 
   // Statistics
   Iterable<Tuple<Piece, int>> _whiteKingThreats = [];
@@ -45,6 +47,11 @@ class _HomepageState extends State<Homepage> {
 
   // Utils
   bool isLandscape = false;
+  final List<GlobalKey> _cellKeys = [];
+
+  // Plan Mode
+  GlobalKey? _selectedCellKey;
+  final List<Tuple<GlobalKey, GlobalKey>> _arrows = [];
 
   @override
   void initState() {
@@ -53,6 +60,7 @@ class _HomepageState extends State<Homepage> {
   }
 
   void _setupNewPuzzle({bool debugPuzzle = false}) {
+    _cellKeys.clear();
     puzzle =
         debugPuzzle ? Puzzle.fromLichessDB(puzzleDb.first) : getRandomPuzzle();
     final boardRequest = PuzzleBoardAPI().fromFen(puzzle.fen);
@@ -75,46 +83,44 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(puzzle.name),
-        ),
-        body: SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
-            child: OrientationBuilder(
-              builder: (context, orientation) {
-                isLandscape = orientation == Orientation.landscape;
-                if (isLandscape) {
-                  return _landscapeLayout();
-                } else {
-                  return _portraitLayout();
-                }
-              },
+    return Stack(
+      children: [
+        SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(puzzle.name),
             ),
+            body: SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+                child: OrientationBuilder(
+                  builder: (context, orientation) {
+                    isLandscape = orientation == Orientation.landscape;
+                    if (isLandscape) {
+                      return _landscapeLayout();
+                    } else {
+                      return _portraitLayout();
+                    }
+                  },
+                ),
+              ),
+            ),
+            bottomNavigationBar:
+                _planMode ? _bottomBarPlanMode() : _bottomBar(),
           ),
         ),
-        bottomNavigationBar: _bottomBar(),
-      ),
+        SizedBox(
+          child: Stack(
+            children: _arrowsLayer(),
+          ),
+        ),
+      ],
     );
   }
 
   Widget _portraitLayout() => Column(
         children: [
-          // Align(
-          //   alignment: Alignment.topCenter,
-          //   child: Text(
-          //     puzzle.name,
-          //     style: const TextStyle(
-          //       color: Colors.white,
-          //       fontSize: 20,
-          //       fontWeight: FontWeight.bold,
-          //     ),
-          //   ),
-          // ),
-          // const SizedBox(height: 50),
           Expanded(
             child: Column(
               children: [
@@ -244,6 +250,35 @@ class _HomepageState extends State<Homepage> {
         ),
       );
 
+  Widget _bottomBarPlanMode() => Container(
+        width: MediaQuery.of(context).size.width,
+        color: Colors.grey.shade900,
+        height: 80,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(
+              onPressed: () => setState(() {
+                _planMode = false;
+              }),
+              icon: const Icon(
+                Icons.task_alt_rounded,
+                color: Colors.white,
+              ),
+            ),
+            IconButton(
+              onPressed: () => setState(() {
+                _arrows.clear();
+              }),
+              icon: const Icon(
+                Icons.delete_outline_rounded,
+                color: Colors.red,
+              ),
+            ),
+          ],
+        ),
+      );
+
   Widget _bottomBar() => Container(
         width: MediaQuery.of(context).size.width,
         color: Colors.grey.shade900,
@@ -258,7 +293,7 @@ class _HomepageState extends State<Homepage> {
                   _snackbarError(previousMove.left);
                   return;
                 }
-                Board requestedMove = previousMove.right as Board;
+                Board requestedMove = previousMove.right;
                 board = requestedMove;
                 plannedCells.first = null;
                 plannedCells.second = [];
@@ -288,13 +323,22 @@ class _HomepageState extends State<Homepage> {
               ),
             ),
             IconButton(
+              onPressed: () => setState(() {
+                _planMode = true;
+              }),
+              icon: const Icon(
+                Icons.edit_rounded,
+                color: Colors.white,
+              ),
+            ),
+            IconButton(
               onPressed: () {
                 final nextmove = PuzzleBoardAPI().nextMove();
                 if (nextmove.isLeft()) {
                   _snackbarError(nextmove.left);
                   return;
                 }
-                Board requestedMove = nextmove.right as Board;
+                Board requestedMove = nextmove.right;
                 board = requestedMove;
                 plannedCells.first = null;
                 plannedCells.second = [];
@@ -436,6 +480,13 @@ class _HomepageState extends State<Homepage> {
         ],
       );
 
+  List<Widget> _arrowsLayer() {
+    return _cellKeys.isEmpty ||
+            _cellKeys.any((element) => element.currentContext == null)
+        ? []
+        : _arrows.map((e) => Arrow(from: e.first, to: e.second)).toList();
+  }
+
   Widget _landScapeGrid() => Column(
         children: [
           Row(
@@ -479,6 +530,8 @@ class _HomepageState extends State<Homepage> {
       );
 
   Widget _cell(Cell cell) {
+    final cellKey = GlobalObjectKey(cell);
+    _cellKeys.add(cellKey);
     Color cellColor = plannedCells.second.contains(cell)
         ? plannedCellsColor
         : getCellColor(cell.id);
@@ -490,6 +543,7 @@ class _HomepageState extends State<Homepage> {
       }
     }
     return AnimatedContainer(
+      key: cellKey,
       duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(2),
@@ -499,6 +553,35 @@ class _HomepageState extends State<Homepage> {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
+            if (_planMode) {
+              if (_selectedCellKey == null) {
+                _selectedCellKey = cellKey;
+              } else {
+                if (_selectedCellKey! == cellKey) {
+                  _selectedCellKey = null;
+                  return;
+                }
+                final isCancelRequest = _arrows.any(
+                  (element) =>
+                      element.first == _selectedCellKey! &&
+                      element.second == cellKey,
+                );
+                setState(() {
+                  if (isCancelRequest) {
+                    _arrows.removeWhere(
+                      (element) =>
+                          element.first == _selectedCellKey! &&
+                          element.second == cellKey,
+                    );
+                    _selectedCellKey = null;
+                  } else {
+                    _arrows.add(Tuple(_selectedCellKey!, cellKey));
+                  }
+                  _selectedCellKey = null;
+                });
+              }
+              return;
+            }
             if (plannedCells.first != null) {
               _cellSelection(cell);
             } else {
