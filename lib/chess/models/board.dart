@@ -295,21 +295,6 @@ class Board {
     return const Right(Empty());
   }
 
-  Either<Failure, Empty> _assertKingUnderCheck(Piece piece) {
-    if (piece is King) return const Right(Empty());
-    if (piece.color == PieceColor.white) {
-      if (_whiteKingThreats.any((element) => element.second == 0)) {
-        return Left(CannotMoveWhileInCheckFailure());
-      }
-    } else {
-      if (_blackKingThreats.any((element) => element.second == 0)) {
-        return Left(CannotMoveWhileInCheckFailure());
-      }
-    }
-
-    return const Right(Empty());
-  }
-
   Future<Either<Failure, Iterable<Cell>>> planPath(
     Cell cell, {
     bool assertCheck = true,
@@ -328,22 +313,27 @@ class Board {
 
     if (!assertCheck) return Right(path.right);
 
-    // final assertCheck = _assertKingUnderCheck(cell.piece!);
-    // if (assertCheck.isLeft()) return Left(assertCheck.left);
+    return _filterDefensiveCheckOpportunities(cell, path.right);
+  }
 
+  Future<Either<Failure, List<Cell>>> _filterDefensiveCheckOpportunities(
+    Cell cell,
+    List<Cell> path,
+  ) async {
     // Return Failure if selected piece movement creates a check
     List<Cell> validCells = [];
     // For each cell :
-    for (final pathCell in path.right) {
+    for (final pathCell in path) {
       // Creates a Clone of the board to check if the move creates a check
       final cloneBoard = Board.clone(this);
       // move the piece to that cell
       final move = Move(cloneBoard.getCell(cell.coord).right, pathCell);
-      await cloneBoard.movePiece(
+      final res = await cloneBoard.movePiece(
         move,
         () async => Pawn(PieceColor.white),
         assertCheck: false,
       );
+      if (res.isLeft()) return Left(res.left);
 
       // if white/black threats contains at least 1 item with .second == 0
       // that cell is skipped
@@ -366,18 +356,6 @@ class Board {
 
     // otherwhise return the valid cells
     return Right(validCells);
-
-    // final isWhiteMoveInCheck = cell.piece!.color == PieceColor.white &&
-    //     cloneBoard._whiteKingThreats.any((element) => element.second == 0);
-    // final isBlackMoveInCheck = cell.piece!.color == PieceColor.black &&
-    //     cloneBoard._blackKingThreats.any((element) => element.second == 0);
-    // if (isWhiteMoveInCheck) {
-    //   return Left(CannotMoveCreatingCheckFailure());
-    // } else if (isBlackMoveInCheck) {
-    //   return Left(CannotMoveCreatingCheckFailure());
-    // }
-
-    // return Right(path.right);
   }
 
   Either<Failure, Iterable<Cell>> controlledCells(Cell cell) {
@@ -522,7 +500,7 @@ class Board {
 
   //#region Piece Moves Helpers
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getPawnMoves(
+  Either<Failure, List<Cell>> getPawnMoves(
     Cell cell, {
     bool calculateControl = false,
   }) {
@@ -677,7 +655,7 @@ class Board {
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getKnightMoves(
+  Either<Failure, List<Cell>> getKnightMoves(
     Cell cell, {
     bool calculateControl = false,
   }) {
@@ -730,7 +708,7 @@ class Board {
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getBishopMoves(
+  Either<Failure, List<Cell>> getBishopMoves(
     Cell cell, {
     bool ignorePieceTypeAssert = false,
     int directionLength = 7,
@@ -768,7 +746,7 @@ class Board {
     );
     if (topRightCells.isLeft()) return Left(topRightCells.left);
 
-    cells.addAll(topRightCells.right as Iterable<Cell>);
+    cells.addAll(topRightCells.right);
 
     // Top left
     final topLeftCells = getFreeDiagonalCells(
@@ -780,7 +758,7 @@ class Board {
     );
     if (topLeftCells.isLeft()) return Left(topLeftCells.left);
 
-    cells.addAll(topLeftCells.right as Iterable<Cell>);
+    cells.addAll(topLeftCells.right);
 
     // Bottom right
     final bottomRightCells = getFreeDiagonalCells(
@@ -804,13 +782,13 @@ class Board {
     );
     if (bottomLeftCells.isLeft()) return Left(bottomLeftCells.left);
 
-    cells.addAll(bottomLeftCells.right as Iterable<Cell>);
+    cells.addAll(bottomLeftCells.right);
 
     return Right(cells);
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getRookMoves(
+  Either<Failure, List<Cell>> getRookMoves(
     Cell cell, {
     bool ignorePieceTypeAssert = false,
     int directionLength = 7,
@@ -890,7 +868,7 @@ class Board {
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getQueenMoves(
+  Either<Failure, List<Cell>> getQueenMoves(
     Cell cell, {
     bool calculateControl = false,
   }) {
@@ -912,7 +890,7 @@ class Board {
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getKingMoves(
+  Either<Failure, List<Cell>> getKingMoves(
     Cell cell, {
     bool calculateControl = false,
   }) {
@@ -973,7 +951,7 @@ class Board {
 
   //#region Private Helpers
 
-  Either<Failure, Iterable<Cell>> _getCastlingCells(
+  Either<Failure, List<Cell>> _getCastlingCells(
     Cell cellRef,
     bool rightDirection,
   ) {
@@ -1012,11 +990,11 @@ class Board {
         .where((Cell element) => element.getEnemyControl(pieceColor) > 0);
     if (cellsUnderAttack.isNotEmpty) return const Right([]);
 
-    return Right(cells.right);
+    return Right(cells.right.toList());
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getFreeLinedCells(
+  Either<Failure, List<Cell>> getFreeLinedCells(
     Cell cellRef,
     int moveLength,
     StraightDirection direction,
@@ -1057,7 +1035,7 @@ class Board {
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getFreeDiagonalCells(
+  Either<Failure, List<Cell>> getFreeDiagonalCells(
     Cell cellRef,
     int moveLength,
     DiagonalDirection direction,

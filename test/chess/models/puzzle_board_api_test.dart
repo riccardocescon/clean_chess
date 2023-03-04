@@ -8,31 +8,31 @@ import 'package:clean_chess/chess/core/utilities/enums.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  // 0 0 0 0 k 0 0 0
+  // 0 0 0 k q 0 0 0
   // 0 0 0 0 0 0 0 0
   // 0 0 0 0 0 0 0 0
   // 0 0 0 0 0 0 0 0
   // 0 0 0 0 R 0 0 0
   // 0 0 0 0 0 0 0 0
   // 0 0 0 0 0 0 0 0
-  // 0 0 0 0 K 0 0 0
+  // 0 0 0 K Q 0 0 0
 
   setUp(
     () {
       PuzzleBoardAPI().fromFen(
-        Fen.fromRaw("4k3/8/8/8/4R3/8/8/4K3 w - - 0 1"),
+        Fen.fromRaw("3kq3/8/8/8/4R3/8/8/3KQ3 w - - 0 1"),
       );
     },
   );
 
-  test("Move Rook", () {
+  test("Move Rook", () async {
     final e4 = PuzzleBoardAPI().board.cells.firstWhere((e) => e.coord == "e4");
 
-    final paths = PuzzleBoardAPI().planPath(e4);
+    final paths = await PuzzleBoardAPI().planPath(e4);
 
     expect(paths.isRight(), true);
 
-    final cells = paths.right as Iterable<Cell>;
+    final cells = paths.right;
     expect(cells.length, 13);
     expect(cells.map((e) => e.coord).contains("e5"), true);
     expect(cells.map((e) => e.coord).contains("e6"), true);
