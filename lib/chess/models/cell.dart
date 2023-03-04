@@ -61,5 +61,5 @@ class Cell with EquatableMixin {
   int get row => int.parse(coord.substring(1));
 
   @override
-  List<Object?> get props => [id, coord, piece, whiteControl, blackControl];
+  List<Object?> get props => [id, coord];
 }
