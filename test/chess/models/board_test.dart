@@ -1,5 +1,8 @@
+import 'package:clean_chess/chess/apis/puzzle_board_api.dart';
+import 'package:clean_chess/chess/error/failures.dart';
 import 'package:clean_chess/chess/models/board.dart';
 import 'package:clean_chess/chess/models/cell.dart';
+import 'package:clean_chess/chess/models/fen.dart';
 import 'package:clean_chess/chess/models/pieces.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
 import 'package:clean_chess/chess/core/utilities/enums.dart';
@@ -55,7 +58,7 @@ void main() {
       expect(cells.isRight(), true);
       expect(cells.right.length, 3);
       expect(cells.right.first.coord, 'f4');
-      expect(cells.right[1].coord, 'g4');
+      expect(cells.right.elementAt(1).coord, 'g4');
       expect(cells.right.last.coord, 'h4');
     });
   });
@@ -74,7 +77,7 @@ void main() {
       expect(cells.isRight(), true);
       expect(cells.right.length, 3);
       expect(cells.right.first.coord, 'f5');
-      expect(cells.right[1].coord, 'g6');
+      expect(cells.right.elementAt(1).coord, 'g6');
       expect(cells.right.last.coord, 'h7');
     });
     test("Black Bishop 4 Move", () {
@@ -90,7 +93,7 @@ void main() {
       expect(cells.isRight(), true);
       expect(cells.right.length, 3);
       expect(cells.right.first.coord, 'f3');
-      expect(cells.right[1].coord, 'g2');
+      expect(cells.right.elementAt(1).coord, 'g2');
       expect(cells.right.last.coord, 'h1');
     });
   });
@@ -132,7 +135,7 @@ void main() {
         expect(result.isRight(), true);
         expect(result.right.length, 3);
         expect(result.right.first.coord, 'e3');
-        expect(result.right[1].coord, 'e4');
+        expect(result.right.elementAt(1).coord, 'e4');
         expect(result.right.last.coord, 'f3');
       });
 
@@ -147,7 +150,7 @@ void main() {
         expect(result.isRight(), true);
         expect(result.right.length, 3);
         expect(result.right.first.coord, 'e6');
-        expect(result.right[1].coord, 'e5');
+        expect(result.right.elementAt(1).coord, 'e5');
         expect(result.right.last.coord, 'f6');
       });
 
@@ -781,6 +784,53 @@ void main() {
         expect(cells.map((e) => e.coord).contains("d2"), true);
         expect(cells.map((e) => e.coord).contains("f1"), true);
       });
+    });
+  });
+
+  group("Movement Filtering", () {
+    test("No random move while under Check", () async {
+      PuzzleBoardAPI().fromFen(Fen.fromRaw("4Q2k/7p/8/8/8/8/8/K52 b - - 0 1"));
+
+      final pawn = board.cells.firstWhere((element) => element.coord == 'h7');
+      final result = await PuzzleBoardAPI().planPath(pawn);
+      expect(result.isLeft(), true);
+      expect(result.left, isA<CannotMoveWhileInCheckFailure>());
+    });
+    test("Rook Pinned", () async {
+      PuzzleBoardAPI()
+          .fromFen(Fen.fromRaw("4Q1rk/7p/8/8/8/8/8/K5R1 b - - 0 1"));
+
+      final king = board.cells.firstWhere((element) => element.coord == 'h8');
+
+      final result = await PuzzleBoardAPI().planPath(king);
+      expect(result.isLeft(), true);
+      expect(result.left, isA<CannotMoveWhileInCheckFailure>());
+
+      final rook = board.cells.firstWhere((element) => element.coord == 'g8');
+      final res = await PuzzleBoardAPI().planPath(rook);
+      expect(res.isRight(), true);
+      final cells = res.right;
+      expect(cells.length, 2);
+      expect(cells.map((e) => e.coord).contains("f8"), true);
+      expect(cells.map((e) => e.coord).contains("e8"), true);
+    });
+
+    test("Defend check with Rook", () async {
+      PuzzleBoardAPI().fromFen(Fen.fromRaw("4Q2k/7p/6r1/8/8/8/8/K7 b - - 0 1"));
+
+      final king = board.cells.firstWhere((element) => element.coord == 'h8');
+
+      final result = await PuzzleBoardAPI().planPath(king);
+      expect(result.isRight(), true);
+      expect(1, result.right.length);
+      expect(result.right.first.coord, 'g7');
+
+      final rook = board.cells.firstWhere((element) => element.coord == 'g6');
+      final res = await PuzzleBoardAPI().planPath(rook);
+      expect(res.isRight(), true);
+      final cells = res.right;
+      expect(cells.length, 1);
+      expect(cells.map((e) => e.coord).contains("g8"), true);
     });
   });
 }

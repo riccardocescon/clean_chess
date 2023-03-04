@@ -53,7 +53,7 @@ class Cell with EquatableMixin {
   Cell.clone(Cell cell)
       : id = cell.id,
         coord = cell.coord,
-        piece = cell.piece,
+        piece = cell.piece?.clone(),
         whiteControl = cell.whiteControl,
         blackControl = cell.blackControl;
 

@@ -58,11 +58,14 @@ class PuzzleBoardAPI extends IBoardAPI {
   }
 
   @override
-  Either<Failure, Board> move(Move move) {
+  Future<Either<Failure, Board>> move(
+    Move move, {
+    required Future<Piece> Function() onPawnPromotion,
+  }) async {
     if (_currentMoveIndex != board.totalKnownMoves) {
       return Left(CannotMoveOnPreviousMoveFailure());
     }
-    final result = board.movePiece(move);
+    final result = await board.movePiece(move, onPawnPromotion);
     if (result.isLeft()) return Left(result.left);
     _invertTurn();
     _currentMoveIndex++;
@@ -92,7 +95,7 @@ class PuzzleBoardAPI extends IBoardAPI {
   }
 
   @override
-  Either<Failure, Iterable<Cell>> planPath(Cell cell) {
+  Future<Either<Failure, Iterable<Cell>>> planPath(Cell cell) async {
     if (_currentMoveIndex != board.totalKnownMoves) {
       return Left(CannotMoveOnPreviousMoveFailure());
     }
@@ -109,7 +112,7 @@ class PuzzleBoardAPI extends IBoardAPI {
       return Left(InvalidPlayerTurnFailure());
     }
 
-    return board.planPath(boardCell);
+    return await board.planPath(boardCell);
   }
 
   void _invertTurn() {

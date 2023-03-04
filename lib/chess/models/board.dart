@@ -14,7 +14,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
 class Board {
-  late final Iterable<Iterable<Cell>> _board;
+  late final List<List<Cell>> _board;
   Move? _lastMove;
 
   /// Total amount of known moves
@@ -32,7 +32,7 @@ class Board {
   int _fullmoveNumber = 1;
   int get fullmoveNumber => _fullmoveNumber;
 
-  Iterable<Cell> get cells => _board.expand((element) => element);
+  List<Cell> get cells => _board.expand((element) => element).toList();
 
   final String _rowNames = 'abcdefgh';
 
@@ -53,7 +53,8 @@ class Board {
   }
 
   Board.clone(Board board) {
-    _board = board._board.map((e) => e.map((e) => Cell.clone(e)).toList());
+    _board =
+        board._board.map((e) => e.map((e) => Cell.clone(e)).toList()).toList();
     _knownMovesFen.addAll(board._knownMovesFen);
   }
 
@@ -76,7 +77,7 @@ class Board {
           final piece = getPieceFromFen(currentLetter);
           if (piece.isLeft()) throw Exception(piece.left);
 
-          (piece.right as Piece).setMovesFromFen();
+          piece.right.setMovesFromFen();
           final coord = _rowNames[currentCell] + column.toString();
           emptyBoard._board
               .expand((element) => element)
@@ -182,7 +183,7 @@ class Board {
       final maybeCell = getCell(enPassantSquare);
       if (maybeCell.isLeft()) throw Exception(maybeCell.left);
 
-      final cell = maybeCell.right as Cell;
+      final cell = maybeCell.right;
 
       if (cell.piece != null) throw InvalidFen();
 
@@ -266,7 +267,7 @@ class Board {
     final canEnPassant = enPassantSquare();
     if (canEnPassant.isLeft()) return Left(canEnPassant.left);
 
-    final enPassant = (canEnPassant.right as String?) ?? "-";
+    final enPassant = canEnPassant.right ?? "-";
 
     return Right(
       "$fen ${turn.fenValue} $castlingRights $enPassant $halfmoveClock $fullmoveNumber",
@@ -288,13 +289,16 @@ class Board {
   }) {
     final cell = getCell(coord);
     if (cell.isLeft()) {
-      return cell.left;
+      return Left(cell.left);
     }
     cell.right.piece = piece;
     return const Right(Empty());
   }
 
-  Either<Failure, Iterable<Cell>> planPath(Cell cell) {
+  Future<Either<Failure, Iterable<Cell>>> planPath(
+    Cell cell, {
+    bool assertCheck = true,
+  }) async {
     final pathPlanners = {
       Pawn: getPawnMoves,
       Rook: getRookMoves,
@@ -304,7 +308,54 @@ class Board {
       King: getKingMoves,
     };
 
-    return pathPlanners[cell.piece!.runtimeType]!(cell);
+    final path = pathPlanners[cell.piece!.runtimeType]!(cell);
+    if (path.isLeft()) return Left(path.left);
+
+    if (!assertCheck) return Right(path.right);
+
+    return _filterDefensiveCheckOpportunities(cell, path.right);
+  }
+
+  Future<Either<Failure, List<Cell>>> _filterDefensiveCheckOpportunities(
+    Cell cell,
+    List<Cell> path,
+  ) async {
+    // Return Failure if selected piece movement creates a check
+    List<Cell> validCells = [];
+    // For each cell :
+    for (final pathCell in path) {
+      // Creates a Clone of the board to check if the move creates a check
+      final cloneBoard = Board.clone(this);
+      // move the piece to that cell
+      final move = Move(cloneBoard.getCell(cell.coord).right, pathCell);
+      final res = await cloneBoard.movePiece(
+        move,
+        () async => Pawn(PieceColor.white),
+        assertCheck: false,
+      );
+      if (res.isLeft()) return Left(res.left);
+
+      // if white/black threats contains at least 1 item with .second == 0
+      // that cell is skipped
+      final whiteCheck = cell.piece!.color == PieceColor.white &&
+          cloneBoard._whiteKingThreats.any(
+            (element) => element.second == 0,
+          );
+      final blackCheck = cell.piece!.color == PieceColor.black &&
+          cloneBoard._blackKingThreats.any(
+            (element) => element.second == 0,
+          );
+      if (whiteCheck || blackCheck) {
+        continue;
+      }
+
+      validCells.add(pathCell);
+    }
+    // if all cells are skipped, return [CannotMoveCreatingCheckFailure]
+    if (validCells.isEmpty) return Left(CannotMoveWhileInCheckFailure());
+
+    // otherwhise return the valid cells
+    return Right(validCells);
   }
 
   Either<Failure, Iterable<Cell>> controlledCells(Cell cell) {
@@ -320,18 +371,22 @@ class Board {
     return pathPlanners[cell.piece!.runtimeType]!(cell, calculateControl: true);
   }
 
-  Either<Failure, Empty> movePiece(Move move) {
-    final piece = move.from.piece;
+  Future<Either<Failure, Empty>> movePiece(
+    Move move,
+    Future<Piece> Function() onPawnPromotion, {
+    bool assertCheck = true,
+  }) async {
+    Piece? piece = move.from.piece;
     if (piece == null) {
       return Left(
         PieceNotFoundOnCellFailure('No piece found on ${move.from.coord}'),
       );
     }
 
-    final moves = planPath(move.from);
-    if (moves.isLeft()) return moves.left;
+    final moves = await planPath(move.from, assertCheck: assertCheck);
+    if (moves.isLeft()) return Left(moves.left);
 
-    final cells = moves.right as Iterable<Cell>;
+    final cells = moves.right;
 
     final targetCell = cells.firstWhereOrNull(
       (element) => element.coord == move.to.coord,
@@ -367,15 +422,27 @@ class Board {
       _fullmoveNumber++;
     }
 
-    this.cells.firstWhere((element) => element.coord == move.to.coord).piece =
-        movedPiece;
-    this.cells.firstWhere((element) => element.coord == move.from.coord).piece =
-        null;
+    final destinationCell =
+        this.cells.firstWhere((element) => element.coord == move.to.coord);
+    destinationCell.piece = movedPiece;
+
+    final sourceCell =
+        this.cells.firstWhere((element) => element.coord == move.from.coord);
+    sourceCell.piece = null;
 
     movedPiece.hasMoved();
 
+    final isPawnPromotion = movedPiece is Pawn &&
+        (move.to.coord[1] == '1' || move.to.coord[1] == '8');
+    if (isPawnPromotion) {
+      final promotedPiece = await onPawnPromotion();
+      this.cells.firstWhere((element) => element.coord == move.to.coord).piece =
+          promotedPiece;
+      piece = promotedPiece;
+    }
+
     final fen = positionsFen(piece.color);
-    if (fen.isLeft()) return fen.left;
+    if (fen.isLeft()) return Left(fen.left);
 
     _knownMovesFen.add(fen.right);
 
@@ -408,9 +475,9 @@ class Board {
     );
 
     final castleRight = _getCastlingCells(king, isHColumn);
-    if (castleRight.isLeft()) return castleRight.left;
+    if (castleRight.isLeft()) return Left(castleRight.left);
 
-    return Right((castleRight.right as Iterable<Cell>).isNotEmpty);
+    return Right(castleRight.right.isNotEmpty);
   }
 
   Either<Failure, String?> enPassantSquare() {
@@ -433,13 +500,13 @@ class Board {
 
   //#region Piece Moves Helpers
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getPawnMoves(
+  Either<Failure, List<Cell>> getPawnMoves(
     Cell cell, {
     bool calculateControl = false,
   }) {
     // Get the reference cell from the board
     final maybeBoardCell = getCell(cell.coord);
-    if (maybeBoardCell.isLeft()) return maybeBoardCell.left;
+    if (maybeBoardCell.isLeft()) return Left(maybeBoardCell.left);
 
     final Cell boardCell = maybeBoardCell.right;
 
@@ -476,10 +543,10 @@ class Board {
       boardCell.piece!.color,
     );
 
-    if (freeCells.isLeft()) return freeCells.left;
+    if (freeCells.isLeft()) return Left(freeCells.left);
 
     // Get the valid cells
-    final validCells = (freeCells.right as Iterable<Cell>).toList();
+    final validCells = (freeCells.right).toList();
     validCells.removeWhere((element) => element.piece != null);
 
     if (calculateControl) {
@@ -496,14 +563,14 @@ class Board {
       boardCell.piece!.color,
       calculateControl: calculateControl,
     );
-    if (topRightCell.isLeft()) return topRightCell.left;
-    final rightCells = (topRightCell.right as Iterable<Cell>);
+    if (topRightCell.isLeft()) return Left(topRightCell.left);
+    final rightCells = topRightCell.right;
     if (rightCells.isNotEmpty) {
-      final rightCell = (topRightCell.right as Iterable<Cell>).first;
+      final rightCell = topRightCell.right.first;
       final isEnemyRight =
           rightCell.piece != null && rightCell.piece?.color != pieceColor;
       if (isEnemyRight || calculateControl) {
-        validCells.addAll((topRightCell.right as Iterable<Cell>));
+        validCells.addAll(topRightCell.right);
       }
     }
 
@@ -516,14 +583,14 @@ class Board {
       boardCell.piece!.color,
       calculateControl: calculateControl,
     );
-    if (topLeftCell.isLeft()) return topLeftCell.left;
-    final leftCells = (topLeftCell.right as Iterable<Cell>);
+    if (topLeftCell.isLeft()) return Left(topLeftCell.left);
+    final leftCells = topLeftCell.right;
     if (leftCells.isNotEmpty) {
-      final leftCell = (topLeftCell.right as Iterable<Cell>).first;
+      final leftCell = topLeftCell.right.first;
       final isEnemyLeft =
           leftCell.piece != null && leftCell.piece?.color != pieceColor;
       if (isEnemyLeft || calculateControl) {
-        validCells.addAll((topLeftCell.right as Iterable<Cell>));
+        validCells.addAll(topLeftCell.right);
       }
     }
 
@@ -588,14 +655,14 @@ class Board {
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getKnightMoves(
+  Either<Failure, List<Cell>> getKnightMoves(
     Cell cell, {
     bool calculateControl = false,
   }) {
     final maybeBoardCell = getCell(cell.coord);
-    if (maybeBoardCell.isLeft()) return maybeBoardCell.left;
+    if (maybeBoardCell.isLeft()) return Left(maybeBoardCell.left);
 
-    final boardCell = maybeBoardCell.right as Cell;
+    final boardCell = maybeBoardCell.right;
 
     // Asserts
     if (boardCell.piece == null) {
@@ -625,9 +692,9 @@ class Board {
       final currentCell = getCell(
         '${_rowNames[currentColumn]}$currentRow',
       );
-      if (currentCell.isLeft()) return currentCell.left;
+      if (currentCell.isLeft()) return Left(currentCell.left);
 
-      final currentBoardCell = currentCell.right as Cell;
+      final currentBoardCell = currentCell.right;
 
       if (currentBoardCell.piece == null) {
         cells.add(currentBoardCell);
@@ -641,16 +708,16 @@ class Board {
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getBishopMoves(
+  Either<Failure, List<Cell>> getBishopMoves(
     Cell cell, {
     bool ignorePieceTypeAssert = false,
     int directionLength = 7,
     bool calculateControl = false,
   }) {
     final maybeBoardCell = getCell(cell.coord);
-    if (maybeBoardCell.isLeft()) return maybeBoardCell.left;
+    if (maybeBoardCell.isLeft()) return Left(maybeBoardCell.left);
 
-    final boardCell = maybeBoardCell.right as Cell;
+    final boardCell = maybeBoardCell.right;
 
     // Asserts
     if (boardCell.piece == null) {
@@ -677,9 +744,9 @@ class Board {
       pieceColor,
       calculateControl: calculateControl,
     );
-    if (topRightCells.isLeft()) return topRightCells.left;
+    if (topRightCells.isLeft()) return Left(topRightCells.left);
 
-    cells.addAll(topRightCells.right as Iterable<Cell>);
+    cells.addAll(topRightCells.right);
 
     // Top left
     final topLeftCells = getFreeDiagonalCells(
@@ -689,9 +756,9 @@ class Board {
       pieceColor,
       calculateControl: calculateControl,
     );
-    if (topLeftCells.isLeft()) return topLeftCells.left;
+    if (topLeftCells.isLeft()) return Left(topLeftCells.left);
 
-    cells.addAll(topLeftCells.right as Iterable<Cell>);
+    cells.addAll(topLeftCells.right);
 
     // Bottom right
     final bottomRightCells = getFreeDiagonalCells(
@@ -701,9 +768,9 @@ class Board {
       pieceColor,
       calculateControl: calculateControl,
     );
-    if (bottomRightCells.isLeft()) return bottomRightCells.left;
+    if (bottomRightCells.isLeft()) return Left(bottomRightCells.left);
 
-    cells.addAll(bottomRightCells.right as Iterable<Cell>);
+    cells.addAll(bottomRightCells.right);
 
     // Bottom left
     final bottomLeftCells = getFreeDiagonalCells(
@@ -713,24 +780,24 @@ class Board {
       pieceColor,
       calculateControl: calculateControl,
     );
-    if (bottomLeftCells.isLeft()) return bottomLeftCells.left;
+    if (bottomLeftCells.isLeft()) return Left(bottomLeftCells.left);
 
-    cells.addAll(bottomLeftCells.right as Iterable<Cell>);
+    cells.addAll(bottomLeftCells.right);
 
     return Right(cells);
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getRookMoves(
+  Either<Failure, List<Cell>> getRookMoves(
     Cell cell, {
     bool ignorePieceTypeAssert = false,
     int directionLength = 7,
     bool calculateControl = false,
   }) {
     final maybeBoardCell = getCell(cell.coord);
-    if (maybeBoardCell.isLeft()) return maybeBoardCell.left;
+    if (maybeBoardCell.isLeft()) return Left(maybeBoardCell.left);
 
-    final boardCell = maybeBoardCell.right as Cell;
+    final boardCell = maybeBoardCell.right;
 
     // Asserts
     if (boardCell.piece == null) {
@@ -757,9 +824,9 @@ class Board {
       pieceColor,
       calculateControl: calculateControl,
     );
-    if (topCells.isLeft()) return topCells.left;
+    if (topCells.isLeft()) return Left(topCells.left);
 
-    cells.addAll(topCells.right as Iterable<Cell>);
+    cells.addAll(topCells.right);
 
     // Bottom
     final bottomCells = getFreeLinedCells(
@@ -769,9 +836,9 @@ class Board {
       pieceColor,
       calculateControl: calculateControl,
     );
-    if (bottomCells.isLeft()) return bottomCells.left;
+    if (bottomCells.isLeft()) return Left(bottomCells.left);
 
-    cells.addAll(bottomCells.right as Iterable<Cell>);
+    cells.addAll(bottomCells.right);
 
     // Left
     final leftCells = getFreeLinedCells(
@@ -781,9 +848,9 @@ class Board {
       pieceColor,
       calculateControl: calculateControl,
     );
-    if (leftCells.isLeft()) return leftCells.left;
+    if (leftCells.isLeft()) return Left(leftCells.left);
 
-    cells.addAll(leftCells.right as Iterable<Cell>);
+    cells.addAll(leftCells.right);
 
     // Right
     final rightCells = getFreeLinedCells(
@@ -793,15 +860,15 @@ class Board {
       pieceColor,
       calculateControl: calculateControl,
     );
-    if (rightCells.isLeft()) return rightCells.left;
+    if (rightCells.isLeft()) return Left(rightCells.left);
 
-    cells.addAll(rightCells.right as Iterable<Cell>);
+    cells.addAll(rightCells.right);
 
     return Right(cells);
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getQueenMoves(
+  Either<Failure, List<Cell>> getQueenMoves(
     Cell cell, {
     bool calculateControl = false,
   }) {
@@ -810,20 +877,20 @@ class Board {
       ignorePieceTypeAssert: true,
       calculateControl: calculateControl,
     );
-    if (horizontalCells.isLeft()) return horizontalCells.left;
+    if (horizontalCells.isLeft()) return Left(horizontalCells.left);
 
     final diagonalCells = getBishopMoves(
       cell,
       ignorePieceTypeAssert: true,
       calculateControl: calculateControl,
     );
-    if (diagonalCells.isLeft()) return diagonalCells.left;
+    if (diagonalCells.isLeft()) return Left(diagonalCells.left);
 
     return Right([...horizontalCells.right, ...diagonalCells.right]);
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getKingMoves(
+  Either<Failure, List<Cell>> getKingMoves(
     Cell cell, {
     bool calculateControl = false,
   }) {
@@ -833,7 +900,7 @@ class Board {
       directionLength: 1,
       calculateControl: calculateControl,
     );
-    if (horizontalCells.isLeft()) return horizontalCells.left;
+    if (horizontalCells.isLeft()) return Left(horizontalCells.left);
 
     final diagonalCells = getBishopMoves(
       cell,
@@ -841,35 +908,33 @@ class Board {
       directionLength: 1,
       calculateControl: calculateControl,
     );
-    if (diagonalCells.isLeft()) return diagonalCells.left;
+    if (diagonalCells.isLeft()) return Left(diagonalCells.left);
 
     List<Cell> cells = [...horizontalCells.right, ...diagonalCells.right];
 
     // Add castling
     if (cell.piece!.getMoveTimes == 0) {
       final leftCastlingCells = _getCastlingCells(cell, false);
-      if (leftCastlingCells.isLeft()) return leftCastlingCells.left;
+      if (leftCastlingCells.isLeft()) return Left(leftCastlingCells.left);
 
       // Remove cells that are in the way of castling to avoid duplicates
-      for (final currentCastlingCell
-          in leftCastlingCells.right as Iterable<Cell>) {
+      for (final currentCastlingCell in leftCastlingCells.right) {
         cells.removeWhere(
           (element) => element.coord == currentCastlingCell.coord,
         );
       }
-      cells.addAll(leftCastlingCells.right as Iterable<Cell>);
+      cells.addAll(leftCastlingCells.right);
 
       final rightCastlingCells = _getCastlingCells(cell, true);
-      if (rightCastlingCells.isLeft()) return rightCastlingCells.left;
+      if (rightCastlingCells.isLeft()) return Left(rightCastlingCells.left);
 
       // Remove cells that are in the way of castling to avoid duplicates
-      for (final currentCastlingCell
-          in rightCastlingCells.right as Iterable<Cell>) {
+      for (final currentCastlingCell in rightCastlingCells.right) {
         cells.removeWhere(
           (element) => element.coord == currentCastlingCell.coord,
         );
       }
-      cells.addAll(rightCastlingCells.right as Iterable<Cell>);
+      cells.addAll(rightCastlingCells.right);
     }
 
     if (!calculateControl) {
@@ -886,7 +951,7 @@ class Board {
 
   //#region Private Helpers
 
-  Either<Failure, Iterable<Cell>> _getCastlingCells(
+  Either<Failure, List<Cell>> _getCastlingCells(
     Cell cellRef,
     bool rightDirection,
   ) {
@@ -901,7 +966,7 @@ class Board {
     final rook = getCell('${rightDirection ? 'h' : 'a'}${cellRef.row}');
     final canCastle = rook.isRight() &&
         rook.right.piece is Rook &&
-        rook.right.piece.color == pieceColor &&
+        rook.right.piece!.color == pieceColor &&
         rook.right.piece!.moveTimes == 0;
     if (!canCastle) return const Right([]);
 
@@ -914,7 +979,7 @@ class Board {
           : StraightDirection.horizontalLeft,
       pieceColor,
     );
-    if (cells.isLeft()) return cells.left;
+    if (cells.isLeft()) return Left(cells.left);
 
     final leftCellsAreEmpty =
         cells.right.every((Cell element) => element.piece == null);
@@ -925,11 +990,11 @@ class Board {
         .where((Cell element) => element.getEnemyControl(pieceColor) > 0);
     if (cellsUnderAttack.isNotEmpty) return const Right([]);
 
-    return Right(cells.right);
+    return Right(cells.right.toList());
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getFreeLinedCells(
+  Either<Failure, List<Cell>> getFreeLinedCells(
     Cell cellRef,
     int moveLength,
     StraightDirection direction,
@@ -955,7 +1020,7 @@ class Board {
         currentCoord = "${cellRef.column}$currentRow";
       }
       final cell = _getCellFromCoord(currentCoord);
-      if (cell.isLeft()) return cell.left;
+      if (cell.isLeft()) return Left(cell.left);
       if (cell.right.piece != null) {
         if (cell.right.piece!.color != pieceColor || calculateControl) {
           cells.add(cell.right);
@@ -970,7 +1035,7 @@ class Board {
   }
 
   @visibleForTesting
-  Either<Failure, Iterable<Cell>> getFreeDiagonalCells(
+  Either<Failure, List<Cell>> getFreeDiagonalCells(
     Cell cellRef,
     int moveLength,
     DiagonalDirection direction,
@@ -986,7 +1051,7 @@ class Board {
       if (currentColumn < 0 || currentColumn > 7) break;
       final currentCoord = "${_rowNames[currentColumn]}$currentRow";
       final cell = _getCellFromCoord(currentCoord);
-      if (cell.isLeft()) return cell.left;
+      if (cell.isLeft()) return Left(cell.left);
       if (cell.right.piece != null) {
         if (cell.right.piece!.color != pieceColor || calculateControl) {
           cells.add(cell.right);
@@ -1025,14 +1090,14 @@ class Board {
     _whiteKingThreats.clear();
     _blackKingThreats.clear();
 
-    final whiteKingCell = cells.firstWhere(
-      (element) =>
-          element.piece is King && element.piece!.color == PieceColor.white,
-    );
-    final blackKingCell = cells.firstWhere(
-      (element) =>
-          element.piece is King && element.piece!.color == PieceColor.black,
-    );
+    final whiteKingCell = _board.expand((element) => element).firstWhere(
+          (element) =>
+              element.piece is King && element.piece!.color == PieceColor.white,
+        );
+    final blackKingCell = _board.expand((element) => element).firstWhere(
+          (element) =>
+              element.piece is King && element.piece!.color == PieceColor.black,
+        );
 
     _addStraightDirectionThreats(whiteKingCell);
     _addStraightDirectionThreats(blackKingCell);
@@ -1063,7 +1128,7 @@ class Board {
 
         if (maybeCell.right.piece == null) continue;
 
-        final cell = maybeCell.right as Cell;
+        final cell = maybeCell.right;
         final piece = cell.piece!;
         directionPieces++;
         if (piece.color == kingColor) continue;
@@ -1098,7 +1163,7 @@ class Board {
 
         if (maybeCell.right.piece == null) continue;
 
-        final cell = maybeCell.right as Cell;
+        final cell = maybeCell.right;
         final piece = cell.piece!;
         directionPieces++;
         if (piece.color == kingColor) continue;
@@ -1130,7 +1195,7 @@ class Board {
 
       if (maybeCell.right.piece == null) continue;
 
-      final cell = maybeCell.right as Cell;
+      final cell = maybeCell.right;
       final piece = cell.piece!;
       if (piece.color == kingColor) continue;
 

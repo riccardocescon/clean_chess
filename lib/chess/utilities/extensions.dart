@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 
-extension EitherHelper<L, R> on Either {
+extension EitherHelper<L, R> on Either<L, R> {
   // Get [Left] value, may throw an exception when the value is [Right]
   L get left => fold<L>(
-        (value) => value as L,
+        (value) => value,
         (right) => throw Exception(
           'Illegal use. You should check isLeft before calling',
         ),
@@ -14,7 +14,7 @@ extension EitherHelper<L, R> on Either {
         (left) => throw Exception(
           'Illegal use. You should check isRight before calling',
         ),
-        (value) => value as R,
+        (value) => value,
       );
   bool get isLeft => this is Left<L, R>;
 }

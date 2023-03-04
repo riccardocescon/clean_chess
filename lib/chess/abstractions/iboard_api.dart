@@ -14,8 +14,11 @@ abstract class IBoardAPI {
   @visibleForTesting
   Board board = Board.empty();
 
-  Either<Failure, Board> move(Move move);
-  Either<Failure, Iterable<Cell>> planPath(Cell cell);
+  Future<Either<Failure, Board>> move(
+    Move move, {
+    required Future<Piece> Function() onPawnPromotion,
+  });
+  Future<Either<Failure, Iterable<Cell>>> planPath(Cell cell);
   Either<Failure, Fen> getFen();
   Either<Failure, Board> fromFen(Fen fen);
   Either<Failure, Board> previousMove();

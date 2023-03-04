@@ -1,3 +1,5 @@
+import 'package:clean_chess/chess/models/move.dart';
+
 import 'enums.dart';
 
 extension IterableHelper<T> on Iterable<T> {
@@ -102,4 +104,8 @@ extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
+}
+
+extension MoveHelper on Move {
+  Move get inverse => Move(to, from);
 }

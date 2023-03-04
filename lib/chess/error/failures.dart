@@ -46,3 +46,11 @@ class InvalidMoveIndexFailure extends Failure {
 class CannotMoveOnPreviousMoveFailure extends Failure {
   CannotMoveOnPreviousMoveFailure() : super("Cannot move on previous move");
 }
+
+class CannotMoveWhileInCheckFailure extends Failure {
+  CannotMoveWhileInCheckFailure() : super("Cannot move while in check");
+}
+
+class CannotMoveCreatingCheckFailure extends Failure {
+  CannotMoveCreatingCheckFailure() : super("Cannot move creating check");
+}
