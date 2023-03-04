@@ -14,7 +14,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
 class Board {
-  late final Iterable<Iterable<Cell>> _board;
+  late final List<List<Cell>> _board;
   Move? _lastMove;
 
   /// Total amount of known moves
@@ -32,7 +32,7 @@ class Board {
   int _fullmoveNumber = 1;
   int get fullmoveNumber => _fullmoveNumber;
 
-  Iterable<Cell> get cells => _board.expand((element) => element);
+  List<Cell> get cells => _board.expand((element) => element).toList();
 
   final String _rowNames = 'abcdefgh';
 
@@ -53,7 +53,8 @@ class Board {
   }
 
   Board.clone(Board board) {
-    _board = board._board.map((e) => e.map((e) => Cell.clone(e)).toList());
+    _board =
+        board._board.map((e) => e.map((e) => Cell.clone(e)).toList()).toList();
     _knownMovesFen.addAll(board._knownMovesFen);
   }
 
@@ -76,7 +77,7 @@ class Board {
           final piece = getPieceFromFen(currentLetter);
           if (piece.isLeft()) throw Exception(piece.left);
 
-          (piece.right as Piece).setMovesFromFen();
+          piece.right.setMovesFromFen();
           final coord = _rowNames[currentCell] + column.toString();
           emptyBoard._board
               .expand((element) => element)
@@ -182,7 +183,7 @@ class Board {
       final maybeCell = getCell(enPassantSquare);
       if (maybeCell.isLeft()) throw Exception(maybeCell.left);
 
-      final cell = maybeCell.right as Cell;
+      final cell = maybeCell.right;
 
       if (cell.piece != null) throw InvalidFen();
 
@@ -332,36 +333,30 @@ class Board {
 
     // Return Failure if selected piece movement creates a check
     List<Cell> validCells = [];
-    // Creates a Clone of the board to check if the move creates a check
-    final cloneBoard = Board.clone(this);
     // For each cell :
     for (final pathCell in path.right) {
+      // Creates a Clone of the board to check if the move creates a check
+      final cloneBoard = Board.clone(this);
       // move the piece to that cell
       final move = Move(cloneBoard.getCell(cell.coord).right, pathCell);
-      final moveRes = await cloneBoard.movePiece(
+      await cloneBoard.movePiece(
         move,
         () async => Pawn(PieceColor.white),
         assertCheck: false,
       );
 
-      final g8 = cloneBoard._board
-          .expand((element) => element)
-          .firstWhere((element) => element.coord == 'g8');
-
-      cloneBoard._calculateKingThreats();
-
       // if white/black threats contains at least 1 item with .second == 0
       // that cell is skipped
-      if (cell.piece!.color == PieceColor.white) {
-        if (cloneBoard._whiteKingThreats
-            .any((element) => element.second == 0)) {
-          continue;
-        }
-      } else {
-        if (cloneBoard._blackKingThreats
-            .any((element) => element.second == 0)) {
-          continue;
-        }
+      final whiteCheck = cell.piece!.color == PieceColor.white &&
+          cloneBoard._whiteKingThreats.any(
+            (element) => element.second == 0,
+          );
+      final blackCheck = cell.piece!.color == PieceColor.black &&
+          cloneBoard._blackKingThreats.any(
+            (element) => element.second == 0,
+          );
+      if (whiteCheck || blackCheck) {
+        continue;
       }
 
       validCells.add(pathCell);
@@ -449,14 +444,12 @@ class Board {
       _fullmoveNumber++;
     }
 
-    final destinationCell = _board
-        .expand((element) => element)
-        .firstWhere((element) => element.coord == move.to.coord);
+    final destinationCell =
+        this.cells.firstWhere((element) => element.coord == move.to.coord);
     destinationCell.piece = movedPiece;
 
-    final sourceCell = _board
-        .expand((element) => element)
-        .firstWhere((element) => element.coord == move.from.coord);
+    final sourceCell =
+        this.cells.firstWhere((element) => element.coord == move.from.coord);
     sourceCell.piece = null;
 
     movedPiece.hasMoved();
