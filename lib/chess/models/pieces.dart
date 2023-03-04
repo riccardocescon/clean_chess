@@ -2,7 +2,7 @@ import 'package:clean_chess/chess/abstractions/piece.dart';
 import 'package:clean_chess/chess/core/utilities/assets.dart';
 import 'package:clean_chess/chess/core/utilities/enums.dart';
 
-class Pawn extends Piece {
+class Pawn extends Piece<Pawn> {
   @override
   final String name = 'Pawn';
 
@@ -18,10 +18,13 @@ class Pawn extends Piece {
   void setEnPassantRightFromFen() => moveTimes = 0;
   void setNonMovedPawn() => moveTimes = 0;
 
+  @override
+  Pawn clone() => Pawn(color);
+
   Pawn(this.color);
 }
 
-class Bishop extends Piece {
+class Bishop extends Piece<Bishop> {
   @override
   final String name = 'Bishop';
 
@@ -35,10 +38,13 @@ class Bishop extends Piece {
   @override
   final PieceColor color;
 
+  @override
+  Bishop clone() => Bishop(color);
+
   Bishop(this.color);
 }
 
-class Knight extends Piece {
+class Knight extends Piece<Knight> {
   @override
   final String name = 'Knight';
 
@@ -52,10 +58,13 @@ class Knight extends Piece {
   @override
   final PieceColor color;
 
+  @override
+  Knight clone() => Knight(color);
+
   Knight(this.color);
 }
 
-class Rook extends Piece {
+class Rook extends Piece<Rook> {
   @override
   final String name = 'Rook';
 
@@ -70,6 +79,9 @@ class Rook extends Piece {
 
   @override
   final PieceColor color;
+
+  @override
+  Rook clone() => Rook(color);
 
   Rook(this.color);
 }
@@ -87,6 +99,9 @@ class Queen extends Piece {
 
   @override
   final PieceColor color;
+
+  @override
+  Queen clone() => Queen(color);
 
   Queen(this.color);
 }
@@ -106,6 +121,9 @@ class King extends Piece {
 
   @override
   final PieceColor color;
+
+  @override
+  King clone() => King(color);
 
   King(this.color);
 }

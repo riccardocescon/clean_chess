@@ -6,6 +6,7 @@ import 'package:clean_chess/chess/models/fen.dart';
 import 'package:clean_chess/chess/models/move.dart';
 import 'package:clean_chess/chess/models/pieces.dart';
 import 'package:clean_chess/chess/models/tuple.dart';
+import 'package:clean_chess/chess/utilities/debug.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
 import 'package:clean_chess/chess/utilities/utils.dart';
 import 'package:clean_chess/chess/core/utilities/enums.dart';
@@ -352,7 +353,7 @@ class Board {
       validCells.add(pathCell);
     }
     // if all cells are skipped, return [CannotMoveCreatingCheckFailure]
-    if (validCells.isEmpty) return Left(CannotMoveCreatingCheckFailure());
+    if (validCells.isEmpty) return Left(CannotMoveWhileInCheckFailure());
 
     // otherwhise return the valid cells
     return Right(validCells);

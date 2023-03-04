@@ -1,11 +1,13 @@
 import 'package:clean_chess/chess/core/utilities/enums.dart';
 import 'package:flutter/material.dart';
 
-abstract class Piece {
+abstract class Piece<T> {
   abstract final String name;
   String get imagePath;
   String get toFen;
   abstract final PieceColor color;
+
+  T clone();
 
   @protected
   int moveTimes = 0;
