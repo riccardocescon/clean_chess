@@ -6,6 +6,7 @@ import 'package:clean_chess/chess/models/fen.dart';
 import 'package:clean_chess/chess/models/move.dart';
 import 'package:clean_chess/chess/models/pieces.dart';
 import 'package:clean_chess/chess/models/tuple.dart';
+import 'package:clean_chess/chess/utilities/constants.dart';
 import 'package:clean_chess/chess/utilities/extensions.dart';
 import 'package:clean_chess/chess/utilities/utils.dart';
 import 'package:clean_chess/chess/core/utilities/enums.dart';
@@ -121,7 +122,7 @@ class Board {
   }
 
   void _setCastlingRightsFromFen(String castlingRights) {
-    if (castlingRights != '-') {
+    if (castlingRights != NO_CASTLING) {
       final whiteQueenSide = castlingRights.contains('Q');
       final whiteKingSide = castlingRights.contains('K');
       if (whiteQueenSide || whiteKingSide) {
@@ -179,7 +180,7 @@ class Board {
   }
 
   void _setEnPassantRightsFromFen(String enPassantSquare) {
-    if (enPassantSquare != '-') {
+    if (enPassantSquare != NO_EN_PASSANT) {
       final maybeCell = getCell(enPassantSquare);
       if (maybeCell.isLeft()) throw Exception(maybeCell.left);
 
@@ -261,13 +262,13 @@ class Board {
     }
 
     if (castlingRights.isEmpty) {
-      castlingRights = '-';
+      castlingRights = NO_CASTLING;
     }
 
     final canEnPassant = enPassantSquare();
     if (canEnPassant.isLeft()) return Left(canEnPassant.left);
 
-    final enPassant = canEnPassant.right ?? "-";
+    final enPassant = canEnPassant.right ?? NO_EN_PASSANT;
 
     return Right(
       "$fen ${turn.fenValue} $castlingRights $enPassant $halfmoveClock $fullmoveNumber",
