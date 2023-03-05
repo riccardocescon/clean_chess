@@ -21,7 +21,7 @@ class BoardCell extends StatelessWidget {
   final bool isLandscape;
   final bool showPowerHud;
   final void Function() onTap;
-  final bool innerCoords = true;
+  final bool innerCoords = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class BoardCell extends StatelessWidget {
             padding: const EdgeInsets.all(5),
             child: Stack(
               children: [
-                if (innerCoords) _innerCoords(),
+                ..._cellCoords(),
                 if (showPowerHud)
                   PowerHud(
                     whitePower: cell.whitePower.toString(),
@@ -56,6 +56,16 @@ class BoardCell extends StatelessWidget {
     );
   }
 
+  List<Widget> _cellCoords() => innerCoords
+      ? [_innerCoords()]
+      : [
+          _outerCoords(),
+
+          // a1 cell has both coords, so we need to override the isRow
+          // parameter to print out the column coord instead of the row coord
+          if (cell.coord == 'a1') _outerCoords(overrideIsRow: false),
+        ];
+
   Widget _innerCoords() => Align(
         alignment: Alignment.topLeft,
         child: Text(
@@ -66,6 +76,23 @@ class BoardCell extends StatelessWidget {
           ),
         ),
       );
+
+  Widget _outerCoords({bool? overrideIsRow}) {
+    if (cell.row != 1 && cell.column != 'a') {
+      return Container();
+    }
+    final isRow = overrideIsRow ?? cell.row == 1;
+    return Align(
+      alignment: isRow ? Alignment.bottomRight : Alignment.topLeft,
+      child: Text(
+        isRow ? cell.column : cell.row.toString(),
+        style: TextStyle(
+          fontSize: isLandscape ? 12 : 10,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
 
   Widget chessPiece() => Align(
         alignment: Alignment.center,
