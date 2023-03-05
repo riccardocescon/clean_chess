@@ -3,7 +3,11 @@ import 'package:clean_chess/chess/core/utilities/navigation.dart';
 import 'package:clean_chess/core/clean_chess/presentation/widgets/diamond_bottom_bar.dart';
 import 'package:clean_chess/core/clean_chess/utilities/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'dart:math' as math;
+import 'package:http/http.dart' as http;
+import 'package:oauth2/oauth2.dart' as oauth2;
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -42,6 +46,55 @@ class _HomeScreenState extends State<HomeScreen> {
           }),
         ),
         body: _body(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            const String charset =
+                'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
+
+            final codeVerifier = List.generate(
+                    128,
+                    (i) =>
+                        charset[math.Random.secure().nextInt(charset.length)])
+                .join();
+
+            final state = List.generate(
+                    128,
+                    (i) =>
+                        charset[math.Random.secure().nextInt(charset.length)])
+                .join();
+
+            final grant = oauth2.AuthorizationCodeGrant(
+              'clean_chess',
+              Uri.parse('https://lichess.org/oauth'),
+              Uri.parse('https://lichess.org/api/token'),
+              httpClient: http.Client(),
+              codeVerifier: codeVerifier,
+            );
+
+            final authorizationUrl = grant.getAuthorizationUrl(
+              Uri.parse(
+                'https://lichess.org?'
+                'response_type=code&'
+                'client_id=clean_chess&'
+                'redirect_uri=login&'
+                'code_challenge_method=S256&'
+                'code_challenge=$codeVerifier&'
+                'state=$state',
+              ),
+              scopes: ['challenge:read', 'challenge:write'],
+            );
+
+            // Present the dialog to the user
+            final result = await FlutterWebAuth.authenticate(
+              url: authorizationUrl.toString(),
+              callbackUrlScheme: 'login',
+            );
+
+            // Never reached
+            final uri = Uri.parse(result);
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
