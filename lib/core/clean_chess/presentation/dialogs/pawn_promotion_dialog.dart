@@ -10,31 +10,35 @@ Future<Piece> showPawnPromotionPanel(
 ) async =>
     await showDialog(
       context: context,
-      builder: (context) => Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: turn == PieceColor.white
-                    ? Colors.grey.shade300
-                    : Colors.grey.shade700,
-                borderRadius: BorderRadius.circular(20),
+      barrierDismissible: false,
+      builder: (context) => WillPopScope(
+        onWillPop: () async => false,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: turn == PieceColor.white
+                      ? Colors.grey.shade300
+                      : Colors.grey.shade700,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  children: [
+                    pawnPromotionPiece(context, Queen(turn)),
+                    const SizedBox(height: 10),
+                    pawnPromotionPiece(context, Rook(turn)),
+                    const SizedBox(height: 10),
+                    pawnPromotionPiece(context, Bishop(turn)),
+                    const SizedBox(height: 10),
+                    pawnPromotionPiece(context, Knight(turn)),
+                  ],
+                ),
               ),
-              child: Column(
-                children: [
-                  pawnPromotionPiece(context, Queen(turn)),
-                  const SizedBox(height: 10),
-                  pawnPromotionPiece(context, Rook(turn)),
-                  const SizedBox(height: 10),
-                  pawnPromotionPiece(context, Bishop(turn)),
-                  const SizedBox(height: 10),
-                  pawnPromotionPiece(context, Knight(turn)),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

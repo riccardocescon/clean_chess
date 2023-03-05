@@ -69,12 +69,23 @@ class BoardCell extends StatelessWidget {
 
   Widget chessPiece() => Align(
         alignment: Alignment.center,
-        child: cell.piece != null
-            ? Image.asset(
-                cell.piece!.imagePath,
-                width: 50,
-                height: 50,
-              )
-            : Container(),
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          transitionBuilder: _scaleTransition,
+          child: cell.piece != null
+              ? Image.asset(
+                  cell.piece!.imagePath,
+                  width: 50,
+                  height: 50,
+                )
+              : Container(),
+        ),
       );
+
+  Widget _scaleTransition(Widget child, Animation<double> animation) {
+    return ScaleTransition(
+      scale: animation,
+      child: child,
+    );
+  }
 }
