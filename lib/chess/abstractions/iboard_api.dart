@@ -21,7 +21,7 @@ abstract class IBoardAPI {
   Future<Either<Failure, Iterable<Cell>>> planPath(Cell cell);
   Either<Failure, Fen> getFen();
   Either<Failure, Board> fromFen(Fen fen);
-  Either<Failure, Board> previousMove();
-  Either<Failure, Board> nextMove();
+  Either<Failure, Tuple<Board, Move?>> previousMove();
+  Either<Failure, Tuple<Board, Move?>> nextMove();
   Iterable<Tuple<Piece, int>> getKingThreats(PieceColor color);
 }

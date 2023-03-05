@@ -24,7 +24,7 @@ class Board {
   /// Known moves are moves that are stored in [_knownMovesFen]
   /// If the board was build from a FEN during a game,
   /// the moves before the FEN are not known
-  final List<String> _knownMovesFen = [];
+  final List<Tuple<String, Move?>> _knownMovesFen = [];
   int get totalKnownMoves => _knownMovesFen.length - 1;
 
   int _halfmoveClock = 0;
@@ -102,7 +102,7 @@ class Board {
       (currentPawn.piece! as Pawn).setNonMovedPawn();
     }
 
-    _knownMovesFen.add(fen.fen);
+    _knownMovesFen.add(Tuple(fen.fen, null));
 
     _calculateControlledCells();
 
@@ -445,7 +445,7 @@ class Board {
     final fen = positionsFen(piece.color);
     if (fen.isLeft()) return Left(fen.left);
 
-    _knownMovesFen.add(fen.right);
+    _knownMovesFen.add(Tuple(fen.right, move));
 
     for (final currentCell in this.cells) {
       currentCell.resetControl();
@@ -457,7 +457,7 @@ class Board {
     return const Right(Empty());
   }
 
-  Either<Failure, String> getMove(int index) {
+  Either<Failure, Tuple<String, Move?>> getMove(int index) {
     if (index < 0 || index >= _knownMovesFen.length) {
       return Left(
         InvalidMoveIndexFailure('Invalid move index $index'),

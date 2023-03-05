@@ -34,6 +34,7 @@ class _HomepageState extends State<Homepage> {
   late PieceColor turn;
 
   Tuple<Piece?, List<Cell>> plannedCells = Tuple(null, []);
+  Move? _lastMove;
 
   // Customizable colors
   final Color splashColor = Colors.indigo.shade800;
@@ -448,6 +449,7 @@ class _HomepageState extends State<Homepage> {
     }
 
     // Update the board
+    _lastMove = moveRequest;
     board = moveResult.right;
     plannedCells.first = null;
     plannedCells.second.clear();
@@ -527,7 +529,11 @@ class _HomepageState extends State<Homepage> {
   Color _getCurrentCellColor(Cell cell) {
     Color cellColor = plannedCells.second.contains(cell)
         ? plannedCellsColor
-        : getCellColor(cell.id);
+        : cell == _lastMove?.from
+            ? Colors.indigo.shade300
+            : cell == _lastMove?.to
+                ? Colors.indigo.shade300
+                : getCellColor(cell.id);
 
     if (plannedCells.first != null) {
       final pieceCell = board.cells
@@ -581,8 +587,9 @@ class _HomepageState extends State<Homepage> {
       _snackbarError(previousMove.left);
       return;
     }
-    Board requestedMove = previousMove.right;
+    Board requestedMove = previousMove.right.first;
     board = requestedMove;
+    _lastMove = previousMove.right.second;
     plannedCells.first = null;
     plannedCells.second = [];
 
@@ -606,8 +613,9 @@ class _HomepageState extends State<Homepage> {
       _snackbarError(nextmove.left);
       return;
     }
-    Board requestedMove = nextmove.right;
+    Board requestedMove = nextmove.right.first;
     board = requestedMove;
+    _lastMove = nextmove.right.second;
     plannedCells.first = null;
     plannedCells.second = [];
 
