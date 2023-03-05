@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:clean_chess/chess/abstractions/piece.dart';
 import 'package:clean_chess/chess/apis/puzzle_board_api.dart';
-import 'package:clean_chess/chess/core/utilities/assets.dart';
 import 'package:clean_chess/chess/core/utilities/enums.dart';
 import 'package:clean_chess/chess/error/failures.dart';
 import 'package:clean_chess/chess/models/board.dart';
@@ -34,10 +33,12 @@ class _HomepageState extends State<Homepage> {
   late PieceColor turn;
 
   Tuple<Piece?, List<Cell>> plannedCells = Tuple(null, []);
+  Move? _lastMove;
 
   // Customizable colors
   final Color splashColor = Colors.indigo.shade800;
-  final Color plannedCellsColor = Colors.indigo.shade700;
+  final Color plannedCellsDarkColor = Colors.indigo.shade700;
+  final Color plannedCellsLightColor = Colors.indigo.shade300;
 
   // Settings
   bool _showPowerHud = false;
@@ -448,6 +449,7 @@ class _HomepageState extends State<Homepage> {
     }
 
     // Update the board
+    _lastMove = moveRequest;
     board = moveResult.right;
     plannedCells.first = null;
     plannedCells.second.clear();
@@ -526,8 +528,16 @@ class _HomepageState extends State<Homepage> {
   /// Otherwise, it will return the color of the cell
   Color _getCurrentCellColor(Cell cell) {
     Color cellColor = plannedCells.second.contains(cell)
-        ? plannedCellsColor
-        : getCellColor(cell.id);
+        ? getCellColor(
+            cell.id,
+            whiteColor: plannedCellsLightColor,
+            blackColor: plannedCellsDarkColor,
+          )
+        : cell == _lastMove?.from
+            ? Colors.indigo.shade300
+            : cell == _lastMove?.to
+                ? Colors.indigo.shade300
+                : getCellColor(cell.id);
 
     if (plannedCells.first != null) {
       final pieceCell = board.cells
@@ -581,8 +591,9 @@ class _HomepageState extends State<Homepage> {
       _snackbarError(previousMove.left);
       return;
     }
-    Board requestedMove = previousMove.right;
+    Board requestedMove = previousMove.right.first;
     board = requestedMove;
+    _lastMove = previousMove.right.second;
     plannedCells.first = null;
     plannedCells.second = [];
 
@@ -606,8 +617,9 @@ class _HomepageState extends State<Homepage> {
       _snackbarError(nextmove.left);
       return;
     }
-    Board requestedMove = nextmove.right;
+    Board requestedMove = nextmove.right.first;
     board = requestedMove;
+    _lastMove = nextmove.right.second;
     plannedCells.first = null;
     plannedCells.second = [];
 

@@ -19,7 +19,17 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey.shade900,
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: const Text(
+            'Clean Chess',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          centerTitle: true,
+        ),
         bottomNavigationBar: DiamondBottomNavigation(
           itemIcons: const [Icons.home_rounded, Icons.person_rounded],
           centerIcon: Image.asset(

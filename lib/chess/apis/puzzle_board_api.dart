@@ -73,7 +73,7 @@ class PuzzleBoardAPI extends IBoardAPI {
   }
 
   @override
-  Either<Failure, Board> nextMove() {
+  Either<Failure, Tuple<Board, Move?>> nextMove() {
     if (_currentMoveIndex == board.totalKnownMoves) {
       return Left(NoNextMoveFailure());
     }
@@ -81,17 +81,23 @@ class PuzzleBoardAPI extends IBoardAPI {
     if (result.isLeft()) return Left(result.left);
     _currentMoveIndex++;
     _invertTurn();
-    return Right(Board.fromFen(Fen.fromRaw(result.right)));
+    final fenString = result.right.first;
+    final lastMove = result.right.second;
+    final response = Tuple(Board.fromFen(Fen.fromRaw(fenString)), lastMove);
+    return Right(response);
   }
 
   @override
-  Either<Failure, Board> previousMove() {
+  Either<Failure, Tuple<Board, Move?>> previousMove() {
     if (_currentMoveIndex == 0) return Left(NoPreviousMoveFailure());
     final result = board.getMove(_currentMoveIndex - 1);
     if (result.isLeft()) return Left(result.left);
     _currentMoveIndex--;
     _invertTurn();
-    return Right(Board.fromFen(Fen.fromRaw(result.right)));
+    final fenString = result.right.first;
+    final lastMove = result.right.second;
+    final response = Tuple(Board.fromFen(Fen.fromRaw(fenString)), lastMove);
+    return Right(response);
   }
 
   @override
