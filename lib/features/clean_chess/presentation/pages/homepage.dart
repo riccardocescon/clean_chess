@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:clean_chess/chess/abstractions/piece.dart';
 import 'package:clean_chess/chess/apis/puzzle_board_api.dart';
-import 'package:clean_chess/chess/core/utilities/assets.dart';
 import 'package:clean_chess/chess/core/utilities/enums.dart';
 import 'package:clean_chess/chess/error/failures.dart';
 import 'package:clean_chess/chess/models/board.dart';
@@ -38,7 +37,8 @@ class _HomepageState extends State<Homepage> {
 
   // Customizable colors
   final Color splashColor = Colors.indigo.shade800;
-  final Color plannedCellsColor = Colors.indigo.shade700;
+  final Color plannedCellsDarkColor = Colors.indigo.shade700;
+  final Color plannedCellsLightColor = Colors.indigo.shade300;
 
   // Settings
   bool _showPowerHud = false;
@@ -528,7 +528,11 @@ class _HomepageState extends State<Homepage> {
   /// Otherwise, it will return the color of the cell
   Color _getCurrentCellColor(Cell cell) {
     Color cellColor = plannedCells.second.contains(cell)
-        ? plannedCellsColor
+        ? getCellColor(
+            cell.id,
+            whiteColor: plannedCellsLightColor,
+            blackColor: plannedCellsDarkColor,
+          )
         : cell == _lastMove?.from
             ? Colors.indigo.shade300
             : cell == _lastMove?.to
