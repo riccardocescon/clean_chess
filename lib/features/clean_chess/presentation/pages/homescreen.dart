@@ -22,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        extendBody: true,
         backgroundColor: Colors.grey.shade900,
         appBar: AppBar(
           title: const Text(
@@ -153,13 +154,28 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _body() {
-    return Column(
-      children: [
-        _topCards(),
-        const SizedBox(height: 10),
-        _middleCards(),
-        const SizedBox(height: 20),
+    return CustomScrollView(
+      slivers: [
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              _topCards(),
+              const SizedBox(height: 10),
+              _middleCards(),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
         _bottomListView(),
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              // Make the bottom spacing part of the scrollable body to avoid
+              // cutting off the scrollview area.
+              const SizedBox(height: kToolbarHeight * 2),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -417,10 +433,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // #region Bottom ListView
 
-  Widget _bottomListView() => Expanded(
-        child: ListView.builder(
-          itemCount: 8,
-          itemBuilder: (context, index) => Padding(
+  Widget _bottomListView() => SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Column(
               children: [
@@ -505,6 +520,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
+          childCount: 8,
         ),
       );
 
