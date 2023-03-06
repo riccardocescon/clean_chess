@@ -86,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
             final authorizationUrl = grant.getAuthorizationUrl(
               redirectUri,
               scopes: ['challenge:read', 'challenge:write'],
+              // state: <let oauth2 handle the state generation>,
             );
 
             try {
@@ -98,22 +99,37 @@ class _HomeScreenState extends State<HomeScreen> {
               // Save on local storage
               final uri = Uri.parse(result);
 
-              final responseQuery = uri.queryParameters;
+              try {
+                final parameters = uri.queryParameters;
 
-              switch (responseQuery['error']) {
-                case 'access_denied':
-                  _showAccesDeniedWarning();
-                  break;
-                case null:
-                  final code = responseQuery['code'];
-                  final state = responseQuery['state'];
+                // [handleAuthorizationResponse] is async because
+                // it requests the access token using the returned [code].
+                // So we must start showing a spinner here (to provide feedback to the user).
+                // _showLoadingSpinner();
 
-                  _showSuccessMessage();
+                final client =
+                    await grant.handleAuthorizationResponse(parameters);
 
-                  // TODO: compare state with our state to see if it matches...
-                  // if(state == )
-                  break;
-              }
+                _showSnackBar('Successfully logged in.');
+                // success, login.
+              } on FormatException catch (e) {
+                // Generally we fall here when the request is invalid:
+                // - The server returned a weird Uri.
+                // - The [state] does not match.
+                // - The [state] we sent was not returned by the server.
+                // - The server doesn't returned a [code].
+                _showSnackBar(e.message);
+              } on oauth2.AuthorizationException catch (e) {
+                // Possible names are enumerated in [the spec][].
+                // [the spec]: http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-5.2
+                switch (e.error) {
+                  case 'access_denied':
+                    _showAccesDeniedWarning();
+                    break;
+                }
+              } /* on StateError catch(e) {
+                the oauth2 throws [StateError] but do not catch it since it is considered an [Error].
+              } */
             } on PlatformException catch (e) {
               switch (e.code) {
                 case 'CANCELED':
