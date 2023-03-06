@@ -1,5 +1,5 @@
 
-![Logo](https://github.com/riccardocescon/cleanchess/blob/main/assets/img/logo.png)
+![Logo](https://github.com/riccardocescon/clean_chess/blob/main/assets/img/logo.png)
 
 
 # Clean Chess
@@ -16,7 +16,7 @@ This app aims on renewing the user interface for chess lovers, and tries to add 
 
 ## License
 
-[GNU General Public License](https://github.com/riccardocescon/cleanchess/blob/main/LICENSE)
+[GNU General Public License](https://github.com/riccardocescon/clean_chess/blob/main/LICENSE)
 
 
 ## Contributing
@@ -28,5 +28,5 @@ See `contributing.md` for ways to get started.
 
 ## Feedback
 
-If you have any feedback, please feel free to start a new Issue on the [Issue section](https://github.com/riccardocescon/cleanchess/issues)
+If you have any feedback, please feel free to start a new Issue on the [Issue section](https://github.com/riccardocescon/clean_chess/issues)
 
