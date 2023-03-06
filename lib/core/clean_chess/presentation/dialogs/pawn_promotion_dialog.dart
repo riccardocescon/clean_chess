@@ -1,7 +1,7 @@
-import 'package:clean_chess/chess/abstractions/piece.dart';
-import 'package:clean_chess/chess/core/utilities/enums.dart';
-import 'package:clean_chess/chess/models/pieces.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/pawn_promotion_widget.dart';
+import 'package:cleanchess/chess/abstractions/piece.dart';
+import 'package:cleanchess/chess/core/utilities/enums.dart';
+import 'package:cleanchess/chess/models/pieces.dart';
+import 'package:cleanchess/core/cleanchess/presentation/widgets/pawn_promotion_widget.dart';
 import 'package:flutter/material.dart';
 
 Future<Piece> showPawnPromotionPanel(

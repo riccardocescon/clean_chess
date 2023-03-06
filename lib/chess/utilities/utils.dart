@@ -1,7 +1,7 @@
-import 'package:clean_chess/chess/abstractions/piece.dart';
-import 'package:clean_chess/chess/error/failures.dart';
-import 'package:clean_chess/chess/models/pieces.dart';
-import 'package:clean_chess/chess/core/utilities/enums.dart';
+import 'package:cleanchess/chess/abstractions/piece.dart';
+import 'package:cleanchess/chess/error/failures.dart';
+import 'package:cleanchess/chess/models/pieces.dart';
+import 'package:cleanchess/chess/core/utilities/enums.dart';
 import 'package:dartz/dartz.dart';
 
 class Empty {

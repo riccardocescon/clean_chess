@@ -1,16 +1,16 @@
-import 'package:clean_chess/chess/abstractions/iboard_api.dart';
-import 'package:clean_chess/chess/models/cell.dart';
-import 'package:clean_chess/chess/abstractions/piece.dart';
-import 'package:clean_chess/chess/models/fen.dart';
-import 'package:clean_chess/chess/models/pieces.dart';
-import 'package:clean_chess/chess/models/tuple.dart';
-import 'package:clean_chess/chess/utilities/extensions.dart';
-import 'package:clean_chess/chess/core/utilities/enums.dart';
-import 'package:clean_chess/chess/core/utilities/extensions.dart';
+import 'package:cleanchess/chess/abstractions/iboard_api.dart';
+import 'package:cleanchess/chess/models/cell.dart';
+import 'package:cleanchess/chess/abstractions/piece.dart';
+import 'package:cleanchess/chess/models/fen.dart';
+import 'package:cleanchess/chess/models/pieces.dart';
+import 'package:cleanchess/chess/models/tuple.dart';
+import 'package:cleanchess/chess/utilities/extensions.dart';
+import 'package:cleanchess/chess/core/utilities/enums.dart';
+import 'package:cleanchess/chess/core/utilities/extensions.dart';
 import 'package:dartz/dartz.dart';
-import 'package:clean_chess/chess/models/move.dart';
-import 'package:clean_chess/chess/models/board.dart';
-import 'package:clean_chess/chess/error/failures.dart';
+import 'package:cleanchess/chess/models/move.dart';
+import 'package:cleanchess/chess/models/board.dart';
+import 'package:cleanchess/chess/error/failures.dart';
 
 /// This class is used to manage the board state for a puzzle.
 /// It is a singleton, so it can be accessed from anywhere in the app.

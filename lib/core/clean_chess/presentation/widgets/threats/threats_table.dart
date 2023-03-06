@@ -1,7 +1,7 @@
-import 'package:clean_chess/chess/abstractions/piece.dart';
-import 'package:clean_chess/chess/core/utilities/assets.dart';
-import 'package:clean_chess/chess/models/tuple.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/threats/enemy_threat.dart';
+import 'package:cleanchess/chess/abstractions/piece.dart';
+import 'package:cleanchess/chess/core/utilities/assets.dart';
+import 'package:cleanchess/chess/models/tuple.dart';
+import 'package:cleanchess/core/cleanchess/presentation/widgets/threats/enemy_threat.dart';
 import 'package:flutter/material.dart';
 
 class ThreatsTable extends StatelessWidget {

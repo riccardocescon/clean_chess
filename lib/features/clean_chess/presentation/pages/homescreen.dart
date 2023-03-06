@@ -1,14 +1,13 @@
-import 'package:clean_chess/chess/core/utilities/assets.dart';
-import 'package:clean_chess/chess/core/utilities/navigation.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/diamond_bottom_bar.dart';
-import 'package:clean_chess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/chess/core/utilities/assets.dart';
+import 'package:cleanchess/chess/core/utilities/navigation.dart';
+import 'package:cleanchess/core/cleanchess/presentation/widgets/diamond_bottom_bar.dart';
+import 'package:cleanchess/core/cleanchess/utilities/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'dart:math' as math;
 import 'package:http/http.dart' as http;
 import 'package:oauth2/oauth2.dart' as oauth2;
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -65,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 .join();
 
             final grant = oauth2.AuthorizationCodeGrant(
-              'clean_chess',
+              'cleanchess',
               Uri.parse('https://lichess.org/oauth'),
               Uri.parse('https://lichess.org/api/token'),
               httpClient: http.Client(),
@@ -78,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // Uri.parse(
             //   'https://lichess.org?'
             //   'response_type=code&'
-            //   'client_id=clean_chess&'
+            //   'client_id=cleanchess&'
             //   'redirect_uri=$redirectUri&'
             //   'code_challenge_method=S256&'
             //   'code_challenge=$codeVerifier&'

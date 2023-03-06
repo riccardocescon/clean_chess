@@ -1,7 +1,7 @@
-import 'package:clean_chess/features/clean_chess/domain/entities/net_login_data.dart';
-import 'package:clean_chess/features/clean_chess/domain/usecases/login.dart';
-import 'package:clean_chess/features/clean_chess/presentation/bloc/net_event.dart';
-import 'package:clean_chess/features/clean_chess/presentation/bloc/net_state.dart';
+import 'package:cleanchess/features/cleanchess/domain/entities/net_login_data.dart';
+import 'package:cleanchess/features/cleanchess/domain/usecases/login.dart';
+import 'package:cleanchess/features/cleanchess/presentation/bloc/net_event.dart';
+import 'package:cleanchess/features/cleanchess/presentation/bloc/net_state.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
