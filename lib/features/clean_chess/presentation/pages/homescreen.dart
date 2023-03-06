@@ -1,7 +1,7 @@
 import 'package:cleanchess/chess/core/utilities/assets.dart';
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
-import 'package:cleanchess/core/cleanchess/presentation/widgets/diamond_bottom_bar.dart';
-import 'package:cleanchess/core/cleanchess/utilities/style.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/diamond_bottom_bar.dart';
+import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';

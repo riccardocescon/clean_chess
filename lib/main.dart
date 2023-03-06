@@ -3,8 +3,8 @@ import 'dart:math' as math;
 
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/chess/models/puzzle.dart';
-import 'package:cleanchess/features/cleanchess/presentation/pages/homepage.dart';
-import 'package:cleanchess/features/cleanchess/presentation/pages/homescreen.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/homescreen.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -1,6 +1,6 @@
-import 'package:cleanchess/features/cleanchess/data/datasources/remote_data_source.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/remote_data_source.dart';
 import 'package:cleanchess/chess/error/failures.dart';
-import 'package:cleanchess/features/cleanchess/domain/repositories/net_repository.dart';
+import 'package:cleanchess/features/clean_chess/domain/repositories/net_repository.dart';
 import 'package:dartz/dartz.dart';
 
 /// This class is responsible for making API calls to the interested DataSource
