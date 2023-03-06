@@ -1,13 +1,13 @@
-import 'package:clean_chess/chess/core/utilities/assets.dart';
-import 'package:clean_chess/chess/core/utilities/navigation.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/diamond_bottom_bar.dart';
-import 'package:clean_chess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/chess/core/utilities/assets.dart';
+import 'package:cleanchess/chess/core/utilities/navigation.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/diamond_bottom_bar.dart';
+import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'dart:math' as math;
 import 'package:http/http.dart' as http;
 import 'package:oauth2/oauth2.dart' as oauth2;
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -64,39 +64,92 @@ class _HomeScreenState extends State<HomeScreen> {
                 .join();
 
             final grant = oauth2.AuthorizationCodeGrant(
-              'clean_chess',
+              'cleanchess',
               Uri.parse('https://lichess.org/oauth'),
               Uri.parse('https://lichess.org/api/token'),
               httpClient: http.Client(),
               codeVerifier: codeVerifier,
             );
 
+            final Uri redirectUri =
+                Uri.parse('com.example.cleanchess://authorize');
+
+            // Uri.parse(
+            //   'https://lichess.org?'
+            //   'response_type=code&'
+            //   'client_id=cleanchess&'
+            //   'redirect_uri=$redirectUri&'
+            //   'code_challenge_method=S256&'
+            //   'code_challenge=$codeVerifier&'
+            //   'state=$state',
+            // ),
             final authorizationUrl = grant.getAuthorizationUrl(
-              Uri.parse(
-                'https://lichess.org?'
-                'response_type=code&'
-                'client_id=clean_chess&'
-                'redirect_uri=login&'
-                'code_challenge_method=S256&'
-                'code_challenge=$codeVerifier&'
-                'state=$state',
-              ),
+              redirectUri,
               scopes: ['challenge:read', 'challenge:write'],
             );
 
-            // Present the dialog to the user
-            final result = await FlutterWebAuth.authenticate(
-              url: authorizationUrl.toString(),
-              callbackUrlScheme: 'login',
-            );
+            try {
+              // Present the dialog to the user
+              final result = await FlutterWebAuth.authenticate(
+                url: authorizationUrl.toString(),
+                callbackUrlScheme: redirectUri.scheme,
+              );
 
-            // Never reached
-            final uri = Uri.parse(result);
+              // Save on local storage
+              final uri = Uri.parse(result);
+
+              final responseQuery = uri.queryParameters;
+
+              switch (responseQuery['error']) {
+                case 'access_denied':
+                  _showAccesDeniedWarning();
+                  break;
+                case null:
+                  final code = responseQuery['code'];
+                  final state = responseQuery['state'];
+
+                  _showSuccessMessage();
+
+                  // TODO: compare state with our state to see if it matches...
+                  // if(state == )
+                  break;
+              }
+            } on PlatformException catch (e) {
+              switch (e.code) {
+                case 'CANCELED':
+                  _showAccesDeniedWarning();
+                  break;
+                // Add other [case] missing errors here.
+                default:
+                  _showUnknownErrorWarning();
+                  break;
+              }
+            }
           },
           child: const Icon(Icons.add),
         ),
       ),
     );
+  }
+
+  void _showUnknownErrorWarning() {
+    _showSnackBar("An unknwon error ocurred, try again.");
+  }
+
+  void _showSnackBar(String message) {
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    }
+  }
+
+  void _showSuccessMessage() {
+    _showSnackBar("Logged successfully!");
+  }
+
+  void _showAccesDeniedWarning() {
+    _showSnackBar("Access denied.");
   }
 
   Widget _body() {

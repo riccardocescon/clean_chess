@@ -1,6 +1,6 @@
 {
-    "name": "clean_chess",
-    "short_name": "clean_chess",
+    "name": "cleanchess",
+    "short_name": "cleanchess",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

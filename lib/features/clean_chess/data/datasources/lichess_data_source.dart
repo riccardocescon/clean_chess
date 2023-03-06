@@ -1,5 +1,5 @@
-import 'package:clean_chess/chess/error/failures.dart';
-import 'package:clean_chess/features/clean_chess/data/datasources/remote_data_source.dart';
+import 'package:cleanchess/chess/error/failures.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/remote_data_source.dart';
 import 'package:dartz/dartz.dart';
 
 /// This class is responsible for making API calls to Lichess

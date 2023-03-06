@@ -1,5 +1,5 @@
-import 'package:clean_chess/core/clean_chess/clippers/arrow_head_clipper.dart';
-import 'package:clean_chess/core/clean_chess/painters/arrow_head_painter.dart';
+import 'package:cleanchess/core/clean_chess/clippers/arrow_head_clipper.dart';
+import 'package:cleanchess/core/clean_chess/painters/arrow_head_painter.dart';
 import 'package:flutter/material.dart';
 
 class Arrow extends StatelessWidget {
