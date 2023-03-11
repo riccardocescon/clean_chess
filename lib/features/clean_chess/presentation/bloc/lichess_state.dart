@@ -1,5 +1,5 @@
 import 'package:cleanchess/chess/error/failures.dart';
-import 'package:lichess_client/models.dart' as lichess;
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 abstract class LichessState {
   const LichessState();
@@ -20,7 +20,7 @@ class LichessOAuthSuccess extends LichessState {
 }
 
 class LichessUserFetched extends LichessState {
-  final lichess.User user;
+  final User user;
 
   const LichessUserFetched(this.user);
 }

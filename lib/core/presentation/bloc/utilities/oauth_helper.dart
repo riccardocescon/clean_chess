@@ -8,7 +8,9 @@ const String _charset =
 
 /// Generates a random verifier
 String get getRandomVerifier => List.generate(
-    128, (i) => _charset[math.Random.secure().nextInt(_charset.length)]).join();
+      128,
+      (i) => _charset[math.Random.secure().nextInt(_charset.length)],
+    ).join();
 
 /// Creates an authorization code grant with the given parameters
 /// and a random verifier as code verifier.

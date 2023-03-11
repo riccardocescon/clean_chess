@@ -23,14 +23,14 @@ class LichessBloc extends Bloc<LichessEvent, LichessState>
     required this.getMyProfile,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
-    on<GetMyProfileEvent>((event, emit) {
+    on<GetMyProfileEvent>((event, emit) async {
       emit(LichessLoading());
-      getMyProfile.call(NoParams()).then((either) {
-        either.fold(
-          (failure) => emit(LichessError(failure)),
-          (user) => emit(LichessUserFetched(user)),
-        );
-      });
+      final user = await getMyProfile.call(NoParams());
+
+      user.fold(
+        (failure) => emit(LichessError(failure)),
+        (user) => emit(LichessUserFetched(user)),
+      );
     });
   }
 

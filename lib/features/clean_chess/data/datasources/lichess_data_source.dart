@@ -6,8 +6,7 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/lichess_oauth.da
 import 'package:dartz/dartz.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
-import 'package:lichess_client/client.dart';
-import 'package:lichess_client/models.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
 
 /// This class is responsible for making API calls to Lichess
@@ -72,7 +71,7 @@ class LichessDataSource extends RemoteDataSource with LichessTokenProvider {
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
       final client = maybeClient.right;
-      final response = await client.getMyProfile();
+      final response = await client.account.getProfile();
       return Right(response);
     } catch (e) {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));

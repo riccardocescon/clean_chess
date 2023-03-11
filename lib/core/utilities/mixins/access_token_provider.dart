@@ -2,7 +2,7 @@ import 'package:cleanchess/chess/error/failures.dart';
 import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
     as secure_storage_helper;
 import 'package:dartz/dartz.dart';
-import 'package:lichess_client/client.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 mixin LichessTokenProvider {
   /// Runtime cache of the access token
@@ -15,7 +15,8 @@ mixin LichessTokenProvider {
 
   /// Create a new LichessClient with the access token
   /// and save it to the runtime cache for future use
-  void setClient() => _client = LichessClient.create(accessToken: _accessToken);
+  void setClient() =>
+      _client = LichessClientDio.create(accessToken: _accessToken);
 
   /// Save the access token to the secure storage
   /// and to the runtime cache for future use
