@@ -1,47 +1,73 @@
 import 'package:cleanchess/chess/error/failures.dart';
-import 'package:cleanchess/core/usecases/usecase.dart';
-import 'package:cleanchess/features/clean_chess/domain/entities/net_login_data.dart';
+import 'package:cleanchess/chess/utilities/extensions.dart';
+import 'package:cleanchess/core/presentation/bloc/utilities/oauth_helper.dart'
+    as oauth_helper;
+import 'package:cleanchess/features/clean_chess/domain/usecases/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/lichess_oauth.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:math' as math;
 
 class LichessBloc extends Bloc<LichessOAuthEvent, LichessState> {
-  final LichessOAuth oauth;
+  String? accessToken;
 
-  LichessBloc({required this.oauth}) : super(LichessInitial()) {
+  final LichessOAuth oauth;
+  final LichessGainAccessToken gainAccessToken;
+
+  LichessBloc({
+    required this.oauth,
+    required this.gainAccessToken,
+  }) : super(LichessInitial()) {
     on<LichessOAuthEvent>((event, emit) async {
       emit(LichessLoading());
 
-      const String charset =
-          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
-
-      final codeVerifier = List.generate(
-              128, (i) => charset[math.Random.secure().nextInt(charset.length)])
-          .join();
-
-      final stateVerifier = List.generate(
-              128, (i) => charset[math.Random.secure().nextInt(charset.length)])
-          .join();
-
+      // Generate an authorization URL that asks for the oauth2 permission
       const clientId = 'cleanchess';
+      final grant = oauth_helper.getAuthorizationCodeGrant(
+        clientId: clientId,
+        oauthUri: 'https://lichess.org/oauth',
+        tokenUri: 'https://lichess.org/api/token',
+      );
+
+      // Generate a random StateVerifier for the authorization request
+      final stateVerifier = oauth_helper.getRandomVerifier;
+
+      // Create a callback URL that will be used by the authorization server
+      // to redirect the user back to the app with the authorization code
       const redirectUri = 'com.example.cleanchess://authorize';
 
       try {
+        // Perform the authorization request
         final data = await oauth.call(
           LichessOAuthParams(
-            codeVerifier: codeVerifier,
+            grant: grant,
             stateVerifier: stateVerifier,
-            clientId: clientId,
             redirectUri: redirectUri,
           ),
         );
 
-        data.fold(
-          (error) => emit(LichessError(error)),
-          (account) => emit(const LichessOAuthSuccess()),
+        if (data.isLeft()) {
+          emit(LichessError(data.left));
+          return;
+        }
+
+        // Extract the authorization parameters from the response
+        final OAuthParams params = data.right;
+
+        // Exchange the authorization code for an access token
+        final accessToken = await gainAccessToken.call(
+          LichessGainAccessTokenParams(grant: grant, parameters: params),
         );
+
+        if (accessToken.isLeft()) {
+          emit(LichessError(accessToken.left));
+          return;
+        }
+
+        // Save the access token
+        this.accessToken = accessToken.right;
+
+        emit(const LichessOAuthSuccess());
       } catch (e) {
         emit(LichessError(UnexpectedFailure(e.toString())));
       }
