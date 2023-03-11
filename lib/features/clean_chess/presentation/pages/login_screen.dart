@@ -38,7 +38,35 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _body(context) {
+  Widget _body(context) => SizedBox(
+        width: double.maxFinite,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const ScaleAnimatedLogo(size: 150),
+            SizedBox(
+              width: 200,
+              height: 60,
+              child: MaterialButton(
+                onPressed: () => BlocProvider.of<LichessBloc>(context).add(
+                  const LichessOAuthEvent(),
+                ),
+                color: Colors.teal.shade300,
+                child: const Text(
+                  'Login',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget _animatedBody(context) {
     return SizedBox(
       width: double.maxFinite,
       child: Padding(

@@ -4,60 +4,73 @@ import 'package:cleanchess/chess/utilities/utils.dart';
 import 'package:cleanchess/core/usecases/usecase.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/lichess_repositoy.dart';
 import 'package:dartz/dartz.dart';
+import 'package:oauth2/oauth2.dart' as oauth2;
+
+typedef OAuthParams = Map<String, String>;
 
 /// This class is responsible for Analyzing and Validating the response
 /// received from the [NetRepositoryImpl] and returning either a [Failure]
 /// or a Model requested by the [Bloc]
-class LichessOAuth implements UseCase<Empty, LichessOAuthParams> {
-  final LichessRepository netRepository;
+class LichessOAuth implements UseCase<OAuthParams, LichessOAuthParams> {
+  final LichessRepository lichessRepository;
 
-  const LichessOAuth(this.netRepository);
+  const LichessOAuth(this.lichessRepository);
 
   @override
-  Future<Either<Failure, Empty>> call(LichessOAuthParams params) async {
-    final response = await netRepository.authenticate(
-      codeVerifier: params.codeVerifier,
+  Future<Either<Failure, OAuthParams>> call(LichessOAuthParams params) async {
+    // Perform the authentication request
+    final response = await lichessRepository.authenticate(
+      grant: params.grant,
       stateVerifier: params.stateVerifier,
-      clientId: params.clientId,
       redirectUri: params.redirectUri,
     );
 
     if (response.isLeft()) return Left(response.left);
 
+    // Extract the response data
     final responseData = response.right;
-
-    // Save on local storage
     final uri = Uri.parse(responseData);
+    final OAuthParams parameters = uri.queryParameters;
 
-    final responseQuery = uri.queryParameters;
-
-    switch (responseQuery['error']) {
-      case 'access_denied':
-        return Left(LichessOAuthFailure('Access Denied'));
+    // Validate the response data
+    switch (parameters['error']) {
+      // Success case
       case null:
-        final _ = responseQuery['code'];
-        final state = responseQuery['state'];
+        final code = parameters['code'];
+        final state = parameters['state'];
 
         if (state != params.stateVerifier) {
           return Left(LichessOAuthFailure('State Mismatch'));
         }
-        break;
-    }
 
-    return const Right(Empty());
+        if (code == null) {
+          return Left(LichessOAuthFailure('Code is null'));
+        }
+
+        return Right(parameters);
+
+      // Failure cases
+      case 'access_denied':
+        return Left(LichessOAuthFailure('Access Denied'));
+
+      // Add here more cases for other errors if needed
+
+      default:
+        return Left(
+          LichessOAuthFailure('Unknown Error ${parameters["error"]}'),
+        );
+    }
   }
 }
 
 class LichessOAuthParams {
-  final String codeVerifier;
+  final oauth2.AuthorizationCodeGrant grant;
   final String stateVerifier;
-  final String clientId;
   final String redirectUri;
 
   LichessOAuthParams({
-    required this.codeVerifier,
+    required this.grant,
     required this.stateVerifier,
-    required this.clientId,
     required this.redirectUri,
   });
 }
