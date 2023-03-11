@@ -2,15 +2,15 @@ import 'package:cleanchess/chess/error/failures.dart';
 import 'package:cleanchess/chess/utilities/extensions.dart';
 import 'package:cleanchess/core/presentation/bloc/utilities/oauth_helper.dart'
     as oauth_helper;
+import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/lichess_oauth.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LichessBloc extends Bloc<LichessOAuthEvent, LichessState> {
-  String? accessToken;
-
+class LichessBloc extends Bloc<LichessOAuthEvent, LichessState>
+    with AccessTokenProvider {
   final LichessOAuth oauth;
   final LichessGainAccessToken gainAccessToken;
 
@@ -65,7 +65,7 @@ class LichessBloc extends Bloc<LichessOAuthEvent, LichessState> {
         }
 
         // Save the access token
-        this.accessToken = accessToken.right;
+        await saveAccessToken(accessToken.right);
 
         emit(const LichessOAuthSuccess());
       } catch (e) {
