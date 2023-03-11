@@ -121,6 +121,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.10.1"
+  dio:
+    dependency: transitive
+    description:
+      name: dio
+      sha256: "2644a9e0965a7aa3deb09cb8ce4081db4450c178f472818c8cd34216a3070d7b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.2"
   equatable:
     dependency: "direct main"
     description:
@@ -184,6 +192,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  freezed_annotation:
+    dependency: transitive
+    description:
+      name: freezed_annotation
+      sha256: aeac15850ef1b38ee368d4c53ba9a847e900bb2c53a4db3f6881cbb3cb684338
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
   get_it:
     dependency: "direct main"
     description:
@@ -232,6 +248,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.0"
+  lichess_client:
+    dependency: "direct main"
+    description:
+      name: lichess_client
+      sha256: "8ea982691a3dd73428b3e80dd7ab0ad879d3383f3e71212d637e668af033420b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.0"
   lints:
     dependency: transitive
     description:
@@ -320,6 +344,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.5"
+  retrofit:
+    dependency: transitive
+    description:
+      name: retrofit
+      sha256: "5eedbd8f73697f190dabc88520e0bcf2d3b2d9b9ad5c837f1dbb3ee6172d7709"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -470,5 +502,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.0 <3.0.0"
+  dart: ">=2.19.2 <3.0.0"
   flutter: ">=3.3.0"

@@ -44,6 +44,7 @@ dependencies:
   oauth2: ^2.0.1
   url_launcher: ^6.1.10
   flutter_web_auth: ^0.5.0
+  lichess_client: ^0.0.0
 
 dev_dependencies:
   flutter_test:
