@@ -1,4 +1,4 @@
-import 'package:clean_chess/chess/models/move.dart';
+import 'package:cleanchess/chess/models/move.dart';
 
 import 'enums.dart';
 

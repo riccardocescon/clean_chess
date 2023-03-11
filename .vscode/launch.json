@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "clean_chess",
+            "name": "cleanchess",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "clean_chess (profile mode)",
+            "name": "cleanchess (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "clean_chess (release mode)",
+            "name": "cleanchess (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

@@ -1,5 +1,5 @@
-import 'package:clean_chess/chess/models/cell.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/hud/power_hud.dart';
+import 'package:cleanchess/chess/models/cell.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/hud/power_hud.dart';
 import 'package:flutter/material.dart';
 
 class BoardCell extends StatelessWidget {
@@ -12,6 +12,7 @@ class BoardCell extends StatelessWidget {
     required this.isLandscape,
     required this.showPowerHud,
     required this.onTap,
+    this.showCoords = true,
   });
 
   final Cell cell;
@@ -22,6 +23,7 @@ class BoardCell extends StatelessWidget {
   final bool showPowerHud;
   final void Function() onTap;
   final bool innerCoords = false;
+  final bool showCoords;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class BoardCell extends StatelessWidget {
             padding: const EdgeInsets.all(5),
             child: Stack(
               children: [
-                ..._cellCoords(),
+                if (showCoords) ..._cellCoords(),
                 if (showPowerHud)
                   PowerHud(
                     whitePower: cell.whitePower.toString(),

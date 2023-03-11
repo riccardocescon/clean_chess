@@ -1,10 +1,10 @@
-import 'package:clean_chess/chess/apis/puzzle_board_api.dart';
-import 'package:clean_chess/chess/models/board.dart';
-import 'package:clean_chess/chess/models/cell.dart';
-import 'package:clean_chess/chess/models/fen.dart';
-import 'package:clean_chess/chess/models/pieces.dart';
-import 'package:clean_chess/chess/utilities/extensions.dart';
-import 'package:clean_chess/chess/core/utilities/enums.dart';
+import 'package:cleanchess/chess/apis/puzzle_board_api.dart';
+import 'package:cleanchess/chess/models/board.dart';
+import 'package:cleanchess/chess/models/cell.dart';
+import 'package:cleanchess/chess/models/fen.dart';
+import 'package:cleanchess/chess/models/pieces.dart';
+import 'package:cleanchess/chess/utilities/extensions.dart';
+import 'package:cleanchess/chess/core/utilities/enums.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

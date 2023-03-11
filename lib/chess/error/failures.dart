@@ -1,6 +1,15 @@
-abstract class Failure {
+import 'package:equatable/equatable.dart';
+
+abstract class Failure with EquatableMixin {
   final String message;
-  Failure(this.message);
+  const Failure(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
+
+class UnexpectedFailure extends Failure {
+  UnexpectedFailure(String message) : super(message);
 }
 
 class PieceNotFoundOnCellFailure extends Failure {
@@ -53,4 +62,12 @@ class CannotMoveWhileInCheckFailure extends Failure {
 
 class CannotMoveCreatingCheckFailure extends Failure {
   CannotMoveCreatingCheckFailure() : super("Cannot move creating check");
+}
+
+class LichessOAuthFailure extends Failure {
+  LichessOAuthFailure(String message) : super(message);
+}
+
+class LichessOAuthCancelled extends Failure {
+  LichessOAuthCancelled() : super("Lichess OAuth Cancelled by user");
 }

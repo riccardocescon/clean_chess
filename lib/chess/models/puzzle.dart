@@ -1,5 +1,5 @@
-import 'package:clean_chess/chess/models/fen.dart';
-import 'package:clean_chess/chess/core/utilities/extensions.dart';
+import 'package:cleanchess/chess/models/fen.dart';
+import 'package:cleanchess/chess/core/utilities/extensions.dart';
 
 class Puzzle {
   late final String id;

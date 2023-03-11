@@ -1,4 +1,4 @@
-import 'package:clean_chess/chess/models/cell.dart';
+import 'package:cleanchess/chess/models/cell.dart';
 import 'package:equatable/equatable.dart';
 
 class Move with EquatableMixin {

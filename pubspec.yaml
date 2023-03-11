@@ -1,4 +1,4 @@
-name: clean_chess
+name: cleanchess
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -40,6 +40,11 @@ dependencies:
   dartz: ^0.10.1
   equatable: ^2.0.5
   csv: ^5.0.1
+  http: ^0.13.5
+  oauth2: ^2.0.1
+  url_launcher: ^6.1.10
+  flutter_web_auth: ^0.5.0
+  lichess_client: ^0.0.0
 
 dev_dependencies:
   flutter_test:

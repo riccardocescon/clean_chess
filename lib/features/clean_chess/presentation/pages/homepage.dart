@@ -1,23 +1,24 @@
 import 'dart:developer';
 
-import 'package:clean_chess/chess/abstractions/piece.dart';
-import 'package:clean_chess/chess/apis/puzzle_board_api.dart';
-import 'package:clean_chess/chess/core/utilities/enums.dart';
-import 'package:clean_chess/chess/error/failures.dart';
-import 'package:clean_chess/chess/models/board.dart';
-import 'package:clean_chess/chess/models/cell.dart';
-import 'package:clean_chess/chess/models/move.dart';
-import 'package:clean_chess/chess/models/puzzle.dart';
-import 'package:clean_chess/chess/models/tuple.dart';
-import 'package:clean_chess/chess/utilities/extensions.dart';
-import 'package:clean_chess/core/clean_chess/presentation/dialogs/pawn_promotion_dialog.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/arrow.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/bottom_bar.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/cell.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/hud/hud_switcher.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/threats/threats_table.dart';
-import 'package:clean_chess/core/clean_chess/utilities/style.dart';
-import 'package:clean_chess/main.dart';
+import 'package:cleanchess/chess/abstractions/piece.dart';
+import 'package:cleanchess/chess/apis/puzzle_board_api.dart';
+import 'package:cleanchess/chess/core/utilities/enums.dart';
+import 'package:cleanchess/chess/error/failures.dart';
+import 'package:cleanchess/chess/models/board.dart';
+import 'package:cleanchess/chess/models/cell.dart';
+import 'package:cleanchess/chess/models/move.dart';
+import 'package:cleanchess/chess/models/puzzle.dart';
+import 'package:cleanchess/chess/models/tuple.dart';
+import 'package:cleanchess/chess/utilities/extensions.dart';
+import 'package:cleanchess/core/clean_chess/presentation/dialogs/pawn_promotion_dialog.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/arrow.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/bottom_bar.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/cell.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/hud/hud_switcher.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/threats/threats_table.dart';
+import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
+import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/main.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatefulWidget {
@@ -444,7 +445,7 @@ class _HomepageState extends State<Homepage> {
           showPawnPromotionPanel(context, pieceCell.piece!.color),
     );
     if (moveResult.isLeft()) {
-      _snackbarError(moveResult.left);
+      if (mounted) showSnackbarError(context, moveResult.left);
       return;
     }
 
@@ -469,7 +470,7 @@ class _HomepageState extends State<Homepage> {
     // Request the possible moves to the API
     final paths = await PuzzleBoardAPI().planPath(cell);
     if (paths.isLeft()) {
-      _snackbarError(paths.left);
+      if (mounted) showSnackbarError(context, paths.left);
       return;
     }
 
@@ -479,24 +480,6 @@ class _HomepageState extends State<Homepage> {
     plannedCells.second.addAll(cells);
     plannedCells.first = cell.piece;
     setState(() {});
-  }
-
-  /// Shows an error message
-  void _snackbarError(Failure failure) {
-    log(failure.message);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          failure.message,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: Colors.red,
-        duration: const Duration(milliseconds: 500),
-      ),
-    );
   }
 
   /// Inverts the turn
@@ -563,7 +546,7 @@ class _HomepageState extends State<Homepage> {
     // Setup the board
     final boardRequest = PuzzleBoardAPI().fromFen(puzzle.fen);
     if (boardRequest.isLeft()) {
-      _snackbarError(boardRequest.left);
+      showSnackbarError(context, boardRequest.left);
       board = Board.empty();
     } else {
       board = boardRequest.right;
@@ -588,7 +571,7 @@ class _HomepageState extends State<Homepage> {
   void _onPreviousMove() {
     final previousMove = PuzzleBoardAPI().previousMove();
     if (previousMove.isLeft()) {
-      _snackbarError(previousMove.left);
+      showSnackbarError(context, previousMove.left);
       return;
     }
     Board requestedMove = previousMove.right.first;
@@ -614,7 +597,7 @@ class _HomepageState extends State<Homepage> {
   void _onNextMove() {
     final nextmove = PuzzleBoardAPI().nextMove();
     if (nextmove.isLeft()) {
-      _snackbarError(nextmove.left);
+      showSnackbarError(context, nextmove.left);
       return;
     }
     Board requestedMove = nextmove.right.first;

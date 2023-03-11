@@ -1,6 +1,6 @@
-import 'package:clean_chess/chess/abstractions/piece.dart';
-import 'package:clean_chess/chess/core/utilities/defines.dart';
-import 'package:clean_chess/chess/models/tuple.dart';
+import 'package:cleanchess/chess/abstractions/piece.dart';
+import 'package:cleanchess/chess/core/utilities/defines.dart';
+import 'package:cleanchess/chess/models/tuple.dart';
 import 'package:flutter/material.dart';
 
 class EnemyThreat extends StatelessWidget {
