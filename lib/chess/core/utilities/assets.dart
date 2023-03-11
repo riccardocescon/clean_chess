@@ -23,3 +23,5 @@ const String flatWhiteQueen = 'assets/pieces/flat/white_queen.png';
 const String flatBlackQueen = 'assets/pieces/flat/black_queen.png';
 const String flatWhiteKing = 'assets/pieces/flat/white_king.png';
 const String flatBlackKing = 'assets/pieces/flat/black_king.png';
+
+const String logo = 'assets/img/logo.png';
