@@ -2,6 +2,9 @@ import 'package:cleanchess/chess/core/utilities/assets.dart';
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/core/clean_chess/presentation/widgets/diamond_bottom_bar.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
+import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
@@ -47,111 +50,17 @@ class _HomeScreenState extends State<HomeScreen> {
           }),
         ),
         body: _body(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            const String charset =
-                'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
-
-            final codeVerifier = List.generate(
-                    128,
-                    (i) =>
-                        charset[math.Random.secure().nextInt(charset.length)])
-                .join();
-
-            final state = List.generate(
-                    128,
-                    (i) =>
-                        charset[math.Random.secure().nextInt(charset.length)])
-                .join();
-
-            final grant = oauth2.AuthorizationCodeGrant(
-              'cleanchess',
-              Uri.parse('https://lichess.org/oauth'),
-              Uri.parse('https://lichess.org/api/token'),
-              httpClient: http.Client(),
-              codeVerifier: codeVerifier,
-            );
-
-            final Uri redirectUri =
-                Uri.parse('com.example.cleanchess://authorize');
-
-            // Uri.parse(
-            //   'https://lichess.org?'
-            //   'response_type=code&'
-            //   'client_id=cleanchess&'
-            //   'redirect_uri=$redirectUri&'
-            //   'code_challenge_method=S256&'
-            //   'code_challenge=$codeVerifier&'
-            //   'state=$state',
-            // ),
-            final authorizationUrl = grant.getAuthorizationUrl(
-              redirectUri,
-              scopes: ['challenge:read', 'challenge:write'],
-            );
-
-            try {
-              // Present the dialog to the user
-              final result = await FlutterWebAuth.authenticate(
-                url: authorizationUrl.toString(),
-                callbackUrlScheme: redirectUri.scheme,
-              );
-
-              // Save on local storage
-              final uri = Uri.parse(result);
-
-              final responseQuery = uri.queryParameters;
-
-              switch (responseQuery['error']) {
-                case 'access_denied':
-                  _showAccesDeniedWarning();
-                  break;
-                case null:
-                  final code = responseQuery['code'];
-                  final state = responseQuery['state'];
-
-                  _showSuccessMessage();
-
-                  // TODO: compare state with our state to see if it matches...
-                  // if(state == )
-                  break;
-              }
-            } on PlatformException catch (e) {
-              switch (e.code) {
-                case 'CANCELED':
-                  _showAccesDeniedWarning();
-                  break;
-                // Add other [case] missing errors here.
-                default:
-                  _showUnknownErrorWarning();
-                  break;
-              }
-            }
-          },
-          child: const Icon(Icons.add),
-        ),
       ),
     );
   }
 
-  void _showUnknownErrorWarning() {
-    _showSnackBar("An unknwon error ocurred, try again.");
-  }
-
-  void _showSnackBar(String message) {
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
-    }
-  }
-
-  void _showSuccessMessage() {
-    _showSnackBar("Logged successfully!");
-  }
-
-  void _showAccesDeniedWarning() {
-    _showSnackBar("Access denied.");
-  }
+  // void _showSnackBar(String message) {
+  //   if (context.mounted) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text(message)),
+  //     );
+  //   }
+  // }
 
   Widget _body() {
     return CustomScrollView(
