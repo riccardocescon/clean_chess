@@ -1,7 +1,7 @@
 import 'package:cleanchess/chess/error/failures.dart';
 import 'package:dartz/dartz.dart';
 
-abstract class RemoteDataSource {
+abstract class LichessRepository {
   Future<Either<Failure, String>> authenticate({
     required String codeVerifier,
     required String stateVerifier,
