@@ -10,7 +10,7 @@ import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LichessBloc extends Bloc<LichessOAuthEvent, LichessState>
-    with AccessTokenProvider {
+    with LichessTokenProvider {
   final LichessOAuth oauth;
   final LichessGainAccessToken gainAccessToken;
 
