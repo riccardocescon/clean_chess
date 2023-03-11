@@ -1,4 +1,4 @@
-package com.example.clean_chess
+package com.example.cleanchess
 
 import io.flutter.embedding.android.FlutterActivity
 

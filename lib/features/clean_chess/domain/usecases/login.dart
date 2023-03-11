@@ -1,8 +1,8 @@
-import 'package:clean_chess/chess/error/failures.dart';
-import 'package:clean_chess/chess/utilities/extensions.dart';
-import 'package:clean_chess/core/usecases/usecase.dart';
-import 'package:clean_chess/features/clean_chess/domain/entities/net_login_data.dart';
-import 'package:clean_chess/features/clean_chess/domain/repositories/net_repository.dart';
+import 'package:cleanchess/chess/error/failures.dart';
+import 'package:cleanchess/chess/utilities/extensions.dart';
+import 'package:cleanchess/core/usecases/usecase.dart';
+import 'package:cleanchess/features/clean_chess/domain/entities/net_login_data.dart';
+import 'package:cleanchess/features/clean_chess/domain/repositories/net_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 

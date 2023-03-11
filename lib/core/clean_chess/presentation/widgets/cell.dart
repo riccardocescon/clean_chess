@@ -1,5 +1,5 @@
-import 'package:clean_chess/chess/models/cell.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/hud/power_hud.dart';
+import 'package:cleanchess/chess/models/cell.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/hud/power_hud.dart';
 import 'package:flutter/material.dart';
 
 class BoardCell extends StatelessWidget {

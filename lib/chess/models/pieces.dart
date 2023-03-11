@@ -1,6 +1,6 @@
-import 'package:clean_chess/chess/abstractions/piece.dart';
-import 'package:clean_chess/chess/core/utilities/assets.dart';
-import 'package:clean_chess/chess/core/utilities/enums.dart';
+import 'package:cleanchess/chess/abstractions/piece.dart';
+import 'package:cleanchess/chess/core/utilities/assets.dart';
+import 'package:cleanchess/chess/core/utilities/enums.dart';
 
 class Pawn extends Piece<Pawn> {
   @override

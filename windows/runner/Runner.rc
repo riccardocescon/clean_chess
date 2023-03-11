@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "clean_chess" "\0"
+            VALUE "FileDescription", "cleanchess" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "clean_chess" "\0"
+            VALUE "InternalName", "cleanchess" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "clean_chess.exe" "\0"
-            VALUE "ProductName", "clean_chess" "\0"
+            VALUE "OriginalFilename", "cleanchess.exe" "\0"
+            VALUE "ProductName", "cleanchess" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

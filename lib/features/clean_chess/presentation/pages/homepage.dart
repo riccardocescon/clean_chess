@@ -1,23 +1,23 @@
 import 'dart:developer';
 
-import 'package:clean_chess/chess/abstractions/piece.dart';
-import 'package:clean_chess/chess/apis/puzzle_board_api.dart';
-import 'package:clean_chess/chess/core/utilities/enums.dart';
-import 'package:clean_chess/chess/error/failures.dart';
-import 'package:clean_chess/chess/models/board.dart';
-import 'package:clean_chess/chess/models/cell.dart';
-import 'package:clean_chess/chess/models/move.dart';
-import 'package:clean_chess/chess/models/puzzle.dart';
-import 'package:clean_chess/chess/models/tuple.dart';
-import 'package:clean_chess/chess/utilities/extensions.dart';
-import 'package:clean_chess/core/clean_chess/presentation/dialogs/pawn_promotion_dialog.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/arrow.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/bottom_bar.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/cell.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/hud/hud_switcher.dart';
-import 'package:clean_chess/core/clean_chess/presentation/widgets/threats/threats_table.dart';
-import 'package:clean_chess/core/clean_chess/utilities/style.dart';
-import 'package:clean_chess/main.dart';
+import 'package:cleanchess/chess/abstractions/piece.dart';
+import 'package:cleanchess/chess/apis/puzzle_board_api.dart';
+import 'package:cleanchess/chess/core/utilities/enums.dart';
+import 'package:cleanchess/chess/error/failures.dart';
+import 'package:cleanchess/chess/models/board.dart';
+import 'package:cleanchess/chess/models/cell.dart';
+import 'package:cleanchess/chess/models/move.dart';
+import 'package:cleanchess/chess/models/puzzle.dart';
+import 'package:cleanchess/chess/models/tuple.dart';
+import 'package:cleanchess/chess/utilities/extensions.dart';
+import 'package:cleanchess/core/clean_chess/presentation/dialogs/pawn_promotion_dialog.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/arrow.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/bottom_bar.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/cell.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/hud/hud_switcher.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/threats/threats_table.dart';
+import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/main.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatefulWidget {

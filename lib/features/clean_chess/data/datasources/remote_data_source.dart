@@ -1,4 +1,4 @@
-import 'package:clean_chess/chess/error/failures.dart';
+import 'package:cleanchess/chess/error/failures.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class RemoteDataSource {
