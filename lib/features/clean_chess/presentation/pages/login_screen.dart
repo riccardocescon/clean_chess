@@ -96,6 +96,13 @@ class _LoginScreenState extends State<LoginScreen> {
       BlocListener<LichessBloc, LichessState>(
         listener: (context, state) {
           if (state is LichessOAuthSuccess) {
+            // Get user profile
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetMyProfileEvent(),
+            );
+          } else if (state is LichessUserFetched) {
+            final userProfile = state.user;
+            print(userProfile);
             showSnackbarSuccess(context, 'Logged in');
             Navigator.pushReplacementNamed(context, Navigation.homescreen);
           } else if (state is LichessError) {

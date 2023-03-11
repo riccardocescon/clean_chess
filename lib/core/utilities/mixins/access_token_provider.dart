@@ -36,7 +36,7 @@ mixin LichessTokenProvider {
   /// Get the LichessClient
   /// If there is no access in runtime cache, try to get it from the secure storage
   /// If there is no access token in the secure storage, return a [NoAccessTokenFailure]
-  Future<Either<Failure, LichessClient>> client() async {
+  Future<Either<Failure, LichessClient>> getClient() async {
     // If the client is already created, return it
     if (_client != null) return Right(_client!);
 
