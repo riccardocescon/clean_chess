@@ -92,3 +92,9 @@ class MessageAllMembersEvent extends LichessEvent {
     required this.message,
   });
 }
+
+class SearchTeamByNameEvent extends LichessEvent {
+  final String teamName;
+  final int page;
+  const SearchTeamByNameEvent({required this.teamName, this.page = 1});
+}

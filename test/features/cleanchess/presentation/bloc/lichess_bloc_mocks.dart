@@ -41,6 +41,8 @@ class MLeaveTeam extends Mock implements LeaveTeam {}
 
 class MMessageAllMembers extends Mock implements MessageAllMembers {}
 
+class MSearchTeamByName extends Mock implements SearchTeamByName {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -59,5 +61,6 @@ class MMessageAllMembers extends Mock implements MessageAllMembers {}
   MockSpec<MJoinTeam>(),
   MockSpec<MLeaveTeam>(),
   MockSpec<MMessageAllMembers>(),
+  MockSpec<MSearchTeamByName>(),
 ])
 void main() {}

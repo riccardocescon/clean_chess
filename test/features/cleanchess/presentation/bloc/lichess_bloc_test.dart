@@ -33,6 +33,7 @@ void main() async {
   late MockMJoinTeam mockJoinTeam;
   late MockMLeaveTeam mockLeaveTeam;
   late MockMMessageAllMembers mockMessageAllMembers;
+  late MockMSearchTeamByName mockSearchTeamByName;
 
   late LichessBloc bloc;
 
@@ -55,6 +56,7 @@ void main() async {
     mockJoinTeam = MockMJoinTeam();
     mockLeaveTeam = MockMLeaveTeam();
     mockMessageAllMembers = MockMMessageAllMembers();
+    mockSearchTeamByName = MockMSearchTeamByName();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -75,6 +77,7 @@ void main() async {
       joinTeam: mockJoinTeam,
       leaveTeam: mockLeaveTeam,
       messageAllMembers: mockMessageAllMembers,
+      searchTeamByName: mockSearchTeamByName,
     );
   });
 
@@ -806,6 +809,48 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockMessageAllMembers.call(any)).called(1);
+        },
+      );
+    });
+
+    group('SearchTeamByName', () {
+      blocTest<LichessBloc, LichessState>(
+        'Success',
+        build: () {
+          when(mockSearchTeamByName.call(any)).thenAnswer(
+            (_) async => const Right(PageOf<Team>()),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(
+          const SearchTeamByNameEvent(teamName: ''),
+        ),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<PageOf<Team>>>(),
+        ],
+        verify: (bloc) {
+          verify(mockSearchTeamByName.call(any)).called(1);
+        },
+      );
+
+      blocTest<LichessBloc, LichessState>(
+        'Failure',
+        build: () {
+          when(mockSearchTeamByName.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const SearchTeamByNameEvent(teamName: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockSearchTeamByName.call(any)).called(1);
         },
       );
     });

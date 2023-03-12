@@ -67,4 +67,11 @@ class LichessTeamRepository implements TeamRepository {
     String message,
   ) =>
       teamDataSource.messageAllMembers(teamId, message);
+
+  @override
+  Future<Either<Failure, PageOf<Team>>> searchTeamByName(
+    String name,
+    int page,
+  ) =>
+      teamDataSource.searchTeamByName(name, page);
 }

@@ -10,3 +10,4 @@ export 'package:cleanchess/features/clean_chess/domain/usecases/teams/kick_membe
 export 'package:cleanchess/features/clean_chess/domain/usecases/teams/join_team.dart';
 export 'package:cleanchess/features/clean_chess/domain/usecases/teams/leave_team.dart';
 export 'package:cleanchess/features/clean_chess/domain/usecases/teams/message_all_members.dart';
+export 'package:cleanchess/features/clean_chess/domain/usecases/teams/search_team_by_name.dart';

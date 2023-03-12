@@ -821,3 +821,48 @@ class MockMMessageAllMembers extends _i1.Mock
         )),
       ) as _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>>);
 }
+
+/// A class which mocks [MSearchTeamByName].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMSearchTeamByName extends _i1.Mock implements _i7.MSearchTeamByName {
+  @override
+  _i6.TeamRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeTeamRepository_4(
+          this,
+          Invocation.getter(#repository),
+        ),
+        returnValueForMissingStub: _FakeTeamRepository_4(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i6.TeamRepository);
+  @override
+  _i8.Future<_i3.Either<_i9.Failure, _i11.PageOf<_i11.Team>>> call(
+          _i16.SearchTeamByNameParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue:
+            _i8.Future<_i3.Either<_i9.Failure, _i11.PageOf<_i11.Team>>>.value(
+                _FakeEither_1<_i9.Failure, _i11.PageOf<_i11.Team>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i8.Future<_i3.Either<_i9.Failure, _i11.PageOf<_i11.Team>>>.value(
+                _FakeEither_1<_i9.Failure, _i11.PageOf<_i11.Team>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i8.Future<_i3.Either<_i9.Failure, _i11.PageOf<_i11.Team>>>);
+}

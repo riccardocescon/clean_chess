@@ -62,4 +62,7 @@ abstract class RemoteTeamDataSource {
     String teamId,
     String message,
   );
+
+  /// Api for searching a team by name
+  Future<Either<Failure, PageOf<Team>>> searchTeamByName(String name, int page);
 }

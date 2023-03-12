@@ -41,4 +41,9 @@ abstract class TeamRepository {
     String teamId,
     String message,
   );
+
+  Future<Either<Failure, PageOf<Team>>> searchTeamByName(
+    String name,
+    int page,
+  );
 }

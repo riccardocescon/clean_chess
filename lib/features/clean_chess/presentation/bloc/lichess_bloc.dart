@@ -8,7 +8,7 @@ import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/decline_join_request.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/search_team_by_name.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
@@ -35,6 +35,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final JoinTeam joinTeam;
   final LeaveTeam leaveTeam;
   final MessageAllMembers messageAllMembers;
+  final SearchTeamByName searchTeamByName;
 
   LichessBloc({
     required this.tokenProvider,
@@ -55,6 +56,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.joinTeam,
     required this.leaveTeam,
     required this.messageAllMembers,
+    required this.searchTeamByName,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -216,6 +218,20 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
       message.fold(
         (failure) => emit(LichessError(failure)),
         (tournaments) => emit(const LichessLoaded<Empty>(Empty())),
+      );
+    });
+    on<SearchTeamByNameEvent>((event, emit) async {
+      emit(LichessLoading());
+      final teams = await searchTeamByName.call(
+        SearchTeamByNameParams(
+          event.teamName,
+          event.page,
+        ),
+      );
+
+      teams.fold(
+        (failure) => emit(LichessError(failure)),
+        (tournaments) => emit(LichessLoaded<PageOf<Team>>(tournaments)),
       );
     });
   }

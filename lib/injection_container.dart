@@ -5,9 +5,6 @@ import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_account_repository.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/accept_join_request.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/decline_join_request.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_team_join_requests.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -42,6 +39,7 @@ Future<void> init() async {
       joinTeam: sl<JoinTeam>(),
       leaveTeam: sl<LeaveTeam>(),
       messageAllMembers: sl<MessageAllMembers>(),
+      searchTeamByName: sl<SearchTeamByName>(),
     ),
   );
 
@@ -89,6 +87,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => MessageAllMembers(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => SearchTeamByName(sl<LichessTeamRepository>()),
   );
 
   // Register repositories
