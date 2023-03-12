@@ -1,5 +1,7 @@
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess_oauth_repository.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/oauth.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 

@@ -1,7 +1,7 @@
 import 'package:cleanchess/chess/error/failures.dart';
 import 'package:cleanchess/chess/utilities/extensions.dart';
 import 'package:cleanchess/core/usecases/usecase.dart';
-import 'package:cleanchess/features/clean_chess/domain/repositories/lichess_repositoy.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess_oauth_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
 
@@ -11,14 +11,14 @@ typedef OAuthParams = Map<String, String>;
 /// received from the [NetRepositoryImpl] and returning either a [Failure]
 /// or a Model requested by the [Bloc]
 class LichessOAuth implements UseCase<OAuthParams, LichessOAuthParams> {
-  final LichessRepository lichessRepository;
+  final LichessOAuthRepository oAuthRepository;
 
-  const LichessOAuth(this.lichessRepository);
+  const LichessOAuth(this.oAuthRepository);
 
   @override
   Future<Either<Failure, OAuthParams>> call(LichessOAuthParams params) async {
     // Perform the authentication request
-    final response = await lichessRepository.authenticate(
+    final response = await oAuthRepository.authenticate(
       grant: params.grant,
       stateVerifier: params.stateVerifier,
       redirectUri: params.redirectUri,

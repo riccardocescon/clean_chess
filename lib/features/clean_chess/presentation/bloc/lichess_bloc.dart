@@ -6,10 +6,11 @@ import 'package:cleanchess/core/presentation/bloc/utilities/oauth_helper.dart'
 import 'package:cleanchess/core/usecases/usecase.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/oauth.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class LichessBloc extends Bloc<LichessEvent, LichessState> {
