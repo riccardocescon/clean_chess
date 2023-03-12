@@ -36,4 +36,9 @@ abstract class TeamRepository {
   );
 
   Future<Either<Failure, Empty>> leaveTeam(String teamId);
+
+  Future<Either<Failure, Empty>> messageAllMembers(
+    String teamId,
+    String message,
+  );
 }

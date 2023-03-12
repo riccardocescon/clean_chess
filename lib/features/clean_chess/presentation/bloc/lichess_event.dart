@@ -83,3 +83,12 @@ class LeaveTeamEvent extends LichessEvent {
   final String teamId;
   const LeaveTeamEvent({required this.teamId});
 }
+
+class MessageAllMembersEvent extends LichessEvent {
+  final String teamId;
+  final String message;
+  const MessageAllMembersEvent({
+    required this.teamId,
+    required this.message,
+  });
+}

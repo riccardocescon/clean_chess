@@ -32,6 +32,7 @@ void main() async {
   late MockMDeclineJoinRequest mockDeclineJoinRequest;
   late MockMJoinTeam mockJoinTeam;
   late MockMLeaveTeam mockLeaveTeam;
+  late MockMMessageAllMembers mockMessageAllMembers;
 
   late LichessBloc bloc;
 
@@ -53,6 +54,7 @@ void main() async {
     mockKickMemberFromTeam = MockMKickMemberFromTeam();
     mockJoinTeam = MockMJoinTeam();
     mockLeaveTeam = MockMLeaveTeam();
+    mockMessageAllMembers = MockMMessageAllMembers();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -72,6 +74,7 @@ void main() async {
       kickMemberFromTeam: mockKickMemberFromTeam,
       joinTeam: mockJoinTeam,
       leaveTeam: mockLeaveTeam,
+      messageAllMembers: mockMessageAllMembers,
     );
   });
 
@@ -755,6 +758,54 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockLeaveTeam.call(any)).called(1);
+        },
+      );
+    });
+
+    group('MessageAllMembers', () {
+      blocTest<LichessBloc, LichessState>(
+        'Success',
+        build: () {
+          when(mockMessageAllMembers.call(any)).thenAnswer(
+            (_) async => const Right(Empty()),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(
+          const MessageAllMembersEvent(
+            teamId: '',
+            message: '',
+          ),
+        ),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<Empty>>(),
+        ],
+        verify: (bloc) {
+          verify(mockMessageAllMembers.call(any)).called(1);
+        },
+      );
+
+      blocTest<LichessBloc, LichessState>(
+        'Failure',
+        build: () {
+          when(mockMessageAllMembers.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const MessageAllMembersEvent(
+          teamId: '',
+          message: '',
+        )),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockMessageAllMembers.call(any)).called(1);
         },
       );
     });

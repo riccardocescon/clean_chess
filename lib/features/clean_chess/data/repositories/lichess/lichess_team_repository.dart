@@ -60,4 +60,11 @@ class LichessTeamRepository implements TeamRepository {
   @override
   Future<Either<Failure, Empty>> leaveTeam(String teamId) =>
       teamDataSource.leaveTeam(teamId);
+
+  @override
+  Future<Either<Failure, Empty>> messageAllMembers(
+    String teamId,
+    String message,
+  ) =>
+      teamDataSource.messageAllMembers(teamId, message);
 }

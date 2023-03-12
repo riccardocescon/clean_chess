@@ -41,6 +41,7 @@ Future<void> init() async {
       kickMemberFromTeam: sl<KickMemberFromTeam>(),
       joinTeam: sl<JoinTeam>(),
       leaveTeam: sl<LeaveTeam>(),
+      messageAllMembers: sl<MessageAllMembers>(),
     ),
   );
 
@@ -85,6 +86,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => LeaveTeam(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => MessageAllMembers(sl<LichessTeamRepository>()),
   );
 
   // Register repositories

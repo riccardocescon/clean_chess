@@ -167,8 +167,9 @@ class _LoginScreenState extends State<LoginScreen> {
           } else if (state is LichessLoaded<List<JoinRequest>>) {
             log(state.data.toString());
             BlocProvider.of<LichessBloc>(context).add(
-              LeaveTeamEvent(
-                teamId: 'group-test',
+              const MessageAllMembersEvent(
+                teamId: 'simple-app-test',
+                message: 'Hello',
               ),
             );
             isKickRequest = true;
