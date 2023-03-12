@@ -4,7 +4,7 @@ import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-mixin LichessTokenProvider {
+class LichessTokenProvider {
   /// Runtime cache of the access token
   /// to avoid unnecessary calls to the secure storage
   String? _accessToken;

@@ -11,13 +11,15 @@ import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LichessBloc extends Bloc<LichessEvent, LichessState>
-    with LichessTokenProvider {
+class LichessBloc extends Bloc<LichessEvent, LichessState> {
+  final LichessTokenProvider tokenProvider;
+
   final LichessOAuth oauth;
   final LichessGainAccessToken gainAccessToken;
   final GetMyProfile getMyProfile;
 
   LichessBloc({
+    required this.tokenProvider,
     required this.oauth,
     required this.gainAccessToken,
     required this.getMyProfile,
@@ -84,7 +86,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState>
       }
 
       // Save the access token
-      await saveAccessToken(accessToken.right);
+      await tokenProvider.saveAccessToken(accessToken.right);
 
       emit(const LichessOAuthSuccess());
     } catch (e) {
