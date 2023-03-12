@@ -1,5 +1,6 @@
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_team_join_requests.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -24,6 +25,8 @@ class MGetTeamById extends Mock implements GetTeamById {}
 
 class MGetTeamMembers extends Mock implements GetTeamMembers {}
 
+class MGetTeamJoinRequests extends Mock implements GetTeamJoinRequests {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -35,5 +38,6 @@ class MGetTeamMembers extends Mock implements GetTeamMembers {}
   MockSpec<MGetTeamsByUser>(),
   MockSpec<MGetTeamById>(),
   MockSpec<MGetTeamMembers>(),
+  MockSpec<MGetTeamJoinRequests>(),
 ])
 void main() {}

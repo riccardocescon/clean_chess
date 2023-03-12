@@ -8,4 +8,8 @@ abstract class TeamRepository {
   Future<Either<Failure, Team>> getTeamById(String teamId);
 
   Future<Either<Failure, List<User>>> getTeamMembersEvent(String teamId);
+
+  Future<Either<Failure, List<JoinRequest>>> getJoinRequestsByTeamId(
+    String teamId,
+  );
 }

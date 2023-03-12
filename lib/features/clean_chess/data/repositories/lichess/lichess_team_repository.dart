@@ -20,4 +20,10 @@ class LichessTeamRepository implements TeamRepository {
   @override
   Future<Either<Failure, List<User>>> getTeamMembersEvent(String teamId) =>
       teamDataSource.getTeamMembersByTeamId(teamId);
+
+  @override
+  Future<Either<Failure, List<JoinRequest>>> getJoinRequestsByTeamId(
+    String teamId,
+  ) =>
+      teamDataSource.getJoinRequestsByTeamId(teamId);
 }

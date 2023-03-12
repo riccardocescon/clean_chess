@@ -58,4 +58,22 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }
   }
+
+  /// Api call to get a list of the Join Requests for a team
+  @override
+  Future<Either<Failure, List<JoinRequest>>> getJoinRequestsByTeamId(
+    String teamId,
+  ) async {
+    try {
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      final response = await client.teams.getJoinRequests(teamId: teamId);
+
+      return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
 }

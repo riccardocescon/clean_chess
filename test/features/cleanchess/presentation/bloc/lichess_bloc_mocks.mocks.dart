@@ -3,24 +3,26 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i7;
+import 'dart:async' as _i8;
 
-import 'package:cleanchess/chess/error/failures.dart' as _i8;
-import 'package:cleanchess/chess/utilities/utils.dart' as _i12;
-import 'package:cleanchess/core/usecases/usecase.dart' as _i11;
+import 'package:cleanchess/chess/error/failures.dart' as _i9;
+import 'package:cleanchess/chess/utilities/utils.dart' as _i13;
+import 'package:cleanchess/core/usecases/usecase.dart' as _i12;
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_account_repository.dart'
     as _i4;
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_oauth_repository.dart'
     as _i2;
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_team_repository.dart'
     as _i5;
+import 'package:cleanchess/features/clean_chess/domain/repositories/team_repository.dart'
+    as _i6;
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart'
-    as _i9;
+    as _i10;
 import 'package:dartz/dartz.dart' as _i3;
-import 'package:lichess_client_dio/lichess_client_dio.dart' as _i10;
+import 'package:lichess_client_dio/lichess_client_dio.dart' as _i11;
 import 'package:mockito/mockito.dart' as _i1;
 
-import 'lichess_bloc_mocks.dart' as _i6;
+import 'lichess_bloc_mocks.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -76,10 +78,21 @@ class _FakeLichessTeamRepository_3 extends _i1.SmartFake
         );
 }
 
+class _FakeTeamRepository_4 extends _i1.SmartFake
+    implements _i6.TeamRepository {
+  _FakeTeamRepository_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [MLichessOAuth].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMLichessOAuth extends _i1.Mock implements _i6.MLichessOAuth {
+class MockMLichessOAuth extends _i1.Mock implements _i7.MLichessOAuth {
   @override
   _i2.LichessOAuthRepository get oAuthRepository => (super.noSuchMethod(
         Invocation.getter(#oAuthRepository),
@@ -93,16 +106,16 @@ class MockMLichessOAuth extends _i1.Mock implements _i6.MLichessOAuth {
         ),
       ) as _i2.LichessOAuthRepository);
   @override
-  _i7.Future<_i3.Either<_i8.Failure, Map<String, String>>> call(
-          _i9.LichessOAuthParams? params) =>
+  _i8.Future<_i3.Either<_i9.Failure, Map<String, String>>> call(
+          _i10.LichessOAuthParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
         returnValue:
-            _i7.Future<_i3.Either<_i8.Failure, Map<String, String>>>.value(
-                _FakeEither_1<_i8.Failure, Map<String, String>>(
+            _i8.Future<_i3.Either<_i9.Failure, Map<String, String>>>.value(
+                _FakeEither_1<_i9.Failure, Map<String, String>>(
           this,
           Invocation.method(
             #call,
@@ -110,22 +123,22 @@ class MockMLichessOAuth extends _i1.Mock implements _i6.MLichessOAuth {
           ),
         )),
         returnValueForMissingStub:
-            _i7.Future<_i3.Either<_i8.Failure, Map<String, String>>>.value(
-                _FakeEither_1<_i8.Failure, Map<String, String>>(
+            _i8.Future<_i3.Either<_i9.Failure, Map<String, String>>>.value(
+                _FakeEither_1<_i9.Failure, Map<String, String>>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i7.Future<_i3.Either<_i8.Failure, Map<String, String>>>);
+      ) as _i8.Future<_i3.Either<_i9.Failure, Map<String, String>>>);
 }
 
 /// A class which mocks [MLichessGainAccessToken].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockMLichessGainAccessToken extends _i1.Mock
-    implements _i6.MLichessGainAccessToken {
+    implements _i7.MLichessGainAccessToken {
   @override
   _i2.LichessOAuthRepository get oAuthRepository => (super.noSuchMethod(
         Invocation.getter(#oAuthRepository),
@@ -139,15 +152,15 @@ class MockMLichessGainAccessToken extends _i1.Mock
         ),
       ) as _i2.LichessOAuthRepository);
   @override
-  _i7.Future<_i3.Either<_i8.Failure, String>> call(
-          _i9.LichessGainAccessTokenParams? params) =>
+  _i8.Future<_i3.Either<_i9.Failure, String>> call(
+          _i10.LichessGainAccessTokenParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i7.Future<_i3.Either<_i8.Failure, String>>.value(
-            _FakeEither_1<_i8.Failure, String>(
+        returnValue: _i8.Future<_i3.Either<_i9.Failure, String>>.value(
+            _FakeEither_1<_i9.Failure, String>(
           this,
           Invocation.method(
             #call,
@@ -155,21 +168,21 @@ class MockMLichessGainAccessToken extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i7.Future<_i3.Either<_i8.Failure, String>>.value(
-                _FakeEither_1<_i8.Failure, String>(
+            _i8.Future<_i3.Either<_i9.Failure, String>>.value(
+                _FakeEither_1<_i9.Failure, String>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i7.Future<_i3.Either<_i8.Failure, String>>);
+      ) as _i8.Future<_i3.Either<_i9.Failure, String>>);
 }
 
 /// A class which mocks [MGetMyProfile].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMGetMyProfile extends _i1.Mock implements _i6.MGetMyProfile {
+class MockMGetMyProfile extends _i1.Mock implements _i7.MGetMyProfile {
   @override
   _i4.LichessAccountRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
@@ -183,14 +196,14 @@ class MockMGetMyProfile extends _i1.Mock implements _i6.MGetMyProfile {
         ),
       ) as _i4.LichessAccountRepository);
   @override
-  _i7.Future<_i3.Either<_i8.Failure, _i10.User>> call(_i11.NoParams? params) =>
+  _i8.Future<_i3.Either<_i9.Failure, _i11.User>> call(_i12.NoParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i7.Future<_i3.Either<_i8.Failure, _i10.User>>.value(
-            _FakeEither_1<_i8.Failure, _i10.User>(
+        returnValue: _i8.Future<_i3.Either<_i9.Failure, _i11.User>>.value(
+            _FakeEither_1<_i9.Failure, _i11.User>(
           this,
           Invocation.method(
             #call,
@@ -198,21 +211,21 @@ class MockMGetMyProfile extends _i1.Mock implements _i6.MGetMyProfile {
           ),
         )),
         returnValueForMissingStub:
-            _i7.Future<_i3.Either<_i8.Failure, _i10.User>>.value(
-                _FakeEither_1<_i8.Failure, _i10.User>(
+            _i8.Future<_i3.Either<_i9.Failure, _i11.User>>.value(
+                _FakeEither_1<_i9.Failure, _i11.User>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i7.Future<_i3.Either<_i8.Failure, _i10.User>>);
+      ) as _i8.Future<_i3.Either<_i9.Failure, _i11.User>>);
 }
 
 /// A class which mocks [MGetMyEmail].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMGetMyEmail extends _i1.Mock implements _i6.MGetMyEmail {
+class MockMGetMyEmail extends _i1.Mock implements _i7.MGetMyEmail {
   @override
   _i4.LichessAccountRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
@@ -226,14 +239,14 @@ class MockMGetMyEmail extends _i1.Mock implements _i6.MGetMyEmail {
         ),
       ) as _i4.LichessAccountRepository);
   @override
-  _i7.Future<_i3.Either<_i8.Failure, String>> call(_i11.NoParams? params) =>
+  _i8.Future<_i3.Either<_i9.Failure, String>> call(_i12.NoParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i7.Future<_i3.Either<_i8.Failure, String>>.value(
-            _FakeEither_1<_i8.Failure, String>(
+        returnValue: _i8.Future<_i3.Either<_i9.Failure, String>>.value(
+            _FakeEither_1<_i9.Failure, String>(
           this,
           Invocation.method(
             #call,
@@ -241,22 +254,22 @@ class MockMGetMyEmail extends _i1.Mock implements _i6.MGetMyEmail {
           ),
         )),
         returnValueForMissingStub:
-            _i7.Future<_i3.Either<_i8.Failure, String>>.value(
-                _FakeEither_1<_i8.Failure, String>(
+            _i8.Future<_i3.Either<_i9.Failure, String>>.value(
+                _FakeEither_1<_i9.Failure, String>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i7.Future<_i3.Either<_i8.Failure, String>>);
+      ) as _i8.Future<_i3.Either<_i9.Failure, String>>);
 }
 
 /// A class which mocks [MGetMyKidModeStatus].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockMGetMyKidModeStatus extends _i1.Mock
-    implements _i6.MGetMyKidModeStatus {
+    implements _i7.MGetMyKidModeStatus {
   @override
   _i4.LichessAccountRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
@@ -270,14 +283,14 @@ class MockMGetMyKidModeStatus extends _i1.Mock
         ),
       ) as _i4.LichessAccountRepository);
   @override
-  _i7.Future<_i3.Either<_i8.Failure, bool>> call(_i11.NoParams? params) =>
+  _i8.Future<_i3.Either<_i9.Failure, bool>> call(_i12.NoParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i7.Future<_i3.Either<_i8.Failure, bool>>.value(
-            _FakeEither_1<_i8.Failure, bool>(
+        returnValue: _i8.Future<_i3.Either<_i9.Failure, bool>>.value(
+            _FakeEither_1<_i9.Failure, bool>(
           this,
           Invocation.method(
             #call,
@@ -285,22 +298,22 @@ class MockMGetMyKidModeStatus extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i7.Future<_i3.Either<_i8.Failure, bool>>.value(
-                _FakeEither_1<_i8.Failure, bool>(
+            _i8.Future<_i3.Either<_i9.Failure, bool>>.value(
+                _FakeEither_1<_i9.Failure, bool>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i7.Future<_i3.Either<_i8.Failure, bool>>);
+      ) as _i8.Future<_i3.Either<_i9.Failure, bool>>);
 }
 
 /// A class which mocks [MSetMyKidModeStatus].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockMSetMyKidModeStatus extends _i1.Mock
-    implements _i6.MSetMyKidModeStatus {
+    implements _i7.MSetMyKidModeStatus {
   @override
   _i4.LichessAccountRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
@@ -314,14 +327,14 @@ class MockMSetMyKidModeStatus extends _i1.Mock
         ),
       ) as _i4.LichessAccountRepository);
   @override
-  _i7.Future<_i3.Either<_i8.Failure, _i12.Empty>> call(bool? params) =>
+  _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>> call(bool? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i7.Future<_i3.Either<_i8.Failure, _i12.Empty>>.value(
-            _FakeEither_1<_i8.Failure, _i12.Empty>(
+        returnValue: _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>>.value(
+            _FakeEither_1<_i9.Failure, _i13.Empty>(
           this,
           Invocation.method(
             #call,
@@ -329,21 +342,21 @@ class MockMSetMyKidModeStatus extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i7.Future<_i3.Either<_i8.Failure, _i12.Empty>>.value(
-                _FakeEither_1<_i8.Failure, _i12.Empty>(
+            _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>>.value(
+                _FakeEither_1<_i9.Failure, _i13.Empty>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i7.Future<_i3.Either<_i8.Failure, _i12.Empty>>);
+      ) as _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>>);
 }
 
 /// A class which mocks [MGetMyPreferences].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMGetMyPreferences extends _i1.Mock implements _i6.MGetMyPreferences {
+class MockMGetMyPreferences extends _i1.Mock implements _i7.MGetMyPreferences {
   @override
   _i4.LichessAccountRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
@@ -357,16 +370,16 @@ class MockMGetMyPreferences extends _i1.Mock implements _i6.MGetMyPreferences {
         ),
       ) as _i4.LichessAccountRepository);
   @override
-  _i7.Future<_i3.Either<_i8.Failure, _i10.UserPreferences>> call(
-          _i11.NoParams? params) =>
+  _i8.Future<_i3.Either<_i9.Failure, _i11.UserPreferences>> call(
+          _i12.NoParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
         returnValue:
-            _i7.Future<_i3.Either<_i8.Failure, _i10.UserPreferences>>.value(
-                _FakeEither_1<_i8.Failure, _i10.UserPreferences>(
+            _i8.Future<_i3.Either<_i9.Failure, _i11.UserPreferences>>.value(
+                _FakeEither_1<_i9.Failure, _i11.UserPreferences>(
           this,
           Invocation.method(
             #call,
@@ -374,30 +387,30 @@ class MockMGetMyPreferences extends _i1.Mock implements _i6.MGetMyPreferences {
           ),
         )),
         returnValueForMissingStub:
-            _i7.Future<_i3.Either<_i8.Failure, _i10.UserPreferences>>.value(
-                _FakeEither_1<_i8.Failure, _i10.UserPreferences>(
+            _i8.Future<_i3.Either<_i9.Failure, _i11.UserPreferences>>.value(
+                _FakeEither_1<_i9.Failure, _i11.UserPreferences>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i7.Future<_i3.Either<_i8.Failure, _i10.UserPreferences>>);
+      ) as _i8.Future<_i3.Either<_i9.Failure, _i11.UserPreferences>>);
 }
 
 /// A class which mocks [MGetTeamsByUser].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMGetTeamsByUser extends _i1.Mock implements _i6.MGetTeamsByUser {
+class MockMGetTeamsByUser extends _i1.Mock implements _i7.MGetTeamsByUser {
   @override
-  _i7.Future<_i3.Either<_i8.Failure, List<_i10.Team>>> call(String? params) =>
+  _i8.Future<_i3.Either<_i9.Failure, List<_i11.Team>>> call(String? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i7.Future<_i3.Either<_i8.Failure, List<_i10.Team>>>.value(
-            _FakeEither_1<_i8.Failure, List<_i10.Team>>(
+        returnValue: _i8.Future<_i3.Either<_i9.Failure, List<_i11.Team>>>.value(
+            _FakeEither_1<_i9.Failure, List<_i11.Team>>(
           this,
           Invocation.method(
             #call,
@@ -405,30 +418,30 @@ class MockMGetTeamsByUser extends _i1.Mock implements _i6.MGetTeamsByUser {
           ),
         )),
         returnValueForMissingStub:
-            _i7.Future<_i3.Either<_i8.Failure, List<_i10.Team>>>.value(
-                _FakeEither_1<_i8.Failure, List<_i10.Team>>(
+            _i8.Future<_i3.Either<_i9.Failure, List<_i11.Team>>>.value(
+                _FakeEither_1<_i9.Failure, List<_i11.Team>>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i7.Future<_i3.Either<_i8.Failure, List<_i10.Team>>>);
+      ) as _i8.Future<_i3.Either<_i9.Failure, List<_i11.Team>>>);
 }
 
 /// A class which mocks [MGetTeamById].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMGetTeamById extends _i1.Mock implements _i6.MGetTeamById {
+class MockMGetTeamById extends _i1.Mock implements _i7.MGetTeamById {
   @override
-  _i7.Future<_i3.Either<_i8.Failure, _i10.Team>> call(String? params) =>
+  _i8.Future<_i3.Either<_i9.Failure, _i11.Team>> call(String? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i7.Future<_i3.Either<_i8.Failure, _i10.Team>>.value(
-            _FakeEither_1<_i8.Failure, _i10.Team>(
+        returnValue: _i8.Future<_i3.Either<_i9.Failure, _i11.Team>>.value(
+            _FakeEither_1<_i9.Failure, _i11.Team>(
           this,
           Invocation.method(
             #call,
@@ -436,21 +449,21 @@ class MockMGetTeamById extends _i1.Mock implements _i6.MGetTeamById {
           ),
         )),
         returnValueForMissingStub:
-            _i7.Future<_i3.Either<_i8.Failure, _i10.Team>>.value(
-                _FakeEither_1<_i8.Failure, _i10.Team>(
+            _i8.Future<_i3.Either<_i9.Failure, _i11.Team>>.value(
+                _FakeEither_1<_i9.Failure, _i11.Team>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i7.Future<_i3.Either<_i8.Failure, _i10.Team>>);
+      ) as _i8.Future<_i3.Either<_i9.Failure, _i11.Team>>);
 }
 
 /// A class which mocks [MGetTeamMembers].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMGetTeamMembers extends _i1.Mock implements _i6.MGetTeamMembers {
+class MockMGetTeamMembers extends _i1.Mock implements _i7.MGetTeamMembers {
   @override
   _i5.LichessTeamRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
@@ -464,14 +477,14 @@ class MockMGetTeamMembers extends _i1.Mock implements _i6.MGetTeamMembers {
         ),
       ) as _i5.LichessTeamRepository);
   @override
-  _i7.Future<_i3.Either<_i8.Failure, List<_i10.User>>> call(String? params) =>
+  _i8.Future<_i3.Either<_i9.Failure, List<_i11.User>>> call(String? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i7.Future<_i3.Either<_i8.Failure, List<_i10.User>>>.value(
-            _FakeEither_1<_i8.Failure, List<_i10.User>>(
+        returnValue: _i8.Future<_i3.Either<_i9.Failure, List<_i11.User>>>.value(
+            _FakeEither_1<_i9.Failure, List<_i11.User>>(
           this,
           Invocation.method(
             #call,
@@ -479,13 +492,59 @@ class MockMGetTeamMembers extends _i1.Mock implements _i6.MGetTeamMembers {
           ),
         )),
         returnValueForMissingStub:
-            _i7.Future<_i3.Either<_i8.Failure, List<_i10.User>>>.value(
-                _FakeEither_1<_i8.Failure, List<_i10.User>>(
+            _i8.Future<_i3.Either<_i9.Failure, List<_i11.User>>>.value(
+                _FakeEither_1<_i9.Failure, List<_i11.User>>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i7.Future<_i3.Either<_i8.Failure, List<_i10.User>>>);
+      ) as _i8.Future<_i3.Either<_i9.Failure, List<_i11.User>>>);
+}
+
+/// A class which mocks [MGetTeamJoinRequests].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMGetTeamJoinRequests extends _i1.Mock
+    implements _i7.MGetTeamJoinRequests {
+  @override
+  _i6.TeamRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeTeamRepository_4(
+          this,
+          Invocation.getter(#repository),
+        ),
+        returnValueForMissingStub: _FakeTeamRepository_4(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i6.TeamRepository);
+  @override
+  _i8.Future<_i3.Either<_i9.Failure, List<_i11.JoinRequest>>> call(
+          String? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue:
+            _i8.Future<_i3.Either<_i9.Failure, List<_i11.JoinRequest>>>.value(
+                _FakeEither_1<_i9.Failure, List<_i11.JoinRequest>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i8.Future<_i3.Either<_i9.Failure, List<_i11.JoinRequest>>>.value(
+                _FakeEither_1<_i9.Failure, List<_i11.JoinRequest>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i8.Future<_i3.Either<_i9.Failure, List<_i11.JoinRequest>>>);
 }

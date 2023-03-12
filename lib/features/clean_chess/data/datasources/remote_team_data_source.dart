@@ -13,4 +13,9 @@ abstract class RemoteTeamDataSource {
   Future<Either<Failure, List<User>>> getTeamMembersByTeamId(
     String teamId,
   );
+
+  /// Api call to get a list of the Join Requests for a team
+  Future<Either<Failure, List<JoinRequest>>> getJoinRequestsByTeamId(
+    String teamId,
+  );
 }

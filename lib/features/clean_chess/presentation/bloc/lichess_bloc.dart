@@ -8,6 +8,7 @@ import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_team_join_requests.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
@@ -27,6 +28,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetTeamsByUser getTeamsByUser;
   final GetTeamById getTeamById;
   final GetTeamMembers getTeamMembers;
+  final GetTeamJoinRequests getTeamJoinRequests;
 
   LichessBloc({
     required this.tokenProvider,
@@ -40,6 +42,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getTeamsByUser,
     required this.getTeamById,
     required this.getTeamMembers,
+    required this.getTeamJoinRequests,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -112,6 +115,15 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
       members.fold(
         (failure) => emit(LichessError(failure)),
         (members) => emit(LichessLoaded<List<User>>(members)),
+      );
+    });
+    on<GetTeamJoinRequestsEvent>((event, emit) async {
+      emit(LichessLoading());
+      final joinRequests = await getTeamJoinRequests.call(event.teamId);
+
+      joinRequests.fold(
+        (failure) => emit(LichessError(failure)),
+        (joinRequests) => emit(LichessLoaded<List<JoinRequest>>(joinRequests)),
       );
     });
   }
