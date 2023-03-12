@@ -6,6 +6,7 @@ import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_logo.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_widget.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_users_by_term.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
@@ -109,8 +110,21 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is LichessOAuthSuccess) {
             // Get user profile
             BlocProvider.of<LichessBloc>(context).add(
-              const GetMyProfileEvent(),
+              const GetUsersByTermEvent(
+                term: 'alexr',
+                friend: false,
+              ),
             );
+          } else if (state is LichessLoaded<List<User>>) {
+            log(state.data.toString());
+          } else if (state is LichessError) {
+            showSnackbarError(context, state.failure);
+          }
+        },
+        child: child,
+      );
+
+  /* Already Tests
           } else if (state is LichessUserFetched) {
             user = state.user;
             log(user.toString());
@@ -172,10 +186,5 @@ class _LoginScreenState extends State<LoginScreen> {
             isKickRequest = true;
           } else if (state is LichessLoaded<PageOf<Team>>) {
             log(state.data.toString());
-          } else if (state is LichessError) {
-            showSnackbarError(context, state.failure);
-          }
-        },
-        child: child,
-      );
+            */
 }

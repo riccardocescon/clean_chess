@@ -103,3 +103,9 @@ class GetPopularTeamsEvent extends LichessEvent {
   final int page;
   const GetPopularTeamsEvent({this.page = 1});
 }
+
+class GetUsersByTermEvent extends LichessEvent {
+  final String term;
+  final bool friend;
+  const GetUsersByTermEvent({required this.term, this.friend = false});
+}

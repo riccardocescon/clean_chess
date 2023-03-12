@@ -9,6 +9,7 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,6 +37,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final MessageAllMembers messageAllMembers;
   final SearchTeamByName searchTeamByName;
   final GetPopularTeams getPopularTeams;
+  final GetUsersByTerm getUsersByTerm;
 
   LichessBloc({
     required this.tokenProvider,
@@ -58,6 +60,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.messageAllMembers,
     required this.searchTeamByName,
     required this.getPopularTeams,
+    required this.getUsersByTerm,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -244,6 +247,22 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         (data) => emit(LichessLoaded<PageOf<Team>>(data)),
       );
     });
+    on<GetUsersByTermEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final users = await getUsersByTerm.call(
+          GetUsersByTermParams(
+            event.term,
+            event.friend,
+          ),
+        );
+
+        users.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<User>>(data)),
+        );
+      },
+    );
   }
 
   void _oauthProcedure(

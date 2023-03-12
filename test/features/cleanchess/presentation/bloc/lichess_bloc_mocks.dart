@@ -4,6 +4,7 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/teams/accept_joi
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/decline_join_request.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_team_join_requests.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_users_by_term.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
@@ -45,6 +46,8 @@ class MSearchTeamByName extends Mock implements SearchTeamByName {}
 
 class MGetPopularTeams extends Mock implements GetPopularTeams {}
 
+class MGetUsersByTerm extends Mock implements GetUsersByTerm {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -65,5 +68,6 @@ class MGetPopularTeams extends Mock implements GetPopularTeams {}
   MockSpec<MMessageAllMembers>(),
   MockSpec<MSearchTeamByName>(),
   MockSpec<MGetPopularTeams>(),
+  MockSpec<MGetUsersByTerm>(),
 ])
 void main() {}
