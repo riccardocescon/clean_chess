@@ -40,6 +40,7 @@ Future<void> init() async {
       leaveTeam: sl<LeaveTeam>(),
       messageAllMembers: sl<MessageAllMembers>(),
       searchTeamByName: sl<SearchTeamByName>(),
+      getPopularTeams: sl<GetPopularTeams>(),
     ),
   );
 
@@ -90,6 +91,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => SearchTeamByName(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetPopularTeams(sl<LichessTeamRepository>()),
   );
 
   // Register repositories

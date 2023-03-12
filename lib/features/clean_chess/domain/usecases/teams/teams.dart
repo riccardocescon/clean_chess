@@ -11,3 +11,4 @@ export 'package:cleanchess/features/clean_chess/domain/usecases/teams/join_team.
 export 'package:cleanchess/features/clean_chess/domain/usecases/teams/leave_team.dart';
 export 'package:cleanchess/features/clean_chess/domain/usecases/teams/message_all_members.dart';
 export 'package:cleanchess/features/clean_chess/domain/usecases/teams/search_team_by_name.dart';
+export 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_popular_teams.dart';

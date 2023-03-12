@@ -74,4 +74,8 @@ class LichessTeamRepository implements TeamRepository {
     int page,
   ) =>
       teamDataSource.searchTeamByName(name, page);
+
+  @override
+  Future<Either<Failure, PageOf<Team>>> getPopularTeams(int page) =>
+      teamDataSource.getPopularTeams(page);
 }

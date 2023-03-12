@@ -98,3 +98,8 @@ class SearchTeamByNameEvent extends LichessEvent {
   final int page;
   const SearchTeamByNameEvent({required this.teamName, this.page = 1});
 }
+
+class GetPopularTeamsEvent extends LichessEvent {
+  final int page;
+  const GetPopularTeamsEvent({this.page = 1});
+}

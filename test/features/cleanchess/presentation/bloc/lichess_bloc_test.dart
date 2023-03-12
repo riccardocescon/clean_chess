@@ -34,6 +34,7 @@ void main() async {
   late MockMLeaveTeam mockLeaveTeam;
   late MockMMessageAllMembers mockMessageAllMembers;
   late MockMSearchTeamByName mockSearchTeamByName;
+  late MockMGetPopularTeams mockGetPopularTeams;
 
   late LichessBloc bloc;
 
@@ -57,6 +58,7 @@ void main() async {
     mockLeaveTeam = MockMLeaveTeam();
     mockMessageAllMembers = MockMMessageAllMembers();
     mockSearchTeamByName = MockMSearchTeamByName();
+    mockGetPopularTeams = MockMGetPopularTeams();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -78,6 +80,7 @@ void main() async {
       leaveTeam: mockLeaveTeam,
       messageAllMembers: mockMessageAllMembers,
       searchTeamByName: mockSearchTeamByName,
+      getPopularTeams: mockGetPopularTeams,
     );
   });
 
@@ -851,6 +854,46 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockSearchTeamByName.call(any)).called(1);
+        },
+      );
+    });
+
+    group('GetPopularTeams', () {
+      blocTest<LichessBloc, LichessState>(
+        'Success',
+        build: () {
+          when(mockGetPopularTeams.call(any)).thenAnswer(
+            (_) async => const Right(PageOf<Team>()),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetPopularTeamsEvent()),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<PageOf<Team>>>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetPopularTeams.call(any)).called(1);
+        },
+      );
+
+      blocTest<LichessBloc, LichessState>(
+        'Failure',
+        build: () {
+          when(mockGetPopularTeams.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetPopularTeamsEvent()),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetPopularTeams.call(any)).called(1);
         },
       );
     });

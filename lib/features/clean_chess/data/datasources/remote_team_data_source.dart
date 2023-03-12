@@ -65,4 +65,7 @@ abstract class RemoteTeamDataSource {
 
   /// Api for searching a team by name
   Future<Either<Failure, PageOf<Team>>> searchTeamByName(String name, int page);
+
+  /// Api for getting popular teams
+  Future<Either<Failure, PageOf<Team>>> getPopularTeams(int page);
 }

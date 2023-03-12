@@ -167,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
           } else if (state is LichessLoaded<List<JoinRequest>>) {
             log(state.data.toString());
             BlocProvider.of<LichessBloc>(context).add(
-              const SearchTeamByNameEvent(teamName: 'volterr'),
+              const GetPopularTeamsEvent(),
             );
             isKickRequest = true;
           } else if (state is LichessLoaded<PageOf<Team>>) {

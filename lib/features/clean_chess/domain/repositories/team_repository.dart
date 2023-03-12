@@ -46,4 +46,6 @@ abstract class TeamRepository {
     String name,
     int page,
   );
+
+  Future<Either<Failure, PageOf<Team>>> getPopularTeams(int page);
 }
