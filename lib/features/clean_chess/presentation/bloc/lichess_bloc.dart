@@ -8,6 +8,7 @@ import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/accept_join_request.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_team_join_requests.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
@@ -29,6 +30,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetTeamById getTeamById;
   final GetTeamMembers getTeamMembers;
   final GetTeamJoinRequests getTeamJoinRequests;
+  final AcceptJoinRequest acceptJoinRequest;
 
   LichessBloc({
     required this.tokenProvider,
@@ -43,6 +45,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getTeamById,
     required this.getTeamMembers,
     required this.getTeamJoinRequests,
+    required this.acceptJoinRequest,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -124,6 +127,20 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
       joinRequests.fold(
         (failure) => emit(LichessError(failure)),
         (joinRequests) => emit(LichessLoaded<List<JoinRequest>>(joinRequests)),
+      );
+    });
+    on<AcceptJoinRequestEvent>((event, emit) async {
+      emit(LichessLoading());
+      final joinRequest = await acceptJoinRequest.call(
+        AcceptJoinRequestParams(
+          event.teamId,
+          event.userId,
+        ),
+      );
+
+      joinRequest.fold(
+        (failure) => emit(LichessError(failure)),
+        (joinRequest) => emit(const LichessLoaded<Empty>(Empty())),
       );
     });
   }

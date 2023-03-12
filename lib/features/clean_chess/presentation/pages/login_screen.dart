@@ -98,6 +98,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   late User user;
   late Team team;
+  late JoinRequest joinRequest;
+  bool isJoinRequest = false;
 
   Widget _listener({required Widget child}) =>
       BlocListener<LichessBloc, LichessState>(
@@ -124,10 +126,16 @@ class _LoginScreenState extends State<LoginScreen> {
               const SetMyKidModeStatusEvent(false),
             );
           } else if (state is LichessLoaded<Empty>) {
-            log('Kid Mode Set Successfully');
-            BlocProvider.of<LichessBloc>(context).add(
-              const GetMyPreferencesEvent(),
-            );
+            if (isJoinRequest) {
+              log('Join Request Accepted');
+              showSnackbarSuccess(context, 'Logged in');
+              Navigator.pushReplacementNamed(context, Navigation.homescreen);
+            } else {
+              log('Kid Mode Set Successfully');
+              BlocProvider.of<LichessBloc>(context).add(
+                const GetMyPreferencesEvent(),
+              );
+            }
           } else if (state is LichessLoaded<UserPreferences>) {
             log(state.data.toString());
             BlocProvider.of<LichessBloc>(context).add(
@@ -151,8 +159,14 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is LichessLoaded<List<JoinRequest>>) {
             log(state.data.toString());
-            showSnackbarSuccess(context, 'Logged in');
-            Navigator.pushReplacementNamed(context, Navigation.homescreen);
+            joinRequest = state.data.last;
+            isJoinRequest = true;
+            BlocProvider.of<LichessBloc>(context).add(
+              AcceptJoinRequestEvent(
+                teamId: team.id!,
+                userId: joinRequest.userId!,
+              ),
+            );
           } else if (state is LichessError) {
             showSnackbarError(context, state.failure);
           }

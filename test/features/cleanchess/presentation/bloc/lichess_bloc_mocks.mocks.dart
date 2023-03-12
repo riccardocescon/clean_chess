@@ -18,6 +18,8 @@ import 'package:cleanchess/features/clean_chess/domain/repositories/team_reposit
     as _i6;
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart'
     as _i10;
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/accept_join_request.dart'
+    as _i14;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:lichess_client_dio/lichess_client_dio.dart' as _i11;
 import 'package:mockito/mockito.dart' as _i1;
@@ -547,4 +549,49 @@ class MockMGetTeamJoinRequests extends _i1.Mock
           ),
         )),
       ) as _i8.Future<_i3.Either<_i9.Failure, List<_i11.JoinRequest>>>);
+}
+
+/// A class which mocks [MAcceptJoinRequest].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMAcceptJoinRequest extends _i1.Mock
+    implements _i7.MAcceptJoinRequest {
+  @override
+  _i6.TeamRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeTeamRepository_4(
+          this,
+          Invocation.getter(#repository),
+        ),
+        returnValueForMissingStub: _FakeTeamRepository_4(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i6.TeamRepository);
+  @override
+  _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>> call(
+          _i14.AcceptJoinRequestParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>>.value(
+            _FakeEither_1<_i9.Failure, _i13.Empty>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>>.value(
+                _FakeEither_1<_i9.Failure, _i13.Empty>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>>);
 }

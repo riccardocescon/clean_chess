@@ -5,6 +5,7 @@ import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_account_repository.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/accept_join_request.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_team_join_requests.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
@@ -34,6 +35,7 @@ Future<void> init() async {
       getTeamById: sl<GetTeamById>(),
       getTeamMembers: sl<GetTeamMembers>(),
       getTeamJoinRequests: sl<GetTeamJoinRequests>(),
+      acceptJoinRequest: sl<AcceptJoinRequest>(),
     ),
   );
 
@@ -63,6 +65,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => GetTeamJoinRequests(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => AcceptJoinRequest(sl<LichessTeamRepository>()),
   );
 
   // Register repositories

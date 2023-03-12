@@ -1,5 +1,6 @@
 import 'package:cleanchess/chess/error/failures.dart';
 import 'package:cleanchess/chess/utilities/extensions.dart';
+import 'package:cleanchess/chess/utilities/utils.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_team_data_source.dart';
 import 'package:dartz/dartz.dart';
@@ -72,6 +73,30 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
       final response = await client.teams.getJoinRequests(teamId: teamId);
 
       return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
+
+  /// Api call to Accept a Join Request for a team
+  /// [teamId] is the id of the team
+  /// [userId] is the id of the user
+  @override
+  Future<Either<Failure, Empty>> acceptJoinRequest(
+    String teamId,
+    String userId,
+  ) async {
+    try {
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      await client.teams.acceptJoinRequest(
+        teamId: teamId,
+        userId: userId,
+      );
+
+      return const Right(Empty());
     } catch (e) {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }

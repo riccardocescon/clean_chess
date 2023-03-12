@@ -27,6 +27,7 @@ void main() async {
   late MockMGetTeamById mockGetTeamById;
   late MockMGetTeamMembers mockGetTeamMembers;
   late MockMGetTeamJoinRequests mockGetTeamJoinRequests;
+  late MockMAcceptJoinRequest mockAcceptJoinRequest;
 
   late LichessBloc bloc;
 
@@ -43,6 +44,7 @@ void main() async {
     mockGetTeamById = MockMGetTeamById();
     mockGetTeamMembers = MockMGetTeamMembers();
     mockGetTeamJoinRequests = MockMGetTeamJoinRequests();
+    mockAcceptJoinRequest = MockMAcceptJoinRequest();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -57,6 +59,7 @@ void main() async {
       getTeamById: mockGetTeamById,
       getTeamMembers: mockGetTeamMembers,
       getTeamJoinRequests: mockGetTeamJoinRequests,
+      acceptJoinRequest: mockAcceptJoinRequest,
     );
   });
 
@@ -504,6 +507,54 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockGetTeamJoinRequests.call(any)).called(1);
+        },
+      );
+    });
+
+    group('AcceptJoinRequest', () {
+      blocTest<LichessBloc, LichessState>(
+        'Success',
+        build: () {
+          when(mockAcceptJoinRequest.call(any)).thenAnswer(
+            (_) async => const Right(Empty()),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(
+          const AcceptJoinRequestEvent(
+            teamId: '',
+            userId: '',
+          ),
+        ),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<Empty>>(),
+        ],
+        verify: (bloc) {
+          verify(mockAcceptJoinRequest.call(any)).called(1);
+        },
+      );
+
+      blocTest<LichessBloc, LichessState>(
+        'Failure',
+        build: () {
+          when(mockAcceptJoinRequest.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const AcceptJoinRequestEvent(
+          teamId: '',
+          userId: '',
+        )),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockAcceptJoinRequest.call(any)).called(1);
         },
       );
     });

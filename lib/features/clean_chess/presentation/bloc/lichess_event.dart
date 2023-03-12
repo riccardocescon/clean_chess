@@ -47,3 +47,9 @@ class GetTeamJoinRequestsEvent extends LichessEvent {
   final String teamId;
   const GetTeamJoinRequestsEvent({required this.teamId});
 }
+
+class AcceptJoinRequestEvent extends LichessEvent {
+  final String teamId;
+  final String userId;
+  const AcceptJoinRequestEvent({required this.teamId, required this.userId});
+}
