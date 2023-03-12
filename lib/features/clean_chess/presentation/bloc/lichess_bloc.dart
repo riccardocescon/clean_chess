@@ -33,6 +33,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final KickMemberFromTeam kickMemberFromTeam;
   final DeclineJoinRequest declineJoinRequest;
   final JoinTeam joinTeam;
+  final LeaveTeam leaveTeam;
 
   LichessBloc({
     required this.tokenProvider,
@@ -51,6 +52,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.declineJoinRequest,
     required this.kickMemberFromTeam,
     required this.joinTeam,
+    required this.leaveTeam,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -189,6 +191,15 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
       join.fold(
         (failure) => emit(LichessError(failure)),
         (join) => emit(const LichessLoaded<Empty>(Empty())),
+      );
+    });
+    on<LeaveTeamEvent>((event, emit) async {
+      emit(LichessLoading());
+      final leave = await leaveTeam.call(event.teamId);
+
+      leave.fold(
+        (failure) => emit(LichessError(failure)),
+        (leave) => emit(const LichessLoaded<Empty>(Empty())),
       );
     });
   }

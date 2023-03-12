@@ -8,3 +8,4 @@ export 'package:cleanchess/features/clean_chess/domain/usecases/teams/accept_joi
 export 'package:cleanchess/features/clean_chess/domain/usecases/teams/decline_join_request.dart';
 export 'package:cleanchess/features/clean_chess/domain/usecases/teams/kick_member_from_team.dart';
 export 'package:cleanchess/features/clean_chess/domain/usecases/teams/join_team.dart';
+export 'package:cleanchess/features/clean_chess/domain/usecases/teams/leave_team.dart';

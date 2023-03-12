@@ -167,11 +167,11 @@ class _LoginScreenState extends State<LoginScreen> {
           } else if (state is LichessLoaded<List<JoinRequest>>) {
             log(state.data.toString());
             BlocProvider.of<LichessBloc>(context).add(
-              JoinTeamEvent(
-                teamId: team.id!,
-                message: 'hi' * 20,
+              LeaveTeamEvent(
+                teamId: 'group-test',
               ),
             );
+            isKickRequest = true;
           } else if (state is LichessError) {
             showSnackbarError(context, state.failure);
           }

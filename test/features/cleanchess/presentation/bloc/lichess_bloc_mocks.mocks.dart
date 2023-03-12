@@ -733,3 +733,46 @@ class MockMJoinTeam extends _i1.Mock implements _i7.MJoinTeam {
         )),
       ) as _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>>);
 }
+
+/// A class which mocks [MLeaveTeam].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMLeaveTeam extends _i1.Mock implements _i7.MLeaveTeam {
+  @override
+  _i6.TeamRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeTeamRepository_4(
+          this,
+          Invocation.getter(#repository),
+        ),
+        returnValueForMissingStub: _FakeTeamRepository_4(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i6.TeamRepository);
+  @override
+  _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>> call(String? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>>.value(
+            _FakeEither_1<_i9.Failure, _i13.Empty>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>>.value(
+                _FakeEither_1<_i9.Failure, _i13.Empty>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>>);
+}

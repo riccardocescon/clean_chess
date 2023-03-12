@@ -31,6 +31,7 @@ void main() async {
   late MockMKickMemberFromTeam mockKickMemberFromTeam;
   late MockMDeclineJoinRequest mockDeclineJoinRequest;
   late MockMJoinTeam mockJoinTeam;
+  late MockMLeaveTeam mockLeaveTeam;
 
   late LichessBloc bloc;
 
@@ -51,6 +52,7 @@ void main() async {
     mockDeclineJoinRequest = MockMDeclineJoinRequest();
     mockKickMemberFromTeam = MockMKickMemberFromTeam();
     mockJoinTeam = MockMJoinTeam();
+    mockLeaveTeam = MockMLeaveTeam();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -69,6 +71,7 @@ void main() async {
       declineJoinRequest: mockDeclineJoinRequest,
       kickMemberFromTeam: mockKickMemberFromTeam,
       joinTeam: mockJoinTeam,
+      leaveTeam: mockLeaveTeam,
     );
   });
 
@@ -706,6 +709,52 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockJoinTeam.call(any)).called(1);
+        },
+      );
+    });
+
+    group('LeaveTeam', () {
+      blocTest<LichessBloc, LichessState>(
+        'Success',
+        build: () {
+          when(mockLeaveTeam.call(any)).thenAnswer(
+            (_) async => const Right(Empty()),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(
+          const LeaveTeamEvent(
+            teamId: '',
+          ),
+        ),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<Empty>>(),
+        ],
+        verify: (bloc) {
+          verify(mockLeaveTeam.call(any)).called(1);
+        },
+      );
+
+      blocTest<LichessBloc, LichessState>(
+        'Failure',
+        build: () {
+          when(mockLeaveTeam.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const LeaveTeamEvent(
+          teamId: '',
+        )),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockLeaveTeam.call(any)).called(1);
         },
       );
     });

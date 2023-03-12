@@ -53,4 +53,7 @@ abstract class RemoteTeamDataSource {
     String? message,
     String? password,
   );
+
+  /// Api call to leave a team
+  Future<Either<Failure, Empty>> leaveTeam(String teamId);
 }

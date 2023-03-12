@@ -34,4 +34,6 @@ abstract class TeamRepository {
     String? message,
     String? password,
   );
+
+  Future<Either<Failure, Empty>> leaveTeam(String teamId);
 }

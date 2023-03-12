@@ -78,3 +78,8 @@ class JoinTeamEvent extends LichessEvent {
 
   const JoinTeamEvent({required this.teamId, this.message, this.password});
 }
+
+class LeaveTeamEvent extends LichessEvent {
+  final String teamId;
+  const LeaveTeamEvent({required this.teamId});
+}
