@@ -8,6 +8,7 @@ import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_teams_by_user_id.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetMyKidModeStatus getMyKidModeStatus;
   final SetMyKidModeStatus setMyKidModeStatus;
   final GetMyPreferences getMyPreferences;
+  final GetTeamsByUser getTeamsByUser;
 
   LichessBloc({
     required this.tokenProvider,
@@ -33,6 +35,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getMyKidModeStatus,
     required this.setMyKidModeStatus,
     required this.getMyPreferences,
+    required this.getTeamsByUser,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -78,6 +81,15 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
       preferences.fold(
         (failure) => emit(LichessError(failure)),
         (preferences) => emit(LichessLoaded<UserPreferences>(preferences)),
+      );
+    });
+    on<GetTeamsByUserIdEvent>((event, emit) async {
+      emit(LichessLoading());
+      final teams = await getTeamsByUser.call(event.userId);
+
+      teams.fold(
+        (failure) => emit(LichessError(failure)),
+        (teams) => emit(LichessLoaded<List<Team>>(teams)),
       );
     });
   }

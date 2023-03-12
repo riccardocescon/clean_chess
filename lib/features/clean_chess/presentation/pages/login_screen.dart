@@ -96,6 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  late User user;
+
   Widget _listener({required Widget child}) =>
       BlocListener<LichessBloc, LichessState>(
         listener: (context, state) {
@@ -105,8 +107,8 @@ class _LoginScreenState extends State<LoginScreen> {
               const GetMyProfileEvent(),
             );
           } else if (state is LichessUserFetched) {
-            final userProfile = state.user;
-            log(userProfile.toString());
+            user = state.user;
+            log(user.toString());
             BlocProvider.of<LichessBloc>(context).add(
               const GetMyEmailEvent(),
             );
@@ -126,6 +128,11 @@ class _LoginScreenState extends State<LoginScreen> {
               const GetMyPreferencesEvent(),
             );
           } else if (state is LichessLoaded<UserPreferences>) {
+            log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              GetTeamsByUserIdEvent(userId: user.id!),
+            );
+          } else if (state is LichessLoaded<List<Team>>) {
             log(state.data.toString());
             showSnackbarSuccess(context, 'Logged in');
             Navigator.pushReplacementNamed(context, Navigation.homescreen);

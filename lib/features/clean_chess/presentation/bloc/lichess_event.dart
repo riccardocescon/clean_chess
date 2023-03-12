@@ -27,3 +27,8 @@ class SetMyKidModeStatusEvent extends LichessEvent {
 class GetMyPreferencesEvent extends LichessEvent {
   const GetMyPreferencesEvent();
 }
+
+class GetTeamsByUserIdEvent extends LichessEvent {
+  final String userId;
+  const GetTeamsByUserIdEvent({required this.userId});
+}

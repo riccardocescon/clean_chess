@@ -373,3 +373,34 @@ class MockMGetMyPreferences extends _i1.Mock implements _i5.MGetMyPreferences {
         )),
       ) as _i6.Future<_i3.Either<_i7.Failure, _i10.UserPreferences>>);
 }
+
+/// A class which mocks [MGetTeamsByUser].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMGetTeamsByUser extends _i1.Mock implements _i5.MGetTeamsByUser {
+  @override
+  _i6.Future<_i3.Either<_i7.Failure, List<_i10.Team>>> call(String? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i6.Future<_i3.Either<_i7.Failure, List<_i10.Team>>>.value(
+            _FakeEither_1<_i7.Failure, List<_i10.Team>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i6.Future<_i3.Either<_i7.Failure, List<_i10.Team>>>.value(
+                _FakeEither_1<_i7.Failure, List<_i10.Team>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i6.Future<_i3.Either<_i7.Failure, List<_i10.Team>>>);
+}

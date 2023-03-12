@@ -2,6 +2,7 @@ import 'package:cleanchess/features/clean_chess/data/repositories/lichess_oauth_
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_teams_by_user_id.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
@@ -19,6 +20,8 @@ class MSetMyKidModeStatus extends Mock implements SetMyKidModeStatus {}
 
 class MGetMyPreferences extends Mock implements GetMyPreferences {}
 
+class MGetTeamsByUser extends Mock implements GetTeamsByUser {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -27,5 +30,6 @@ class MGetMyPreferences extends Mock implements GetMyPreferences {}
   MockSpec<MGetMyKidModeStatus>(),
   MockSpec<MSetMyKidModeStatus>(),
   MockSpec<MGetMyPreferences>(),
+  MockSpec<MGetTeamsByUser>(),
 ])
 void main() {}

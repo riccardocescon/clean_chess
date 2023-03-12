@@ -1,11 +1,14 @@
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_account_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_oauth_data_source.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_team_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess_account_repository.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess_oauth_repository.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess_team_repository.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_teams_by_user_id.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -26,6 +29,7 @@ Future<void> init() async {
       getMyKidModeStatus: sl<GetMyKidModeStatus>(),
       setMyKidModeStatus: sl<SetMyKidModeStatus>(),
       getMyPreferences: sl<GetMyPreferences>(),
+      getTeamsByUser: sl<GetTeamsByUser>(),
     ),
   );
 
@@ -42,7 +46,11 @@ Future<void> init() async {
     () => SetMyKidModeStatus(sl<LichessAccountRepository>()),
   );
   sl.registerLazySingleton(
-      () => GetMyPreferences(sl<LichessAccountRepository>()));
+    () => GetMyPreferences(sl<LichessAccountRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetTeamsByUser(sl<LichessTeamRepository>()),
+  );
 
   // Register repositories
   sl.registerLazySingleton<LichessOAuthRepository>(
@@ -55,6 +63,11 @@ Future<void> init() async {
       remoteDataSource: sl<LichessAccountDataSource>(),
     ),
   );
+  sl.registerLazySingleton<LichessTeamRepository>(
+    () => LichessTeamRepository(
+      teamDataSource: sl<LichessTeamDataSource>(),
+    ),
+  );
 
   // Register data sources
   sl.registerLazySingleton<LichessOAuthDataSource>(
@@ -62,5 +75,8 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<LichessAccountDataSource>(
     () => LichessAccountDataSource(sl<LichessTokenProvider>()),
+  );
+  sl.registerLazySingleton<LichessTeamDataSource>(
+    () => LichessTeamDataSource(sl<LichessTokenProvider>()),
   );
 }
