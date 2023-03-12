@@ -1,5 +1,6 @@
 import 'package:cleanchess/chess/error/failures.dart';
 import 'package:cleanchess/chess/utilities/extensions.dart';
+import 'package:cleanchess/chess/utilities/utils.dart';
 import 'package:cleanchess/core/presentation/bloc/utilities/oauth_helper.dart'
     as oauth_helper;
 import 'package:cleanchess/core/usecases/usecase.dart';
@@ -18,6 +19,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetMyProfile getMyProfile;
   final GetMyEmail getMyEmail;
   final GetMyKidModeStatus getMyKidModeStatus;
+  final SetMyKidModeStatus setMyKidModeStatus;
 
   LichessBloc({
     required this.tokenProvider,
@@ -26,6 +28,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getMyProfile,
     required this.getMyEmail,
     required this.getMyKidModeStatus,
+    required this.setMyKidModeStatus,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -53,6 +56,15 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
       kidModeStatus.fold(
         (failure) => emit(LichessError(failure)),
         (kidModeStatus) => emit(LichessLoaded<bool>(kidModeStatus)),
+      );
+    });
+    on<SetMyKidModeStatusEvent>((event, emit) async {
+      emit(LichessLoading());
+      final kidModeStatus = await setMyKidModeStatus.call(event.kidModeStatus);
+
+      kidModeStatus.fold(
+        (failure) => emit(LichessError(failure)),
+        (kidModeStatus) => emit(const LichessLoaded<Empty>(Empty())),
       );
     });
   }

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
+import 'package:cleanchess/chess/utilities/utils.dart';
 import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_logo.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_widget.dart';
@@ -115,6 +116,11 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is LichessLoaded<bool>) {
             log('Kid Mode:${state.data}');
+            BlocProvider.of<LichessBloc>(context).add(
+              const SetMyKidModeStatusEvent(false),
+            );
+          } else if (state is LichessLoaded<Empty>) {
+            log('Kid Mode Set Successfully');
             showSnackbarSuccess(context, 'Logged in');
             Navigator.pushReplacementNamed(context, Navigation.homescreen);
           } else if (state is LichessError) {

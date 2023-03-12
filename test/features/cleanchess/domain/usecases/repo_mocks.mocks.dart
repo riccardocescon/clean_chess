@@ -6,6 +6,7 @@
 import 'dart:async' as _i4;
 
 import 'package:cleanchess/chess/error/failures.dart' as _i5;
+import 'package:cleanchess/chess/utilities/utils.dart' as _i8;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:lichess_client_dio/lichess_client_dio.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
@@ -198,4 +199,30 @@ class MockMLichessRepository extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, bool>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i8.Empty>> setMyKidModeStatus(
+          bool? status) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setMyKidModeStatus,
+          [status],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i8.Empty>>.value(
+            _FakeEither_0<_i5.Failure, _i8.Empty>(
+          this,
+          Invocation.method(
+            #setMyKidModeStatus,
+            [status],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, _i8.Empty>>.value(
+                _FakeEither_0<_i5.Failure, _i8.Empty>(
+          this,
+          Invocation.method(
+            #setMyKidModeStatus,
+            [status],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i8.Empty>>);
 }

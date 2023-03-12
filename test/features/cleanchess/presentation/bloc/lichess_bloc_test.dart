@@ -1,4 +1,5 @@
 import 'package:cleanchess/chess/error/failures.dart';
+import 'package:cleanchess/chess/utilities/utils.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
@@ -20,6 +21,7 @@ void main() async {
   late MockMLichessTokenProvider mockLichessTokenProvider;
   late MockMGetMyEmail mockGetMyEmail;
   late MockMGetMyKidModeStatus mockGetMyKidModeStatus;
+  late MockMSetMyKidModeStatus mockSetMyKidModeStatus;
 
   late LichessBloc bloc;
 
@@ -30,6 +32,7 @@ void main() async {
     mockGetMyProfile = MockMGetMyProfile();
     mockGetMyEmail = MockMGetMyEmail();
     mockGetMyKidModeStatus = MockMGetMyKidModeStatus();
+    mockSetMyKidModeStatus = MockMSetMyKidModeStatus();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -38,6 +41,7 @@ void main() async {
       getMyProfile: mockGetMyProfile,
       getMyEmail: mockGetMyEmail,
       getMyKidModeStatus: mockGetMyKidModeStatus,
+      setMyKidModeStatus: mockSetMyKidModeStatus,
     );
   });
 
@@ -240,6 +244,46 @@ void main() async {
       ],
       verify: (bloc) {
         verify(mockGetMyKidModeStatus.call(any)).called(1);
+      },
+    );
+  });
+
+  group('SetMyKidModeStatusEvent', () {
+    blocTest<LichessBloc, LichessState>(
+      'Success',
+      build: () {
+        when(mockSetMyKidModeStatus.call(any)).thenAnswer(
+          (_) async => const Right(Empty()),
+        );
+
+        return bloc;
+      },
+      act: (bloc) => bloc.add(const SetMyKidModeStatusEvent(true)),
+      expect: () => [
+        isA<LichessLoading>(),
+        isA<LichessLoaded<Empty>>(),
+      ],
+      verify: (bloc) {
+        verify(mockSetMyKidModeStatus.call(any)).called(1);
+      },
+    );
+
+    blocTest<LichessBloc, LichessState>(
+      'Failure',
+      build: () {
+        when(mockSetMyKidModeStatus.call(any)).thenAnswer(
+          (_) async => Left(LichessOAuthFailure('OAuth failure')),
+        );
+
+        return bloc;
+      },
+      act: (bloc) => bloc.add(const SetMyKidModeStatusEvent(true)),
+      expect: () => [
+        isA<LichessLoading>(),
+        isA<LichessError>(),
+      ],
+      verify: (bloc) {
+        verify(mockSetMyKidModeStatus.call(any)).called(1);
       },
     );
   });

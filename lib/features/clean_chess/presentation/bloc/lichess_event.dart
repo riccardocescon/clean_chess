@@ -17,3 +17,9 @@ class GetMyEmailEvent extends LichessEvent {
 class GetMyKidModeStatusEvent extends LichessEvent {
   const GetMyKidModeStatusEvent();
 }
+
+class SetMyKidModeStatusEvent extends LichessEvent {
+  final bool kidModeStatus;
+
+  const SetMyKidModeStatusEvent(this.kidModeStatus);
+}

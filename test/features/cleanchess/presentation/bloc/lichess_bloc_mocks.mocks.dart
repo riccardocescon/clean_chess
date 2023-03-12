@@ -6,6 +6,7 @@
 import 'dart:async' as _i5;
 
 import 'package:cleanchess/chess/error/failures.dart' as _i6;
+import 'package:cleanchess/chess/utilities/utils.dart' as _i10;
 import 'package:cleanchess/core/usecases/usecase.dart' as _i9;
 import 'package:cleanchess/features/clean_chess/domain/repositories/lichess_repositoy.dart'
     as _i2;
@@ -267,4 +268,48 @@ class MockMGetMyKidModeStatus extends _i1.Mock
           ),
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, bool>>);
+}
+
+/// A class which mocks [MSetMyKidModeStatus].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMSetMyKidModeStatus extends _i1.Mock
+    implements _i4.MSetMyKidModeStatus {
+  @override
+  _i2.LichessRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeLichessRepository_0(
+          this,
+          Invocation.getter(#repository),
+        ),
+        returnValueForMissingStub: _FakeLichessRepository_0(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i2.LichessRepository);
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, _i10.Empty>> call(bool? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i10.Empty>>.value(
+            _FakeEither_1<_i6.Failure, _i10.Empty>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i6.Failure, _i10.Empty>>.value(
+                _FakeEither_1<_i6.Failure, _i10.Empty>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, _i10.Empty>>);
 }

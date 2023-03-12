@@ -1,4 +1,5 @@
 import 'package:cleanchess/chess/error/failures.dart';
+import 'package:cleanchess/chess/utilities/utils.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess_oauth.dart';
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
@@ -21,4 +22,6 @@ abstract class LichessRepository {
   Future<Either<Failure, String>> getMyEmail();
 
   Future<Either<Failure, bool>> getMyKidModeStatus();
+
+  Future<Either<Failure, Empty>> setMyKidModeStatus(bool status);
 }

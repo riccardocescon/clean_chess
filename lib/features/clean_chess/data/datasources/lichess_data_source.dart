@@ -1,5 +1,6 @@
 import 'package:cleanchess/chess/error/failures.dart';
 import 'package:cleanchess/chess/utilities/extensions.dart';
+import 'package:cleanchess/chess/utilities/utils.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_data_source.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/oauth.dart';
@@ -115,6 +116,23 @@ class LichessDataSource extends RemoteDataSource with LichessTokenProvider {
       final client = maybeClient.right;
       final response = await client.account.getKidModeStatus();
       return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
+
+  /// API request to set user kid mode status
+  @override
+  Future<Either<Failure, Empty>> setMyKidModeStatus({
+    required bool status,
+  }) async {
+    try {
+      final maybeClient = await getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      await client.account.setMyKidModeStatus(enableKidMode: status);
+      return const Right(Empty());
     } catch (e) {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }

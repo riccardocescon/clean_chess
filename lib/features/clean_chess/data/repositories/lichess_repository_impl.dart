@@ -1,3 +1,4 @@
+import 'package:cleanchess/chess/utilities/utils.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_data_source.dart';
 import 'package:cleanchess/chess/error/failures.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/lichess_repositoy.dart';
@@ -48,4 +49,8 @@ class LichessRepositoryImpl implements LichessRepository {
   @override
   Future<Either<Failure, bool>> getMyKidModeStatus() =>
       remoteDataSource.getMyKidModeStatus();
+
+  @override
+  Future<Either<Failure, Empty>> setMyKidModeStatus(bool status) =>
+      remoteDataSource.setMyKidModeStatus(status: status);
 }
