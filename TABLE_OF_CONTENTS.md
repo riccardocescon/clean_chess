@@ -7,6 +7,10 @@ For the other packages, please refer to their respective repository.
 
 ## CleanChess
 CleanChess is built using the TDD pattern.
+
+TDD stands for `Test Driven Development`, so please write tests before doing PR.
+Read in the appropriate section for more information.
+
 By pulling this project you should notice 2 folders under the lib directory:
 
     |lib
@@ -57,3 +61,18 @@ The `bloc` are the classes that are responsible for getting the data from the us
 
 Inside the `core` folder you will see the same structure as the `features\clean_chess` folder.
 The `core` folder contains the utilities that are used by the `features\clean_chess` folder.
+
+# Tests
+When doing PR make sure you have written working tests for all the features you have implemented.
+
+The tests must include:
+- Test on success
+- Test for each possible failure
+
+To write the tests we use:
+- flutter_test
+- build_runner
+- mockit
+- test_block
+
+For an example of how to write a test you can take a cue from those concerning [Authorization](https://github.com/riccardocescon/clean_chess/blob/main/test/features/cleanchess/presentation/bloc/lichess_bloc_test.dart)
