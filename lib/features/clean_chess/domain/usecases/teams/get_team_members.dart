@@ -4,13 +4,13 @@ import 'package:cleanchess/features/clean_chess/data/repositories/lichess/liches
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class GetTeamsByUser extends UseCase<List<Team>, String> {
-  final LichessTeamRepository _teamRepository;
+class GetTeamMembers extends UseCase<List<User>, String> {
+  final LichessTeamRepository repository;
 
-  GetTeamsByUser(this._teamRepository);
+  GetTeamMembers(this.repository);
 
   @override
-  Future<Either<Failure, List<Team>>> call(String params) async {
-    return await _teamRepository.getTeamsByUser(params);
+  Future<Either<Failure, List<User>>> call(String params) async {
+    return await repository.getTeamMembersEvent(params);
   }
 }

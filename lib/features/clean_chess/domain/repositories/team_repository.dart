@@ -6,4 +6,6 @@ abstract class TeamRepository {
   Future<Either<Failure, List<Team>>> getTeamsByUser(String username);
 
   Future<Either<Failure, Team>> getTeamById(String teamId);
+
+  Future<Either<Failure, List<User>>> getTeamMembersEvent(String teamId);
 }

@@ -31,6 +31,7 @@ Future<void> init() async {
       getMyPreferences: sl<GetMyPreferences>(),
       getTeamsByUser: sl<GetTeamsByUser>(),
       getTeamById: sl<GetTeamById>(),
+      getTeamMembers: sl<GetTeamMembers>(),
     ),
   );
 
@@ -54,6 +55,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => GetTeamById(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetTeamMembers(sl<LichessTeamRepository>()),
   );
 
   // Register repositories

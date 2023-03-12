@@ -141,6 +141,11 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is LichessLoaded<Team>) {
             log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              GetTeamMembersEvent(teamId: team.id!),
+            );
+          } else if (state is LichessLoaded<List<User>>) {
+            log(state.data.toString());
             showSnackbarSuccess(context, 'Logged in');
             Navigator.pushReplacementNamed(context, Navigation.homescreen);
           } else if (state is LichessError) {

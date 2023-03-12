@@ -22,6 +22,8 @@ class MGetTeamsByUser extends Mock implements GetTeamsByUser {}
 
 class MGetTeamById extends Mock implements GetTeamById {}
 
+class MGetTeamMembers extends Mock implements GetTeamMembers {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -32,5 +34,6 @@ class MGetTeamById extends Mock implements GetTeamById {}
   MockSpec<MGetMyPreferences>(),
   MockSpec<MGetTeamsByUser>(),
   MockSpec<MGetTeamById>(),
+  MockSpec<MGetTeamMembers>(),
 ])
 void main() {}

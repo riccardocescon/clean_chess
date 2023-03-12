@@ -26,6 +26,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetMyPreferences getMyPreferences;
   final GetTeamsByUser getTeamsByUser;
   final GetTeamById getTeamById;
+  final GetTeamMembers getTeamMembers;
 
   LichessBloc({
     required this.tokenProvider,
@@ -38,6 +39,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getMyPreferences,
     required this.getTeamsByUser,
     required this.getTeamById,
+    required this.getTeamMembers,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -101,6 +103,15 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
       team.fold(
         (failure) => emit(LichessError(failure)),
         (team) => emit(LichessLoaded<Team>(team)),
+      );
+    });
+    on<GetTeamMembersEvent>((event, emit) async {
+      emit(LichessLoading());
+      final members = await getTeamMembers.call(event.teamId);
+
+      members.fold(
+        (failure) => emit(LichessError(failure)),
+        (members) => emit(LichessLoaded<List<User>>(members)),
       );
     });
   }

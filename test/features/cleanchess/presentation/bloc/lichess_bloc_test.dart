@@ -25,6 +25,7 @@ void main() async {
   late MockMGetMyPreferences mockGetMyPreferences;
   late MockMGetTeamsByUser mockGetTeamsByUser;
   late MockMGetTeamById mockGetTeamById;
+  late MockMGetTeamMembers mockGetTeamMembers;
 
   late LichessBloc bloc;
 
@@ -39,6 +40,7 @@ void main() async {
     mockGetMyPreferences = MockMGetMyPreferences();
     mockGetTeamsByUser = MockMGetTeamsByUser();
     mockGetTeamById = MockMGetTeamById();
+    mockGetTeamMembers = MockMGetTeamMembers();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -51,6 +53,7 @@ void main() async {
       getMyPreferences: mockGetMyPreferences,
       getTeamsByUser: mockGetTeamsByUser,
       getTeamById: mockGetTeamById,
+      getTeamMembers: mockGetTeamMembers,
     );
   });
 
@@ -418,6 +421,46 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockGetTeamById.call(any)).called(1);
+        },
+      );
+    });
+
+    group('GetTeamMembers', () {
+      blocTest<LichessBloc, LichessState>(
+        'Success',
+        build: () {
+          when(mockGetTeamMembers.call(any)).thenAnswer(
+            (_) async => const Right([User()]),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetTeamMembersEvent(teamId: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<List<User>>>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetTeamMembers.call(any)).called(1);
+        },
+      );
+
+      blocTest<LichessBloc, LichessState>(
+        'Failure',
+        build: () {
+          when(mockGetTeamMembers.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetTeamMembersEvent(teamId: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetTeamMembers.call(any)).called(1);
         },
       );
     });
