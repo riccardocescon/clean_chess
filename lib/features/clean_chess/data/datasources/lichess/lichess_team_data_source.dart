@@ -10,6 +10,7 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
 
   LichessTeamDataSource(this._tokenProvider);
 
+  /// Api call to get all teams for a user by its id
   @override
   Future<Either<Failure, List<Team>>> getTeamsByUser(String userId) async {
     try {
@@ -18,6 +19,21 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
 
       final client = maybeClient.right;
       final response = await client.teams.getByUser(username: userId);
+      return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
+
+  /// Api call to get team by team id
+  @override
+  Future<Either<Failure, Team>> getTeamById(String teamId) async {
+    try {
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      final response = await client.teams.getById(teamId);
       return Right(response);
     } catch (e) {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));

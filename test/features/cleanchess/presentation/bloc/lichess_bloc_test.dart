@@ -24,6 +24,7 @@ void main() async {
   late MockMSetMyKidModeStatus mockSetMyKidModeStatus;
   late MockMGetMyPreferences mockGetMyPreferences;
   late MockMGetTeamsByUser mockGetTeamsByUser;
+  late MockMGetTeamById mockGetTeamById;
 
   late LichessBloc bloc;
 
@@ -37,6 +38,7 @@ void main() async {
     mockSetMyKidModeStatus = MockMSetMyKidModeStatus();
     mockGetMyPreferences = MockMGetMyPreferences();
     mockGetTeamsByUser = MockMGetTeamsByUser();
+    mockGetTeamById = MockMGetTeamById();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -48,6 +50,7 @@ void main() async {
       setMyKidModeStatus: mockSetMyKidModeStatus,
       getMyPreferences: mockGetMyPreferences,
       getTeamsByUser: mockGetTeamsByUser,
+      getTeamById: mockGetTeamById,
     );
   });
 
@@ -375,6 +378,46 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockGetTeamsByUser.call(any)).called(1);
+        },
+      );
+    });
+
+    group('GetTeamById', () {
+      blocTest<LichessBloc, LichessState>(
+        'Success',
+        build: () {
+          when(mockGetTeamById.call(any)).thenAnswer(
+            (_) async => const Right(Team()),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetTeamByIdEvent(teamId: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<Team>>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetTeamById.call(any)).called(1);
+        },
+      );
+
+      blocTest<LichessBloc, LichessState>(
+        'Failure',
+        build: () {
+          when(mockGetTeamById.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetTeamByIdEvent(teamId: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetTeamById.call(any)).called(1);
         },
       );
     });

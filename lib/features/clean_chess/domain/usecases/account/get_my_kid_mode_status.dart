@@ -1,6 +1,6 @@
 import 'package:cleanchess/chess/error/failures.dart';
 import 'package:cleanchess/core/usecases/usecase.dart';
-import 'package:cleanchess/features/clean_chess/data/repositories/lichess_account_repository.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_account_repository.dart';
 import 'package:dartz/dartz.dart';
 
 class GetMyKidModeStatus extends UseCase<bool, NoParams> {

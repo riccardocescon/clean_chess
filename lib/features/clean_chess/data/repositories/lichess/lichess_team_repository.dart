@@ -12,4 +12,8 @@ class LichessTeamRepository implements TeamRepository {
   @override
   Future<Either<Failure, List<Team>>> getTeamsByUser(String username) =>
       teamDataSource.getTeamsByUser(username);
+
+  @override
+  Future<Either<Failure, Team>> getTeamById(String teamId) =>
+      teamDataSource.getTeamById(teamId);
 }

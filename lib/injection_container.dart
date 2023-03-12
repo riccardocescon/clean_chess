@@ -2,15 +2,15 @@ import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_account_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_oauth_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_team_data_source.dart';
-import 'package:cleanchess/features/clean_chess/data/repositories/lichess_account_repository.dart';
-import 'package:cleanchess/features/clean_chess/data/repositories/lichess_oauth_repository.dart';
-import 'package:cleanchess/features/clean_chess/data/repositories/lichess_team_repository.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_account_repository.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_teams_by_user_id.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
 import 'package:get_it/get_it.dart';
+
+import 'features/clean_chess/data/repositories/lichess/lichess_oauth_repository.dart';
+import 'features/clean_chess/data/repositories/lichess/lichess_team_repository.dart';
 
 final sl = GetIt.instance;
 
@@ -30,6 +30,7 @@ Future<void> init() async {
       setMyKidModeStatus: sl<SetMyKidModeStatus>(),
       getMyPreferences: sl<GetMyPreferences>(),
       getTeamsByUser: sl<GetTeamsByUser>(),
+      getTeamById: sl<GetTeamById>(),
     ),
   );
 
@@ -50,6 +51,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => GetTeamsByUser(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetTeamById(sl<LichessTeamRepository>()),
   );
 
   // Register repositories

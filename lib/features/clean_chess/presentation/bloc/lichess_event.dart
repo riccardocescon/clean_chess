@@ -32,3 +32,8 @@ class GetTeamsByUserIdEvent extends LichessEvent {
   final String userId;
   const GetTeamsByUserIdEvent({required this.userId});
 }
+
+class GetTeamByIdEvent extends LichessEvent {
+  final String teamId;
+  const GetTeamByIdEvent({required this.teamId});
+}
