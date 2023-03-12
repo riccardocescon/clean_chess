@@ -19,6 +19,11 @@ abstract class TeamRepository {
     String userId,
   );
 
+  Future<Either<Failure, Empty>> declineJoinRequest(
+    String teamId,
+    String userId,
+  );
+
   Future<Either<Failure, Empty>> kickUserFromTeam(
     String teamId,
     String userId,

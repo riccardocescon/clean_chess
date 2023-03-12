@@ -28,6 +28,14 @@ abstract class RemoteTeamDataSource {
     String userId,
   );
 
+  /// Api call to Decline a Join Request for a team
+  /// [teamId] is the id of the team
+  /// [userId] is the id of the user
+  Future<Either<Failure, Empty>> declineJoinRequest(
+    String teamId,
+    String userId,
+  );
+
   /// Api call to Kick a user from a team
   /// [teamId] is the id of the team
   /// [userId] is the id of the user

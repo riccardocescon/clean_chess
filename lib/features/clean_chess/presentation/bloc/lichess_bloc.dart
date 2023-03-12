@@ -9,6 +9,7 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/accept_join_request.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/decline_join_request.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_team_join_requests.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
@@ -32,6 +33,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetTeamJoinRequests getTeamJoinRequests;
   final AcceptJoinRequest acceptJoinRequest;
   final KickMemberFromTeam kickMemberFromTeam;
+  final DeclineJoinRequest declineJoinRequest;
 
   LichessBloc({
     required this.tokenProvider,
@@ -47,6 +49,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getTeamMembers,
     required this.getTeamJoinRequests,
     required this.acceptJoinRequest,
+    required this.declineJoinRequest,
     required this.kickMemberFromTeam,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
@@ -135,6 +138,20 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
       emit(LichessLoading());
       final joinRequest = await acceptJoinRequest.call(
         AcceptJoinRequestParams(
+          event.teamId,
+          event.userId,
+        ),
+      );
+
+      joinRequest.fold(
+        (failure) => emit(LichessError(failure)),
+        (joinRequest) => emit(const LichessLoaded<Empty>(Empty())),
+      );
+    });
+    on<DeclineJoinRequestEvent>((event, emit) async {
+      emit(LichessLoading());
+      final joinRequest = await declineJoinRequest.call(
+        DeclineJoinRequestParams(
           event.teamId,
           event.userId,
         ),

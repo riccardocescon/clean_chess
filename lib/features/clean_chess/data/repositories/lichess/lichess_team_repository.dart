@@ -36,6 +36,13 @@ class LichessTeamRepository implements TeamRepository {
       teamDataSource.acceptJoinRequest(teamId, userId);
 
   @override
+  Future<Either<Failure, Empty>> declineJoinRequest(
+    String teamId,
+    String userId,
+  ) =>
+      teamDataSource.declineJoinRequest(teamId, userId);
+
+  @override
   Future<Either<Failure, Empty>> kickUserFromTeam(
     String teamId,
     String userId,

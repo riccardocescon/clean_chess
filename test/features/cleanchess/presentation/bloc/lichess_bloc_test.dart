@@ -29,6 +29,7 @@ void main() async {
   late MockMGetTeamJoinRequests mockGetTeamJoinRequests;
   late MockMAcceptJoinRequest mockAcceptJoinRequest;
   late MockMKickMemberFromTeam mockKickMemberFromTeam;
+  late MockMDeclineJoinRequest mockDeclineJoinRequest;
 
   late LichessBloc bloc;
 
@@ -46,6 +47,7 @@ void main() async {
     mockGetTeamMembers = MockMGetTeamMembers();
     mockGetTeamJoinRequests = MockMGetTeamJoinRequests();
     mockAcceptJoinRequest = MockMAcceptJoinRequest();
+    mockDeclineJoinRequest = MockMDeclineJoinRequest();
     mockKickMemberFromTeam = MockMKickMemberFromTeam();
 
     bloc = LichessBloc(
@@ -62,6 +64,7 @@ void main() async {
       getTeamMembers: mockGetTeamMembers,
       getTeamJoinRequests: mockGetTeamJoinRequests,
       acceptJoinRequest: mockAcceptJoinRequest,
+      declineJoinRequest: mockDeclineJoinRequest,
       kickMemberFromTeam: mockKickMemberFromTeam,
     );
   });
@@ -606,6 +609,54 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockKickMemberFromTeam.call(any)).called(1);
+        },
+      );
+    });
+
+    group('DeclineJoinRequest', () {
+      blocTest<LichessBloc, LichessState>(
+        'Success',
+        build: () {
+          when(mockDeclineJoinRequest.call(any)).thenAnswer(
+            (_) async => const Right(Empty()),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(
+          const DeclineJoinRequestEvent(
+            teamId: '',
+            userId: '',
+          ),
+        ),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<Empty>>(),
+        ],
+        verify: (bloc) {
+          verify(mockDeclineJoinRequest.call(any)).called(1);
+        },
+      );
+
+      blocTest<LichessBloc, LichessState>(
+        'Failure',
+        build: () {
+          when(mockDeclineJoinRequest.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const DeclineJoinRequestEvent(
+          teamId: '',
+          userId: '',
+        )),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockDeclineJoinRequest.call(any)).called(1);
         },
       );
     });
