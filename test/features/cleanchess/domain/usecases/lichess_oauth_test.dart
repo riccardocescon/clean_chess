@@ -1,6 +1,6 @@
 import 'package:cleanchess/chess/error/failures.dart';
 import 'package:cleanchess/chess/utilities/extensions.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/lichess_oauth.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/oauth.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

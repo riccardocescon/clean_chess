@@ -6,6 +6,7 @@
 import 'dart:async' as _i4;
 
 import 'package:cleanchess/chess/error/failures.dart' as _i5;
+import 'package:cleanchess/chess/utilities/utils.dart' as _i8;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:lichess_client_dio/lichess_client_dio.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
@@ -148,4 +149,106 @@ class MockMLichessRepository extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i7.User>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, String>> getMyEmail() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMyEmail,
+          [],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+            _FakeEither_0<_i5.Failure, String>(
+          this,
+          Invocation.method(
+            #getMyEmail,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+                _FakeEither_0<_i5.Failure, String>(
+          this,
+          Invocation.method(
+            #getMyEmail,
+            [],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, String>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, bool>> getMyKidModeStatus() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMyKidModeStatus,
+          [],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, bool>>.value(
+            _FakeEither_0<_i5.Failure, bool>(
+          this,
+          Invocation.method(
+            #getMyKidModeStatus,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, bool>>.value(
+                _FakeEither_0<_i5.Failure, bool>(
+          this,
+          Invocation.method(
+            #getMyKidModeStatus,
+            [],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, bool>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i8.Empty>> setMyKidModeStatus(
+          bool? status) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setMyKidModeStatus,
+          [status],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i8.Empty>>.value(
+            _FakeEither_0<_i5.Failure, _i8.Empty>(
+          this,
+          Invocation.method(
+            #setMyKidModeStatus,
+            [status],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, _i8.Empty>>.value(
+                _FakeEither_0<_i5.Failure, _i8.Empty>(
+          this,
+          Invocation.method(
+            #setMyKidModeStatus,
+            [status],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i8.Empty>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i7.UserPreferences>> getMyPreferences() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMyPreferences,
+          [],
+        ),
+        returnValue:
+            _i4.Future<_i2.Either<_i5.Failure, _i7.UserPreferences>>.value(
+                _FakeEither_0<_i5.Failure, _i7.UserPreferences>(
+          this,
+          Invocation.method(
+            #getMyPreferences,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, _i7.UserPreferences>>.value(
+                _FakeEither_0<_i5.Failure, _i7.UserPreferences>(
+          this,
+          Invocation.method(
+            #getMyPreferences,
+            [],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i7.UserPreferences>>);
 }

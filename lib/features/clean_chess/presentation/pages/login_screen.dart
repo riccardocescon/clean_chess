@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
+import 'package:cleanchess/chess/utilities/utils.dart';
 import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_logo.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_widget.dart';
@@ -8,6 +11,7 @@ import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.
 import 'package:cleanchess/features/clean_chess/presentation/widgets/login_screen_chessboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -102,7 +106,27 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is LichessUserFetched) {
             final userProfile = state.user;
-            print(userProfile);
+            log(userProfile.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetMyEmailEvent(),
+            );
+          } else if (state is LichessLoaded<String>) {
+            log(state.data);
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetMyKidModeStatusEvent(),
+            );
+          } else if (state is LichessLoaded<bool>) {
+            log('Kid Mode:${state.data}');
+            BlocProvider.of<LichessBloc>(context).add(
+              const SetMyKidModeStatusEvent(false),
+            );
+          } else if (state is LichessLoaded<Empty>) {
+            log('Kid Mode Set Successfully');
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetMyPreferencesEvent(),
+            );
+          } else if (state is LichessLoaded<UserPreferences>) {
+            log(state.data.toString());
             showSnackbarSuccess(context, 'Logged in');
             Navigator.pushReplacementNamed(context, Navigation.homescreen);
           } else if (state is LichessError) {
