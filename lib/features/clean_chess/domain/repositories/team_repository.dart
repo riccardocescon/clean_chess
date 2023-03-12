@@ -28,4 +28,10 @@ abstract class TeamRepository {
     String teamId,
     String userId,
   );
+
+  Future<Either<Failure, Empty>> joinTeam(
+    String teamId,
+    String? message,
+    String? password,
+  );
 }

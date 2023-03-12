@@ -48,4 +48,12 @@ class LichessTeamRepository implements TeamRepository {
     String userId,
   ) =>
       teamDataSource.kickUserFromTeam(teamId, userId);
+
+  @override
+  Future<Either<Failure, Empty>> joinTeam(
+    String teamId,
+    String? message,
+    String? password,
+  ) =>
+      teamDataSource.joinTeam(teamId, message, password);
 }

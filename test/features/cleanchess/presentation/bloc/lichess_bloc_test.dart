@@ -30,6 +30,7 @@ void main() async {
   late MockMAcceptJoinRequest mockAcceptJoinRequest;
   late MockMKickMemberFromTeam mockKickMemberFromTeam;
   late MockMDeclineJoinRequest mockDeclineJoinRequest;
+  late MockMJoinTeam mockJoinTeam;
 
   late LichessBloc bloc;
 
@@ -49,6 +50,7 @@ void main() async {
     mockAcceptJoinRequest = MockMAcceptJoinRequest();
     mockDeclineJoinRequest = MockMDeclineJoinRequest();
     mockKickMemberFromTeam = MockMKickMemberFromTeam();
+    mockJoinTeam = MockMJoinTeam();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -66,6 +68,7 @@ void main() async {
       acceptJoinRequest: mockAcceptJoinRequest,
       declineJoinRequest: mockDeclineJoinRequest,
       kickMemberFromTeam: mockKickMemberFromTeam,
+      joinTeam: mockJoinTeam,
     );
   });
 
@@ -657,6 +660,52 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockDeclineJoinRequest.call(any)).called(1);
+        },
+      );
+    });
+
+    group('JoinTeam', () {
+      blocTest<LichessBloc, LichessState>(
+        'Success',
+        build: () {
+          when(mockJoinTeam.call(any)).thenAnswer(
+            (_) async => const Right(Empty()),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(
+          const JoinTeamEvent(
+            teamId: '',
+          ),
+        ),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<Empty>>(),
+        ],
+        verify: (bloc) {
+          verify(mockJoinTeam.call(any)).called(1);
+        },
+      );
+
+      blocTest<LichessBloc, LichessState>(
+        'Failure',
+        build: () {
+          when(mockJoinTeam.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const JoinTeamEvent(
+          teamId: '',
+        )),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockJoinTeam.call(any)).called(1);
         },
       );
     });

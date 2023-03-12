@@ -43,4 +43,14 @@ abstract class RemoteTeamDataSource {
     String teamId,
     String userId,
   );
+
+  /// Api call to join a team
+  /// [teamId] is the id of the team
+  /// [message] is the message to send to the team if needed
+  /// [password] is the password to join the team if needed
+  Future<Either<Failure, Empty>> joinTeam(
+    String teamId,
+    String? message,
+    String? password,
+  );
 }

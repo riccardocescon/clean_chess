@@ -8,9 +8,7 @@ import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/accept_join_request.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/decline_join_request.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_team_join_requests.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
@@ -34,6 +32,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final AcceptJoinRequest acceptJoinRequest;
   final KickMemberFromTeam kickMemberFromTeam;
   final DeclineJoinRequest declineJoinRequest;
+  final JoinTeam joinTeam;
 
   LichessBloc({
     required this.tokenProvider,
@@ -51,6 +50,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.acceptJoinRequest,
     required this.declineJoinRequest,
     required this.kickMemberFromTeam,
+    required this.joinTeam,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -174,6 +174,21 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
       kickMember.fold(
         (failure) => emit(LichessError(failure)),
         (kickMember) => emit(const LichessLoaded<Empty>(Empty())),
+      );
+    });
+    on<JoinTeamEvent>((event, emit) async {
+      emit(LichessLoading());
+      final join = await joinTeam.call(
+        JoinTeamParams(
+          event.teamId,
+          message: event.message,
+          passwrord: event.password,
+        ),
+      );
+
+      join.fold(
+        (failure) => emit(LichessError(failure)),
+        (join) => emit(const LichessLoaded<Empty>(Empty())),
       );
     });
   }

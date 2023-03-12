@@ -65,3 +65,16 @@ class KickMemberFromTeamEvent extends LichessEvent {
   final String userId;
   const KickMemberFromTeamEvent({required this.teamId, required this.userId});
 }
+
+class JoinTeamEvent extends LichessEvent {
+  final String teamId;
+
+  /// If the team requries a message, a [LichessOAuthFailure]
+  /// will be thrown with error code 400, that may means that
+  /// the team requires a message, so you can try again with
+  /// a message with a minimum length of 30 characters.
+  final String? message;
+  final String? password;
+
+  const JoinTeamEvent({required this.teamId, this.message, this.password});
+}

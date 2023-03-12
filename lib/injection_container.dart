@@ -39,6 +39,7 @@ Future<void> init() async {
       acceptJoinRequest: sl<AcceptJoinRequest>(),
       declineJoinRequest: sl<DeclineJoinRequest>(),
       kickMemberFromTeam: sl<KickMemberFromTeam>(),
+      joinTeam: sl<JoinTeam>(),
     ),
   );
 
@@ -77,6 +78,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => KickMemberFromTeam(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => JoinTeam(sl<LichessTeamRepository>()),
   );
 
   // Register repositories
