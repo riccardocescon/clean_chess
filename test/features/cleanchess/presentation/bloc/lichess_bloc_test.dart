@@ -22,6 +22,7 @@ void main() async {
   late MockMGetMyEmail mockGetMyEmail;
   late MockMGetMyKidModeStatus mockGetMyKidModeStatus;
   late MockMSetMyKidModeStatus mockSetMyKidModeStatus;
+  late MockMGetMyPreferences mockGetMyPreferences;
 
   late LichessBloc bloc;
 
@@ -33,6 +34,7 @@ void main() async {
     mockGetMyEmail = MockMGetMyEmail();
     mockGetMyKidModeStatus = MockMGetMyKidModeStatus();
     mockSetMyKidModeStatus = MockMSetMyKidModeStatus();
+    mockGetMyPreferences = MockMGetMyPreferences();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -42,6 +44,7 @@ void main() async {
       getMyEmail: mockGetMyEmail,
       getMyKidModeStatus: mockGetMyKidModeStatus,
       setMyKidModeStatus: mockSetMyKidModeStatus,
+      getMyPreferences: mockGetMyPreferences,
     );
   });
 
@@ -284,6 +287,46 @@ void main() async {
       ],
       verify: (bloc) {
         verify(mockSetMyKidModeStatus.call(any)).called(1);
+      },
+    );
+  });
+
+  group('GetMyPreferences', () {
+    blocTest<LichessBloc, LichessState>(
+      'Success',
+      build: () {
+        when(mockGetMyPreferences.call(any)).thenAnswer(
+          (_) async => const Right(UserPreferences()),
+        );
+
+        return bloc;
+      },
+      act: (bloc) => bloc.add(const GetMyPreferencesEvent()),
+      expect: () => [
+        isA<LichessLoading>(),
+        isA<LichessLoaded<UserPreferences>>(),
+      ],
+      verify: (bloc) {
+        verify(mockGetMyPreferences.call(any)).called(1);
+      },
+    );
+
+    blocTest<LichessBloc, LichessState>(
+      'Failure',
+      build: () {
+        when(mockGetMyPreferences.call(any)).thenAnswer(
+          (_) async => Left(LichessOAuthFailure('OAuth failure')),
+        );
+
+        return bloc;
+      },
+      act: (bloc) => bloc.add(const GetMyPreferencesEvent()),
+      expect: () => [
+        isA<LichessLoading>(),
+        isA<LichessError>(),
+      ],
+      verify: (bloc) {
+        verify(mockGetMyPreferences.call(any)).called(1);
       },
     );
   });

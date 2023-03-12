@@ -11,6 +11,7 @@ import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.
 import 'package:cleanchess/features/clean_chess/presentation/widgets/login_screen_chessboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -121,6 +122,11 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is LichessLoaded<Empty>) {
             log('Kid Mode Set Successfully');
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetMyPreferencesEvent(),
+            );
+          } else if (state is LichessLoaded<UserPreferences>) {
+            log(state.data.toString());
             showSnackbarSuccess(context, 'Logged in');
             Navigator.pushReplacementNamed(context, Navigation.homescreen);
           } else if (state is LichessError) {

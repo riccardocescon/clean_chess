@@ -20,6 +20,7 @@ Future<void> init() async {
       getMyEmail: sl<GetMyEmail>(),
       getMyKidModeStatus: sl<GetMyKidModeStatus>(),
       setMyKidModeStatus: sl<SetMyKidModeStatus>(),
+      getMyPreferences: sl<GetMyPreferences>(),
     ),
   );
 
@@ -35,6 +36,7 @@ Future<void> init() async {
   sl.registerLazySingleton(
     () => SetMyKidModeStatus(sl<LichessRepository>()),
   );
+  sl.registerLazySingleton(() => GetMyPreferences(sl<LichessRepository>()));
 
   // Register repositories
   sl.registerLazySingleton<LichessRepository>(() => LichessRepositoryImpl(

@@ -23,3 +23,7 @@ class SetMyKidModeStatusEvent extends LichessEvent {
 
   const SetMyKidModeStatusEvent(this.kidModeStatus);
 }
+
+class GetMyPreferencesEvent extends LichessEvent {
+  const GetMyPreferencesEvent();
+}

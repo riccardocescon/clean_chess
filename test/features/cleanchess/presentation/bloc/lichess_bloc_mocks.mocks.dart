@@ -313,3 +313,48 @@ class MockMSetMyKidModeStatus extends _i1.Mock
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, _i10.Empty>>);
 }
+
+/// A class which mocks [MGetMyPreferences].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMGetMyPreferences extends _i1.Mock implements _i4.MGetMyPreferences {
+  @override
+  _i2.LichessRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeLichessRepository_0(
+          this,
+          Invocation.getter(#repository),
+        ),
+        returnValueForMissingStub: _FakeLichessRepository_0(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i2.LichessRepository);
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, _i8.UserPreferences>> call(
+          _i9.NoParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue:
+            _i5.Future<_i3.Either<_i6.Failure, _i8.UserPreferences>>.value(
+                _FakeEither_1<_i6.Failure, _i8.UserPreferences>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i6.Failure, _i8.UserPreferences>>.value(
+                _FakeEither_1<_i6.Failure, _i8.UserPreferences>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, _i8.UserPreferences>>);
+}

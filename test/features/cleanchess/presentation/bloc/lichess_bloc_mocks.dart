@@ -15,6 +15,8 @@ class MGetMyKidModeStatus extends Mock implements GetMyKidModeStatus {}
 
 class MSetMyKidModeStatus extends Mock implements SetMyKidModeStatus {}
 
+class MGetMyPreferences extends Mock implements GetMyPreferences {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -22,5 +24,6 @@ class MSetMyKidModeStatus extends Mock implements SetMyKidModeStatus {}
   MockSpec<MGetMyEmail>(),
   MockSpec<MGetMyKidModeStatus>(),
   MockSpec<MSetMyKidModeStatus>(),
+  MockSpec<MGetMyPreferences>(),
 ])
 void main() {}

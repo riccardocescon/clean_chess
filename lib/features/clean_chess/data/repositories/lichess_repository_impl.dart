@@ -53,4 +53,8 @@ class LichessRepositoryImpl implements LichessRepository {
   @override
   Future<Either<Failure, Empty>> setMyKidModeStatus(bool status) =>
       remoteDataSource.setMyKidModeStatus(status: status);
+
+  @override
+  Future<Either<Failure, UserPreferences>> getMyPreferences() =>
+      remoteDataSource.getMyPreferences();
 }

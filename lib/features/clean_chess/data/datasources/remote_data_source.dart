@@ -35,4 +35,9 @@ abstract class RemoteDataSource {
 
   /// API request to set user kid mode status
   Future<Either<Failure, Empty>> setMyKidModeStatus({required bool status});
+
+  /// API request to get user preferences
+  /// This is a separate API call because the preferences are not returned
+  /// in the user profile API call
+  Future<Either<Failure, UserPreferences>> getMyPreferences();
 }

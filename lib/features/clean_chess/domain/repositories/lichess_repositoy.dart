@@ -24,4 +24,6 @@ abstract class LichessRepository {
   Future<Either<Failure, bool>> getMyKidModeStatus();
 
   Future<Either<Failure, Empty>> setMyKidModeStatus(bool status);
+
+  Future<Either<Failure, UserPreferences>> getMyPreferences();
 }

@@ -137,4 +137,21 @@ class LichessDataSource extends RemoteDataSource with LichessTokenProvider {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }
   }
+
+  /// API request to get user preferences
+  /// This is a separate API call because the preferences are not returned
+  /// in the user profile API call
+  @override
+  Future<Either<Failure, UserPreferences>> getMyPreferences() async {
+    try {
+      final maybeClient = await getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      final response = await client.account.getMyPreferences();
+      return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
 }

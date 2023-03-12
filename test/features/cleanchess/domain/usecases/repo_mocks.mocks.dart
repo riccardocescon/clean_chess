@@ -225,4 +225,30 @@ class MockMLichessRepository extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i8.Empty>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i7.UserPreferences>> getMyPreferences() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMyPreferences,
+          [],
+        ),
+        returnValue:
+            _i4.Future<_i2.Either<_i5.Failure, _i7.UserPreferences>>.value(
+                _FakeEither_0<_i5.Failure, _i7.UserPreferences>(
+          this,
+          Invocation.method(
+            #getMyPreferences,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, _i7.UserPreferences>>.value(
+                _FakeEither_0<_i5.Failure, _i7.UserPreferences>(
+          this,
+          Invocation.method(
+            #getMyPreferences,
+            [],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i7.UserPreferences>>);
 }
