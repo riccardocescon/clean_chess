@@ -6,10 +6,12 @@ import 'package:cleanchess/core/presentation/bloc/utilities/oauth_helper.dart'
 import 'package:cleanchess/core/usecases/usecase.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/oauth.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class LichessBloc extends Bloc<LichessEvent, LichessState> {
@@ -22,6 +24,18 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetMyKidModeStatus getMyKidModeStatus;
   final SetMyKidModeStatus setMyKidModeStatus;
   final GetMyPreferences getMyPreferences;
+  final GetTeamsByUser getTeamsByUser;
+  final GetTeamById getTeamById;
+  final GetTeamMembers getTeamMembers;
+  final GetTeamJoinRequests getTeamJoinRequests;
+  final AcceptJoinRequest acceptJoinRequest;
+  final KickMemberFromTeam kickMemberFromTeam;
+  final DeclineJoinRequest declineJoinRequest;
+  final JoinTeam joinTeam;
+  final LeaveTeam leaveTeam;
+  final MessageAllMembers messageAllMembers;
+  final SearchTeamByName searchTeamByName;
+  final GetPopularTeams getPopularTeams;
 
   LichessBloc({
     required this.tokenProvider,
@@ -32,6 +46,18 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getMyKidModeStatus,
     required this.setMyKidModeStatus,
     required this.getMyPreferences,
+    required this.getTeamsByUser,
+    required this.getTeamById,
+    required this.getTeamMembers,
+    required this.getTeamJoinRequests,
+    required this.acceptJoinRequest,
+    required this.declineJoinRequest,
+    required this.kickMemberFromTeam,
+    required this.joinTeam,
+    required this.leaveTeam,
+    required this.messageAllMembers,
+    required this.searchTeamByName,
+    required this.getPopularTeams,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -77,6 +103,145 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
       preferences.fold(
         (failure) => emit(LichessError(failure)),
         (preferences) => emit(LichessLoaded<UserPreferences>(preferences)),
+      );
+    });
+    on<GetTeamsByUserIdEvent>((event, emit) async {
+      emit(LichessLoading());
+      final teams = await getTeamsByUser.call(event.userId);
+
+      teams.fold(
+        (failure) => emit(LichessError(failure)),
+        (teams) => emit(LichessLoaded<List<Team>>(teams)),
+      );
+    });
+    on<GetTeamByIdEvent>((event, emit) async {
+      emit(LichessLoading());
+      final team = await getTeamById.call(event.teamId);
+
+      team.fold(
+        (failure) => emit(LichessError(failure)),
+        (team) => emit(LichessLoaded<Team>(team)),
+      );
+    });
+    on<GetTeamMembersEvent>((event, emit) async {
+      emit(LichessLoading());
+      final members = await getTeamMembers.call(event.teamId);
+
+      members.fold(
+        (failure) => emit(LichessError(failure)),
+        (members) => emit(LichessLoaded<List<User>>(members)),
+      );
+    });
+    on<GetTeamJoinRequestsEvent>((event, emit) async {
+      emit(LichessLoading());
+      final joinRequests = await getTeamJoinRequests.call(event.teamId);
+
+      joinRequests.fold(
+        (failure) => emit(LichessError(failure)),
+        (joinRequests) => emit(LichessLoaded<List<JoinRequest>>(joinRequests)),
+      );
+    });
+    on<AcceptJoinRequestEvent>((event, emit) async {
+      emit(LichessLoading());
+      final joinRequest = await acceptJoinRequest.call(
+        AcceptJoinRequestParams(
+          event.teamId,
+          event.userId,
+        ),
+      );
+
+      joinRequest.fold(
+        (failure) => emit(LichessError(failure)),
+        (joinRequest) => emit(const LichessLoaded<Empty>(Empty())),
+      );
+    });
+    on<DeclineJoinRequestEvent>((event, emit) async {
+      emit(LichessLoading());
+      final joinRequest = await declineJoinRequest.call(
+        DeclineJoinRequestParams(
+          event.teamId,
+          event.userId,
+        ),
+      );
+
+      joinRequest.fold(
+        (failure) => emit(LichessError(failure)),
+        (joinRequest) => emit(const LichessLoaded<Empty>(Empty())),
+      );
+    });
+    on<KickMemberFromTeamEvent>((event, emit) async {
+      emit(LichessLoading());
+      final kickMember = await kickMemberFromTeam.call(
+        KickMemberFromTeamParams(
+          event.teamId,
+          event.userId,
+        ),
+      );
+
+      kickMember.fold(
+        (failure) => emit(LichessError(failure)),
+        (kickMember) => emit(const LichessLoaded<Empty>(Empty())),
+      );
+    });
+    on<JoinTeamEvent>((event, emit) async {
+      emit(LichessLoading());
+      final join = await joinTeam.call(
+        JoinTeamParams(
+          event.teamId,
+          message: event.message,
+          passwrord: event.password,
+        ),
+      );
+
+      join.fold(
+        (failure) => emit(LichessError(failure)),
+        (join) => emit(const LichessLoaded<Empty>(Empty())),
+      );
+    });
+    on<LeaveTeamEvent>((event, emit) async {
+      emit(LichessLoading());
+      final leave = await leaveTeam.call(event.teamId);
+
+      leave.fold(
+        (failure) => emit(LichessError(failure)),
+        (leave) => emit(const LichessLoaded<Empty>(Empty())),
+      );
+    });
+    on<MessageAllMembersEvent>((event, emit) async {
+      emit(LichessLoading());
+      final message = await messageAllMembers.call(
+        MessageAllMembersParams(
+          event.teamId,
+          event.message,
+        ),
+      );
+
+      message.fold(
+        (failure) => emit(LichessError(failure)),
+        (tournaments) => emit(const LichessLoaded<Empty>(Empty())),
+      );
+    });
+    on<SearchTeamByNameEvent>((event, emit) async {
+      emit(LichessLoading());
+      final teams = await searchTeamByName.call(
+        SearchTeamByNameParams(
+          event.teamName,
+          event.page,
+        ),
+      );
+
+      teams.fold(
+        (failure) => emit(LichessError(failure)),
+        (tournaments) => emit(LichessLoaded<PageOf<Team>>(tournaments)),
+      );
+    });
+    on<GetPopularTeamsEvent>((event, emit) async {
+      emit(LichessLoading());
+      final teams = await getPopularTeams.call(event.page);
+
+      teams.fold(
+        (failure) => emit(LichessError(failure)),
+        (data) => emit(LichessLoaded<PageOf<Team>>(data)),
       );
     });
   }

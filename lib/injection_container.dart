@@ -1,15 +1,23 @@
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
-import 'package:cleanchess/features/clean_chess/data/datasources/lichess_data_source.dart';
-import 'package:cleanchess/features/clean_chess/data/repositories/lichess_repository_impl.dart';
-import 'package:cleanchess/features/clean_chess/domain/repositories/lichess_repositoy.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_account_data_source.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_oauth_data_source.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_team_data_source.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_account_repository.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/oauth.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
 import 'package:get_it/get_it.dart';
+
+import 'features/clean_chess/data/repositories/lichess/lichess_oauth_repository.dart';
+import 'features/clean_chess/data/repositories/lichess/lichess_team_repository.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  // Generics
+  sl.registerLazySingleton<LichessTokenProvider>(() => LichessTokenProvider());
+
   // Register bloc
   sl.registerLazySingleton(
     () => LichessBloc(
@@ -21,28 +29,98 @@ Future<void> init() async {
       getMyKidModeStatus: sl<GetMyKidModeStatus>(),
       setMyKidModeStatus: sl<SetMyKidModeStatus>(),
       getMyPreferences: sl<GetMyPreferences>(),
+      getTeamsByUser: sl<GetTeamsByUser>(),
+      getTeamById: sl<GetTeamById>(),
+      getTeamMembers: sl<GetTeamMembers>(),
+      getTeamJoinRequests: sl<GetTeamJoinRequests>(),
+      acceptJoinRequest: sl<AcceptJoinRequest>(),
+      declineJoinRequest: sl<DeclineJoinRequest>(),
+      kickMemberFromTeam: sl<KickMemberFromTeam>(),
+      joinTeam: sl<JoinTeam>(),
+      leaveTeam: sl<LeaveTeam>(),
+      messageAllMembers: sl<MessageAllMembers>(),
+      searchTeamByName: sl<SearchTeamByName>(),
+      getPopularTeams: sl<GetPopularTeams>(),
     ),
   );
 
   // Register usecases
-  sl.registerLazySingleton(() => LichessTokenProvider());
-  sl.registerLazySingleton(() => LichessOAuth(sl<LichessRepository>()));
+  sl.registerLazySingleton(() => LichessOAuth(sl<LichessOAuthRepository>()));
   sl.registerLazySingleton(
-    () => LichessGainAccessToken(lichessRepository: sl<LichessRepository>()),
+    () => LichessGainAccessToken(sl<LichessOAuthRepository>()),
   );
-  sl.registerLazySingleton(() => GetMyProfile(sl<LichessRepository>()));
-  sl.registerLazySingleton(() => GetMyEmail(sl<LichessRepository>()));
-  sl.registerLazySingleton(() => GetMyKidModeStatus(sl<LichessRepository>()));
+  sl.registerLazySingleton(() => GetMyProfile(sl<LichessAccountRepository>()));
+  sl.registerLazySingleton(() => GetMyEmail(sl<LichessAccountRepository>()));
   sl.registerLazySingleton(
-    () => SetMyKidModeStatus(sl<LichessRepository>()),
+      () => GetMyKidModeStatus(sl<LichessAccountRepository>()));
+  sl.registerLazySingleton(
+    () => SetMyKidModeStatus(sl<LichessAccountRepository>()),
   );
-  sl.registerLazySingleton(() => GetMyPreferences(sl<LichessRepository>()));
+  sl.registerLazySingleton(
+    () => GetMyPreferences(sl<LichessAccountRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetTeamsByUser(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetTeamById(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetTeamMembers(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetTeamJoinRequests(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => AcceptJoinRequest(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => DeclineJoinRequest(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => KickMemberFromTeam(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => JoinTeam(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => LeaveTeam(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => MessageAllMembers(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => SearchTeamByName(sl<LichessTeamRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetPopularTeams(sl<LichessTeamRepository>()),
+  );
 
   // Register repositories
-  sl.registerLazySingleton<LichessRepository>(() => LichessRepositoryImpl(
-        remoteDataSource: sl<LichessDataSource>(),
-      ));
+  sl.registerLazySingleton<LichessOAuthRepository>(
+    () => LichessOAuthRepository(
+      oAuthDataSource: sl<LichessOAuthDataSource>(),
+    ),
+  );
+  sl.registerLazySingleton<LichessAccountRepository>(
+    () => LichessAccountRepository(
+      remoteDataSource: sl<LichessAccountDataSource>(),
+    ),
+  );
+  sl.registerLazySingleton<LichessTeamRepository>(
+    () => LichessTeamRepository(
+      teamDataSource: sl<LichessTeamDataSource>(),
+    ),
+  );
 
   // Register data sources
-  sl.registerLazySingleton<LichessDataSource>(() => LichessDataSource());
+  sl.registerLazySingleton<LichessOAuthDataSource>(
+    () => LichessOAuthDataSource(),
+  );
+  sl.registerLazySingleton<LichessAccountDataSource>(
+    () => LichessAccountDataSource(sl<LichessTokenProvider>()),
+  );
+  sl.registerLazySingleton<LichessTeamDataSource>(
+    () => LichessTeamDataSource(sl<LichessTokenProvider>()),
+  );
 }

@@ -5,6 +5,7 @@ import 'package:cleanchess/chess/utilities/utils.dart';
 import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_logo.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_widget.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
@@ -96,6 +97,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  late User user;
+  late Team team;
+  late JoinRequest joinRequest;
+  bool isJoinRequest = false;
+  bool isKickRequest = false;
+
   Widget _listener({required Widget child}) =>
       BlocListener<LichessBloc, LichessState>(
         listener: (context, state) {
@@ -105,8 +112,8 @@ class _LoginScreenState extends State<LoginScreen> {
               const GetMyProfileEvent(),
             );
           } else if (state is LichessUserFetched) {
-            final userProfile = state.user;
-            log(userProfile.toString());
+            user = state.user;
+            log(user.toString());
             BlocProvider.of<LichessBloc>(context).add(
               const GetMyEmailEvent(),
             );
@@ -121,14 +128,50 @@ class _LoginScreenState extends State<LoginScreen> {
               const SetMyKidModeStatusEvent(false),
             );
           } else if (state is LichessLoaded<Empty>) {
-            log('Kid Mode Set Successfully');
-            BlocProvider.of<LichessBloc>(context).add(
-              const GetMyPreferencesEvent(),
-            );
+            if (isKickRequest) {
+            } else if (isJoinRequest) {
+              log('Join Request Accepted');
+              BlocProvider.of<LichessBloc>(context).add(
+                KickMemberFromTeamEvent(
+                  teamId: team.id!,
+                  userId: joinRequest.user!.id!,
+                ),
+              );
+            } else {
+              log('Kid Mode Set Successfully');
+              BlocProvider.of<LichessBloc>(context).add(
+                const GetMyPreferencesEvent(),
+              );
+            }
           } else if (state is LichessLoaded<UserPreferences>) {
             log(state.data.toString());
-            showSnackbarSuccess(context, 'Logged in');
-            Navigator.pushReplacementNamed(context, Navigation.homescreen);
+            BlocProvider.of<LichessBloc>(context).add(
+              GetTeamsByUserIdEvent(userId: user.id!),
+            );
+          } else if (state is LichessLoaded<List<Team>>) {
+            log(state.data.toString());
+            team = state.data.last;
+            BlocProvider.of<LichessBloc>(context).add(
+              GetTeamByIdEvent(teamId: team.id!),
+            );
+          } else if (state is LichessLoaded<Team>) {
+            log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              GetTeamMembersEvent(teamId: team.id!),
+            );
+          } else if (state is LichessLoaded<List<User>>) {
+            log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              GetTeamJoinRequestsEvent(teamId: team.id!),
+            );
+          } else if (state is LichessLoaded<List<JoinRequest>>) {
+            log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetPopularTeamsEvent(),
+            );
+            isKickRequest = true;
+          } else if (state is LichessLoaded<PageOf<Team>>) {
+            log(state.data.toString());
           } else if (state is LichessError) {
             showSnackbarError(context, state.failure);
           }

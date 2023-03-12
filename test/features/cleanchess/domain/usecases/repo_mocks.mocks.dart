@@ -3,16 +3,16 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
-import 'package:cleanchess/chess/error/failures.dart' as _i5;
-import 'package:cleanchess/chess/utilities/utils.dart' as _i8;
-import 'package:dartz/dartz.dart' as _i2;
-import 'package:lichess_client_dio/lichess_client_dio.dart' as _i7;
+import 'package:cleanchess/chess/error/failures.dart' as _i6;
+import 'package:cleanchess/features/clean_chess/data/datasources/remote_oauth_data_source.dart'
+    as _i2;
+import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:oauth2/oauth2.dart' as _i6;
+import 'package:oauth2/oauth2.dart' as _i7;
 
-import 'repo_mocks.dart' as _i3;
+import 'repo_mocks.dart' as _i4;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -25,8 +25,9 @@ import 'repo_mocks.dart' as _i3;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
-  _FakeEither_0(
+class _FakeRemoteOAuthDataSource_0 extends _i1.SmartFake
+    implements _i2.RemoteOAuthDataSource {
+  _FakeRemoteOAuthDataSource_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -35,14 +36,36 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
         );
 }
 
-/// A class which mocks [MLichessRepository].
+class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
+  _FakeEither_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+/// A class which mocks [MLichessOAuthRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMLichessRepository extends _i1.Mock
-    implements _i3.MLichessRepository {
+class MockMLichessOAuthRepository extends _i1.Mock
+    implements _i4.MLichessOAuthRepository {
   @override
-  _i4.Future<_i2.Either<_i5.Failure, String>> authenticate({
-    required _i6.AuthorizationCodeGrant? grant,
+  _i2.RemoteOAuthDataSource get oAuthDataSource => (super.noSuchMethod(
+        Invocation.getter(#oAuthDataSource),
+        returnValue: _FakeRemoteOAuthDataSource_0(
+          this,
+          Invocation.getter(#oAuthDataSource),
+        ),
+        returnValueForMissingStub: _FakeRemoteOAuthDataSource_0(
+          this,
+          Invocation.getter(#oAuthDataSource),
+        ),
+      ) as _i2.RemoteOAuthDataSource);
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, String>> authenticate({
+    required _i7.AuthorizationCodeGrant? grant,
     required String? stateVerifier,
     required String? redirectUri,
   }) =>
@@ -56,8 +79,8 @@ class MockMLichessRepository extends _i1.Mock
             #redirectUri: redirectUri,
           },
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
-            _FakeEither_0<_i5.Failure, String>(
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, String>>.value(
+            _FakeEither_1<_i6.Failure, String>(
           this,
           Invocation.method(
             #authenticate,
@@ -70,8 +93,8 @@ class MockMLichessRepository extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, String>>.value(
-                _FakeEither_0<_i5.Failure, String>(
+            _i5.Future<_i3.Either<_i6.Failure, String>>.value(
+                _FakeEither_1<_i6.Failure, String>(
           this,
           Invocation.method(
             #authenticate,
@@ -83,10 +106,10 @@ class MockMLichessRepository extends _i1.Mock
             },
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, String>>);
+      ) as _i5.Future<_i3.Either<_i6.Failure, String>>);
   @override
-  _i4.Future<_i2.Either<_i5.Failure, String>> gainAccessToken({
-    required _i6.AuthorizationCodeGrant? grant,
+  _i5.Future<_i3.Either<_i6.Failure, String>> gainAccessToken({
+    required _i7.AuthorizationCodeGrant? grant,
     required Map<String, String>? params,
   }) =>
       (super.noSuchMethod(
@@ -98,8 +121,8 @@ class MockMLichessRepository extends _i1.Mock
             #params: params,
           },
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
-            _FakeEither_0<_i5.Failure, String>(
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, String>>.value(
+            _FakeEither_1<_i6.Failure, String>(
           this,
           Invocation.method(
             #gainAccessToken,
@@ -111,8 +134,8 @@ class MockMLichessRepository extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, String>>.value(
-                _FakeEither_0<_i5.Failure, String>(
+            _i5.Future<_i3.Either<_i6.Failure, String>>.value(
+                _FakeEither_1<_i6.Failure, String>(
           this,
           Invocation.method(
             #gainAccessToken,
@@ -123,132 +146,5 @@ class MockMLichessRepository extends _i1.Mock
             },
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, String>>);
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, _i7.User>> getUserProfile() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getUserProfile,
-          [],
-        ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i7.User>>.value(
-            _FakeEither_0<_i5.Failure, _i7.User>(
-          this,
-          Invocation.method(
-            #getUserProfile,
-            [],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, _i7.User>>.value(
-                _FakeEither_0<_i5.Failure, _i7.User>(
-          this,
-          Invocation.method(
-            #getUserProfile,
-            [],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i7.User>>);
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, String>> getMyEmail() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getMyEmail,
-          [],
-        ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
-            _FakeEither_0<_i5.Failure, String>(
-          this,
-          Invocation.method(
-            #getMyEmail,
-            [],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, String>>.value(
-                _FakeEither_0<_i5.Failure, String>(
-          this,
-          Invocation.method(
-            #getMyEmail,
-            [],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, String>>);
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, bool>> getMyKidModeStatus() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getMyKidModeStatus,
-          [],
-        ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, bool>>.value(
-            _FakeEither_0<_i5.Failure, bool>(
-          this,
-          Invocation.method(
-            #getMyKidModeStatus,
-            [],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, bool>>.value(
-                _FakeEither_0<_i5.Failure, bool>(
-          this,
-          Invocation.method(
-            #getMyKidModeStatus,
-            [],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, bool>>);
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, _i8.Empty>> setMyKidModeStatus(
-          bool? status) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #setMyKidModeStatus,
-          [status],
-        ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i8.Empty>>.value(
-            _FakeEither_0<_i5.Failure, _i8.Empty>(
-          this,
-          Invocation.method(
-            #setMyKidModeStatus,
-            [status],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, _i8.Empty>>.value(
-                _FakeEither_0<_i5.Failure, _i8.Empty>(
-          this,
-          Invocation.method(
-            #setMyKidModeStatus,
-            [status],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i8.Empty>>);
-  @override
-  _i4.Future<_i2.Either<_i5.Failure, _i7.UserPreferences>> getMyPreferences() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getMyPreferences,
-          [],
-        ),
-        returnValue:
-            _i4.Future<_i2.Either<_i5.Failure, _i7.UserPreferences>>.value(
-                _FakeEither_0<_i5.Failure, _i7.UserPreferences>(
-          this,
-          Invocation.method(
-            #getMyPreferences,
-            [],
-          ),
-        )),
-        returnValueForMissingStub:
-            _i4.Future<_i2.Either<_i5.Failure, _i7.UserPreferences>>.value(
-                _FakeEither_0<_i5.Failure, _i7.UserPreferences>(
-          this,
-          Invocation.method(
-            #getMyPreferences,
-            [],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i7.UserPreferences>>);
+      ) as _i5.Future<_i3.Either<_i6.Failure, String>>);
 }

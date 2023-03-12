@@ -4,7 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'repo_mocks.mocks.dart';
 
 void setSuccessAuthResponse({
-  required MockMLichessRepository mockLichessRepository,
+  required MockMLichessOAuthRepository mockLichessRepository,
   required String stateVerifier,
 }) {
   when(mockLichessRepository.authenticate(

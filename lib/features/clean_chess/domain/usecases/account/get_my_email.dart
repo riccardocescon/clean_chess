@@ -1,10 +1,10 @@
 import 'package:cleanchess/chess/error/failures.dart';
 import 'package:cleanchess/core/usecases/usecase.dart';
-import 'package:cleanchess/features/clean_chess/domain/repositories/lichess_repositoy.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_account_repository.dart';
 import 'package:dartz/dartz.dart';
 
 class GetMyEmail extends UseCase<String, NoParams> {
-  final LichessRepository repository;
+  final LichessAccountRepository repository;
 
   GetMyEmail(this.repository);
 

@@ -1,19 +1,19 @@
 import 'package:cleanchess/chess/error/failures.dart';
 import 'package:cleanchess/core/usecases/usecase.dart';
-import 'package:cleanchess/features/clean_chess/domain/repositories/lichess_repositoy.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess_oauth.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_oauth_repository.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
 import 'package:dartz/dartz.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
 
 class LichessGainAccessToken
     extends UseCase<String, LichessGainAccessTokenParams> {
-  final LichessRepository lichessRepository;
+  final LichessOAuthRepository oAuthRepository;
 
-  LichessGainAccessToken({required this.lichessRepository});
+  LichessGainAccessToken(this.oAuthRepository);
 
   @override
   Future<Either<Failure, String>> call(LichessGainAccessTokenParams params) =>
-      lichessRepository.gainAccessToken(
+      oAuthRepository.gainAccessToken(
         grant: params.grant,
         params: params.parameters,
       );

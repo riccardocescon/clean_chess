@@ -1,0 +1,16 @@
+import 'package:cleanchess/chess/error/failures.dart';
+import 'package:cleanchess/core/usecases/usecase.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_team_repository.dart';
+import 'package:dartz/dartz.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
+
+class GetTeamMembers extends UseCase<List<User>, String> {
+  final LichessTeamRepository repository;
+
+  GetTeamMembers(this.repository);
+
+  @override
+  Future<Either<Failure, List<User>>> call(String params) async {
+    return await repository.getTeamMembersEvent(params);
+  }
+}
