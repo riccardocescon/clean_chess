@@ -9,3 +9,11 @@ class LichessOAuthEvent extends LichessEvent {
 class GetMyProfileEvent extends LichessEvent {
   const GetMyProfileEvent();
 }
+
+class GetMyEmailEvent extends LichessEvent {
+  const GetMyEmailEvent();
+}
+
+class GetMyKidModeStatusEvent extends LichessEvent {
+  const GetMyKidModeStatusEvent();
+}

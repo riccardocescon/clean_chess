@@ -4,12 +4,11 @@ import 'package:cleanchess/core/presentation/bloc/utilities/oauth_helper.dart'
     as oauth_helper;
 import 'package:cleanchess/core/usecases/usecase.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/get_my_profile.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/lichess_gain_access_token.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/lichess_oauth.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/oauth.dart';
 
 class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final LichessTokenProvider tokenProvider;
@@ -17,12 +16,16 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final LichessOAuth oauth;
   final LichessGainAccessToken gainAccessToken;
   final GetMyProfile getMyProfile;
+  final GetMyEmail getMyEmail;
+  final GetMyKidModeStatus getMyKidModeStatus;
 
   LichessBloc({
     required this.tokenProvider,
     required this.oauth,
     required this.gainAccessToken,
     required this.getMyProfile,
+    required this.getMyEmail,
+    required this.getMyKidModeStatus,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -32,6 +35,24 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
       user.fold(
         (failure) => emit(LichessError(failure)),
         (user) => emit(LichessUserFetched(user)),
+      );
+    });
+    on<GetMyEmailEvent>((event, emit) async {
+      emit(LichessLoading());
+      final email = await getMyEmail.call(NoParams());
+
+      email.fold(
+        (failure) => emit(LichessError(failure)),
+        (email) => emit(LichessLoaded<String>(email)),
+      );
+    });
+    on<GetMyKidModeStatusEvent>((event, emit) async {
+      emit(LichessLoading());
+      final kidModeStatus = await getMyKidModeStatus.call(NoParams());
+
+      kidModeStatus.fold(
+        (failure) => emit(LichessError(failure)),
+        (kidModeStatus) => emit(LichessLoaded<bool>(kidModeStatus)),
       );
     });
   }

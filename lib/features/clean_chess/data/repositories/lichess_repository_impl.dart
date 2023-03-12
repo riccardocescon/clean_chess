@@ -1,7 +1,7 @@
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_data_source.dart';
 import 'package:cleanchess/chess/error/failures.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/lichess_repositoy.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/lichess_oauth.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/oauth.dart';
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
@@ -39,5 +39,13 @@ class LichessRepositoryImpl implements LichessRepository {
 
   @override
   Future<Either<Failure, User>> getUserProfile() =>
-      remoteDataSource.getUserProfile();
+      remoteDataSource.getMyUserProfile();
+
+  @override
+  Future<Either<Failure, String>> getMyEmail() =>
+      remoteDataSource.getMyUserEmail();
+
+  @override
+  Future<Either<Failure, bool>> getMyKidModeStatus() =>
+      remoteDataSource.getMyKidModeStatus();
 }

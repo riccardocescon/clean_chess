@@ -148,4 +148,54 @@ class MockMLichessRepository extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i7.User>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, String>> getMyEmail() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMyEmail,
+          [],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+            _FakeEither_0<_i5.Failure, String>(
+          this,
+          Invocation.method(
+            #getMyEmail,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+                _FakeEither_0<_i5.Failure, String>(
+          this,
+          Invocation.method(
+            #getMyEmail,
+            [],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, String>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, bool>> getMyKidModeStatus() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMyKidModeStatus,
+          [],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, bool>>.value(
+            _FakeEither_0<_i5.Failure, bool>(
+          this,
+          Invocation.method(
+            #getMyKidModeStatus,
+            [],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.Either<_i5.Failure, bool>>.value(
+                _FakeEither_0<_i5.Failure, bool>(
+          this,
+          Invocation.method(
+            #getMyKidModeStatus,
+            [],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, bool>>);
 }

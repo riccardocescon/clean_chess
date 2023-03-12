@@ -18,6 +18,8 @@ void main() async {
   late MockMLichessGainAccessToken mockLichessGainAccessToken;
   late MockMGetMyProfile mockGetMyProfile;
   late MockMLichessTokenProvider mockLichessTokenProvider;
+  late MockMGetMyEmail mockGetMyEmail;
+  late MockMGetMyKidModeStatus mockGetMyKidModeStatus;
 
   late LichessBloc bloc;
 
@@ -26,12 +28,16 @@ void main() async {
     mockLichessOAuth = MockMLichessOAuth();
     mockLichessGainAccessToken = MockMLichessGainAccessToken();
     mockGetMyProfile = MockMGetMyProfile();
+    mockGetMyEmail = MockMGetMyEmail();
+    mockGetMyKidModeStatus = MockMGetMyKidModeStatus();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
       oauth: mockLichessOAuth,
       gainAccessToken: mockLichessGainAccessToken,
       getMyProfile: mockGetMyProfile,
+      getMyEmail: mockGetMyEmail,
+      getMyKidModeStatus: mockGetMyKidModeStatus,
     );
   });
 
@@ -118,7 +124,7 @@ void main() async {
     );
   });
 
-  group('LichesGetMyProfile', () {
+  group('GetMyProfile', () {
     blocTest<LichessBloc, LichessState>(
       'Success',
       build: () {
@@ -154,6 +160,86 @@ void main() async {
       ],
       verify: (bloc) {
         verify(mockGetMyProfile.call(any)).called(1);
+      },
+    );
+  });
+
+  group('GetMyEmail', () {
+    blocTest<LichessBloc, LichessState>(
+      'Success',
+      build: () {
+        when(mockGetMyEmail.call(any)).thenAnswer(
+          (_) async => const Right('email'),
+        );
+
+        return bloc;
+      },
+      act: (bloc) => bloc.add(const GetMyEmailEvent()),
+      expect: () => [
+        isA<LichessLoading>(),
+        isA<LichessLoaded<String>>(),
+      ],
+      verify: (bloc) {
+        verify(mockGetMyEmail.call(any)).called(1);
+      },
+    );
+
+    blocTest<LichessBloc, LichessState>(
+      'Failure',
+      build: () {
+        when(mockGetMyEmail.call(any)).thenAnswer(
+          (_) async => Left(LichessOAuthFailure('OAuth failure')),
+        );
+
+        return bloc;
+      },
+      act: (bloc) => bloc.add(const GetMyEmailEvent()),
+      expect: () => [
+        isA<LichessLoading>(),
+        isA<LichessError>(),
+      ],
+      verify: (bloc) {
+        verify(mockGetMyEmail.call(any)).called(1);
+      },
+    );
+  });
+
+  group('GetMyKidModeStatus', () {
+    blocTest<LichessBloc, LichessState>(
+      'Success',
+      build: () {
+        when(mockGetMyKidModeStatus.call(any)).thenAnswer(
+          (_) async => const Right(true),
+        );
+
+        return bloc;
+      },
+      act: (bloc) => bloc.add(const GetMyKidModeStatusEvent()),
+      expect: () => [
+        isA<LichessLoading>(),
+        isA<LichessLoaded<bool>>(),
+      ],
+      verify: (bloc) {
+        verify(mockGetMyKidModeStatus.call(any)).called(1);
+      },
+    );
+
+    blocTest<LichessBloc, LichessState>(
+      'Failure',
+      build: () {
+        when(mockGetMyKidModeStatus.call(any)).thenAnswer(
+          (_) async => Left(LichessOAuthFailure('OAuth failure')),
+        );
+
+        return bloc;
+      },
+      act: (bloc) => bloc.add(const GetMyKidModeStatusEvent()),
+      expect: () => [
+        isA<LichessLoading>(),
+        isA<LichessError>(),
+      ],
+      verify: (bloc) {
+        verify(mockGetMyKidModeStatus.call(any)).called(1);
       },
     );
   });
