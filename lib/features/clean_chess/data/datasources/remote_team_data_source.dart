@@ -27,4 +27,12 @@ abstract class RemoteTeamDataSource {
     String teamId,
     String userId,
   );
+
+  /// Api call to Kick a user from a team
+  /// [teamId] is the id of the team
+  /// [userId] is the id of the user
+  Future<Either<Failure, Empty>> kickUserFromTeam(
+    String teamId,
+    String userId,
+  );
 }

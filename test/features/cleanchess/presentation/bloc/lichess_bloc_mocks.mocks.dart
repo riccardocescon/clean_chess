@@ -20,6 +20,8 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/li
     as _i10;
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/accept_join_request.dart'
     as _i14;
+import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart'
+    as _i15;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:lichess_client_dio/lichess_client_dio.dart' as _i11;
 import 'package:mockito/mockito.dart' as _i1;
@@ -571,6 +573,51 @@ class MockMAcceptJoinRequest extends _i1.Mock
   @override
   _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>> call(
           _i14.AcceptJoinRequestParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>>.value(
+            _FakeEither_1<_i9.Failure, _i13.Empty>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>>.value(
+                _FakeEither_1<_i9.Failure, _i13.Empty>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>>);
+}
+
+/// A class which mocks [MKickMemberFromTeam].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMKickMemberFromTeam extends _i1.Mock
+    implements _i7.MKickMemberFromTeam {
+  @override
+  _i6.TeamRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeTeamRepository_4(
+          this,
+          Invocation.getter(#repository),
+        ),
+        returnValueForMissingStub: _FakeTeamRepository_4(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i6.TeamRepository);
+  @override
+  _i8.Future<_i3.Either<_i9.Failure, _i13.Empty>> call(
+          _i15.KickMemberFromTeamParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,

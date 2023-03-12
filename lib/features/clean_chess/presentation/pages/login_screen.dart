@@ -100,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late Team team;
   late JoinRequest joinRequest;
   bool isJoinRequest = false;
+  bool isKickRequest = false;
 
   Widget _listener({required Widget child}) =>
       BlocListener<LichessBloc, LichessState>(
@@ -126,10 +127,15 @@ class _LoginScreenState extends State<LoginScreen> {
               const SetMyKidModeStatusEvent(false),
             );
           } else if (state is LichessLoaded<Empty>) {
-            if (isJoinRequest) {
+            if (isKickRequest) {
+            } else if (isJoinRequest) {
               log('Join Request Accepted');
-              showSnackbarSuccess(context, 'Logged in');
-              Navigator.pushReplacementNamed(context, Navigation.homescreen);
+              BlocProvider.of<LichessBloc>(context).add(
+                KickMemberFromTeamEvent(
+                  teamId: team.id!,
+                  userId: joinRequest.user!.id!,
+                ),
+              );
             } else {
               log('Kid Mode Set Successfully');
               BlocProvider.of<LichessBloc>(context).add(
@@ -159,14 +165,21 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is LichessLoaded<List<JoinRequest>>) {
             log(state.data.toString());
-            joinRequest = state.data.last;
-            isJoinRequest = true;
             BlocProvider.of<LichessBloc>(context).add(
-              AcceptJoinRequestEvent(
+              KickMemberFromTeamEvent(
                 teamId: team.id!,
-                userId: joinRequest.userId!,
+                userId: 'alexrinttt',
               ),
             );
+            isKickRequest = true;
+            // joinRequest = state.data.last;
+            // isJoinRequest = true;
+            // BlocProvider.of<LichessBloc>(context).add(
+            //   AcceptJoinRequestEvent(
+            //     teamId: team.id!,
+            //     userId: joinRequest.userId!,
+            //   ),
+            // );
           } else if (state is LichessError) {
             showSnackbarError(context, state.failure);
           }

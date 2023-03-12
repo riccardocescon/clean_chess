@@ -18,4 +18,9 @@ abstract class TeamRepository {
     String teamId,
     String userId,
   );
+
+  Future<Either<Failure, Empty>> kickUserFromTeam(
+    String teamId,
+    String userId,
+  );
 }

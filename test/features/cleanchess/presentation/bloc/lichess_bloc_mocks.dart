@@ -30,6 +30,8 @@ class MGetTeamJoinRequests extends Mock implements GetTeamJoinRequests {}
 
 class MAcceptJoinRequest extends Mock implements AcceptJoinRequest {}
 
+class MKickMemberFromTeam extends Mock implements KickMemberFromTeam {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -43,5 +45,6 @@ class MAcceptJoinRequest extends Mock implements AcceptJoinRequest {}
   MockSpec<MGetTeamMembers>(),
   MockSpec<MGetTeamJoinRequests>(),
   MockSpec<MAcceptJoinRequest>(),
+  MockSpec<MKickMemberFromTeam>(),
 ])
 void main() {}
