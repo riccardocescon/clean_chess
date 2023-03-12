@@ -1,6 +1,7 @@
 import 'package:cleanchess/chess/error/failures.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/lichess_oauth.dart';
 import 'package:dartz/dartz.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
 
 abstract class RemoteDataSource {
@@ -17,4 +18,7 @@ abstract class RemoteDataSource {
     required oauth2.AuthorizationCodeGrant grant,
     required OAuthParams params,
   });
+
+  /// API request to get user profile
+  Future<Either<Failure, User>> getUserProfile();
 }

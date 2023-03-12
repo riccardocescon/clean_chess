@@ -1,16 +1,19 @@
 import 'package:cleanchess/chess/error/failures.dart';
+import 'package:cleanchess/chess/utilities/extensions.dart';
+import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_data_source.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/lichess_oauth.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
 
 /// This class is responsible for making API calls to Lichess
 /// and returning the response to the [NetRepositoryImpl]
 ///
 /// This class is not resposible for any business logic
-class LichessDataSource extends RemoteDataSource {
+class LichessDataSource extends RemoteDataSource with LichessTokenProvider {
   /// API request to authenticate with Lichess OAuth2
   @override
   Future<Either<Failure, String>> authenticate({
@@ -55,6 +58,21 @@ class LichessDataSource extends RemoteDataSource {
     try {
       final response = await grant.handleAuthorizationResponse(params);
       return Right(response.credentials.accessToken);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
+
+  /// API request to get user profile
+  @override
+  Future<Either<Failure, User>> getUserProfile() async {
+    try {
+      final maybeClient = await getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      final response = await client.account.getProfile();
+      return Right(response);
     } catch (e) {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }
