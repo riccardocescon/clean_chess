@@ -45,6 +45,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetPublicData getPublicData;
   final GetRatingHistory getRatingHistory;
   final GetManyByIds getManyByIds;
+  final GetLiveStreamers getLiveStreamers;
 
   LichessBloc({
     required this.tokenProvider,
@@ -75,6 +76,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getPublicData,
     required this.getRatingHistory,
     required this.getManyByIds,
+    required this.getLiveStreamers,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -372,6 +374,17 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
       (event, emit) async {
         emit(LichessLoading());
         final users = await getManyByIds.call(event.ids);
+
+        users.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<User>>(data)),
+        );
+      },
+    );
+    on<GetLiveStreamersEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final users = await getLiveStreamers.call(NoParams());
 
         users.fold(
           (failure) => emit(LichessError(failure)),

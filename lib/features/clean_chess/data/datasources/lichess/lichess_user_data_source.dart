@@ -189,4 +189,22 @@ class LichessUserDataSource implements RemoteUserDataSource {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }
   }
+
+  /// Api to get basic info about currently streaming users.
+  /// This API is very fast and cheap on lichess side.
+  /// So you can call it quite often (like once every 5 seconds)
+  @override
+  Future<Either<Failure, List<User>>> getLiveStreamers() async {
+    try {
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      final response = await client.users.getLiveStreamers();
+
+      return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
 }

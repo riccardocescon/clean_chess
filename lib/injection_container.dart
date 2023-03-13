@@ -52,6 +52,7 @@ Future<void> init() async {
       getPublicData: sl<GetPublicData>(),
       getRatingHistory: sl<GetRatingHistory>(),
       getManyByIds: sl<GetManyByIds>(),
+      getLiveStreamers: sl<GetLiveStreamers>(),
     ),
   );
 
@@ -129,6 +130,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => GetManyByIds(sl<LichessUserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetLiveStreamers(sl<LichessUserRepository>()),
   );
 
   // Register repositories

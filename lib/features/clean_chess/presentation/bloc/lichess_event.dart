@@ -161,3 +161,7 @@ class GetManyByIdsEvent extends LichessEvent {
   final List<String> ids;
   const GetManyByIdsEvent({required this.ids});
 }
+
+class GetLiveStreamersEvent extends LichessEvent {
+  const GetLiveStreamersEvent();
+}

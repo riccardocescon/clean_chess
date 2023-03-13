@@ -37,4 +37,6 @@ abstract class UserRepository {
   Future<Either<Failure, List<User>>> getManyByIds(
     List<String> ids,
   );
+
+  Future<Either<Failure, List<User>>> getLiveStreamers();
 }

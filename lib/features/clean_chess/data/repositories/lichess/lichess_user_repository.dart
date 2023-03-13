@@ -59,4 +59,8 @@ class LichessUserRepository implements UserRepository {
     List<String> ids,
   ) =>
       dataSource.getManyByIds(ids);
+
+  @override
+  Future<Either<Failure, List<User>>> getLiveStreamers() =>
+      dataSource.getLiveStreamers();
 }

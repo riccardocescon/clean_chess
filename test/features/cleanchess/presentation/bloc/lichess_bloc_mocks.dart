@@ -61,6 +61,8 @@ class MGetRatingHistory extends Mock implements GetRatingHistory {}
 
 class MGetManyByIds extends Mock implements GetManyByIds {}
 
+class MGetLiveStreamers extends Mock implements GetLiveStreamers {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -89,5 +91,6 @@ class MGetManyByIds extends Mock implements GetManyByIds {}
   MockSpec<MGetPublicData>(),
   MockSpec<MGetRatingHistory>(),
   MockSpec<MGetManyByIds>(),
+  MockSpec<MGetLiveStreamers>(),
 ])
 void main() {}

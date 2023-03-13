@@ -43,6 +43,7 @@ void main() async {
   late MockMGetPublicData mockGetPublicData;
   late MockMGetRatingHistory mockGetRatingHistory;
   late MockMGetManyByIds mockGetManyByIds;
+  late MockMGetLiveStreamers mockGetLiveStreamers;
 
   late LichessBloc bloc;
 
@@ -75,6 +76,7 @@ void main() async {
     mockGetPublicData = MockMGetPublicData();
     mockGetRatingHistory = MockMGetRatingHistory();
     mockGetManyByIds = MockMGetManyByIds();
+    mockGetLiveStreamers = MockMGetLiveStreamers();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -105,6 +107,7 @@ void main() async {
       getPublicData: mockGetPublicData,
       getRatingHistory: mockGetRatingHistory,
       getManyByIds: mockGetManyByIds,
+      getLiveStreamers: mockGetLiveStreamers,
     );
   });
 
@@ -1263,6 +1266,45 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockGetManyByIds.call(any)).called(1);
+        },
+      );
+    });
+
+    group('GetLiveStreamers', () {
+      blocTest(
+        'Success',
+        build: () {
+          when(mockGetLiveStreamers.call(any)).thenAnswer(
+            (_) async => const Right(<User>[]),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetLiveStreamersEvent()),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<List<User>>>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetLiveStreamers.call(any)).called(1);
+        },
+      );
+      blocTest(
+        'Failure',
+        build: () {
+          when(mockGetLiveStreamers.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetLiveStreamersEvent()),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetLiveStreamers.call(any)).called(1);
         },
       );
     });

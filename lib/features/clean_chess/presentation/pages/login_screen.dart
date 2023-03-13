@@ -147,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
             log(state.data.toString());
             isLeaderboard = true;
             BlocProvider.of<LichessBloc>(context).add(
-              const GetManyByIdsEvent(ids: ['riccardocescon', 'alexr']),
+              const GetLiveStreamersEvent(),
             );
           } else if (state is LichessError) {
             showSnackbarError(context, state.failure);

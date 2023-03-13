@@ -8,3 +8,4 @@ export 'package:cleanchess/features/clean_chess/domain/usecases/users/get_chess_
 export 'package:cleanchess/features/clean_chess/domain/usecases/users/get_public_data.dart';
 export 'package:cleanchess/features/clean_chess/domain/usecases/users/get_rating_history.dart';
 export 'package:cleanchess/features/clean_chess/domain/usecases/users/get_many_by_ids.dart';
+export 'package:cleanchess/features/clean_chess/domain/usecases/users/get_live_streamers.dart';

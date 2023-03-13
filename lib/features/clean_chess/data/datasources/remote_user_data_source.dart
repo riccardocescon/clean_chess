@@ -61,4 +61,9 @@ abstract class RemoteUserDataSource {
   /// We do not provide a full download of the Lichess users.
   /// This endpoint is limited to 8,000 users every 10 minutes, and 120,000 every day.
   Future<Either<Failure, List<User>>> getManyByIds(List<String> ids);
+
+  /// Api to get basic info about currently streaming users.
+  /// This API is very fast and cheap on lichess side.
+  /// So you can call it quite often (like once every 5 seconds)
+  Future<Either<Failure, List<User>>> getLiveStreamers();
 }
