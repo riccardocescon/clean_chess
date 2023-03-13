@@ -52,6 +52,8 @@ class MGetRealtimeStatus extends Mock implements GetRealtimeStatus {}
 
 class MGetTop10Players extends Mock implements GetTop10Players {}
 
+class MGetPublicData extends Mock implements GetPublicData {}
+
 class MGetChessVariantLeaderboard extends Mock
     implements GetChessVariantLeaderboard {}
 
@@ -80,5 +82,6 @@ class MGetChessVariantLeaderboard extends Mock
   MockSpec<MGetRealtimeStatus>(),
   MockSpec<MGetTop10Players>(),
   MockSpec<MGetChessVariantLeaderboard>(),
+  MockSpec<MGetPublicData>(),
 ])
 void main() {}

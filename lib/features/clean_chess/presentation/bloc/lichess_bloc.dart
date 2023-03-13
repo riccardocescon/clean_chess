@@ -42,6 +42,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetRealtimeStatus getRealtimeStatus;
   final GetTop10Players getTop10Players;
   final GetChessVariantLeaderboard getChessVariantLeaderboard;
+  final GetPublicData getPublicData;
 
   LichessBloc({
     required this.tokenProvider,
@@ -69,6 +70,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getRealtimeStatus,
     required this.getTop10Players,
     required this.getChessVariantLeaderboard,
+    required this.getPublicData,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -327,6 +329,22 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         users.fold(
           (failure) => emit(LichessError(failure)),
           (data) => emit(LichessLoaded<List<User>>(data)),
+        );
+      },
+    );
+    on<GetPublicDataEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final user = await getPublicData.call(
+          GetPublicDataParams(
+            event.username,
+            trophies: event.trophies,
+          ),
+        );
+
+        user.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<User>(data)),
         );
       },
     );

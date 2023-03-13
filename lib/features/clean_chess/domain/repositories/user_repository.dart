@@ -24,4 +24,9 @@ abstract class UserRepository {
     PerfType perfType,
     int nb,
   );
+
+  Future<Either<Failure, User>> getPublicData({
+    required String username,
+    bool trophies = false,
+  });
 }

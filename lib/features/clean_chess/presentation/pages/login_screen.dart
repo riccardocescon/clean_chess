@@ -6,6 +6,7 @@ import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_logo.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_widget.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_public_data.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_users_by_term.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
@@ -132,14 +133,12 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is LichessLoaded<List<RealTimeUserStatus>>) {
             log(state.data.toString());
-            isLeaderboard = true;
             BlocProvider.of<LichessBloc>(context).add(
-              const GetChessVariantLeaderboardEvent(
-                perfType: PerfType.blitz,
-                nb: 80,
+              const GetPublicDataEvent(
+                username: 'riccardocescon',
               ),
             );
-          } else if (state is LichessLoaded<Map<String, List<User>>>) {
+          } else if (state is LichessLoaded<User>) {
             log(state.data.toString());
           } else if (state is LichessError) {
             showSnackbarError(context, state.failure);

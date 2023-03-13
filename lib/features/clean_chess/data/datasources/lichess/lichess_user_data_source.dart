@@ -120,4 +120,27 @@ class LichessUserDataSource implements RemoteUserDataSource {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }
   }
+
+  /// Api to read public data of a user.
+  /// If the request is authenticated with OAuth2, then
+  /// extra fields might be present in the response:
+  /// followable, following, blocking, followsYou
+  @override
+  Future<Either<Failure, User>> getPublicData(
+      {required String username, bool trophies = false}) async {
+    try {
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      final response = await client.users.getPublicData(
+        username: username,
+        trophies: trophies,
+      );
+
+      return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
 }

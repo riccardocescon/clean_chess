@@ -36,4 +36,13 @@ abstract class RemoteUserDataSource {
     PerfType perfType,
     int nb,
   );
+
+  /// Api to read public data of a user.
+  /// If the request is authenticated with OAuth2, then
+  /// extra fields might be present in the response:
+  /// followable, following, blocking, followsYou
+  Future<Either<Failure, User>> getPublicData({
+    required String username,
+    bool trophies = false,
+  });
 }

@@ -40,6 +40,7 @@ void main() async {
   late MockMGetRealtimeStatus mockGetRealtimeStatus;
   late MockMGetTop10Players mockGetTop10Players;
   late MockMGetChessVariantLeaderboard mockGetChessVariantLeaderboard;
+  late MockMGetPublicData mockGetPublicData;
 
   late LichessBloc bloc;
 
@@ -69,6 +70,7 @@ void main() async {
     mockGetRealtimeStatus = MockMGetRealtimeStatus();
     mockGetTop10Players = MockMGetTop10Players();
     mockGetChessVariantLeaderboard = MockMGetChessVariantLeaderboard();
+    mockGetPublicData = MockMGetPublicData();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -96,6 +98,7 @@ void main() async {
       getRealtimeStatus: mockGetRealtimeStatus,
       getTop10Players: mockGetTop10Players,
       getChessVariantLeaderboard: mockGetChessVariantLeaderboard,
+      getPublicData: mockGetPublicData,
     );
   });
 
@@ -1137,6 +1140,45 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockGetChessVariantLeaderboard.call(any)).called(1);
+        },
+      );
+    });
+
+    group('GetPublicData', () {
+      blocTest(
+        'Success',
+        build: () {
+          when(mockGetPublicData.call(any)).thenAnswer(
+            (_) async => const Right(User()),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetPublicDataEvent(username: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<User>>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetPublicData.call(any)).called(1);
+        },
+      );
+      blocTest(
+        'Failure',
+        build: () {
+          when(mockGetPublicData.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetPublicDataEvent(username: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetPublicData.call(any)).called(1);
         },
       );
     });

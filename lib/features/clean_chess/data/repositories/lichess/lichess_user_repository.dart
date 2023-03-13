@@ -40,4 +40,11 @@ class LichessUserRepository implements UserRepository {
     int nb,
   ) =>
       dataSource.getChessVariantLeaderboard(perfType, nb);
+
+  @override
+  Future<Either<Failure, User>> getPublicData({
+    required String username,
+    bool trophies = false,
+  }) =>
+      dataSource.getPublicData(username: username, trophies: trophies);
 }

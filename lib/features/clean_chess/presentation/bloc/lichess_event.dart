@@ -141,3 +141,12 @@ class GetChessVariantLeaderboardEvent extends LichessEvent {
     this.nb = 100,
   });
 }
+
+class GetPublicDataEvent extends LichessEvent {
+  final String username;
+  final bool trophies;
+  const GetPublicDataEvent({
+    required this.username,
+    this.trophies = false,
+  });
+}
