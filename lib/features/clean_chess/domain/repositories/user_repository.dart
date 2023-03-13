@@ -19,4 +19,9 @@ abstract class UserRepository {
   );
 
   Future<Either<Failure, Map<String, List<User>>>> getTop10Players();
+
+  Future<Either<Failure, List<User>>> getChessVariantLeaderboard(
+    PerfType perfType,
+    int nb,
+  );
 }

@@ -33,4 +33,11 @@ class LichessUserRepository implements UserRepository {
   @override
   Future<Either<Failure, Map<String, List<User>>>> getTop10Players() =>
       dataSource.getTop10Players();
+
+  @override
+  Future<Either<Failure, List<User>>> getChessVariantLeaderboard(
+    PerfType perfType,
+    int nb,
+  ) =>
+      dataSource.getChessVariantLeaderboard(perfType, nb);
 }

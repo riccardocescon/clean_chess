@@ -95,4 +95,29 @@ class LichessUserDataSource implements RemoteUserDataSource {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }
   }
+
+  /// Api to get the leaderboard for a single speed or variant (a.k.a. perfType)
+  /// There is no leaderboard for correspondence or puzzles.
+  /// [perfType] is the speed or variant to get the leaderboard for
+  /// [nb] is the number of players to get
+  @override
+  Future<Either<Failure, List<User>>> getChessVariantLeaderboard(
+    PerfType perfType,
+    int nb,
+  ) async {
+    try {
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      final response = await client.users.getPerfTypeLeaderboard(
+        perfType: perfType,
+        nb: nb,
+      );
+
+      return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
 }

@@ -39,6 +39,7 @@ void main() async {
   late MockMGetUsernamesByTerm mockGetUsernamesByTerm;
   late MockMGetRealtimeStatus mockGetRealtimeStatus;
   late MockMGetTop10Players mockGetTop10Players;
+  late MockMGetChessVariantLeaderboard mockGetChessVariantLeaderboard;
 
   late LichessBloc bloc;
 
@@ -67,6 +68,7 @@ void main() async {
     mockGetUsernamesByTerm = MockMGetUsernamesByTerm();
     mockGetRealtimeStatus = MockMGetRealtimeStatus();
     mockGetTop10Players = MockMGetTop10Players();
+    mockGetChessVariantLeaderboard = MockMGetChessVariantLeaderboard();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -93,6 +95,7 @@ void main() async {
       getUsernamesByTerm: mockGetUsernamesByTerm,
       getRealtimeStatus: mockGetRealtimeStatus,
       getTop10Players: mockGetTop10Players,
+      getChessVariantLeaderboard: mockGetChessVariantLeaderboard,
     );
   });
 
@@ -1088,6 +1091,52 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockGetTop10Players.call(any)).called(1);
+        },
+      );
+    });
+
+    group('GetChessVariantLeaderboard', () {
+      blocTest<LichessBloc, LichessState>(
+        'Success',
+        build: () {
+          when(mockGetChessVariantLeaderboard.call(any)).thenAnswer(
+            (_) async => const Right(<User>[]),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(
+          const GetChessVariantLeaderboardEvent(
+            perfType: PerfType.classical,
+          ),
+        ),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<List<User>>>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetChessVariantLeaderboard.call(any)).called(1);
+        },
+      );
+
+      blocTest<LichessBloc, LichessState>(
+        'Failure',
+        build: () {
+          when(mockGetChessVariantLeaderboard.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetChessVariantLeaderboardEvent(
+          perfType: PerfType.classical,
+        )),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetChessVariantLeaderboard.call(any)).called(1);
         },
       );
     });

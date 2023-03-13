@@ -52,6 +52,9 @@ class MGetRealtimeStatus extends Mock implements GetRealtimeStatus {}
 
 class MGetTop10Players extends Mock implements GetTop10Players {}
 
+class MGetChessVariantLeaderboard extends Mock
+    implements GetChessVariantLeaderboard {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -76,5 +79,6 @@ class MGetTop10Players extends Mock implements GetTop10Players {}
   MockSpec<MGetUsernamesByTerm>(),
   MockSpec<MGetRealtimeStatus>(),
   MockSpec<MGetTop10Players>(),
+  MockSpec<MGetChessVariantLeaderboard>(),
 ])
 void main() {}

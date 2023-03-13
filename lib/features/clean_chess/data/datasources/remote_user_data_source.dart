@@ -27,4 +27,13 @@ abstract class RemoteUserDataSource {
 
   /// Api to get the top 10 players for each speed and variant
   Future<Either<Failure, Map<String, List<User>>>> getTop10Players();
+
+  /// Api to get the leaderboard for a single speed or variant (a.k.a. perfType)
+  /// There is no leaderboard for correspondence or puzzles.
+  /// [perfType] is the speed or variant to get the leaderboard for
+  /// [nb] is the number of players to get
+  Future<Either<Failure, List<User>>> getChessVariantLeaderboard(
+    PerfType perfType,
+    int nb,
+  );
 }

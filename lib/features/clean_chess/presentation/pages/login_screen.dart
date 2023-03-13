@@ -103,6 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late JoinRequest joinRequest;
   bool isJoinRequest = false;
   bool isKickRequest = false;
+  bool isLeaderboard = false;
 
   Widget _listener({required Widget child}) =>
       BlocListener<LichessBloc, LichessState>(
@@ -117,10 +118,13 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is LichessLoaded<List<User>>) {
             log(state.data.toString());
-            user = state.data.first;
-            BlocProvider.of<LichessBloc>(context).add(
-              const GetUsernamesByTermEvent(term: 'alexr', friend: false),
-            );
+            if (isLeaderboard) {
+            } else {
+              user = state.data.first;
+              BlocProvider.of<LichessBloc>(context).add(
+                const GetUsernamesByTermEvent(term: 'alexr', friend: false),
+              );
+            }
           } else if (state is LichessLoaded<List<String>>) {
             log(state.data.toString());
             BlocProvider.of<LichessBloc>(context).add(
@@ -128,8 +132,12 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is LichessLoaded<List<RealTimeUserStatus>>) {
             log(state.data.toString());
+            isLeaderboard = true;
             BlocProvider.of<LichessBloc>(context).add(
-              const GetTop10PlayersEvent(),
+              const GetChessVariantLeaderboardEvent(
+                perfType: PerfType.blitz,
+                nb: 80,
+              ),
             );
           } else if (state is LichessLoaded<Map<String, List<User>>>) {
             log(state.data.toString());

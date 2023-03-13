@@ -41,6 +41,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetUsernamesByTerm getUsernamesByTerm;
   final GetRealtimeStatus getRealtimeStatus;
   final GetTop10Players getTop10Players;
+  final GetChessVariantLeaderboard getChessVariantLeaderboard;
 
   LichessBloc({
     required this.tokenProvider,
@@ -67,6 +68,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getUsernamesByTerm,
     required this.getRealtimeStatus,
     required this.getTop10Players,
+    required this.getChessVariantLeaderboard,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -309,6 +311,22 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         users.fold(
           (failure) => emit(LichessError(failure)),
           (data) => emit(LichessLoaded<Map<String, List<User>>>(data)),
+        );
+      },
+    );
+    on<GetChessVariantLeaderboardEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final users = await getChessVariantLeaderboard.call(
+          GetChessVariantLeaderboardParams(
+            event.perfType,
+            event.nb,
+          ),
+        );
+
+        users.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<User>>(data)),
         );
       },
     );

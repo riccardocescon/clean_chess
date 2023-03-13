@@ -48,6 +48,7 @@ Future<void> init() async {
       getUsernamesByTerm: sl<GetUsernamesByTerm>(),
       getRealtimeStatus: sl<GetRealtimeStatus>(),
       getTop10Players: sl<GetTop10Players>(),
+      getChessVariantLeaderboard: sl<GetChessVariantLeaderboard>(),
     ),
   );
 
@@ -113,6 +114,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => GetTop10Players(sl<LichessUserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetChessVariantLeaderboard(sl<LichessUserRepository>()),
   );
 
   // Register repositories

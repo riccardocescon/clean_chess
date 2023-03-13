@@ -1,3 +1,5 @@
+import 'package:lichess_client_dio/lichess_client_dio.dart';
+
 abstract class LichessEvent {
   const LichessEvent();
 }
@@ -125,6 +127,17 @@ class GetRealtimeStatusEvent extends LichessEvent {
   });
 }
 
+// Coming soon...
 class GetTop10PlayersEvent extends LichessEvent {
   const GetTop10PlayersEvent();
+}
+
+// Coming soon...
+class GetChessVariantLeaderboardEvent extends LichessEvent {
+  final PerfType perfType;
+  final int nb;
+  const GetChessVariantLeaderboardEvent({
+    required this.perfType,
+    this.nb = 100,
+  });
 }
