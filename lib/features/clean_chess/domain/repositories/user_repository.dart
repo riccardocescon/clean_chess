@@ -3,12 +3,12 @@ import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 abstract class UserRepository {
-  Future<Either<Failure, List<User>>> getUsersByTerm(
+  Future<Either<Failure, List<User>>> searchByTerm(
     String term,
     bool friend,
   );
 
-  Future<Either<Failure, List<String>>> getUsernamesByTerm(
+  Future<Either<Failure, List<String>>> searchNamesByTerm(
     String term,
     bool friend,
   );

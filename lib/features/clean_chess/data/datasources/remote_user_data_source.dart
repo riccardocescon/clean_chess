@@ -6,7 +6,7 @@ abstract class RemoteUserDataSource {
   /// Api to get a list of users by a search term
   /// [term] is the search term
   /// [friend] is a boolean to search for friends only
-  Future<Either<Failure, List<User>>> getUsersByTerm(
+  Future<Either<Failure, List<User>>> searchUsersByTerm(
     String term,
     bool friend,
   );
@@ -14,7 +14,7 @@ abstract class RemoteUserDataSource {
   /// Api to get a list of usernames by a search term
   /// [term] is the search term
   /// [friend] is a boolean to search for friends only
-  Future<Either<Failure, List<String>>> getUsernamesByTerm(
+  Future<Either<Failure, List<String>>> searchNamesByTerm(
     String term,
     bool friend,
   );
@@ -45,4 +45,12 @@ abstract class RemoteUserDataSource {
     required String username,
     bool trophies = false,
   });
+
+  /// Read rating history of a user, for all perf types.
+  /// There is at most one entry per day
+  /// Format of an entry is [year, month, day, rating]
+  /// Month starts at zero (January).
+  Future<Either<Failure, List<RatingHistory>>> getRatingHistory(
+    String username,
+  );
 }

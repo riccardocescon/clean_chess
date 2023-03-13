@@ -7,7 +7,7 @@ import 'package:cleanchess/core/presentation/widgets/scale_animated_logo.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_widget.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_public_data.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_users_by_term.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/users/search_users_by_term.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is LichessOAuthSuccess) {
             // Get user profile
             BlocProvider.of<LichessBloc>(context).add(
-              const GetUsersByTermEvent(
+              const SearchUsersByTermEvent(
                 term: 'alexr',
                 friend: false,
               ),
@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
             } else {
               user = state.data.first;
               BlocProvider.of<LichessBloc>(context).add(
-                const GetUsernamesByTermEvent(term: 'alexr', friend: false),
+                const SearchUsernamesByTermEvent(term: 'alexr', friend: false),
               );
             }
           } else if (state is LichessLoaded<List<String>>) {

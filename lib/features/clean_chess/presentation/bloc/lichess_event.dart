@@ -107,16 +107,16 @@ class GetPopularTeamsEvent extends LichessEvent {
   const GetPopularTeamsEvent({this.page = 1});
 }
 
-class GetUsersByTermEvent extends LichessEvent {
+class SearchUsersByTermEvent extends LichessEvent {
   final String term;
   final bool friend;
-  const GetUsersByTermEvent({required this.term, this.friend = false});
+  const SearchUsersByTermEvent({required this.term, this.friend = false});
 }
 
-class GetUsernamesByTermEvent extends LichessEvent {
+class SearchUsernamesByTermEvent extends LichessEvent {
   final String term;
   final bool friend;
-  const GetUsernamesByTermEvent({required this.term, this.friend = false});
+  const SearchUsernamesByTermEvent({required this.term, this.friend = false});
 }
 
 class GetRealtimeStatusEvent extends LichessEvent {

@@ -928,10 +928,11 @@ class MockMGetPopularTeams extends _i1.Mock implements _i8.MGetPopularTeams {
       ) as _i9.Future<_i3.Either<_i10.Failure, _i12.PageOf<_i12.Team>>>);
 }
 
-/// A class which mocks [MGetUsersByTerm].
+/// A class which mocks [MSearchUsersByTerm].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMGetUsersByTerm extends _i1.Mock implements _i8.MGetUsersByTerm {
+class MockMSearchUsersByTerm extends _i1.Mock
+    implements _i8.MSearchUsersByTerm {
   @override
   _i7.UserRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
@@ -946,7 +947,7 @@ class MockMGetUsersByTerm extends _i1.Mock implements _i8.MGetUsersByTerm {
       ) as _i7.UserRepository);
   @override
   _i9.Future<_i3.Either<_i10.Failure, List<_i12.User>>> call(
-          _i16.GetUsersByTermParams? params) =>
+          _i16.SearchUsersByTermParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
@@ -973,11 +974,11 @@ class MockMGetUsersByTerm extends _i1.Mock implements _i8.MGetUsersByTerm {
       ) as _i9.Future<_i3.Either<_i10.Failure, List<_i12.User>>>);
 }
 
-/// A class which mocks [MGetUsernamesByTerm].
+/// A class which mocks [MSearchUsernamesByTerm].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMGetUsernamesByTerm extends _i1.Mock
-    implements _i8.MGetUsernamesByTerm {
+class MockMSearchUsernamesByTerm extends _i1.Mock
+    implements _i8.MSearchUsernamesByTerm {
   @override
   _i7.UserRepository get userRepository => (super.noSuchMethod(
         Invocation.getter(#userRepository),
@@ -992,7 +993,7 @@ class MockMGetUsernamesByTerm extends _i1.Mock
       ) as _i7.UserRepository);
   @override
   _i9.Future<_i3.Either<_i10.Failure, List<String>>> call(
-          _i16.GetUsernamesByTermParams? params) =>
+          _i16.SearchUsernamesByTermParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,

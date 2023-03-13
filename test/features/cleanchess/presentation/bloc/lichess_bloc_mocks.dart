@@ -44,9 +44,9 @@ class MSearchTeamByName extends Mock implements SearchTeamByName {}
 
 class MGetPopularTeams extends Mock implements GetPopularTeams {}
 
-class MGetUsersByTerm extends Mock implements GetUsersByTerm {}
+class MSearchUsersByTerm extends Mock implements SearchUserByTerm {}
 
-class MGetUsernamesByTerm extends Mock implements GetUsernamesByTerm {}
+class MSearchUsernamesByTerm extends Mock implements SearchUsernamesByTerm {}
 
 class MGetRealtimeStatus extends Mock implements GetRealtimeStatus {}
 
@@ -77,8 +77,8 @@ class MGetChessVariantLeaderboard extends Mock
   MockSpec<MMessageAllMembers>(),
   MockSpec<MSearchTeamByName>(),
   MockSpec<MGetPopularTeams>(),
-  MockSpec<MGetUsersByTerm>(),
-  MockSpec<MGetUsernamesByTerm>(),
+  MockSpec<MSearchUsersByTerm>(),
+  MockSpec<MSearchUsernamesByTerm>(),
   MockSpec<MGetRealtimeStatus>(),
   MockSpec<MGetTop10Players>(),
   MockSpec<MGetChessVariantLeaderboard>(),

@@ -36,9 +36,9 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final LeaveTeam leaveTeam;
   final MessageAllMembers messageAllMembers;
   final SearchTeamByName searchTeamByName;
-  final GetPopularTeams getPopularTeams;
-  final GetUsersByTerm getUsersByTerm;
-  final GetUsernamesByTerm getUsernamesByTerm;
+  final GetPopularTeams searchPopularTeams;
+  final SearchUserByTerm searchUsersByTerm;
+  final SearchUsernamesByTerm getUsernamesByTerm;
   final GetRealtimeStatus getRealtimeStatus;
   final GetTop10Players getTop10Players;
   final GetChessVariantLeaderboard getChessVariantLeaderboard;
@@ -64,8 +64,8 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.leaveTeam,
     required this.messageAllMembers,
     required this.searchTeamByName,
-    required this.getPopularTeams,
-    required this.getUsersByTerm,
+    required this.searchPopularTeams,
+    required this.searchUsersByTerm,
     required this.getUsernamesByTerm,
     required this.getRealtimeStatus,
     required this.getTop10Players,
@@ -138,7 +138,12 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     });
     on<GetTeamMembersEvent>((event, emit) async {
       emit(LichessLoading());
-      final members = await getTeamMembers.call(event.teamId);
+      final members = await getTeamMembers.call(
+        GetTeamMembersParams(
+          event.teamId,
+          event.maxMembers,
+        ),
+      );
 
       members.fold(
         (failure) => emit(LichessError(failure)),
@@ -250,18 +255,18 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     });
     on<GetPopularTeamsEvent>((event, emit) async {
       emit(LichessLoading());
-      final teams = await getPopularTeams.call(event.page);
+      final teams = await searchPopularTeams.call(event.page);
 
       teams.fold(
         (failure) => emit(LichessError(failure)),
         (data) => emit(LichessLoaded<PageOf<Team>>(data)),
       );
     });
-    on<GetUsersByTermEvent>(
+    on<SearchUsersByTermEvent>(
       (event, emit) async {
         emit(LichessLoading());
-        final users = await getUsersByTerm.call(
-          GetUsersByTermParams(
+        final users = await searchUsersByTerm.call(
+          SearchUsersByTermParams(
             event.term,
             event.friend,
           ),
@@ -273,11 +278,11 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         );
       },
     );
-    on<GetUsernamesByTermEvent>(
+    on<SearchUsernamesByTermEvent>(
       (event, emit) async {
         emit(LichessLoading());
         final users = await getUsernamesByTerm.call(
-          GetUsernamesByTermParams(
+          SearchUsernamesByTermParams(
             event.term,
             event.friend,
           ),

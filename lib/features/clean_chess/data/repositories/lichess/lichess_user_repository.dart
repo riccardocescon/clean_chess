@@ -10,18 +10,18 @@ class LichessUserRepository implements UserRepository {
   LichessUserRepository({required this.dataSource});
 
   @override
-  Future<Either<Failure, List<User>>> getUsersByTerm(
+  Future<Either<Failure, List<User>>> searchByTerm(
     String term,
     bool friend,
   ) =>
-      dataSource.getUsersByTerm(term, friend);
+      dataSource.searchUsersByTerm(term, friend);
 
   @override
-  Future<Either<Failure, List<String>>> getUsernamesByTerm(
+  Future<Either<Failure, List<String>>> searchNamesByTerm(
     String term,
     bool friend,
   ) =>
-      dataSource.getUsernamesByTerm(term, friend);
+      dataSource.searchNamesByTerm(term, friend);
 
   @override
   Future<Either<Failure, List<RealTimeUserStatus>>> getRealtimeStatus(

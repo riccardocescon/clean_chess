@@ -3,23 +3,24 @@ import 'package:cleanchess/core/usecases/usecase.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/user_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class GetUsernamesByTerm
-    extends UseCase<List<String>, GetUsernamesByTermParams> {
+class SearchUsernamesByTerm
+    extends UseCase<List<String>, SearchUsernamesByTermParams> {
   final UserRepository userRepository;
 
-  GetUsernamesByTerm(this.userRepository);
+  SearchUsernamesByTerm(this.userRepository);
 
   @override
-  Future<Either<Failure, List<String>>> call(GetUsernamesByTermParams params) =>
-      userRepository.getUsernamesByTerm(
+  Future<Either<Failure, List<String>>> call(
+          SearchUsernamesByTermParams params) =>
+      userRepository.searchNamesByTerm(
         params.term,
         params.friend,
       );
 }
 
-class GetUsernamesByTermParams {
+class SearchUsernamesByTermParams {
   final String term;
   final bool friend;
 
-  GetUsernamesByTermParams(this.term, this.friend);
+  SearchUsernamesByTermParams(this.term, this.friend);
 }

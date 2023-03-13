@@ -35,8 +35,8 @@ void main() async {
   late MockMMessageAllMembers mockMessageAllMembers;
   late MockMSearchTeamByName mockSearchTeamByName;
   late MockMGetPopularTeams mockGetPopularTeams;
-  late MockMGetUsersByTerm mockGetUsersByTerm;
-  late MockMGetUsernamesByTerm mockGetUsernamesByTerm;
+  late MockMSearchUsersByTerm mockSearchUsersByTerm;
+  late MockMSearchUsernamesByTerm mockSearchUsernamesByTerm;
   late MockMGetRealtimeStatus mockGetRealtimeStatus;
   late MockMGetTop10Players mockGetTop10Players;
   late MockMGetChessVariantLeaderboard mockGetChessVariantLeaderboard;
@@ -65,8 +65,8 @@ void main() async {
     mockMessageAllMembers = MockMMessageAllMembers();
     mockSearchTeamByName = MockMSearchTeamByName();
     mockGetPopularTeams = MockMGetPopularTeams();
-    mockGetUsersByTerm = MockMGetUsersByTerm();
-    mockGetUsernamesByTerm = MockMGetUsernamesByTerm();
+    mockSearchUsersByTerm = MockMSearchUsersByTerm();
+    mockSearchUsernamesByTerm = MockMSearchUsernamesByTerm();
     mockGetRealtimeStatus = MockMGetRealtimeStatus();
     mockGetTop10Players = MockMGetTop10Players();
     mockGetChessVariantLeaderboard = MockMGetChessVariantLeaderboard();
@@ -92,9 +92,9 @@ void main() async {
       leaveTeam: mockLeaveTeam,
       messageAllMembers: mockMessageAllMembers,
       searchTeamByName: mockSearchTeamByName,
-      getPopularTeams: mockGetPopularTeams,
-      getUsersByTerm: mockGetUsersByTerm,
-      getUsernamesByTerm: mockGetUsernamesByTerm,
+      searchPopularTeams: mockGetPopularTeams,
+      searchUsersByTerm: mockSearchUsersByTerm,
+      getUsernamesByTerm: mockSearchUsernamesByTerm,
       getRealtimeStatus: mockGetRealtimeStatus,
       getTop10Players: mockGetTop10Players,
       getChessVariantLeaderboard: mockGetChessVariantLeaderboard,
@@ -922,14 +922,14 @@ void main() async {
       blocTest<LichessBloc, LichessState>(
         'Success',
         build: () {
-          when(mockGetUsersByTerm.call(any)).thenAnswer(
+          when(mockSearchUsersByTerm.call(any)).thenAnswer(
             (_) async => const Right(<User>[]),
           );
 
           return bloc;
         },
         act: (bloc) => bloc.add(
-          const GetUsersByTermEvent(
+          const SearchUsersByTermEvent(
             term: '',
           ),
         ),
@@ -938,20 +938,20 @@ void main() async {
           isA<LichessLoaded<List<User>>>(),
         ],
         verify: (bloc) {
-          verify(mockGetUsersByTerm.call(any)).called(1);
+          verify(mockSearchUsersByTerm.call(any)).called(1);
         },
       );
 
       blocTest<LichessBloc, LichessState>(
         'Failure',
         build: () {
-          when(mockGetUsersByTerm.call(any)).thenAnswer(
+          when(mockSearchUsersByTerm.call(any)).thenAnswer(
             (_) async => Left(LichessOAuthFailure('OAuth failure')),
           );
 
           return bloc;
         },
-        act: (bloc) => bloc.add(const GetUsersByTermEvent(
+        act: (bloc) => bloc.add(const SearchUsersByTermEvent(
           term: '',
         )),
         expect: () => [
@@ -959,7 +959,7 @@ void main() async {
           isA<LichessError>(),
         ],
         verify: (bloc) {
-          verify(mockGetUsersByTerm.call(any)).called(1);
+          verify(mockSearchUsersByTerm.call(any)).called(1);
         },
       );
     });
@@ -968,14 +968,14 @@ void main() async {
       blocTest<LichessBloc, LichessState>(
         'Success',
         build: () {
-          when(mockGetUsernamesByTerm.call(any)).thenAnswer(
+          when(mockSearchUsernamesByTerm.call(any)).thenAnswer(
             (_) async => const Right(<String>[]),
           );
 
           return bloc;
         },
         act: (bloc) => bloc.add(
-          const GetUsernamesByTermEvent(
+          const SearchUsernamesByTermEvent(
             term: '',
           ),
         ),
@@ -984,20 +984,20 @@ void main() async {
           isA<LichessLoaded<List<String>>>(),
         ],
         verify: (bloc) {
-          verify(mockGetUsernamesByTerm.call(any)).called(1);
+          verify(mockSearchUsernamesByTerm.call(any)).called(1);
         },
       );
 
       blocTest<LichessBloc, LichessState>(
         'Failure',
         build: () {
-          when(mockGetUsernamesByTerm.call(any)).thenAnswer(
+          when(mockSearchUsernamesByTerm.call(any)).thenAnswer(
             (_) async => Left(LichessOAuthFailure('OAuth failure')),
           );
 
           return bloc;
         },
-        act: (bloc) => bloc.add(const GetUsernamesByTermEvent(
+        act: (bloc) => bloc.add(const SearchUsernamesByTermEvent(
           term: '',
         )),
         expect: () => [
@@ -1005,7 +1005,7 @@ void main() async {
           isA<LichessError>(),
         ],
         verify: (bloc) {
-          verify(mockGetUsernamesByTerm.call(any)).called(1);
+          verify(mockSearchUsernamesByTerm.call(any)).called(1);
         },
       );
     });

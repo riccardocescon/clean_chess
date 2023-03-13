@@ -14,7 +14,7 @@ class LichessUserDataSource implements RemoteUserDataSource {
   /// [term] is the search term
   /// [friend] is a boolean to search for friends only
   @override
-  Future<Either<Failure, List<User>>> getUsersByTerm(
+  Future<Either<Failure, List<User>>> searchUsersByTerm(
     String term,
     bool friend,
   ) async {
@@ -23,7 +23,7 @@ class LichessUserDataSource implements RemoteUserDataSource {
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
       final client = maybeClient.right;
-      final response = await client.users.autocomplete(
+      final response = await client.users.searchByTerm(
         term: term,
         friend: friend,
       );
@@ -38,7 +38,7 @@ class LichessUserDataSource implements RemoteUserDataSource {
   /// [term] is the search term
   /// [friend] is a boolean to search for friends only
   @override
-  Future<Either<Failure, List<String>>> getUsernamesByTerm(
+  Future<Either<Failure, List<String>>> searchNamesByTerm(
     String term,
     bool friend,
   ) async {
@@ -47,7 +47,7 @@ class LichessUserDataSource implements RemoteUserDataSource {
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
       final client = maybeClient.right;
-      final response = await client.users.autocompleteUsernames(
+      final response = await client.users.searchNamesByTerm(
         term: term,
         friend: friend,
       );
@@ -126,8 +126,10 @@ class LichessUserDataSource implements RemoteUserDataSource {
   /// extra fields might be present in the response:
   /// followable, following, blocking, followsYou
   @override
-  Future<Either<Failure, User>> getPublicData(
-      {required String username, bool trophies = false}) async {
+  Future<Either<Failure, User>> getPublicData({
+    required String username,
+    bool trophies = false,
+  }) async {
     try {
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
@@ -136,6 +138,29 @@ class LichessUserDataSource implements RemoteUserDataSource {
       final response = await client.users.getPublicData(
         username: username,
         trophies: trophies,
+      );
+
+      return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
+
+  /// Read rating history of a user, for all perf types.
+  /// There is at most one entry per day
+  /// Format of an entry is [year, month, day, rating]
+  /// Month starts at zero (January).
+  @override
+  Future<Either<Failure, List<RatingHistory>>> getRatingHistory(
+    String username,
+  ) async {
+    try {
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      final response = await client.users.getRatingHistory(
+        username: username,
       );
 
       return Right(response);

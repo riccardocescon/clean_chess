@@ -43,9 +43,9 @@ Future<void> init() async {
       leaveTeam: sl<LeaveTeam>(),
       messageAllMembers: sl<MessageAllMembers>(),
       searchTeamByName: sl<SearchTeamByName>(),
-      getPopularTeams: sl<GetPopularTeams>(),
-      getUsersByTerm: sl<GetUsersByTerm>(),
-      getUsernamesByTerm: sl<GetUsernamesByTerm>(),
+      searchPopularTeams: sl<GetPopularTeams>(),
+      searchUsersByTerm: sl<SearchUserByTerm>(),
+      getUsernamesByTerm: sl<SearchUsernamesByTerm>(),
       getRealtimeStatus: sl<GetRealtimeStatus>(),
       getTop10Players: sl<GetTop10Players>(),
       getChessVariantLeaderboard: sl<GetChessVariantLeaderboard>(),
@@ -105,10 +105,10 @@ Future<void> init() async {
     () => GetPopularTeams(sl<LichessTeamRepository>()),
   );
   sl.registerLazySingleton(
-    () => GetUsersByTerm(sl<LichessUserRepository>()),
+    () => SearchUserByTerm(sl<LichessUserRepository>()),
   );
   sl.registerLazySingleton(
-    () => GetUsernamesByTerm(sl<LichessUserRepository>()),
+    () => SearchUsernamesByTerm(sl<LichessUserRepository>()),
   );
   sl.registerLazySingleton(
     () => GetRealtimeStatus(sl<LichessUserRepository>()),
