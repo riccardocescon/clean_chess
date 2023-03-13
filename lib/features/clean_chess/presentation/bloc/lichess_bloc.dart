@@ -9,6 +9,7 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +36,16 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final LeaveTeam leaveTeam;
   final MessageAllMembers messageAllMembers;
   final SearchTeamByName searchTeamByName;
-  final GetPopularTeams getPopularTeams;
+  final GetPopularTeams searchPopularTeams;
+  final SearchUserByTerm searchUsersByTerm;
+  final SearchUsernamesByTerm getUsernamesByTerm;
+  final GetRealtimeStatus getRealtimeStatus;
+  final GetTop10Players getTop10Players;
+  final GetChessVariantLeaderboard getChessVariantLeaderboard;
+  final GetPublicData getPublicData;
+  final GetRatingHistory getRatingHistory;
+  final GetManyByIds getManyByIds;
+  final GetLiveStreamers getLiveStreamers;
 
   LichessBloc({
     required this.tokenProvider,
@@ -57,7 +67,16 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.leaveTeam,
     required this.messageAllMembers,
     required this.searchTeamByName,
-    required this.getPopularTeams,
+    required this.searchPopularTeams,
+    required this.searchUsersByTerm,
+    required this.getUsernamesByTerm,
+    required this.getRealtimeStatus,
+    required this.getTop10Players,
+    required this.getChessVariantLeaderboard,
+    required this.getPublicData,
+    required this.getRatingHistory,
+    required this.getManyByIds,
+    required this.getLiveStreamers,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -125,7 +144,12 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     });
     on<GetTeamMembersEvent>((event, emit) async {
       emit(LichessLoading());
-      final members = await getTeamMembers.call(event.teamId);
+      final members = await getTeamMembers.call(
+        GetTeamMembersParams(
+          event.teamId,
+          event.maxMembers,
+        ),
+      );
 
       members.fold(
         (failure) => emit(LichessError(failure)),
@@ -237,13 +261,137 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     });
     on<GetPopularTeamsEvent>((event, emit) async {
       emit(LichessLoading());
-      final teams = await getPopularTeams.call(event.page);
+      final teams = await searchPopularTeams.call(event.page);
 
       teams.fold(
         (failure) => emit(LichessError(failure)),
         (data) => emit(LichessLoaded<PageOf<Team>>(data)),
       );
     });
+    on<SearchUsersByTermEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final users = await searchUsersByTerm.call(
+          SearchUsersByTermParams(
+            event.term,
+            event.friend,
+          ),
+        );
+
+        users.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<User>>(data)),
+        );
+      },
+    );
+    on<SearchUsernamesByTermEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final users = await getUsernamesByTerm.call(
+          SearchUsernamesByTermParams(
+            event.term,
+            event.friend,
+          ),
+        );
+
+        users.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<String>>(data)),
+        );
+      },
+    );
+    on<GetRealtimeStatusEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final status = await getRealtimeStatus.call(
+          GetRealtimeStatusParams(
+            event.ids,
+            event.withGameIds,
+          ),
+        );
+
+        status.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<RealTimeUserStatus>>(data)),
+        );
+      },
+    );
+    on<GetTop10PlayersEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final users = await getTop10Players.call(NoParams());
+
+        users.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<Map<String, List<User>>>(data)),
+        );
+      },
+    );
+    on<GetChessVariantLeaderboardEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final users = await getChessVariantLeaderboard.call(
+          GetChessVariantLeaderboardParams(
+            event.perfType,
+            event.nb,
+          ),
+        );
+
+        users.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<User>>(data)),
+        );
+      },
+    );
+    on<GetPublicDataEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final user = await getPublicData.call(
+          GetPublicDataParams(
+            event.username,
+            trophies: event.trophies,
+          ),
+        );
+
+        user.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<User>(data)),
+        );
+      },
+    );
+    on<GetRatingHistoryEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final user = await getRatingHistory.call(event.username);
+
+        user.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<RatingHistory>>(data)),
+        );
+      },
+    );
+    on<GetManyByIdsEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final users = await getManyByIds.call(event.ids);
+
+        users.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<User>>(data)),
+        );
+      },
+    );
+    on<GetLiveStreamersEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final users = await getLiveStreamers.call(NoParams());
+
+        users.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<User>>(data)),
+        );
+      },
+    );
   }
 
   void _oauthProcedure(

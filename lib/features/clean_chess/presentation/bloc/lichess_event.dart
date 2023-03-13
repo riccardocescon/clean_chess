@@ -1,3 +1,5 @@
+import 'package:lichess_client_dio/lichess_client_dio.dart';
+
 abstract class LichessEvent {
   const LichessEvent();
 }
@@ -40,7 +42,8 @@ class GetTeamByIdEvent extends LichessEvent {
 
 class GetTeamMembersEvent extends LichessEvent {
   final String teamId;
-  const GetTeamMembersEvent({required this.teamId});
+  final int maxMembers;
+  const GetTeamMembersEvent({required this.teamId, this.maxMembers = 100});
 }
 
 class GetTeamJoinRequestsEvent extends LichessEvent {
@@ -102,4 +105,63 @@ class SearchTeamByNameEvent extends LichessEvent {
 class GetPopularTeamsEvent extends LichessEvent {
   final int page;
   const GetPopularTeamsEvent({this.page = 1});
+}
+
+class SearchUsersByTermEvent extends LichessEvent {
+  final String term;
+  final bool friend;
+  const SearchUsersByTermEvent({required this.term, this.friend = false});
+}
+
+class SearchUsernamesByTermEvent extends LichessEvent {
+  final String term;
+  final bool friend;
+  const SearchUsernamesByTermEvent({required this.term, this.friend = false});
+}
+
+class GetRealtimeStatusEvent extends LichessEvent {
+  final List<String> ids;
+  final bool withGameIds;
+  const GetRealtimeStatusEvent({
+    required this.ids,
+    this.withGameIds = false,
+  });
+}
+
+// Coming soon...
+class GetTop10PlayersEvent extends LichessEvent {
+  const GetTop10PlayersEvent();
+}
+
+// Coming soon...
+class GetChessVariantLeaderboardEvent extends LichessEvent {
+  final PerfType perfType;
+  final int nb;
+  const GetChessVariantLeaderboardEvent({
+    required this.perfType,
+    this.nb = 100,
+  });
+}
+
+class GetPublicDataEvent extends LichessEvent {
+  final String username;
+  final bool trophies;
+  const GetPublicDataEvent({
+    required this.username,
+    this.trophies = false,
+  });
+}
+
+class GetRatingHistoryEvent extends LichessEvent {
+  final String username;
+  const GetRatingHistoryEvent({required this.username});
+}
+
+class GetManyByIdsEvent extends LichessEvent {
+  final List<String> ids;
+  const GetManyByIdsEvent({required this.ids});
+}
+
+class GetLiveStreamersEvent extends LichessEvent {
+  const GetLiveStreamersEvent();
 }

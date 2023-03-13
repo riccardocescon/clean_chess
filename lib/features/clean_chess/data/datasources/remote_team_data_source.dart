@@ -13,6 +13,7 @@ abstract class RemoteTeamDataSource {
   /// Api call to get team team members by team id
   Future<Either<Failure, List<User>>> getTeamMembersByTeamId(
     String teamId,
+    int maxMembers,
   );
 
   /// Api call to get a list of the Join Requests for a team

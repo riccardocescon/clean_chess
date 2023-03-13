@@ -46,13 +46,17 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
   @override
   Future<Either<Failure, List<User>>> getTeamMembersByTeamId(
     String teamId,
+    int maxMembers,
   ) async {
     try {
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
       final client = maybeClient.right;
-      final response = await client.teams.getMembers(teamId: teamId);
+      final response = await client.teams
+          .getMembers(teamId: teamId)
+          .take(maxMembers)
+          .toList();
 
       return Right(response);
     } catch (e) {

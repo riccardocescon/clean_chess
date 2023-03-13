@@ -2,10 +2,13 @@ import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_account_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_oauth_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_team_data_source.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_user_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_account_repository.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_user_repository.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -40,7 +43,16 @@ Future<void> init() async {
       leaveTeam: sl<LeaveTeam>(),
       messageAllMembers: sl<MessageAllMembers>(),
       searchTeamByName: sl<SearchTeamByName>(),
-      getPopularTeams: sl<GetPopularTeams>(),
+      searchPopularTeams: sl<GetPopularTeams>(),
+      searchUsersByTerm: sl<SearchUserByTerm>(),
+      getUsernamesByTerm: sl<SearchUsernamesByTerm>(),
+      getRealtimeStatus: sl<GetRealtimeStatus>(),
+      getTop10Players: sl<GetTop10Players>(),
+      getChessVariantLeaderboard: sl<GetChessVariantLeaderboard>(),
+      getPublicData: sl<GetPublicData>(),
+      getRatingHistory: sl<GetRatingHistory>(),
+      getManyByIds: sl<GetManyByIds>(),
+      getLiveStreamers: sl<GetLiveStreamers>(),
     ),
   );
 
@@ -95,6 +107,33 @@ Future<void> init() async {
   sl.registerLazySingleton(
     () => GetPopularTeams(sl<LichessTeamRepository>()),
   );
+  sl.registerLazySingleton(
+    () => SearchUserByTerm(sl<LichessUserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => SearchUsernamesByTerm(sl<LichessUserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetRealtimeStatus(sl<LichessUserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetTop10Players(sl<LichessUserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetChessVariantLeaderboard(sl<LichessUserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetPublicData(sl<LichessUserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetRatingHistory(sl<LichessUserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetManyByIds(sl<LichessUserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetLiveStreamers(sl<LichessUserRepository>()),
+  );
 
   // Register repositories
   sl.registerLazySingleton<LichessOAuthRepository>(
@@ -112,6 +151,11 @@ Future<void> init() async {
       teamDataSource: sl<LichessTeamDataSource>(),
     ),
   );
+  sl.registerLazySingleton<LichessUserRepository>(
+    () => LichessUserRepository(
+      dataSource: sl<LichessUserDataSource>(),
+    ),
+  );
 
   // Register data sources
   sl.registerLazySingleton<LichessOAuthDataSource>(
@@ -122,5 +166,8 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<LichessTeamDataSource>(
     () => LichessTeamDataSource(sl<LichessTokenProvider>()),
+  );
+  sl.registerLazySingleton<LichessUserDataSource>(
+    () => LichessUserDataSource(sl<LichessTokenProvider>()),
   );
 }

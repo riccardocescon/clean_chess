@@ -1,9 +1,8 @@
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/accept_join_request.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/decline_join_request.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_team_join_requests.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_realtime_user_status.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
@@ -45,6 +44,25 @@ class MSearchTeamByName extends Mock implements SearchTeamByName {}
 
 class MGetPopularTeams extends Mock implements GetPopularTeams {}
 
+class MSearchUsersByTerm extends Mock implements SearchUserByTerm {}
+
+class MSearchUsernamesByTerm extends Mock implements SearchUsernamesByTerm {}
+
+class MGetRealtimeStatus extends Mock implements GetRealtimeStatus {}
+
+class MGetTop10Players extends Mock implements GetTop10Players {}
+
+class MGetPublicData extends Mock implements GetPublicData {}
+
+class MGetChessVariantLeaderboard extends Mock
+    implements GetChessVariantLeaderboard {}
+
+class MGetRatingHistory extends Mock implements GetRatingHistory {}
+
+class MGetManyByIds extends Mock implements GetManyByIds {}
+
+class MGetLiveStreamers extends Mock implements GetLiveStreamers {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -65,5 +83,14 @@ class MGetPopularTeams extends Mock implements GetPopularTeams {}
   MockSpec<MMessageAllMembers>(),
   MockSpec<MSearchTeamByName>(),
   MockSpec<MGetPopularTeams>(),
+  MockSpec<MSearchUsersByTerm>(),
+  MockSpec<MSearchUsernamesByTerm>(),
+  MockSpec<MGetRealtimeStatus>(),
+  MockSpec<MGetTop10Players>(),
+  MockSpec<MGetChessVariantLeaderboard>(),
+  MockSpec<MGetPublicData>(),
+  MockSpec<MGetRatingHistory>(),
+  MockSpec<MGetManyByIds>(),
+  MockSpec<MGetLiveStreamers>(),
 ])
 void main() {}
