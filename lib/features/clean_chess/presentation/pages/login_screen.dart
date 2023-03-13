@@ -145,6 +145,10 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is LichessLoaded<List<RatingHistory>>) {
             log(state.data.toString());
+            isLeaderboard = true;
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetManyByIdsEvent(ids: ['riccardocescon', 'alexr']),
+            );
           } else if (state is LichessError) {
             showSnackbarError(context, state.failure);
           }

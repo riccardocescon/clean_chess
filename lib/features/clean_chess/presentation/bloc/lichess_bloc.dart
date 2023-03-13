@@ -44,6 +44,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetChessVariantLeaderboard getChessVariantLeaderboard;
   final GetPublicData getPublicData;
   final GetRatingHistory getRatingHistory;
+  final GetManyByIds getManyByIds;
 
   LichessBloc({
     required this.tokenProvider,
@@ -73,6 +74,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getChessVariantLeaderboard,
     required this.getPublicData,
     required this.getRatingHistory,
+    required this.getManyByIds,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -363,6 +365,17 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         user.fold(
           (failure) => emit(LichessError(failure)),
           (data) => emit(LichessLoaded<List<RatingHistory>>(data)),
+        );
+      },
+    );
+    on<GetManyByIdsEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final users = await getManyByIds.call(event.ids);
+
+        users.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<User>>(data)),
         );
       },
     );

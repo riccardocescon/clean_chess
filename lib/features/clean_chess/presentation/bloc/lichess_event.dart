@@ -156,3 +156,8 @@ class GetRatingHistoryEvent extends LichessEvent {
   final String username;
   const GetRatingHistoryEvent({required this.username});
 }
+
+class GetManyByIdsEvent extends LichessEvent {
+  final List<String> ids;
+  const GetManyByIdsEvent({required this.ids});
+}

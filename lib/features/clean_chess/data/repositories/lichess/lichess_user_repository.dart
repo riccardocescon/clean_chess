@@ -53,4 +53,10 @@ class LichessUserRepository implements UserRepository {
     String username,
   ) =>
       dataSource.getRatingHistory(username);
+
+  @override
+  Future<Either<Failure, List<User>>> getManyByIds(
+    List<String> ids,
+  ) =>
+      dataSource.getManyByIds(ids);
 }

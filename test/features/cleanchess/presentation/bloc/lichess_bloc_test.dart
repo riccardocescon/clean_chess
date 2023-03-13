@@ -42,6 +42,7 @@ void main() async {
   late MockMGetChessVariantLeaderboard mockGetChessVariantLeaderboard;
   late MockMGetPublicData mockGetPublicData;
   late MockMGetRatingHistory mockGetRatingHistory;
+  late MockMGetManyByIds mockGetManyByIds;
 
   late LichessBloc bloc;
 
@@ -73,6 +74,7 @@ void main() async {
     mockGetChessVariantLeaderboard = MockMGetChessVariantLeaderboard();
     mockGetPublicData = MockMGetPublicData();
     mockGetRatingHistory = MockMGetRatingHistory();
+    mockGetManyByIds = MockMGetManyByIds();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -102,6 +104,7 @@ void main() async {
       getChessVariantLeaderboard: mockGetChessVariantLeaderboard,
       getPublicData: mockGetPublicData,
       getRatingHistory: mockGetRatingHistory,
+      getManyByIds: mockGetManyByIds,
     );
   });
 
@@ -1221,6 +1224,45 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockGetRatingHistory.call(any)).called(1);
+        },
+      );
+    });
+
+    group('GetManyByIds', () {
+      blocTest(
+        'Success',
+        build: () {
+          when(mockGetManyByIds.call(any)).thenAnswer(
+            (_) async => const Right(<User>[]),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetManyByIdsEvent(ids: [])),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<List<User>>>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetManyByIds.call(any)).called(1);
+        },
+      );
+      blocTest(
+        'Failure',
+        build: () {
+          when(mockGetManyByIds.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetManyByIdsEvent(ids: [])),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetManyByIds.call(any)).called(1);
         },
       );
     });

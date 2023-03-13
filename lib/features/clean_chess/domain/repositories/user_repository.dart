@@ -33,4 +33,8 @@ abstract class UserRepository {
   Future<Either<Failure, List<RatingHistory>>> getRatingHistory(
     String username,
   );
+
+  Future<Either<Failure, List<User>>> getManyByIds(
+    List<String> ids,
+  );
 }

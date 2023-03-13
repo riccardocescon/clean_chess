@@ -51,6 +51,7 @@ Future<void> init() async {
       getChessVariantLeaderboard: sl<GetChessVariantLeaderboard>(),
       getPublicData: sl<GetPublicData>(),
       getRatingHistory: sl<GetRatingHistory>(),
+      getManyByIds: sl<GetManyByIds>(),
     ),
   );
 
@@ -125,6 +126,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => GetRatingHistory(sl<LichessUserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetManyByIds(sl<LichessUserRepository>()),
   );
 
   // Register repositories

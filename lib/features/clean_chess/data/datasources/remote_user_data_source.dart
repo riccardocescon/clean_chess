@@ -46,11 +46,19 @@ abstract class RemoteUserDataSource {
     bool trophies = false,
   });
 
-  /// Read rating history of a user, for all perf types.
+  /// Api to read rating history of a user, for all perf types.
   /// There is at most one entry per day
   /// Format of an entry is [year, month, day, rating]
   /// Month starts at zero (January).
   Future<Either<Failure, List<RatingHistory>>> getRatingHistory(
     String username,
   );
+
+  /// Api to get up to 300 users by their IDs. Users are returned in the same order as the IDs.
+  /// The method is POST to allow a longer list of IDs to be sent in the request body.
+  /// Please do not try to download all the Lichess users with this endpoint,
+  /// or any other endpoint. An API is not a way to fully export a website.
+  /// We do not provide a full download of the Lichess users.
+  /// This endpoint is limited to 8,000 users every 10 minutes, and 120,000 every day.
+  Future<Either<Failure, List<User>>> getManyByIds(List<String> ids);
 }

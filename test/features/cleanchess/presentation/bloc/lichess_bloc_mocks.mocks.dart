@@ -1244,3 +1244,48 @@ class MockMGetRatingHistory extends _i1.Mock implements _i8.MGetRatingHistory {
         )),
       ) as _i9.Future<_i3.Either<_i10.Failure, List<_i12.RatingHistory>>>);
 }
+
+/// A class which mocks [MGetManyByIds].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMGetManyByIds extends _i1.Mock implements _i8.MGetManyByIds {
+  @override
+  _i7.UserRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeUserRepository_5(
+          this,
+          Invocation.getter(#repository),
+        ),
+        returnValueForMissingStub: _FakeUserRepository_5(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i7.UserRepository);
+  @override
+  _i9.Future<_i3.Either<_i10.Failure, List<_i12.User>>> call(
+          List<String>? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue:
+            _i9.Future<_i3.Either<_i10.Failure, List<_i12.User>>>.value(
+                _FakeEither_1<_i10.Failure, List<_i12.User>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i9.Future<_i3.Either<_i10.Failure, List<_i12.User>>>.value(
+                _FakeEither_1<_i10.Failure, List<_i12.User>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i9.Future<_i3.Either<_i10.Failure, List<_i12.User>>>);
+}

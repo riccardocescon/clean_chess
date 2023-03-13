@@ -168,4 +168,25 @@ class LichessUserDataSource implements RemoteUserDataSource {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }
   }
+
+  /// Api to get up to 300 users by their IDs. Users are returned in the same order as the IDs.
+  /// The method is POST to allow a longer list of IDs to be sent in the request body.
+  /// Please do not try to download all the Lichess users with this endpoint,
+  /// or any other endpoint. An API is not a way to fully export a website.
+  /// We do not provide a full download of the Lichess users.
+  /// This endpoint is limited to 8,000 users every 10 minutes, and 120,000 every day.
+  @override
+  Future<Either<Failure, List<User>>> getManyByIds(List<String> ids) async {
+    try {
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      final response = await client.users.getManyById(ids: ids);
+
+      return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
 }
