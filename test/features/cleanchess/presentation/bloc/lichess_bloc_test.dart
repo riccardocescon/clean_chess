@@ -38,6 +38,7 @@ void main() async {
   late MockMGetUsersByTerm mockGetUsersByTerm;
   late MockMGetUsernamesByTerm mockGetUsernamesByTerm;
   late MockMGetRealtimeStatus mockGetRealtimeStatus;
+  late MockMGetTop10Players mockGetTop10Players;
 
   late LichessBloc bloc;
 
@@ -65,6 +66,7 @@ void main() async {
     mockGetUsersByTerm = MockMGetUsersByTerm();
     mockGetUsernamesByTerm = MockMGetUsernamesByTerm();
     mockGetRealtimeStatus = MockMGetRealtimeStatus();
+    mockGetTop10Players = MockMGetTop10Players();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -90,6 +92,7 @@ void main() async {
       getUsersByTerm: mockGetUsersByTerm,
       getUsernamesByTerm: mockGetUsernamesByTerm,
       getRealtimeStatus: mockGetRealtimeStatus,
+      getTop10Players: mockGetTop10Players,
     );
   });
 
@@ -1043,6 +1046,48 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockGetRealtimeStatus.call(any)).called(1);
+        },
+      );
+    });
+
+    group('GetTop10Players', () {
+      blocTest<LichessBloc, LichessState>(
+        'Success',
+        build: () {
+          when(mockGetTop10Players.call(any)).thenAnswer(
+            (_) async => const Right(<String, List<User>>{}),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(
+          const GetTop10PlayersEvent(),
+        ),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<Map<String, List<User>>>>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetTop10Players.call(any)).called(1);
+        },
+      );
+
+      blocTest<LichessBloc, LichessState>(
+        'Failure',
+        build: () {
+          when(mockGetTop10Players.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetTop10PlayersEvent()),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetTop10Players.call(any)).called(1);
         },
       );
     });

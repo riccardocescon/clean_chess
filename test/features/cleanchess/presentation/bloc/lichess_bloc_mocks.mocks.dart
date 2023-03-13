@@ -1062,3 +1062,48 @@ class MockMGetRealtimeStatus extends _i1.Mock
         )),
       ) as _i9.Future<_i3.Either<_i10.Failure, List<_i12.RealTimeUserStatus>>>);
 }
+
+/// A class which mocks [MGetTop10Players].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMGetTop10Players extends _i1.Mock implements _i8.MGetTop10Players {
+  @override
+  _i7.UserRepository get userRepository => (super.noSuchMethod(
+        Invocation.getter(#userRepository),
+        returnValue: _FakeUserRepository_5(
+          this,
+          Invocation.getter(#userRepository),
+        ),
+        returnValueForMissingStub: _FakeUserRepository_5(
+          this,
+          Invocation.getter(#userRepository),
+        ),
+      ) as _i7.UserRepository);
+  @override
+  _i9.Future<_i3.Either<_i10.Failure, Map<String, List<_i12.User>>>> call(
+          _i13.NoParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i9.Future<
+                _i3.Either<_i10.Failure, Map<String, List<_i12.User>>>>.value(
+            _FakeEither_1<_i10.Failure, Map<String, List<_i12.User>>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub: _i9.Future<
+                _i3.Either<_i10.Failure, Map<String, List<_i12.User>>>>.value(
+            _FakeEither_1<_i10.Failure, Map<String, List<_i12.User>>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i9.Future<_i3.Either<_i10.Failure, Map<String, List<_i12.User>>>>);
+}

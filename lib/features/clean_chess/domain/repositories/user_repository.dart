@@ -17,4 +17,6 @@ abstract class UserRepository {
     List<String> ids,
     bool withGameIds,
   );
+
+  Future<Either<Failure, Map<String, List<User>>>> getTop10Players();
 }

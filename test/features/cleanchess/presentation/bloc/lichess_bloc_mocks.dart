@@ -50,6 +50,8 @@ class MGetUsernamesByTerm extends Mock implements GetUsernamesByTerm {}
 
 class MGetRealtimeStatus extends Mock implements GetRealtimeStatus {}
 
+class MGetTop10Players extends Mock implements GetTop10Players {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -73,5 +75,6 @@ class MGetRealtimeStatus extends Mock implements GetRealtimeStatus {}
   MockSpec<MGetUsersByTerm>(),
   MockSpec<MGetUsernamesByTerm>(),
   MockSpec<MGetRealtimeStatus>(),
+  MockSpec<MGetTop10Players>(),
 ])
 void main() {}

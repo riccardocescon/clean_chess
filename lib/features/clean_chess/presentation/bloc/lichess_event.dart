@@ -124,3 +124,7 @@ class GetRealtimeStatusEvent extends LichessEvent {
     this.withGameIds = false,
   });
 }
+
+class GetTop10PlayersEvent extends LichessEvent {
+  const GetTop10PlayersEvent();
+}

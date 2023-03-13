@@ -29,4 +29,8 @@ class LichessUserRepository implements UserRepository {
     bool withGameIds,
   ) =>
       dataSource.getRealtimeStatus(ids, withGameIds);
+
+  @override
+  Future<Either<Failure, Map<String, List<User>>>> getTop10Players() =>
+      dataSource.getTop10Players();
 }

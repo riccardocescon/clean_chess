@@ -24,4 +24,7 @@ abstract class RemoteUserDataSource {
     List<String> ids,
     bool withGameIds,
   );
+
+  /// Api to get the top 10 players for each speed and variant
+  Future<Either<Failure, Map<String, List<User>>>> getTop10Players();
 }

@@ -8,7 +8,6 @@ import 'package:cleanchess/features/clean_chess/data/repositories/lichess/liches
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_realtime_user_status.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -48,6 +47,7 @@ Future<void> init() async {
       getUsersByTerm: sl<GetUsersByTerm>(),
       getUsernamesByTerm: sl<GetUsernamesByTerm>(),
       getRealtimeStatus: sl<GetRealtimeStatus>(),
+      getTop10Players: sl<GetTop10Players>(),
     ),
   );
 
@@ -110,6 +110,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => GetRealtimeStatus(sl<LichessUserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetTop10Players(sl<LichessUserRepository>()),
   );
 
   // Register repositories

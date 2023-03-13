@@ -128,6 +128,11 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is LichessLoaded<List<RealTimeUserStatus>>) {
             log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetTop10PlayersEvent(),
+            );
+          } else if (state is LichessLoaded<Map<String, List<User>>>) {
+            log(state.data.toString());
           } else if (state is LichessError) {
             showSnackbarError(context, state.failure);
           }
