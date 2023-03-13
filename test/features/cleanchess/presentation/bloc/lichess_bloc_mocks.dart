@@ -1,6 +1,7 @@
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_realtime_user_status.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -47,6 +48,8 @@ class MGetUsersByTerm extends Mock implements GetUsersByTerm {}
 
 class MGetUsernamesByTerm extends Mock implements GetUsernamesByTerm {}
 
+class MGetRealtimeStatus extends Mock implements GetRealtimeStatus {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -69,5 +72,6 @@ class MGetUsernamesByTerm extends Mock implements GetUsernamesByTerm {}
   MockSpec<MGetPopularTeams>(),
   MockSpec<MGetUsersByTerm>(),
   MockSpec<MGetUsernamesByTerm>(),
+  MockSpec<MGetRealtimeStatus>(),
 ])
 void main() {}

@@ -37,6 +37,7 @@ void main() async {
   late MockMGetPopularTeams mockGetPopularTeams;
   late MockMGetUsersByTerm mockGetUsersByTerm;
   late MockMGetUsernamesByTerm mockGetUsernamesByTerm;
+  late MockMGetRealtimeStatus mockGetRealtimeStatus;
 
   late LichessBloc bloc;
 
@@ -63,6 +64,7 @@ void main() async {
     mockGetPopularTeams = MockMGetPopularTeams();
     mockGetUsersByTerm = MockMGetUsersByTerm();
     mockGetUsernamesByTerm = MockMGetUsernamesByTerm();
+    mockGetRealtimeStatus = MockMGetRealtimeStatus();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -87,6 +89,7 @@ void main() async {
       getPopularTeams: mockGetPopularTeams,
       getUsersByTerm: mockGetUsersByTerm,
       getUsernamesByTerm: mockGetUsernamesByTerm,
+      getRealtimeStatus: mockGetRealtimeStatus,
     );
   });
 
@@ -994,6 +997,52 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockGetUsernamesByTerm.call(any)).called(1);
+        },
+      );
+    });
+
+    group('GetRealtimeStatus', () {
+      blocTest<LichessBloc, LichessState>(
+        'Success',
+        build: () {
+          when(mockGetRealtimeStatus.call(any)).thenAnswer(
+            (_) async => const Right(<RealTimeUserStatus>[]),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(
+          const GetRealtimeStatusEvent(
+            ids: [],
+          ),
+        ),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<List<RealTimeUserStatus>>>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetRealtimeStatus.call(any)).called(1);
+        },
+      );
+
+      blocTest<LichessBloc, LichessState>(
+        'Failure',
+        build: () {
+          when(mockGetRealtimeStatus.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetRealtimeStatusEvent(
+          ids: [],
+        )),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetRealtimeStatus.call(any)).called(1);
         },
       );
     });

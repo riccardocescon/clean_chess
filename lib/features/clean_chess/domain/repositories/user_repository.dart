@@ -12,4 +12,9 @@ abstract class UserRepository {
     String term,
     bool friend,
   );
+
+  Future<Either<Failure, List<RealTimeUserStatus>>> getRealtimeStatus(
+    List<String> ids,
+    bool withGameIds,
+  );
 }

@@ -115,3 +115,12 @@ class GetUsernamesByTermEvent extends LichessEvent {
   final bool friend;
   const GetUsernamesByTermEvent({required this.term, this.friend = false});
 }
+
+class GetRealtimeStatusEvent extends LichessEvent {
+  final List<String> ids;
+  final bool withGameIds;
+  const GetRealtimeStatusEvent({
+    required this.ids,
+    this.withGameIds = false,
+  });
+}

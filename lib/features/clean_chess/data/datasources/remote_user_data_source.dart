@@ -18,4 +18,10 @@ abstract class RemoteUserDataSource {
     String term,
     bool friend,
   );
+
+  /// Api to get a list of the Realtime User Stats
+  Future<Either<Failure, List<RealTimeUserStatus>>> getRealtimeStatus(
+    List<String> ids,
+    bool withGameIds,
+  );
 }

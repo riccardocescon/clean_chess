@@ -57,4 +57,26 @@ class LichessUserDataSource implements RemoteUserDataSource {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }
   }
+
+  /// Api to get a list of the Realtime User Stats
+  @override
+  Future<Either<Failure, List<RealTimeUserStatus>>> getRealtimeStatus(
+    List<String> ids,
+    bool withGameIds,
+  ) async {
+    try {
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      final response = await client.users.getRealTimeStatus(
+        ids: ids,
+        withGameIds: withGameIds,
+      );
+
+      return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
 }

@@ -117,10 +117,16 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is LichessLoaded<List<User>>) {
             log(state.data.toString());
+            user = state.data.first;
             BlocProvider.of<LichessBloc>(context).add(
               const GetUsernamesByTermEvent(term: 'alexr', friend: false),
             );
           } else if (state is LichessLoaded<List<String>>) {
+            log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              GetRealtimeStatusEvent(ids: [user.id!], withGameIds: true),
+            );
+          } else if (state is LichessLoaded<List<RealTimeUserStatus>>) {
             log(state.data.toString());
           } else if (state is LichessError) {
             showSnackbarError(context, state.failure);

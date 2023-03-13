@@ -9,6 +9,7 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_realtime_user_status.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
@@ -39,6 +40,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetPopularTeams getPopularTeams;
   final GetUsersByTerm getUsersByTerm;
   final GetUsernamesByTerm getUsernamesByTerm;
+  final GetRealtimeStatus getRealtimeStatus;
 
   LichessBloc({
     required this.tokenProvider,
@@ -63,6 +65,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getPopularTeams,
     required this.getUsersByTerm,
     required this.getUsernamesByTerm,
+    required this.getRealtimeStatus,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -278,6 +281,22 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         users.fold(
           (failure) => emit(LichessError(failure)),
           (data) => emit(LichessLoaded<List<String>>(data)),
+        );
+      },
+    );
+    on<GetRealtimeStatusEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final status = await getRealtimeStatus.call(
+          GetRealtimeStatusParams(
+            event.ids,
+            event.withGameIds,
+          ),
+        );
+
+        status.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<RealTimeUserStatus>>(data)),
         );
       },
     );

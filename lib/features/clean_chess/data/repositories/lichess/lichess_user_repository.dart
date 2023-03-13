@@ -22,4 +22,11 @@ class LichessUserRepository implements UserRepository {
     bool friend,
   ) =>
       dataSource.getUsernamesByTerm(term, friend);
+
+  @override
+  Future<Either<Failure, List<RealTimeUserStatus>>> getRealtimeStatus(
+    List<String> ids,
+    bool withGameIds,
+  ) =>
+      dataSource.getRealtimeStatus(ids, withGameIds);
 }

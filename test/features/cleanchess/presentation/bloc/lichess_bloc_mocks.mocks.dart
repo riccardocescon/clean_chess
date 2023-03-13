@@ -22,6 +22,8 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/li
     as _i11;
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart'
     as _i15;
+import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_realtime_user_status.dart'
+    as _i17;
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart'
     as _i16;
 import 'package:dartz/dartz.dart' as _i3;
@@ -1013,4 +1015,50 @@ class MockMGetUsernamesByTerm extends _i1.Mock
           ),
         )),
       ) as _i9.Future<_i3.Either<_i10.Failure, List<String>>>);
+}
+
+/// A class which mocks [MGetRealtimeStatus].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMGetRealtimeStatus extends _i1.Mock
+    implements _i8.MGetRealtimeStatus {
+  @override
+  _i7.UserRepository get userRepository => (super.noSuchMethod(
+        Invocation.getter(#userRepository),
+        returnValue: _FakeUserRepository_5(
+          this,
+          Invocation.getter(#userRepository),
+        ),
+        returnValueForMissingStub: _FakeUserRepository_5(
+          this,
+          Invocation.getter(#userRepository),
+        ),
+      ) as _i7.UserRepository);
+  @override
+  _i9.Future<_i3.Either<_i10.Failure, List<_i12.RealTimeUserStatus>>> call(
+          _i17.GetRealtimeStatusParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i9.Future<
+                _i3.Either<_i10.Failure, List<_i12.RealTimeUserStatus>>>.value(
+            _FakeEither_1<_i10.Failure, List<_i12.RealTimeUserStatus>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub: _i9.Future<
+                _i3.Either<_i10.Failure, List<_i12.RealTimeUserStatus>>>.value(
+            _FakeEither_1<_i10.Failure, List<_i12.RealTimeUserStatus>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i9.Future<_i3.Either<_i10.Failure, List<_i12.RealTimeUserStatus>>>);
 }
