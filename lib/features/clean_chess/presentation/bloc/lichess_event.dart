@@ -109,3 +109,9 @@ class GetUsersByTermEvent extends LichessEvent {
   final bool friend;
   const GetUsersByTermEvent({required this.term, this.friend = false});
 }
+
+class GetUsernamesByTermEvent extends LichessEvent {
+  final String term;
+  final bool friend;
+  const GetUsernamesByTermEvent({required this.term, this.friend = false});
+}

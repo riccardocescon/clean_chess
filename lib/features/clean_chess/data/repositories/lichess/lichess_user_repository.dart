@@ -15,4 +15,11 @@ class LichessUserRepository implements UserRepository {
     bool friend,
   ) =>
       dataSource.getUsersByTerm(term, friend);
+
+  @override
+  Future<Either<Failure, List<String>>> getUsernamesByTerm(
+    String term,
+    bool friend,
+  ) =>
+      dataSource.getUsernamesByTerm(term, friend);
 }

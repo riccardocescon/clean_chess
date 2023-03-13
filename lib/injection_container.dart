@@ -45,6 +45,7 @@ Future<void> init() async {
       searchTeamByName: sl<SearchTeamByName>(),
       getPopularTeams: sl<GetPopularTeams>(),
       getUsersByTerm: sl<GetUsersByTerm>(),
+      getUsernamesByTerm: sl<GetUsernamesByTerm>(),
     ),
   );
 
@@ -101,6 +102,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => GetUsersByTerm(sl<LichessUserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetUsernamesByTerm(sl<LichessUserRepository>()),
   );
 
   // Register repositories

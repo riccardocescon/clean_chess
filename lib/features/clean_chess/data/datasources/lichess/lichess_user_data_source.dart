@@ -33,4 +33,28 @@ class LichessUserDataSource implements RemoteUserDataSource {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }
   }
+
+  /// Api to get a list of usernames by a search term
+  /// [term] is the search term
+  /// [friend] is a boolean to search for friends only
+  @override
+  Future<Either<Failure, List<String>>> getUsernamesByTerm(
+    String term,
+    bool friend,
+  ) async {
+    try {
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      final response = await client.users.autocompleteUsernames(
+        term: term,
+        friend: friend,
+      );
+
+      return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
 }

@@ -38,6 +38,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final SearchTeamByName searchTeamByName;
   final GetPopularTeams getPopularTeams;
   final GetUsersByTerm getUsersByTerm;
+  final GetUsernamesByTerm getUsernamesByTerm;
 
   LichessBloc({
     required this.tokenProvider,
@@ -61,6 +62,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.searchTeamByName,
     required this.getPopularTeams,
     required this.getUsersByTerm,
+    required this.getUsernamesByTerm,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -260,6 +262,22 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         users.fold(
           (failure) => emit(LichessError(failure)),
           (data) => emit(LichessLoaded<List<User>>(data)),
+        );
+      },
+    );
+    on<GetUsernamesByTermEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final users = await getUsernamesByTerm.call(
+          GetUsernamesByTermParams(
+            event.term,
+            event.friend,
+          ),
+        );
+
+        users.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<String>>(data)),
         );
       },
     );

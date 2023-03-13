@@ -20,14 +20,10 @@ import 'package:cleanchess/features/clean_chess/domain/repositories/user_reposit
     as _i7;
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart'
     as _i11;
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/accept_join_request.dart'
-    as _i15;
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/decline_join_request.dart'
-    as _i16;
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart'
-    as _i17;
-import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_users_by_term.dart'
-    as _i18;
+    as _i15;
+import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart'
+    as _i16;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:lichess_client_dio/lichess_client_dio.dart' as _i12;
 import 'package:mockito/mockito.dart' as _i1;
@@ -636,7 +632,7 @@ class MockMDeclineJoinRequest extends _i1.Mock
       ) as _i6.TeamRepository);
   @override
   _i9.Future<_i3.Either<_i10.Failure, _i14.Empty>> call(
-          _i16.DeclineJoinRequestParams? params) =>
+          _i15.DeclineJoinRequestParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
@@ -681,7 +677,7 @@ class MockMKickMemberFromTeam extends _i1.Mock
       ) as _i6.TeamRepository);
   @override
   _i9.Future<_i3.Either<_i10.Failure, _i14.Empty>> call(
-          _i17.KickMemberFromTeamParams? params) =>
+          _i15.KickMemberFromTeamParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
@@ -725,7 +721,7 @@ class MockMJoinTeam extends _i1.Mock implements _i8.MJoinTeam {
       ) as _i6.TeamRepository);
   @override
   _i9.Future<_i3.Either<_i10.Failure, _i14.Empty>> call(
-          _i17.JoinTeamParams? params) =>
+          _i15.JoinTeamParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
@@ -813,7 +809,7 @@ class MockMMessageAllMembers extends _i1.Mock
       ) as _i6.TeamRepository);
   @override
   _i9.Future<_i3.Either<_i10.Failure, _i14.Empty>> call(
-          _i17.MessageAllMembersParams? params) =>
+          _i15.MessageAllMembersParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
@@ -857,7 +853,7 @@ class MockMSearchTeamByName extends _i1.Mock implements _i8.MSearchTeamByName {
       ) as _i6.TeamRepository);
   @override
   _i9.Future<_i3.Either<_i10.Failure, _i12.PageOf<_i12.Team>>> call(
-          _i17.SearchTeamByNameParams? params) =>
+          _i15.SearchTeamByNameParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
@@ -947,7 +943,7 @@ class MockMGetUsersByTerm extends _i1.Mock implements _i8.MGetUsersByTerm {
       ) as _i7.UserRepository);
   @override
   _i9.Future<_i3.Either<_i10.Failure, List<_i12.User>>> call(
-          _i18.GetUsersByTermParams? params) =>
+          _i16.GetUsersByTermParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
@@ -972,4 +968,49 @@ class MockMGetUsersByTerm extends _i1.Mock implements _i8.MGetUsersByTerm {
           ),
         )),
       ) as _i9.Future<_i3.Either<_i10.Failure, List<_i12.User>>>);
+}
+
+/// A class which mocks [MGetUsernamesByTerm].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMGetUsernamesByTerm extends _i1.Mock
+    implements _i8.MGetUsernamesByTerm {
+  @override
+  _i7.UserRepository get userRepository => (super.noSuchMethod(
+        Invocation.getter(#userRepository),
+        returnValue: _FakeUserRepository_5(
+          this,
+          Invocation.getter(#userRepository),
+        ),
+        returnValueForMissingStub: _FakeUserRepository_5(
+          this,
+          Invocation.getter(#userRepository),
+        ),
+      ) as _i7.UserRepository);
+  @override
+  _i9.Future<_i3.Either<_i10.Failure, List<String>>> call(
+          _i16.GetUsernamesByTermParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i9.Future<_i3.Either<_i10.Failure, List<String>>>.value(
+            _FakeEither_1<_i10.Failure, List<String>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i9.Future<_i3.Either<_i10.Failure, List<String>>>.value(
+                _FakeEither_1<_i10.Failure, List<String>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i9.Future<_i3.Either<_i10.Failure, List<String>>>);
 }

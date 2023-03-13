@@ -36,6 +36,7 @@ void main() async {
   late MockMSearchTeamByName mockSearchTeamByName;
   late MockMGetPopularTeams mockGetPopularTeams;
   late MockMGetUsersByTerm mockGetUsersByTerm;
+  late MockMGetUsernamesByTerm mockGetUsernamesByTerm;
 
   late LichessBloc bloc;
 
@@ -61,6 +62,7 @@ void main() async {
     mockSearchTeamByName = MockMSearchTeamByName();
     mockGetPopularTeams = MockMGetPopularTeams();
     mockGetUsersByTerm = MockMGetUsersByTerm();
+    mockGetUsernamesByTerm = MockMGetUsernamesByTerm();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -84,6 +86,7 @@ void main() async {
       searchTeamByName: mockSearchTeamByName,
       getPopularTeams: mockGetPopularTeams,
       getUsersByTerm: mockGetUsersByTerm,
+      getUsernamesByTerm: mockGetUsernamesByTerm,
     );
   });
 
@@ -945,6 +948,52 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockGetUsersByTerm.call(any)).called(1);
+        },
+      );
+    });
+
+    group('GetUsernamesByTerm', () {
+      blocTest<LichessBloc, LichessState>(
+        'Success',
+        build: () {
+          when(mockGetUsernamesByTerm.call(any)).thenAnswer(
+            (_) async => const Right(<String>[]),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(
+          const GetUsernamesByTermEvent(
+            term: '',
+          ),
+        ),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<List<String>>>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetUsernamesByTerm.call(any)).called(1);
+        },
+      );
+
+      blocTest<LichessBloc, LichessState>(
+        'Failure',
+        build: () {
+          when(mockGetUsernamesByTerm.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetUsernamesByTermEvent(
+          term: '',
+        )),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetUsernamesByTerm.call(any)).called(1);
         },
       );
     });

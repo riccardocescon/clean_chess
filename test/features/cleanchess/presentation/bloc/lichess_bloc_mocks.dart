@@ -1,10 +1,7 @@
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/accept_join_request.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/decline_join_request.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/teams/get_team_join_requests.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_users_by_term.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
@@ -48,6 +45,8 @@ class MGetPopularTeams extends Mock implements GetPopularTeams {}
 
 class MGetUsersByTerm extends Mock implements GetUsersByTerm {}
 
+class MGetUsernamesByTerm extends Mock implements GetUsernamesByTerm {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -69,5 +68,6 @@ class MGetUsersByTerm extends Mock implements GetUsersByTerm {}
   MockSpec<MSearchTeamByName>(),
   MockSpec<MGetPopularTeams>(),
   MockSpec<MGetUsersByTerm>(),
+  MockSpec<MGetUsernamesByTerm>(),
 ])
 void main() {}

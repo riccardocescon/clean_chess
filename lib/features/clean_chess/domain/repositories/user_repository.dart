@@ -7,4 +7,9 @@ abstract class UserRepository {
     String term,
     bool friend,
   );
+
+  Future<Either<Failure, List<String>>> getUsernamesByTerm(
+    String term,
+    bool friend,
+  );
 }
