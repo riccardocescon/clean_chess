@@ -497,7 +497,8 @@ class MockMGetTeamMembers extends _i1.Mock implements _i8.MGetTeamMembers {
         ),
       ) as _i5.LichessTeamRepository);
   @override
-  _i9.Future<_i3.Either<_i10.Failure, List<_i12.User>>> call(String? params) =>
+  _i9.Future<_i3.Either<_i10.Failure, List<_i12.User>>> call(
+          _i15.GetTeamMembersParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,

@@ -475,21 +475,19 @@ packages:
   lichess_client:
     dependency: transitive
     description:
-      path: "packages/lichess_client"
-      ref: HEAD
-      resolved-ref: "4107010221f83c3d8a961a57e34b6d65635ddf3c"
-      url: "https://github.com/alexrintt/lichess.dart"
-    source: git
-    version: "0.0.0"
+      name: lichess_client
+      sha256: a12bada9f185b47a4297493282ea6819f4f0d6e09da9b197d178d80db3350915
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.11"
   lichess_client_dio:
     dependency: "direct main"
     description:
-      path: "packages/lichess_client_dio"
-      ref: HEAD
-      resolved-ref: "4107010221f83c3d8a961a57e34b6d65635ddf3c"
-      url: "https://github.com/alexrintt/lichess.dart"
-    source: git
-    version: "0.0.0"
+      name: lichess_client_dio
+      sha256: badb01088c97fe37714d0128d36b46d3462bdd967af8855ca3a9ffb482361f6c
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   lints:
     dependency: transitive
     description:
