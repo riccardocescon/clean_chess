@@ -50,6 +50,7 @@ Future<void> init() async {
       getTop10Players: sl<GetTop10Players>(),
       getChessVariantLeaderboard: sl<GetChessVariantLeaderboard>(),
       getPublicData: sl<GetPublicData>(),
+      getRatingHistory: sl<GetRatingHistory>(),
     ),
   );
 
@@ -121,6 +122,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => GetPublicData(sl<LichessUserRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetRatingHistory(sl<LichessUserRepository>()),
   );
 
   // Register repositories

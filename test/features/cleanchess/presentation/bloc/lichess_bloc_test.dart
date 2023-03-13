@@ -41,6 +41,7 @@ void main() async {
   late MockMGetTop10Players mockGetTop10Players;
   late MockMGetChessVariantLeaderboard mockGetChessVariantLeaderboard;
   late MockMGetPublicData mockGetPublicData;
+  late MockMGetRatingHistory mockGetRatingHistory;
 
   late LichessBloc bloc;
 
@@ -71,6 +72,7 @@ void main() async {
     mockGetTop10Players = MockMGetTop10Players();
     mockGetChessVariantLeaderboard = MockMGetChessVariantLeaderboard();
     mockGetPublicData = MockMGetPublicData();
+    mockGetRatingHistory = MockMGetRatingHistory();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -99,6 +101,7 @@ void main() async {
       getTop10Players: mockGetTop10Players,
       getChessVariantLeaderboard: mockGetChessVariantLeaderboard,
       getPublicData: mockGetPublicData,
+      getRatingHistory: mockGetRatingHistory,
     );
   });
 
@@ -1179,6 +1182,45 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockGetPublicData.call(any)).called(1);
+        },
+      );
+    });
+
+    group('GetRatingHistory', () {
+      blocTest(
+        'Success',
+        build: () {
+          when(mockGetRatingHistory.call(any)).thenAnswer(
+            (_) async => const Right(<RatingHistory>[]),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetRatingHistoryEvent(username: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<List<RatingHistory>>>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetRatingHistory.call(any)).called(1);
+        },
+      );
+      blocTest(
+        'Failure',
+        build: () {
+          when(mockGetRatingHistory.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetRatingHistoryEvent(username: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetRatingHistory.call(any)).called(1);
         },
       );
     });

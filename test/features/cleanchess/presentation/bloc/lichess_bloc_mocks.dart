@@ -57,6 +57,8 @@ class MGetPublicData extends Mock implements GetPublicData {}
 class MGetChessVariantLeaderboard extends Mock
     implements GetChessVariantLeaderboard {}
 
+class MGetRatingHistory extends Mock implements GetRatingHistory {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -83,5 +85,6 @@ class MGetChessVariantLeaderboard extends Mock
   MockSpec<MGetTop10Players>(),
   MockSpec<MGetChessVariantLeaderboard>(),
   MockSpec<MGetPublicData>(),
+  MockSpec<MGetRatingHistory>(),
 ])
 void main() {}

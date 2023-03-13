@@ -1199,3 +1199,48 @@ class MockMGetPublicData extends _i1.Mock implements _i8.MGetPublicData {
         )),
       ) as _i9.Future<_i3.Either<_i10.Failure, _i12.User>>);
 }
+
+/// A class which mocks [MGetRatingHistory].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMGetRatingHistory extends _i1.Mock implements _i8.MGetRatingHistory {
+  @override
+  _i7.UserRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeUserRepository_5(
+          this,
+          Invocation.getter(#repository),
+        ),
+        returnValueForMissingStub: _FakeUserRepository_5(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i7.UserRepository);
+  @override
+  _i9.Future<_i3.Either<_i10.Failure, List<_i12.RatingHistory>>> call(
+          String? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i9.Future<
+                _i3.Either<_i10.Failure, List<_i12.RatingHistory>>>.value(
+            _FakeEither_1<_i10.Failure, List<_i12.RatingHistory>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub: _i9.Future<
+                _i3.Either<_i10.Failure, List<_i12.RatingHistory>>>.value(
+            _FakeEither_1<_i10.Failure, List<_i12.RatingHistory>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i9.Future<_i3.Either<_i10.Failure, List<_i12.RatingHistory>>>);
+}

@@ -151,3 +151,8 @@ class GetPublicDataEvent extends LichessEvent {
     this.trophies = false,
   });
 }
+
+class GetRatingHistoryEvent extends LichessEvent {
+  final String username;
+  const GetRatingHistoryEvent({required this.username});
+}

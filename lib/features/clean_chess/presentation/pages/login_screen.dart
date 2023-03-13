@@ -140,6 +140,11 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           } else if (state is LichessLoaded<User>) {
             log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetRatingHistoryEvent(username: 'riccardocescon'),
+            );
+          } else if (state is LichessLoaded<List<RatingHistory>>) {
+            log(state.data.toString());
           } else if (state is LichessError) {
             showSnackbarError(context, state.failure);
           }

@@ -6,3 +6,4 @@ export 'package:cleanchess/features/clean_chess/domain/usecases/users/get_realti
 export 'package:cleanchess/features/clean_chess/domain/usecases/users/get_top_ten_players.dart';
 export 'package:cleanchess/features/clean_chess/domain/usecases/users/get_chess_variant_leaderboard.dart';
 export 'package:cleanchess/features/clean_chess/domain/usecases/users/get_public_data.dart';
+export 'package:cleanchess/features/clean_chess/domain/usecases/users/get_rating_history.dart';

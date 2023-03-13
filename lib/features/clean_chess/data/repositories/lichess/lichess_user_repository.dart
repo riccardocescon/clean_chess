@@ -47,4 +47,10 @@ class LichessUserRepository implements UserRepository {
     bool trophies = false,
   }) =>
       dataSource.getPublicData(username: username, trophies: trophies);
+
+  @override
+  Future<Either<Failure, List<RatingHistory>>> getRatingHistory(
+    String username,
+  ) =>
+      dataSource.getRatingHistory(username);
 }

@@ -29,4 +29,8 @@ abstract class UserRepository {
     required String username,
     bool trophies = false,
   });
+
+  Future<Either<Failure, List<RatingHistory>>> getRatingHistory(
+    String username,
+  );
 }
