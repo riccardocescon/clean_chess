@@ -45,6 +45,7 @@ void main() async {
   late MockMGetManyByIds mockGetManyByIds;
   late MockMGetLiveStreamers mockGetLiveStreamers;
   late MockMGetFollowingUsers mockGetFollowingUsers;
+  late MockMFollowUser mockFollowUser;
 
   late LichessBloc bloc;
 
@@ -79,6 +80,7 @@ void main() async {
     mockGetManyByIds = MockMGetManyByIds();
     mockGetLiveStreamers = MockMGetLiveStreamers();
     mockGetFollowingUsers = MockMGetFollowingUsers();
+    mockFollowUser = MockMFollowUser();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -111,6 +113,7 @@ void main() async {
       getManyByIds: mockGetManyByIds,
       getLiveStreamers: mockGetLiveStreamers,
       getFollowingUsers: mockGetFollowingUsers,
+      followUser: mockFollowUser,
     );
   });
 
@@ -1347,6 +1350,46 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockGetFollowingUsers.call(any)).called(1);
+        },
+      );
+    });
+
+    group('FollowUser', () {
+      blocTest(
+        'Success',
+        build: () {
+          when(mockFollowUser.call(any)).thenAnswer(
+            (_) async => const Right(true),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const FollowUserEvent(username: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<bool>>(),
+        ],
+        verify: (bloc) {
+          verify(mockFollowUser.call(any)).called(1);
+        },
+      );
+
+      blocTest(
+        'failure',
+        build: () {
+          when(mockFollowUser.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const FollowUserEvent(username: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockFollowUser.call(any)).called(1);
         },
       );
     });

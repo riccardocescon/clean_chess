@@ -48,6 +48,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetManyByIds getManyByIds;
   final GetLiveStreamers getLiveStreamers;
   final GetFollowingUsers getFollowingUsers;
+  final FollowUser followUser;
 
   LichessBloc({
     required this.tokenProvider,
@@ -80,6 +81,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getManyByIds,
     required this.getLiveStreamers,
     required this.getFollowingUsers,
+    required this.followUser,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -403,6 +405,17 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         user.fold(
           (failure) => emit(LichessError(failure)),
           (data) => emit(LichessLoaded<List<User>>(data)),
+        );
+      },
+    );
+    on<FollowUserEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final user = await followUser.call(event.username);
+
+        user.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<bool>(data)),
         );
       },
     );

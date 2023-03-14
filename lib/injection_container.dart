@@ -10,6 +10,7 @@ import 'package:cleanchess/features/clean_chess/data/repositories/lichess/liches
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/get_following_users.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
@@ -57,6 +58,7 @@ Future<void> init() async {
       getManyByIds: sl<GetManyByIds>(),
       getLiveStreamers: sl<GetLiveStreamers>(),
       getFollowingUsers: sl<GetFollowingUsers>(),
+      followUser: sl<FollowUser>(),
     ),
   );
 
@@ -140,6 +142,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => GetFollowingUsers(sl<LichessSocialRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => FollowUser(sl<LichessSocialRepository>()),
   );
 
   // Register repositories

@@ -169,3 +169,8 @@ class GetLiveStreamersEvent extends LichessEvent {
 class GetFollowingUsersEvent extends LichessEvent {
   const GetFollowingUsersEvent();
 }
+
+class FollowUserEvent extends LichessEvent {
+  final String username;
+  const FollowUserEvent({required this.username});
+}

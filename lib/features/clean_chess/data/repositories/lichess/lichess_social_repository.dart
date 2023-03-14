@@ -1,4 +1,5 @@
 import 'package:cleanchess/chess/error/failures.dart';
+import 'package:cleanchess/chess/utilities/utils.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_social_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_social_data_source.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/social_repository.dart';
@@ -13,4 +14,8 @@ class LichessSocialRepository implements SocialRepository {
   @override
   Future<Either<Failure, List<User>>> getFollowingUsers() =>
       socialDataSource.getFollowingUsers();
+
+  @override
+  Future<Either<Failure, bool>> followUser(String username) =>
+      socialDataSource.followUser(username);
 }

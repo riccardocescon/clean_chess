@@ -5,6 +5,7 @@ import 'package:cleanchess/chess/utilities/utils.dart';
 import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_logo.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_widget.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_public_data.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/search_users_by_term.dart';
@@ -115,6 +116,11 @@ class _LoginScreenState extends State<LoginScreen> {
               const GetFollowingUsersEvent(),
             );
           } else if (state is LichessLoaded<List<User>>) {
+            log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              const FollowUserEvent(username: 'alexrintt'),
+            );
+          } else if (state is LichessLoaded<bool>) {
             log(state.data.toString());
           } else if (state is LichessError) {
             showSnackbarError(context, state.failure);
