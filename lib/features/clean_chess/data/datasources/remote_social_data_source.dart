@@ -9,4 +9,7 @@ abstract class RemoteSocialDataSource {
 
   /// Api call for following a user
   Future<Either<Failure, bool>> followUser(String username);
+
+  /// Api call for unfollowing a user
+  Future<Either<Failure, bool>> unfollowUser(String username);
 }

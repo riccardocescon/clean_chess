@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
           } else if (state is LichessLoaded<List<User>>) {
             log(state.data.toString());
             BlocProvider.of<LichessBloc>(context).add(
-              const FollowUserEvent(username: 'alexrintt'),
+              const UnfollowUserEvent(username: 'alexrintt'),
             );
           } else if (state is LichessLoaded<bool>) {
             log(state.data.toString());

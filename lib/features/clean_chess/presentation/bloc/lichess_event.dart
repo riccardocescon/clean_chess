@@ -174,3 +174,8 @@ class FollowUserEvent extends LichessEvent {
   final String username;
   const FollowUserEvent({required this.username});
 }
+
+class UnfollowUserEvent extends LichessEvent {
+  final String username;
+  const UnfollowUserEvent({required this.username});
+}

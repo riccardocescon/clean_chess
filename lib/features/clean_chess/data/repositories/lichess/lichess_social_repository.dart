@@ -18,4 +18,8 @@ class LichessSocialRepository implements SocialRepository {
   @override
   Future<Either<Failure, bool>> followUser(String username) =>
       socialDataSource.followUser(username);
+
+  @override
+  Future<Either<Failure, bool>> unfollowUser(String username) =>
+      socialDataSource.unfollowUser(username);
 }

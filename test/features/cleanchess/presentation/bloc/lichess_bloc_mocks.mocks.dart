@@ -1436,3 +1436,46 @@ class MockMFollowUser extends _i1.Mock implements _i9.MFollowUser {
         )),
       ) as _i10.Future<_i3.Either<_i11.Failure, bool>>);
 }
+
+/// A class which mocks [MUnfollowUser].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMUnfollowUser extends _i1.Mock implements _i9.MUnfollowUser {
+  @override
+  _i8.SocialRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeSocialRepository_6(
+          this,
+          Invocation.getter(#repository),
+        ),
+        returnValueForMissingStub: _FakeSocialRepository_6(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i8.SocialRepository);
+  @override
+  _i10.Future<_i3.Either<_i11.Failure, bool>> call(String? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i10.Future<_i3.Either<_i11.Failure, bool>>.value(
+            _FakeEither_1<_i11.Failure, bool>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i10.Future<_i3.Either<_i11.Failure, bool>>.value(
+                _FakeEither_1<_i11.Failure, bool>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i10.Future<_i3.Either<_i11.Failure, bool>>);
+}

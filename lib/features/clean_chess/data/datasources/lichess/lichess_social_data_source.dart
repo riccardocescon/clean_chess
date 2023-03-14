@@ -42,4 +42,20 @@ class LichessSocialDataSource implements RemoteSocialDataSource {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }
   }
+
+  /// Api call for unfollowing a user
+  @override
+  Future<Either<Failure, bool>> unfollowUser(String username) async {
+    try {
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      await client.social.unfollowUser(username: username);
+
+      return const Right(true);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
 }

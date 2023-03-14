@@ -7,4 +7,6 @@ abstract class SocialRepository {
   Future<Either<Failure, List<User>>> getFollowingUsers();
 
   Future<Either<Failure, bool>> followUser(String username);
+
+  Future<Either<Failure, bool>> unfollowUser(String username);
 }

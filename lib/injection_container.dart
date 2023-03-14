@@ -59,6 +59,7 @@ Future<void> init() async {
       getLiveStreamers: sl<GetLiveStreamers>(),
       getFollowingUsers: sl<GetFollowingUsers>(),
       followUser: sl<FollowUser>(),
+      unfollowUser: sl<UnfollowUser>(),
     ),
   );
 
@@ -145,6 +146,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => FollowUser(sl<LichessSocialRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => UnfollowUser(sl<LichessSocialRepository>()),
   );
 
   // Register repositories

@@ -67,6 +67,8 @@ class MGetFollowingUsers extends Mock implements GetFollowingUsers {}
 
 class MFollowUser extends Mock implements FollowUser {}
 
+class MUnfollowUser extends Mock implements UnfollowUser {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessGainAccessToken>(),
@@ -98,5 +100,6 @@ class MFollowUser extends Mock implements FollowUser {}
   MockSpec<MGetLiveStreamers>(),
   MockSpec<MGetFollowingUsers>(),
   MockSpec<MFollowUser>(),
+  MockSpec<MUnfollowUser>(),
 ])
 void main() {}
