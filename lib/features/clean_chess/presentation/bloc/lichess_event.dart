@@ -165,3 +165,7 @@ class GetManyByIdsEvent extends LichessEvent {
 class GetLiveStreamersEvent extends LichessEvent {
   const GetLiveStreamersEvent();
 }
+
+class GetFollowingUsersEvent extends LichessEvent {
+  const GetFollowingUsersEvent();
+}

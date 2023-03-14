@@ -44,6 +44,7 @@ void main() async {
   late MockMGetRatingHistory mockGetRatingHistory;
   late MockMGetManyByIds mockGetManyByIds;
   late MockMGetLiveStreamers mockGetLiveStreamers;
+  late MockMGetFollowingUsers mockGetFollowingUsers;
 
   late LichessBloc bloc;
 
@@ -77,6 +78,7 @@ void main() async {
     mockGetRatingHistory = MockMGetRatingHistory();
     mockGetManyByIds = MockMGetManyByIds();
     mockGetLiveStreamers = MockMGetLiveStreamers();
+    mockGetFollowingUsers = MockMGetFollowingUsers();
 
     bloc = LichessBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -108,6 +110,7 @@ void main() async {
       getRatingHistory: mockGetRatingHistory,
       getManyByIds: mockGetManyByIds,
       getLiveStreamers: mockGetLiveStreamers,
+      getFollowingUsers: mockGetFollowingUsers,
     );
   });
 
@@ -1305,6 +1308,45 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockGetLiveStreamers.call(any)).called(1);
+        },
+      );
+    });
+
+    group('GetFollowingUsers', () {
+      blocTest(
+        'Success',
+        build: () {
+          when(mockGetFollowingUsers.call(any)).thenAnswer(
+            (_) async => const Right(<User>[]),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetFollowingUsersEvent()),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<List<User>>>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetFollowingUsers.call(any)).called(1);
+        },
+      );
+      blocTest(
+        'Failure',
+        build: () {
+          when(mockGetFollowingUsers.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetFollowingUsersEvent()),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetFollowingUsers.call(any)).called(1);
         },
       );
     });

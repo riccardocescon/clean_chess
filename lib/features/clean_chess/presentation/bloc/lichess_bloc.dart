@@ -8,6 +8,7 @@ import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
@@ -46,6 +47,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetRatingHistory getRatingHistory;
   final GetManyByIds getManyByIds;
   final GetLiveStreamers getLiveStreamers;
+  final GetFollowingUsers getFollowingUsers;
 
   LichessBloc({
     required this.tokenProvider,
@@ -77,6 +79,7 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getRatingHistory,
     required this.getManyByIds,
     required this.getLiveStreamers,
+    required this.getFollowingUsers,
   }) : super(LichessInitial()) {
     on<LichessOAuthEvent>(_oauthProcedure);
     on<GetMyProfileEvent>((event, emit) async {
@@ -387,6 +390,17 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         final users = await getLiveStreamers.call(NoParams());
 
         users.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<User>>(data)),
+        );
+      },
+    );
+    on<GetFollowingUsersEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final user = await getFollowingUsers.call(NoParams());
+
+        user.fold(
           (failure) => emit(LichessError(failure)),
           (data) => emit(LichessLoaded<List<User>>(data)),
         );

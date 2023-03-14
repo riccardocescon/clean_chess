@@ -1,12 +1,15 @@
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_account_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_oauth_data_source.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_social_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_team_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_user_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_account_repository.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_social_repository.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_user_repository.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/socials/get_following_users.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
@@ -53,6 +56,7 @@ Future<void> init() async {
       getRatingHistory: sl<GetRatingHistory>(),
       getManyByIds: sl<GetManyByIds>(),
       getLiveStreamers: sl<GetLiveStreamers>(),
+      getFollowingUsers: sl<GetFollowingUsers>(),
     ),
   );
 
@@ -134,6 +138,9 @@ Future<void> init() async {
   sl.registerLazySingleton(
     () => GetLiveStreamers(sl<LichessUserRepository>()),
   );
+  sl.registerLazySingleton(
+    () => GetFollowingUsers(sl<LichessSocialRepository>()),
+  );
 
   // Register repositories
   sl.registerLazySingleton<LichessOAuthRepository>(
@@ -156,6 +163,11 @@ Future<void> init() async {
       dataSource: sl<LichessUserDataSource>(),
     ),
   );
+  sl.registerLazySingleton<LichessSocialRepository>(
+    () => LichessSocialRepository(
+      socialDataSource: sl<LichessSocialDataSource>(),
+    ),
+  );
 
   // Register data sources
   sl.registerLazySingleton<LichessOAuthDataSource>(
@@ -169,5 +181,8 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<LichessUserDataSource>(
     () => LichessUserDataSource(sl<LichessTokenProvider>()),
+  );
+  sl.registerLazySingleton<LichessSocialDataSource>(
+    () => LichessSocialDataSource(sl<LichessTokenProvider>()),
   );
 }

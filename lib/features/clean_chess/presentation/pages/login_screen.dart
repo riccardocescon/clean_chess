@@ -112,43 +112,10 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is LichessOAuthSuccess) {
             // Get user profile
             BlocProvider.of<LichessBloc>(context).add(
-              const SearchUsersByTermEvent(
-                term: 'alexr',
-                friend: false,
-              ),
+              const GetFollowingUsersEvent(),
             );
           } else if (state is LichessLoaded<List<User>>) {
             log(state.data.toString());
-            if (isLeaderboard) {
-            } else {
-              user = state.data.first;
-              BlocProvider.of<LichessBloc>(context).add(
-                const SearchUsernamesByTermEvent(term: 'alexr', friend: false),
-              );
-            }
-          } else if (state is LichessLoaded<List<String>>) {
-            log(state.data.toString());
-            BlocProvider.of<LichessBloc>(context).add(
-              GetRealtimeStatusEvent(ids: [user.id!], withGameIds: true),
-            );
-          } else if (state is LichessLoaded<List<RealTimeUserStatus>>) {
-            log(state.data.toString());
-            BlocProvider.of<LichessBloc>(context).add(
-              const GetPublicDataEvent(
-                username: 'riccardocescon',
-              ),
-            );
-          } else if (state is LichessLoaded<User>) {
-            log(state.data.toString());
-            BlocProvider.of<LichessBloc>(context).add(
-              const GetRatingHistoryEvent(username: 'riccardocescon'),
-            );
-          } else if (state is LichessLoaded<List<RatingHistory>>) {
-            log(state.data.toString());
-            isLeaderboard = true;
-            BlocProvider.of<LichessBloc>(context).add(
-              const GetLiveStreamersEvent(),
-            );
           } else if (state is LichessError) {
             showSnackbarError(context, state.failure);
           }
@@ -218,5 +185,29 @@ class _LoginScreenState extends State<LoginScreen> {
             isKickRequest = true;
           } else if (state is LichessLoaded<PageOf<Team>>) {
             log(state.data.toString());
+            
+             } else if (state is LichessLoaded<List<String>>) {
+            log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              GetRealtimeStatusEvent(ids: [user.id!], withGameIds: true),
+            );
+          } else if (state is LichessLoaded<List<RealTimeUserStatus>>) {
+            log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetPublicDataEvent(
+                username: 'riccardocescon',
+              ),
+            );
+          } else if (state is LichessLoaded<User>) {
+            log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetRatingHistoryEvent(username: 'riccardocescon'),
+            );
+          } else if (state is LichessLoaded<List<RatingHistory>>) {
+            log(state.data.toString());
+            isLeaderboard = true;
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetLiveStreamersEvent(),
+            );
             */
 }
