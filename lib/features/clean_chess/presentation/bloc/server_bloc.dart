@@ -8,23 +8,32 @@ import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class LichessBloc extends Bloc<LichessEvent, LichessState> {
+class ServerBloc extends Bloc<ServerEvent, ServerState> {
   final LichessTokenProvider tokenProvider;
 
+  //#region OAuth UseCases
   final LichessOAuth oauth;
+  //#endregion
+
+  //#region Account UseCases
   final LichessGainAccessToken gainAccessToken;
   final GetMyProfile getMyProfile;
   final GetMyEmail getMyEmail;
   final GetMyKidModeStatus getMyKidModeStatus;
   final SetMyKidModeStatus setMyKidModeStatus;
   final GetMyPreferences getMyPreferences;
+  //#endregion
+
+  //#region Teams UseCases
   final GetTeamsByUser getTeamsByUser;
   final GetTeamById getTeamById;
   final GetTeamMembers getTeamMembers;
@@ -37,6 +46,9 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final MessageAllMembers messageAllMembers;
   final SearchTeamByName searchTeamByName;
   final GetPopularTeams searchPopularTeams;
+  //#endregion
+
+  //#region User UseCases
   final SearchUserByTerm searchUsersByTerm;
   final SearchUsernamesByTerm getUsernamesByTerm;
   final GetRealtimeStatus getRealtimeStatus;
@@ -46,8 +58,15 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetRatingHistory getRatingHistory;
   final GetManyByIds getManyByIds;
   final GetLiveStreamers getLiveStreamers;
+  //#endregion
 
-  LichessBloc({
+  //#region Socials UseCases
+  final GetFollowingUsers getFollowingUsers;
+  final FollowUser followUser;
+  final UnfollowUser unfollowUser;
+  //#endregion
+
+  ServerBloc({
     required this.tokenProvider,
     required this.oauth,
     required this.gainAccessToken,
@@ -77,8 +96,15 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.getRatingHistory,
     required this.getManyByIds,
     required this.getLiveStreamers,
+    required this.getFollowingUsers,
+    required this.followUser,
+    required this.unfollowUser,
   }) : super(LichessInitial()) {
+    //#region OAuth Events
     on<LichessOAuthEvent>(_oauthProcedure);
+    //#endregion
+
+    //#region Account Events
     on<GetMyProfileEvent>((event, emit) async {
       emit(LichessLoading());
       final user = await getMyProfile.call(NoParams());
@@ -124,6 +150,9 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         (preferences) => emit(LichessLoaded<UserPreferences>(preferences)),
       );
     });
+    //#endregion
+
+    //#region Teams Events
     on<GetTeamsByUserIdEvent>((event, emit) async {
       emit(LichessLoading());
       final teams = await getTeamsByUser.call(event.userId);
@@ -268,6 +297,9 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         (data) => emit(LichessLoaded<PageOf<Team>>(data)),
       );
     });
+    //#endregion
+
+    //#region User Events
     on<SearchUsersByTermEvent>(
       (event, emit) async {
         emit(LichessLoading());
@@ -392,11 +424,48 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         );
       },
     );
+    //#endregion
+
+    //#region Social Events
+    on<GetFollowingUsersEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final user = await getFollowingUsers.call(NoParams());
+
+        user.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<List<User>>(data)),
+        );
+      },
+    );
+    on<FollowUserEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final user = await followUser.call(event.username);
+
+        user.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<bool>(data)),
+        );
+      },
+    );
+    on<UnfollowUserEvent>(
+      (event, emit) async {
+        emit(LichessLoading());
+        final user = await unfollowUser.call(event.username);
+
+        user.fold(
+          (failure) => emit(LichessError(failure)),
+          (data) => emit(LichessLoaded<bool>(data)),
+        );
+      },
+    );
+    //#endregion
   }
 
   void _oauthProcedure(
     LichessOAuthEvent event,
-    Emitter<LichessState> emit,
+    Emitter<ServerState> emit,
   ) async {
     emit(LichessLoading());
 

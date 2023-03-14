@@ -5,12 +5,14 @@ import 'package:cleanchess/chess/utilities/utils.dart';
 import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_logo.dart';
 import 'package:cleanchess/core/presentation/widgets/scale_animated_widget.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_public_data.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/search_users_by_term.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/login_screen_chessboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
               width: 200,
               height: 60,
               child: MaterialButton(
-                onPressed: () => BlocProvider.of<LichessBloc>(context).add(
+                onPressed: () => BlocProvider.of<ServerBloc>(context).add(
                   const LichessOAuthEvent(),
                 ),
                 color: Colors.teal.shade300,
@@ -87,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Column(
               children: [
                 LoginScreenChessboard(
-                  onOAuthStart: () => BlocProvider.of<LichessBloc>(context).add(
+                  onOAuthStart: () => BlocProvider.of<ServerBloc>(context).add(
                     const LichessOAuthEvent(),
                   ),
                 ),
@@ -107,48 +109,20 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLeaderboard = false;
 
   Widget _listener({required Widget child}) =>
-      BlocListener<LichessBloc, LichessState>(
+      BlocListener<ServerBloc, ServerState>(
         listener: (context, state) {
           if (state is LichessOAuthSuccess) {
             // Get user profile
-            BlocProvider.of<LichessBloc>(context).add(
-              const SearchUsersByTermEvent(
-                term: 'alexr',
-                friend: false,
-              ),
+            BlocProvider.of<ServerBloc>(context).add(
+              const GetFollowingUsersEvent(),
             );
           } else if (state is LichessLoaded<List<User>>) {
             log(state.data.toString());
-            if (isLeaderboard) {
-            } else {
-              user = state.data.first;
-              BlocProvider.of<LichessBloc>(context).add(
-                const SearchUsernamesByTermEvent(term: 'alexr', friend: false),
-              );
-            }
-          } else if (state is LichessLoaded<List<String>>) {
-            log(state.data.toString());
-            BlocProvider.of<LichessBloc>(context).add(
-              GetRealtimeStatusEvent(ids: [user.id!], withGameIds: true),
+            BlocProvider.of<ServerBloc>(context).add(
+              const UnfollowUserEvent(username: 'alexrintt'),
             );
-          } else if (state is LichessLoaded<List<RealTimeUserStatus>>) {
+          } else if (state is LichessLoaded<bool>) {
             log(state.data.toString());
-            BlocProvider.of<LichessBloc>(context).add(
-              const GetPublicDataEvent(
-                username: 'riccardocescon',
-              ),
-            );
-          } else if (state is LichessLoaded<User>) {
-            log(state.data.toString());
-            BlocProvider.of<LichessBloc>(context).add(
-              const GetRatingHistoryEvent(username: 'riccardocescon'),
-            );
-          } else if (state is LichessLoaded<List<RatingHistory>>) {
-            log(state.data.toString());
-            isLeaderboard = true;
-            BlocProvider.of<LichessBloc>(context).add(
-              const GetLiveStreamersEvent(),
-            );
           } else if (state is LichessError) {
             showSnackbarError(context, state.failure);
           }
@@ -218,5 +192,29 @@ class _LoginScreenState extends State<LoginScreen> {
             isKickRequest = true;
           } else if (state is LichessLoaded<PageOf<Team>>) {
             log(state.data.toString());
+            
+             } else if (state is LichessLoaded<List<String>>) {
+            log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              GetRealtimeStatusEvent(ids: [user.id!], withGameIds: true),
+            );
+          } else if (state is LichessLoaded<List<RealTimeUserStatus>>) {
+            log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetPublicDataEvent(
+                username: 'riccardocescon',
+              ),
+            );
+          } else if (state is LichessLoaded<User>) {
+            log(state.data.toString());
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetRatingHistoryEvent(username: 'riccardocescon'),
+            );
+          } else if (state is LichessLoaded<List<RatingHistory>>) {
+            log(state.data.toString());
+            isLeaderboard = true;
+            BlocProvider.of<LichessBloc>(context).add(
+              const GetLiveStreamersEvent(),
+            );
             */
 }

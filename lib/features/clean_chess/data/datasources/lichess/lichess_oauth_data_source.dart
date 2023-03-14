@@ -29,6 +29,8 @@ class LichessOAuthDataSource implements RemoteOAuthDataSource {
         'team:read',
         'team:write',
         'team:lead',
+        'follow:read',
+        'follow:write',
       ],
       state: stateVerifier,
     );

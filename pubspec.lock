@@ -484,10 +484,10 @@ packages:
     dependency: "direct main"
     description:
       name: lichess_client_dio
-      sha256: badb01088c97fe37714d0128d36b46d3462bdd967af8855ca3a9ffb482361f6c
+      sha256: def6898804918fcd66514775739e07ab12c8bc6c45992f3215c142e7c2eb1973
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.2"
+    version: "0.0.3"
   lints:
     dependency: transitive
     description:

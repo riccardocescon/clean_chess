@@ -1,8 +1,9 @@
 import 'package:cleanchess/chess/error/failures.dart';
 import 'package:cleanchess/chess/utilities/utils.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
@@ -44,8 +45,11 @@ void main() async {
   late MockMGetRatingHistory mockGetRatingHistory;
   late MockMGetManyByIds mockGetManyByIds;
   late MockMGetLiveStreamers mockGetLiveStreamers;
+  late MockMGetFollowingUsers mockGetFollowingUsers;
+  late MockMFollowUser mockFollowUser;
+  late MockMUnfollowUser mockUnfollowUser;
 
-  late LichessBloc bloc;
+  late ServerBloc bloc;
 
   setUp(() {
     mockLichessTokenProvider = MockMLichessTokenProvider();
@@ -77,8 +81,11 @@ void main() async {
     mockGetRatingHistory = MockMGetRatingHistory();
     mockGetManyByIds = MockMGetManyByIds();
     mockGetLiveStreamers = MockMGetLiveStreamers();
+    mockGetFollowingUsers = MockMGetFollowingUsers();
+    mockFollowUser = MockMFollowUser();
+    mockUnfollowUser = MockMUnfollowUser();
 
-    bloc = LichessBloc(
+    bloc = ServerBloc(
       tokenProvider: mockLichessTokenProvider,
       oauth: mockLichessOAuth,
       gainAccessToken: mockLichessGainAccessToken,
@@ -108,12 +115,15 @@ void main() async {
       getRatingHistory: mockGetRatingHistory,
       getManyByIds: mockGetManyByIds,
       getLiveStreamers: mockGetLiveStreamers,
+      getFollowingUsers: mockGetFollowingUsers,
+      followUser: mockFollowUser,
+      unfollowUser: mockUnfollowUser,
     );
   });
 
   group('OAuth', () {
     group('LichessOAuthEvent', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockLichessOAuth.call(any)).thenAnswer(
@@ -145,7 +155,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure on OAuth',
         build: () {
           when(mockLichessOAuth.call(any)).thenAnswer(
@@ -166,7 +176,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure on GainAccessToken',
         build: () {
           when(mockLichessOAuth.call(any)).thenAnswer(
@@ -196,7 +206,7 @@ void main() async {
     });
 
     group('GetMyProfile', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockGetMyProfile.call(any)).thenAnswer(
@@ -215,7 +225,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockGetMyProfile.call(any)).thenAnswer(
@@ -238,7 +248,7 @@ void main() async {
 
   group('Account', () {
     group('GetMyEmail', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockGetMyEmail.call(any)).thenAnswer(
@@ -257,7 +267,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockGetMyEmail.call(any)).thenAnswer(
@@ -278,7 +288,7 @@ void main() async {
     });
 
     group('GetMyKidModeStatus', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockGetMyKidModeStatus.call(any)).thenAnswer(
@@ -297,7 +307,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockGetMyKidModeStatus.call(any)).thenAnswer(
@@ -318,7 +328,7 @@ void main() async {
     });
 
     group('SetMyKidModeStatusEvent', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockSetMyKidModeStatus.call(any)).thenAnswer(
@@ -337,7 +347,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockSetMyKidModeStatus.call(any)).thenAnswer(
@@ -358,7 +368,7 @@ void main() async {
     });
 
     group('GetMyPreferences', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockGetMyPreferences.call(any)).thenAnswer(
@@ -377,7 +387,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockGetMyPreferences.call(any)).thenAnswer(
@@ -400,7 +410,7 @@ void main() async {
 
   group('Teams', () {
     group('GetTeamsByUserEvent', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockGetTeamsByUser.call(any)).thenAnswer(
@@ -419,7 +429,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockGetTeamsByUser.call(any)).thenAnswer(
@@ -440,7 +450,7 @@ void main() async {
     });
 
     group('GetTeamById', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockGetTeamById.call(any)).thenAnswer(
@@ -459,7 +469,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockGetTeamById.call(any)).thenAnswer(
@@ -480,7 +490,7 @@ void main() async {
     });
 
     group('GetTeamMembers', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockGetTeamMembers.call(any)).thenAnswer(
@@ -499,7 +509,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockGetTeamMembers.call(any)).thenAnswer(
@@ -520,7 +530,7 @@ void main() async {
     });
 
     group('GetTeamJoinRequests', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockGetTeamJoinRequests.call(any)).thenAnswer(
@@ -539,7 +549,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockGetTeamJoinRequests.call(any)).thenAnswer(
@@ -560,7 +570,7 @@ void main() async {
     });
 
     group('AcceptJoinRequest', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockAcceptJoinRequest.call(any)).thenAnswer(
@@ -584,7 +594,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockAcceptJoinRequest.call(any)).thenAnswer(
@@ -608,7 +618,7 @@ void main() async {
     });
 
     group('KickMemberFromTeam', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockKickMemberFromTeam.call(any)).thenAnswer(
@@ -632,7 +642,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockKickMemberFromTeam.call(any)).thenAnswer(
@@ -656,7 +666,7 @@ void main() async {
     });
 
     group('DeclineJoinRequest', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockDeclineJoinRequest.call(any)).thenAnswer(
@@ -680,7 +690,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockDeclineJoinRequest.call(any)).thenAnswer(
@@ -704,7 +714,7 @@ void main() async {
     });
 
     group('JoinTeam', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockJoinTeam.call(any)).thenAnswer(
@@ -727,7 +737,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockJoinTeam.call(any)).thenAnswer(
@@ -750,7 +760,7 @@ void main() async {
     });
 
     group('LeaveTeam', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockLeaveTeam.call(any)).thenAnswer(
@@ -773,7 +783,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockLeaveTeam.call(any)).thenAnswer(
@@ -796,7 +806,7 @@ void main() async {
     });
 
     group('MessageAllMembers', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockMessageAllMembers.call(any)).thenAnswer(
@@ -820,7 +830,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockMessageAllMembers.call(any)).thenAnswer(
@@ -844,7 +854,7 @@ void main() async {
     });
 
     group('SearchTeamByName', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockSearchTeamByName.call(any)).thenAnswer(
@@ -865,7 +875,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockSearchTeamByName.call(any)).thenAnswer(
@@ -886,7 +896,7 @@ void main() async {
     });
 
     group('GetPopularTeams', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockGetPopularTeams.call(any)).thenAnswer(
@@ -905,7 +915,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockGetPopularTeams.call(any)).thenAnswer(
@@ -928,7 +938,7 @@ void main() async {
 
   group('Users', () {
     group('GetUsersByTerm', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockSearchUsersByTerm.call(any)).thenAnswer(
@@ -951,7 +961,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockSearchUsersByTerm.call(any)).thenAnswer(
@@ -974,7 +984,7 @@ void main() async {
     });
 
     group('GetUsernamesByTerm', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockSearchUsernamesByTerm.call(any)).thenAnswer(
@@ -997,7 +1007,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockSearchUsernamesByTerm.call(any)).thenAnswer(
@@ -1020,7 +1030,7 @@ void main() async {
     });
 
     group('GetRealtimeStatus', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockGetRealtimeStatus.call(any)).thenAnswer(
@@ -1043,7 +1053,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockGetRealtimeStatus.call(any)).thenAnswer(
@@ -1066,7 +1076,7 @@ void main() async {
     });
 
     group('GetTop10Players', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockGetTop10Players.call(any)).thenAnswer(
@@ -1087,7 +1097,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockGetTop10Players.call(any)).thenAnswer(
@@ -1108,7 +1118,7 @@ void main() async {
     });
 
     group('GetChessVariantLeaderboard', () {
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
           when(mockGetChessVariantLeaderboard.call(any)).thenAnswer(
@@ -1131,7 +1141,7 @@ void main() async {
         },
       );
 
-      blocTest<LichessBloc, LichessState>(
+      blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
           when(mockGetChessVariantLeaderboard.call(any)).thenAnswer(
@@ -1305,6 +1315,125 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockGetLiveStreamers.call(any)).called(1);
+        },
+      );
+    });
+
+    group('GetFollowingUsers', () {
+      blocTest(
+        'Success',
+        build: () {
+          when(mockGetFollowingUsers.call(any)).thenAnswer(
+            (_) async => const Right(<User>[]),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetFollowingUsersEvent()),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<List<User>>>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetFollowingUsers.call(any)).called(1);
+        },
+      );
+      blocTest(
+        'Failure',
+        build: () {
+          when(mockGetFollowingUsers.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetFollowingUsersEvent()),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockGetFollowingUsers.call(any)).called(1);
+        },
+      );
+    });
+
+    group('FollowUser', () {
+      blocTest(
+        'Success',
+        build: () {
+          when(mockFollowUser.call(any)).thenAnswer(
+            (_) async => const Right(true),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const FollowUserEvent(username: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<bool>>(),
+        ],
+        verify: (bloc) {
+          verify(mockFollowUser.call(any)).called(1);
+        },
+      );
+
+      blocTest(
+        'failure',
+        build: () {
+          when(mockFollowUser.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const FollowUserEvent(username: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockFollowUser.call(any)).called(1);
+        },
+      );
+    });
+
+    group('UnfollowUser', () {
+      blocTest(
+        'Success',
+        build: () {
+          when(mockUnfollowUser.call(any)).thenAnswer(
+            (_) async => const Right(true),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const UnfollowUserEvent(username: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessLoaded<bool>>(),
+        ],
+        verify: (bloc) {
+          verify(mockUnfollowUser.call(any)).called(1);
+        },
+      );
+
+      blocTest(
+        'failure',
+        build: () {
+          when(mockUnfollowUser.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('OAuth failure')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const UnfollowUserEvent(username: '')),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockUnfollowUser.call(any)).called(1);
         },
       );
     });
