@@ -11,21 +11,29 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/li
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class LichessBloc extends Bloc<LichessEvent, LichessState> {
+class ServerBloc extends Bloc<ServerEvent, ServerState> {
   final LichessTokenProvider tokenProvider;
 
+  //#region OAuth UseCases
   final LichessOAuth oauth;
+  //#endregion
+
+  //#region Account UseCases
   final LichessGainAccessToken gainAccessToken;
   final GetMyProfile getMyProfile;
   final GetMyEmail getMyEmail;
   final GetMyKidModeStatus getMyKidModeStatus;
   final SetMyKidModeStatus setMyKidModeStatus;
   final GetMyPreferences getMyPreferences;
+  //#endregion
+
+  //#region Teams UseCases
   final GetTeamsByUser getTeamsByUser;
   final GetTeamById getTeamById;
   final GetTeamMembers getTeamMembers;
@@ -38,6 +46,9 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final MessageAllMembers messageAllMembers;
   final SearchTeamByName searchTeamByName;
   final GetPopularTeams searchPopularTeams;
+  //#endregion
+
+  //#region User UseCases
   final SearchUserByTerm searchUsersByTerm;
   final SearchUsernamesByTerm getUsernamesByTerm;
   final GetRealtimeStatus getRealtimeStatus;
@@ -47,11 +58,15 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
   final GetRatingHistory getRatingHistory;
   final GetManyByIds getManyByIds;
   final GetLiveStreamers getLiveStreamers;
+  //#endregion
+
+  //#region Socials UseCases
   final GetFollowingUsers getFollowingUsers;
   final FollowUser followUser;
   final UnfollowUser unfollowUser;
+  //#endregion
 
-  LichessBloc({
+  ServerBloc({
     required this.tokenProvider,
     required this.oauth,
     required this.gainAccessToken,
@@ -85,7 +100,11 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
     required this.followUser,
     required this.unfollowUser,
   }) : super(LichessInitial()) {
+    //#region OAuth Events
     on<LichessOAuthEvent>(_oauthProcedure);
+    //#endregion
+
+    //#region Account Events
     on<GetMyProfileEvent>((event, emit) async {
       emit(LichessLoading());
       final user = await getMyProfile.call(NoParams());
@@ -131,6 +150,9 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         (preferences) => emit(LichessLoaded<UserPreferences>(preferences)),
       );
     });
+    //#endregion
+
+    //#region Teams Events
     on<GetTeamsByUserIdEvent>((event, emit) async {
       emit(LichessLoading());
       final teams = await getTeamsByUser.call(event.userId);
@@ -275,6 +297,9 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         (data) => emit(LichessLoaded<PageOf<Team>>(data)),
       );
     });
+    //#endregion
+
+    //#region User Events
     on<SearchUsersByTermEvent>(
       (event, emit) async {
         emit(LichessLoading());
@@ -399,6 +424,9 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         );
       },
     );
+    //#endregion
+
+    //#region Social Events
     on<GetFollowingUsersEvent>(
       (event, emit) async {
         emit(LichessLoading());
@@ -432,11 +460,12 @@ class LichessBloc extends Bloc<LichessEvent, LichessState> {
         );
       },
     );
+    //#endregion
   }
 
   void _oauthProcedure(
     LichessOAuthEvent event,
-    Emitter<LichessState> emit,
+    Emitter<ServerState> emit,
   ) async {
     emit(LichessLoading());
 

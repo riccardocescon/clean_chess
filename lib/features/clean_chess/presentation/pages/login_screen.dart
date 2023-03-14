@@ -9,9 +9,10 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/get_public_data.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/search_users_by_term.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_event.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_state.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/login_screen_chessboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
               width: 200,
               height: 60,
               child: MaterialButton(
-                onPressed: () => BlocProvider.of<LichessBloc>(context).add(
+                onPressed: () => BlocProvider.of<ServerBloc>(context).add(
                   const LichessOAuthEvent(),
                 ),
                 color: Colors.teal.shade300,
@@ -88,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Column(
               children: [
                 LoginScreenChessboard(
-                  onOAuthStart: () => BlocProvider.of<LichessBloc>(context).add(
+                  onOAuthStart: () => BlocProvider.of<ServerBloc>(context).add(
                     const LichessOAuthEvent(),
                   ),
                 ),
@@ -108,16 +109,16 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLeaderboard = false;
 
   Widget _listener({required Widget child}) =>
-      BlocListener<LichessBloc, LichessState>(
+      BlocListener<ServerBloc, ServerState>(
         listener: (context, state) {
           if (state is LichessOAuthSuccess) {
             // Get user profile
-            BlocProvider.of<LichessBloc>(context).add(
+            BlocProvider.of<ServerBloc>(context).add(
               const GetFollowingUsersEvent(),
             );
           } else if (state is LichessLoaded<List<User>>) {
             log(state.data.toString());
-            BlocProvider.of<LichessBloc>(context).add(
+            BlocProvider.of<ServerBloc>(context).add(
               const UnfollowUserEvent(username: 'alexrintt'),
             );
           } else if (state is LichessLoaded<bool>) {

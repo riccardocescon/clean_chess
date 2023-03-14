@@ -13,7 +13,7 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/socials/get_foll
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/lichess_bloc.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import 'features/clean_chess/data/repositories/lichess/lichess_oauth_repository.dart';
@@ -27,7 +27,7 @@ Future<void> init() async {
 
   // Register bloc
   sl.registerLazySingleton(
-    () => LichessBloc(
+    () => ServerBloc(
       tokenProvider: sl<LichessTokenProvider>(),
       oauth: sl<LichessOAuth>(),
       gainAccessToken: sl<LichessGainAccessToken>(),
