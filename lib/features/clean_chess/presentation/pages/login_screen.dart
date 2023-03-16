@@ -20,12 +20,13 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF111111),
-      body: _listener(child: _body()),
+      body: _buildServerBlocListener(
+        child: _buildScaffoldBody(),
+      ),
     );
   }
 
-  Widget _body() => SizedBox(
+  Widget _buildScaffoldBody() => SizedBox(
         width: double.maxFinite,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const AnimatedLinedBoard(),
             const SizedBox(height: 60),
             _lichessLoginButton(),
-            _continueAsGuestButton(),
+            _buildContinueAsGuestButton(),
           ],
         ),
       );
@@ -41,63 +42,47 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _lichessLoginButton() => SizedBox(
         width: _buttonSize.width,
         height: _buttonSize.height,
-        child: MaterialButton(
-          onPressed: () => BlocProvider.of<ServerBloc>(context).add(
-            const LichessOAuthEvent(),
+        child: ElevatedButton.icon(
+          onPressed: () {
+            BlocProvider.of<ServerBloc>(context).add(
+              const LichessOAuthEvent(),
+            );
+          },
+          icon: Image.asset(
+            'assets/img/lichess_logo.png',
+            color: Colors.black,
+            width: 30,
           ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          color: Colors.white,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/img/lichess_logo.png',
-                color: Colors.black,
-                width: 30,
-              ),
-              const SizedBox(width: 20),
-              const Text(
-                'Login with Lichess',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
+          label: const Text('Login with Lichess'),
         ),
       );
 
-  Widget _continueAsGuestButton() => GestureDetector(
+  Widget _buildContinueAsGuestButton() => GestureDetector(
         onTap: () {},
         child: SizedBox(
           width: _buttonSize.width,
           height: _buttonSize.height,
-          child: Center(
+          child: const Center(
             child: Text(
               'Continue as guest',
-              style: TextStyle(
-                color: Colors.white.withAlpha(170),
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-              ),
               textAlign: TextAlign.center,
             ),
           ),
         ),
       );
 
-  Widget _listener({required Widget child}) =>
+  Widget _buildServerBlocListener({required Widget child}) =>
       BlocListener<ServerBloc, ServerState>(
         listener: (context, state) {
           if (state is LichessOAuthSuccess) {
             // Get user profile
-            Navigator.pushNamed(context, Navigation.homescreen);
+            if (context.mounted) {
+              Navigator.pushReplacementNamed(context, Navigation.homescreen);
+            }
           } else if (state is LichessError) {
-            showSnackbarError(context, state.failure);
+            if (context.mounted) {
+              showSnackbarError(context, state.failure);
+            }
           }
         },
         child: child,
