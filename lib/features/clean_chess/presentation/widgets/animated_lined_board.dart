@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shared_tools/extensions/extensions.dart';
 
 class AnimatedLinedBoard extends StatefulWidget {
   const AnimatedLinedBoard({super.key});
@@ -9,10 +10,10 @@ class AnimatedLinedBoard extends StatefulWidget {
 
 class _AnimatedLinedBoardState extends State<AnimatedLinedBoard>
     with TickerProviderStateMixin {
-  late final _boardSize = Size(
-    MediaQuery.of(context).size.width * 0.8,
-    MediaQuery.of(context).size.width * 0.8,
-  );
+  Size get _boardSize => Size(
+        MediaQuery.of(context).size.width * 0.8,
+        MediaQuery.of(context).size.width * 0.8,
+      );
 
   late final AnimationController _radiusController;
   late final Animation<double> _radiusTween;
@@ -21,7 +22,15 @@ class _AnimatedLinedBoardState extends State<AnimatedLinedBoard>
   late final Animation<int> _middleLineLightningTween;
 
   @override
+  void dispose() {
+    _radiusController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
+    super.initState();
+
     _radiusController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 5),
@@ -57,8 +66,6 @@ class _AnimatedLinedBoardState extends State<AnimatedLinedBoard>
         _radiusController.forward();
       }
     });
-
-    super.initState();
   }
 
   @override
@@ -70,8 +77,8 @@ class _AnimatedLinedBoardState extends State<AnimatedLinedBoard>
           builder: (context, child) => ShaderMask(
             shaderCallback: (rect) => RadialGradient(
               colors: [
-                Colors.white.withAlpha(_centerLineLightningTween.value),
-                Colors.white.withAlpha(_middleLineLightningTween.value),
+                context.primaryColor.withAlpha(_centerLineLightningTween.value),
+                context.primaryColor.withAlpha(_middleLineLightningTween.value),
                 Colors.transparent,
               ],
               radius: _radiusTween.value,
@@ -94,7 +101,7 @@ class _AnimatedLinedBoardState extends State<AnimatedLinedBoard>
                 9,
                 (index) => Container(
                   height: 1,
-                  color: Colors.white,
+                  color: context.primaryColor,
                 ),
               )
             ],
@@ -106,7 +113,7 @@ class _AnimatedLinedBoardState extends State<AnimatedLinedBoard>
                 9,
                 (index) => Container(
                   width: 1,
-                  color: Colors.white,
+                  color: context.primaryColor,
                 ),
               )
             ],
