@@ -16,7 +16,7 @@ By pulling this project you should notice 2 folders under the lib directory:
     |lib
     |--- core
     |--- features
-Inside the `features\clean_chess` folder you will se the 3 layers in which this app is built.
+Inside the `features\clean_chess` folder you will see the 3 layers in which this app is built.
 
  - Data
  - Domain
@@ -75,4 +75,4 @@ To write the tests we use:
 - mockit
 - test_block
 
-For an example of how to write a test you can take a cue from those concerning [Authorization](https://github.com/riccardocescon/clean_chess/blob/main/test/features/cleanchess/presentation/bloc/lichess_bloc_test.dart)
+For an example of how to write a test you can take a cue from those concerning [Authorization](https://github.com/riccardocescon/clean_chess/blob/main/test/features/cleanchess/presentation/bloc/lichess_bloc_mocks.dart)
