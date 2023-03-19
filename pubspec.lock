@@ -217,6 +217,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  dart_shared_tools:
+    dependency: transitive
+    description:
+      path: "."
+      ref: master
+      resolved-ref: e872e67b7aad6cff34b03284aea362c188e68a1b
+      url: "https://github.com/alexrintt/dart-shared-tools"
+    source: git
+    version: "0.1.0"
   dart_style:
     dependency: transitive
     description:
@@ -358,6 +367,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  flutter_shared_tools:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: "7c36ceceba9195af03a9a95647c2acf70d309046"
+      url: "https://github.com/alexrintt/flutter-shared-tools"
+    source: git
+    version: "0.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter

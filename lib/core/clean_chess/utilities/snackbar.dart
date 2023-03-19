@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 void showSnackbarError(
   BuildContext context,
   Failure failure, {
-  Duration duration = const Duration(milliseconds: 500),
+  Duration duration = const Duration(seconds: 2),
 }) {
   log(failure.message);
   showSnackbar(
