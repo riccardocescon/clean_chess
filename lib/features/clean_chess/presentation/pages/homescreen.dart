@@ -1,4 +1,16 @@
+import 'package:cleanchess/chess/core/utilities/assets.dart';
+import 'package:cleanchess/chess/core/utilities/navigation.dart';
+import 'package:cleanchess/core/clean_chess/presentation/widgets/diamond_bottom_bar.dart';
+import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.dart';
+import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'dart:math' as math;
+import 'package:http/http.dart' as http;
+import 'package:oauth2/oauth2.dart' as oauth2;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,398 +20,418 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final backgroundColor = const Color.fromARGB(225, 17, 17, 17);
-
-  ///
-  final String username = "Logos";
-  final String memberSince = "21 February 2021";
-  final int followerNum = 7721;
-  bool onlineStatus = true;
-  final String fullName = "Logos Ethos Pathos";
-  final String bio =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
-  final int timeplayed = 100;
-  final bool isFollowing = false;
-  final opponentName = "hardal";
-  final gameType = "3+2";
-  final userid = "logos";
-  final wonGames = 40;
-  final lostGames = 30;
-  final drawnGames = 30;
-
+  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: _appbar(),
+        extendBody: true,
+        backgroundColor: Colors.grey.shade900,
+        appBar: AppBar(
+          title: const Text(
+            'Clean Chess',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          centerTitle: true,
+        ),
+        bottomNavigationBar: DiamondBottomNavigation(
+          itemIcons: const [Icons.home_rounded, Icons.person_rounded],
+          centerIcon: Image.asset(
+            flatWhitePawn,
+            scale: 8,
+          ),
+          selectedIndex: _selectedIndex,
+          onItemPressed: (index) => setState(() {
+            _selectedIndex = index;
+          }),
+        ),
         body: _body(),
       ),
     );
   }
 
-  AppBar _appbar() {
-    return AppBar(
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-      shadowColor: Colors.transparent,
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.more_vert, size: 30),
-          onPressed: () {
-            //report && block
-          },
-        ),
-      ],
-      backgroundColor: backgroundColor,
-    );
-  }
+  // void _showSnackBar(String message) {
+  //   if (context.mounted) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text(message)),
+  //     );
+  //   }
+  // }
 
   Widget _body() {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: [
-        _about(
-            userid: userid,
-            username: username,
-            memberSince: memberSince,
-            followerNum: followerNum,
-            onlineStatus: onlineStatus),
-        _buttons(isFollowing: isFollowing),
-        _bio(fullName: fullName, bio: bio),
-        _ongoingGames(gameType: gameType, opponentName: opponentName),
-        _stats(
-            timeplayed: timeplayed,
-            wonGames: wonGames,
-            lostGames: lostGames,
-            drawnGames: drawnGames),
+    return CustomScrollView(
+      slivers: [
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              _topCards(),
+              const SizedBox(height: 10),
+              _middleCards(),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+        _bottomListView(),
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              // Make the bottom spacing part of the scrollable body to avoid
+              // cutting off the scrollview area.
+              const SizedBox(height: kToolbarHeight * 2),
+            ],
+          ),
+        ),
       ],
     );
   }
-}
 
-//Username, online status, member since, followers
-Widget _about({
-  required String username,
-  required String memberSince,
-  required int followerNum,
-  required bool onlineStatus,
-  required String userid,
-}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Padding(
-        padding: const EdgeInsets.only(left: 15, top: 30),
-        child: Text(
-          username,
-          style: const TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
+  //#region Top Cards
+  Widget _topCards() => SizedBox(
+        height: 200,
+        child: PageView.builder(
+          controller: PageController(
+            viewportFraction: 0.8,
           ),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(left: 15, bottom: 10),
-        child: Text(
-          "@$userid",
-          style: const TextStyle(
-            fontSize: 15,
-            color: Colors.grey,
-          ),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(left: 15),
-        child: Text(
-          onlineStatus ? "Online" : "Offline",
-          style: TextStyle(
-              color: onlineStatus ? Colors.green : Colors.red,
-              fontSize: 15,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
-      Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text("Member since: $memberSince"),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 65, right: 5),
-            child: Icon(Icons.people),
-          ),
-          Text(followerNum.toString()),
-        ],
-      )
-    ],
-  );
-}
-
-//Challenge and follow buttons
-Widget _buttons({required bool isFollowing}) {
-  return Row(
-    children: [
-      //Challenge button
-      Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.pink,
-            minimumSize: const Size(150, 35),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          onPressed: () {
-            //challenge
+          padEnds: false,
+          itemBuilder: (context, index) {
+            return Container(
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade800,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: _buildCards[index],
+            );
           },
-          child: const Row(
-            children: [
-              ImageIcon(
-                AssetImage("assets/icons/swords.png"),
+          itemCount: _buildCards.length,
+        ),
+      );
+
+  List<Widget> get _buildCards => [
+        _topCard(
+          title: 'Challenge a friend',
+          imageAsset: flatWhitePawn,
+          iconPath: 'assets/img/handshake.png',
+          small: true,
+          onTap: () {},
+        ),
+        _topCard(
+          title: 'Puzzle',
+          imageAsset: flatWhiteKnight,
+          iconPath: 'assets/img/idea.png',
+          onTap: () {
+            Navigator.pushNamed(context, Navigation.homepage);
+          },
+        ),
+      ];
+
+  Widget _topCard({
+    required String title,
+    required String imageAsset,
+    required String iconPath,
+    bool small = false,
+    required void Function() onTap,
+  }) =>
+      GestureDetector(
+        onTap: onTap,
+        child: Stack(
+          children: [
+            Positioned(
+              bottom: -15,
+              left: -15,
+              child: Transform.rotate(
+                angle: math.pi / 6,
+                child: Image.asset(
+                  imageAsset,
+                  scale: 3,
+                ),
+              ),
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Expanded(
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: GridView.count(
+                                crossAxisCount: 8,
+                                children: List.generate(
+                                  64,
+                                  (index) => Container(
+                                    decoration: BoxDecoration(
+                                      color: getCellColor(index),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade800,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                width: small ? null : 35,
+                                height: small ? null : 35,
+                                child: Image.asset(
+                                  iconPath,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+  //#endregion
+
+  //#region Middle Cards
+
+  Widget _middleCards() => SizedBox(
+        height: 140,
+        child: PageView.builder(
+          controller: PageController(
+            viewportFraction: 0.26,
+          ),
+          padEnds: false,
+          itemBuilder: (context, index) {
+            return Container(
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade800,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: _statCards[index],
+            );
+          },
+          itemCount: _statCards.length,
+        ),
+      );
+
+  List<Widget> get _statCards => [
+        _middleCard(
+          title: 'Rapid',
+          icon: Icon(
+            Icons.timer_outlined,
+            color: Colors.green.shade400,
+            size: 36,
+          ),
+          score: '+9999',
+          increase: '999',
+        ),
+        _middleCard(
+          title: 'Bullet',
+          icon: const Icon(
+            Icons.flash_on_rounded,
+            color: Colors.amber,
+            size: 36,
+          ),
+          score: '+9999',
+          increase: '999',
+        ),
+        _middleCard(
+          title: 'Lampo',
+          icon: Image.asset('assets/img/bullet.png', scale: 16),
+          score: '+9999',
+          increase: '999',
+        ),
+        _middleCard(
+          title: 'Daily',
+          icon: const Icon(
+            Icons.sunny,
+            color: Colors.yellow,
+            size: 36,
+          ),
+          score: '+9999',
+          increase: '999',
+        ),
+        _middleCard(
+          title: 'Puzzle',
+          icon: const Icon(
+            Icons.extension_rounded,
+            color: Colors.orange,
+            size: 36,
+          ),
+          score: '+9999',
+          increase: '999',
+        ),
+      ];
+
+  Widget _middleCard({
+    required String title,
+    required Widget icon,
+    required String score,
+    required String increase,
+  }) =>
+      Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
                 color: Colors.white,
-                size: 20,
-              ),
-              Text(" Challenge"),
-            ],
-          ),
-        ),
-      ),
-      //follow button
-      ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: isFollowing
-              ? Colors.green
-              : const Color.fromARGB(225, 27, 27, 27),
-          minimumSize: const Size(200, 35),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-        onPressed: () {
-          isFollowing = !isFollowing;
-          //follow
-        },
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 5),
-              child: Icon(
-                  isFollowing ? Icons.person_add : Icons.person_remove_alt_1),
-            ),
-            Text(isFollowing ? "Follow" : "Unfollow"),
-          ],
-        ),
-      ),
-    ],
-  );
-}
-
-//Fullname and bio
-Widget _bio({required String fullName, required String bio}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Padding(
-        padding: const EdgeInsets.only(left: 15, top: 10, bottom: 10),
-        child: Text(
-          fullName,
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-        child: Text(bio),
-      ),
-    ],
-  );
-}
-
-//Ongoing games
-Widget _ongoingGames({required String opponentName, required String gameType}) {
-  return Column(
-    children: [
-      const Padding(
-        padding: EdgeInsets.only(left: 15, top: 30),
-        child: Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: 5),
-              child: Icon(
-                Icons.circle,
-                color: Colors.green,
-                size: 10,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            Text("Ongoing Games",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ),
-      //Vertical Scrollable list of games
-      SizedBox(
-        height: 240,
-        child: Padding(
-          padding: const EdgeInsets.only(right: 20, left: 20, top: 10),
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              _chessboard(gameType: gameType, opponentName: opponentName),
-              _chessboard(gameType: gameType, opponentName: opponentName),
-              _chessboard(gameType: gameType, opponentName: opponentName),
-            ],
-          ),
-        ),
-      ),
-    ],
-  );
-}
-
-//Stats
-Widget _stats(
-    {required int timeplayed,
-    required int wonGames,
-    required int drawnGames,
-    required int lostGames}) {
-  return Column(
-    children: [
-      Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 15, top: 30),
-            child: Row(
+            icon,
+            Text(
+              score,
+              style: TextStyle(
+                color: Colors.green.shade400,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(right: 5),
-                  child: Icon(
-                    Icons.circle,
-                    color: Colors.blue,
-                    size: 10,
+                Icon(
+                  Icons.keyboard_double_arrow_up_rounded,
+                  color: Colors.green.shade400,
+                  size: 12,
+                ),
+                Text(
+                  increase,
+                  style: TextStyle(
+                    color: Colors.green.shade400,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
-                  "Stats",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
               ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 90),
-                  child: Text("Time played: $timeplayed hours"),
-                ),
-                Text(
-                  "$wonGames W / $drawnGames D / $lostGames L",
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-          //Scrollable list of stats
-          SizedBox(
-            height: 290,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20, left: 20, top: 10),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  _statsCard(
-                      gameMode: "Classical", elo: "1322", icon: Icons.timer),
-                  _statsCard(gameMode: "Rapid", elo: "2114", icon: Icons.timer),
-                  _statsCard(gameMode: "Blitz", elo: "954", icon: Icons.timer),
-                  _statsCard(
-                      gameMode: "Bullet", elo: "1533", icon: Icons.timer),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    ],
-  );
-}
-
-//Chessboards for ongoing games
-Widget _chessboard({required String opponentName, required String gameType}) {
-  return Padding(
-    padding: const EdgeInsets.only(right: 20),
-    child: Column(
-      children: [
-        Container(
-          height: 200,
-          width: 200,
-          color: Colors.amber,
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 7),
-          child: Text(
-            "$opponentName $gameType",
-            style: const TextStyle(fontSize: 15),
-          ),
-        ),
-      ],
-    ),
-  );
-}
+      );
 
-//Stats card for stats
-Widget _statsCard(
-    {required String gameMode, required String elo, required IconData icon}) {
-  return Column(
-    children: [
-      InkWell(
-        onTap: () {
-          //navigate to stats page
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(right: 12),
-          child: Container(
-            width: 200,
-            height: 230,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: const Color.fromARGB(125, 236, 64, 122),
-            ),
+  //#endregion
+
+  // #region Bottom ListView
+
+  Widget _bottomListView() => SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30, bottom: 15),
-                  child: Container(
-                    height: 100,
-                    width: 100,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color.fromARGB(225, 236, 64, 122),
+                Row(
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade800,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        width: 35,
+                        height: 35,
+                        child: Image.asset(
+                          'assets/img/idea.png',
+                        ),
+                      ),
                     ),
-                    child: Icon(
-                      icon,
-                      size: 60,
-                      color: Colors.black,
+                    const Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Username ',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              '(9999)',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                    Row(
+                      children: [
+                        Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            color: Colors.green.shade400,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Transform.rotate(
+                            angle: -math.pi / 2,
+                            child: Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 16,
+                              color: Colors.grey.shade900,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          '+999',
+                          style: TextStyle(
+                            color: Colors.green.shade400,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                Text(gameMode,
-                    style: const TextStyle(
-                        fontSize: 25, fontWeight: FontWeight.w500)),
-                Text(
-                  elo,
-                  style: const TextStyle(
-                      fontSize: 25, fontWeight: FontWeight.w500),
+                const SizedBox(height: 8),
+                const Divider(
+                  color: Colors.grey,
+                  height: 0,
                 ),
               ],
             ),
           ),
+          childCount: 8,
         ),
-      ),
-    ],
-  );
+      );
+
+  //#endregion
 }
