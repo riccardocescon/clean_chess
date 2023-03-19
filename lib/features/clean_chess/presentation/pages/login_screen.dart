@@ -72,7 +72,9 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
   Widget _continueAsGuestButton() => GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, Navigation.homescreen);
+        },
         child: SizedBox(
           width: _buttonSize.width,
           height: _buttonSize.height,
