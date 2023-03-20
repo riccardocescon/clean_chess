@@ -13,19 +13,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ///
   final String username = "Logos";
   final String memberSince = "21 February 2021";
-  final int followerNum = 7721;
+  int followerNum = 7721;
   bool onlineStatus = true;
   final String fullName = "Logos Ethos Pathos";
   final String bio =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
   final int timeplayed = 100;
   bool isFollowing = false;
-  final opponentName = "hardal";
-  final gameType = "3+2";
   final userid = "logos";
   final wonGames = 40;
   final lostGames = 30;
   final drawnGames = 30;
+  final List<Widget> dropDownMenuList = [
+    const Text("Report"),
+    const Text("Block"),
+    const Text("Send Message"),
+  ];
+
+  ///
+  followButtonPressed() {
+    setState(() {
+      isFollowing = !isFollowing;
+      if (isFollowing) {
+        followerNum++;
+      } else {
+        followerNum--;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +63,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       shadowColor: Colors.transparent,
       actions: [
-        IconButton(
-          icon: const Icon(Icons.more_vert, size: 30),
-          onPressed: () {
-            //report && block
+        PopupMenuButton(
+          itemBuilder: (context) {
+            return dropDownMenuList.map((e) {
+              return PopupMenuItem(
+                child: e,
+                onTap: () {
+                  print("tapped: $e");
+                },
+              );
+            }).toList();
           },
         ),
       ],
@@ -75,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onlineStatus: onlineStatus),
           _buttons(isFollowing: isFollowing),
           _bio(fullName: fullName, bio: bio),
-          _ongoingGames(gameType: gameType, opponentName: opponentName),
+          _ongoingGames(),
           _stats(
             timeplayed: timeplayed,
             wonGames: wonGames,
@@ -202,9 +223,7 @@ Widget _buttons({required bool isFollowing}) {
           ),
         ),
         onPressed: () {
-          isFollowing = !isFollowing;
-
-          //follow
+          //followButtonPressed();
         },
         child: Row(
           children: [
@@ -245,7 +264,7 @@ Widget _bio({required String fullName, required String bio}) {
 }
 
 //Ongoing games
-Widget _ongoingGames({required String opponentName, required String gameType}) {
+Widget _ongoingGames() {
   return Column(
     children: [
       const Padding(
@@ -273,9 +292,9 @@ Widget _ongoingGames({required String opponentName, required String gameType}) {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
-              _chessboard(gameType: gameType, opponentName: opponentName),
-              _chessboard(gameType: gameType, opponentName: opponentName),
-              _chessboard(gameType: gameType, opponentName: opponentName),
+              _chessboard(gameType: "3+2", opponentName: "hardal"),
+              _chessboard(gameType: "1 day", opponentName: "alexrintt"),
+              _chessboard(gameType: "10+5", opponentName: "foobar"),
             ],
           ),
         ),
