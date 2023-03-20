@@ -4,8 +4,6 @@ import 'dart:math' as math;
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/chess/models/puzzle.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
-import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
-import 'package:cleanchess/features/clean_chess/presentation/pages/homescreen.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/login_screen.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:csv/csv.dart';
@@ -13,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
+
+import 'features/clean_chess/presentation/pages/profile_screen.dart';
 
 final List<List<dynamic>> puzzleDb = [];
 
@@ -71,13 +71,13 @@ class _RootState extends State<Root> {
                 return PageRouteBuilder(
                   settings: settings,
                   pageBuilder: (context, animation, secondaryAnimation) =>
-                      const HomeScreen(),
+                      const ProfileScreen(),
                 );
               case Navigation.homepage:
                 return PageRouteBuilder(
                   settings: settings,
                   pageBuilder: (context, animation, secondaryAnimation) =>
-                      const Homepage(),
+                      const ProfileScreen(),
                 );
               default:
                 return PageRouteBuilder(

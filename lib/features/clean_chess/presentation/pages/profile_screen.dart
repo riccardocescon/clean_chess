@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ProfileScreenState extends State<ProfileScreen> {
   final backgroundColor = const Color.fromARGB(225, 17, 17, 17);
 
   ///
@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final String bio =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
   final int timeplayed = 100;
-  final bool isFollowing = false;
+  bool isFollowing = false;
   final opponentName = "hardal";
   final gameType = "3+2";
   final userid = "logos";
@@ -60,24 +60,30 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _body() {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: [
-        _about(
-            userid: userid,
-            username: username,
-            memberSince: memberSince,
-            followerNum: followerNum,
-            onlineStatus: onlineStatus),
-        _buttons(isFollowing: isFollowing),
-        _bio(fullName: fullName, bio: bio),
-        _ongoingGames(gameType: gameType, opponentName: opponentName),
-        _stats(
+    return DefaultTextStyle(
+      style: const TextStyle(
+        color: Colors.white,
+      ),
+      child: ListView(
+        scrollDirection: Axis.vertical,
+        children: [
+          _about(
+              userid: userid,
+              username: username,
+              memberSince: memberSince,
+              followerNum: followerNum,
+              onlineStatus: onlineStatus),
+          _buttons(isFollowing: isFollowing),
+          _bio(fullName: fullName, bio: bio),
+          _ongoingGames(gameType: gameType, opponentName: opponentName),
+          _stats(
             timeplayed: timeplayed,
             wonGames: wonGames,
             lostGames: lostGames,
-            drawnGames: drawnGames),
-      ],
+            drawnGames: drawnGames,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -93,15 +99,25 @@ Widget _about({
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Padding(
-        padding: const EdgeInsets.only(left: 15, top: 30),
-        child: Text(
-          username,
-          style: const TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
+      Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 15, top: 30, right: 8),
+            child: Text(
+              username,
+              style: const TextStyle(
+                fontSize: 45,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-        ),
+          const Padding(
+            padding: EdgeInsets.only(top: 37.5),
+            child: Image(
+                image: AssetImage("assets/icons/flags/italy_flag.png"),
+                height: 30),
+          ),
+        ],
       ),
       Padding(
         padding: const EdgeInsets.only(left: 15, bottom: 10),
@@ -165,7 +181,11 @@ Widget _buttons({required bool isFollowing}) {
                 color: Colors.white,
                 size: 20,
               ),
-              Text(" Challenge"),
+              Text(
+                " Challenge",
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              ),
             ],
           ),
         ),
@@ -183,6 +203,7 @@ Widget _buttons({required bool isFollowing}) {
         ),
         onPressed: () {
           isFollowing = !isFollowing;
+
           //follow
         },
         child: Row(
@@ -190,9 +211,12 @@ Widget _buttons({required bool isFollowing}) {
             Padding(
               padding: const EdgeInsets.only(right: 5),
               child: Icon(
+                  color: Colors.white,
                   isFollowing ? Icons.person_add : Icons.person_remove_alt_1),
             ),
-            Text(isFollowing ? "Follow" : "Unfollow"),
+            Text(isFollowing ? "Follow" : "Unfollow",
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold)),
           ],
         ),
       ),
@@ -206,7 +230,7 @@ Widget _bio({required String fullName, required String bio}) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Padding(
-        padding: const EdgeInsets.only(left: 15, top: 10, bottom: 10),
+        padding: const EdgeInsets.only(left: 15, top: 10, bottom: 20),
         child: Text(
           fullName,
           style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
@@ -225,7 +249,7 @@ Widget _ongoingGames({required String opponentName, required String gameType}) {
   return Column(
     children: [
       const Padding(
-        padding: EdgeInsets.only(left: 15, top: 30),
+        padding: EdgeInsets.only(left: 15, top: 45),
         child: Row(
           children: [
             Padding(
@@ -237,13 +261,13 @@ Widget _ongoingGames({required String opponentName, required String gameType}) {
               ),
             ),
             Text("Ongoing Games",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ],
         ),
       ),
       //Vertical Scrollable list of games
       SizedBox(
-        height: 240,
+        height: 180,
         child: Padding(
           padding: const EdgeInsets.only(right: 20, left: 20, top: 10),
           child: ListView(
@@ -261,11 +285,12 @@ Widget _ongoingGames({required String opponentName, required String gameType}) {
 }
 
 //Stats
-Widget _stats(
-    {required int timeplayed,
-    required int wonGames,
-    required int drawnGames,
-    required int lostGames}) {
+Widget _stats({
+  required int timeplayed,
+  required int wonGames,
+  required int drawnGames,
+  required int lostGames,
+}) {
   return Column(
     children: [
       Column(
@@ -284,7 +309,7 @@ Widget _stats(
                 ),
                 Text(
                   "Stats",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -294,30 +319,75 @@ Widget _stats(
             child: Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 90),
+                  padding: const EdgeInsets.only(left: 30, right: 70),
                   child: Text("Time played: $timeplayed hours"),
                 ),
-                Text(
-                  "$wonGames W / $drawnGames D / $lostGames L",
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "${wonGames}W",
+                        style: const TextStyle(color: Colors.green),
+                      ),
+                      TextSpan(
+                        text: " / ${drawnGames}D / ",
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                      TextSpan(
+                        text: "${lostGames}L",
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    ],
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             ),
           ),
           //Scrollable list of stats
           SizedBox(
-            height: 290,
+            height: 200,
             child: Padding(
               padding: const EdgeInsets.only(right: 20, left: 20, top: 10),
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
                   _statsCard(
-                      gameMode: "Classical", elo: "1322", icon: Icons.timer),
-                  _statsCard(gameMode: "Rapid", elo: "2114", icon: Icons.timer),
-                  _statsCard(gameMode: "Blitz", elo: "954", icon: Icons.timer),
+                    gameMode: "Bullet",
+                    elo: "1322",
+                    icon: Icons.speed,
+                    statsCardColor: const Color.fromARGB(223, 214, 25, 88),
+                  ),
                   _statsCard(
-                      gameMode: "Bullet", elo: "1533", icon: Icons.timer),
+                    gameMode: "Blitz",
+                    elo: "2114",
+                    icon: Icons.flash_on,
+                    statsCardColor: const Color.fromARGB(223, 138, 249, 54),
+                  ),
+                  _statsCard(
+                    gameMode: "Rapid",
+                    elo: "954",
+                    icon: Icons.timer,
+                    statsCardColor: const Color.fromARGB(223, 21, 173, 255),
+                  ),
+                  _statsCard(
+                    gameMode: "Classical",
+                    elo: "771",
+                    icon: Icons.house,
+                    statsCardColor: const Color.fromARGB(223, 214, 25, 88),
+                  ),
+                  _statsCard(
+                    gameMode: "Daily",
+                    elo: "2731",
+                    icon: Icons.sunny,
+                    statsCardColor: const Color.fromARGB(223, 138, 249, 54),
+                  ),
+                  _statsCard(
+                    gameMode: "Puzzles",
+                    elo: "1533",
+                    icon: Icons.lightbulb,
+                    statsCardColor: const Color.fromARGB(223, 21, 173, 255),
+                  ),
                 ],
               ),
             ),
@@ -335,9 +405,9 @@ Widget _chessboard({required String opponentName, required String gameType}) {
     child: Column(
       children: [
         Container(
-          height: 200,
-          width: 200,
-          color: Colors.amber,
+          height: 140,
+          width: 140,
+          color: Colors.blue,
         ),
         Padding(
           padding: const EdgeInsets.only(top: 7),
@@ -352,8 +422,12 @@ Widget _chessboard({required String opponentName, required String gameType}) {
 }
 
 //Stats card for stats
-Widget _statsCard(
-    {required String gameMode, required String elo, required IconData icon}) {
+Widget _statsCard({
+  required String gameMode,
+  required String elo,
+  required IconData icon,
+  required Color statsCardColor,
+}) {
   return Column(
     children: [
       InkWell(
@@ -363,22 +437,21 @@ Widget _statsCard(
         child: Padding(
           padding: const EdgeInsets.only(right: 12),
           child: Container(
-            width: 200,
-            height: 230,
+            width: 125,
+            height: 160,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: const Color.fromARGB(125, 236, 64, 122),
-            ),
+                borderRadius: BorderRadius.circular(16),
+                color: statsCardColor.withOpacity(0.5)),
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 30, bottom: 15),
+                  padding: const EdgeInsets.only(top: 20, bottom: 5),
                   child: Container(
-                    height: 100,
-                    width: 100,
-                    decoration: const BoxDecoration(
+                    height: 75,
+                    width: 75,
+                    decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Color.fromARGB(225, 236, 64, 122),
+                      color: statsCardColor,
                     ),
                     child: Icon(
                       icon,
@@ -389,11 +462,11 @@ Widget _statsCard(
                 ),
                 Text(gameMode,
                     style: const TextStyle(
-                        fontSize: 25, fontWeight: FontWeight.w500)),
+                        fontSize: 20, fontWeight: FontWeight.w500)),
                 Text(
                   elo,
                   style: const TextStyle(
-                      fontSize: 25, fontWeight: FontWeight.w500),
+                      fontSize: 20, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
