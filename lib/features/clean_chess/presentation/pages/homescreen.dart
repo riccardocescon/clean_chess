@@ -2,15 +2,8 @@ import 'package:cleanchess/chess/core/utilities/assets.dart';
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/core/clean_chess/presentation/widgets/diamond_bottom_bar.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.dart';
-import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'dart:math' as math;
-import 'package:http/http.dart' as http;
-import 'package:oauth2/oauth2.dart' as oauth2;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
