@@ -5,7 +5,6 @@ import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/chess/models/puzzle.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
-import 'package:cleanchess/features/clean_chess/presentation/pages/homescreen.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/login_screen.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:csv/csv.dart';
@@ -58,7 +57,8 @@ class _RootState extends State<Root> {
         child: MaterialApp(
           theme: theme,
           debugShowCheckedModeBanner: false,
-          initialRoute: Navigation.loginScreen,
+          initialRoute: Navigation.homepage,
+          // initialRoute: Navigation.loginScreen, For testing purposes.
           onGenerateRoute: (settings) {
             switch (settings.name) {
               case Navigation.loginScreen:
@@ -66,12 +66,6 @@ class _RootState extends State<Root> {
                   settings: settings,
                   pageBuilder: (context, animation, secondaryAnimation) =>
                       const LoginScreen(),
-                );
-              case Navigation.homescreen:
-                return PageRouteBuilder(
-                  settings: settings,
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      const HomeScreen(),
                 );
               case Navigation.homepage:
                 return PageRouteBuilder(

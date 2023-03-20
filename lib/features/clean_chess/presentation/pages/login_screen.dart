@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is LichessOAuthSuccess) {
             // Get user profile
             if (context.mounted) {
-              Navigator.pushReplacementNamed(context, Navigation.homescreen);
+              Navigator.pushReplacementNamed(context, Navigation.homepage);
             }
           } else if (state is LichessError) {
             if (context.mounted) {

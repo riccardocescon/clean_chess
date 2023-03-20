@@ -11,3 +11,6 @@ Color getCellColor(int index, {Color? whiteColor, Color? blackColor}) {
   }
   return cellColor == 0 ? whiteColor ?? whiteCell : blackColor ?? blackCell;
 }
+
+const lightDark = Color(0xFF1B1B1B);
+const modeItemHeigth = 80.0;
