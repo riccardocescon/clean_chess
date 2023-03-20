@@ -30,7 +30,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     const Text("Send Message"),
   ];
 
-  ///
   followButtonPressed() {
     setState(() {
       isFollowing = !isFollowing;
@@ -417,17 +416,13 @@ Widget _stats({
   );
 }
 
-//Chessboards for ongoing games
+//Chessboards with username and match type for ongoing games
 Widget _chessboard({required String opponentName, required String gameType}) {
   return Padding(
     padding: const EdgeInsets.only(right: 20),
     child: Column(
       children: [
-        Container(
-          height: 140,
-          width: 140,
-          color: Colors.blue,
-        ),
+        _board(),
         Padding(
           padding: const EdgeInsets.only(top: 7),
           child: Text(
@@ -494,4 +489,45 @@ Widget _statsCard({
       ),
     ],
   );
+}
+
+//Chessboard
+Widget _board() {
+  return InkWell(
+    onTap: () {
+      //navigate to game
+    },
+    child: SizedBox(
+      height: 144,
+      width: 144,
+      child: GridView(
+        gridDelegate:
+            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 8),
+        children: [
+          for (int i = 0; i < 64; i++)
+            SizedBox(
+              height: 3,
+              width: 3,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: getCellColor(i),
+                ),
+              ),
+            ),
+        ],
+      ),
+    ),
+  );
+}
+
+//Cell colors
+const blackCell = Color.fromARGB(255, 181, 136, 99);
+const whiteCell = Color.fromARGB(255, 240, 217, 181);
+Color getCellColor(int index, {Color? whiteColor, Color? blackColor}) {
+  int cellColor = (index % 2);
+  int row = (index ~/ 8) % 2;
+  if (row == 0) {
+    cellColor = (index % 2) == 0 ? 1 : 0;
+  }
+  return cellColor == 0 ? whiteColor ?? whiteCell : blackColor ?? blackCell;
 }
