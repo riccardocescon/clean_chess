@@ -1,33 +1,53 @@
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({
+    super.key,
+    required this.username,
+    required this.memberSince,
+    required this.followerNum,
+    required this.onlineStatus,
+    required this.fullName,
+    required this.bio,
+    required this.timeplayed,
+    required this.isFollowing,
+    required this.userid,
+    required this.wonGames,
+    required this.lostGames,
+    required this.drawnGames,
+  });
 
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
   final backgroundColor = const Color.fromARGB(225, 17, 17, 17);
 
   ///
-  final String username = "Logos";
-  final String memberSince = "21 February 2021";
-  int followerNum = 7721;
-  bool onlineStatus = true;
-  final String fullName = "Logos Ethos Pathos";
-  final String bio =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
-  final int timeplayed = 100;
-  bool isFollowing = true;
-  final userid = "logos";
-  final wonGames = 40;
-  final lostGames = 30;
-  final drawnGames = 30;
-  final List<Widget> popUpMenuList = [
-    const Text("Report"),
-    const Text("Block"),
-    const Text("Send Message"),
+  final String username;
+
+  final String memberSince;
+
+  final int followerNum;
+
+  final bool onlineStatus;
+
+  final String fullName;
+
+  final String bio;
+
+  final int timeplayed;
+
+  final bool isFollowing;
+
+  final String userid;
+
+  final int wonGames;
+
+  final int lostGames;
+
+  final int drawnGames;
+
+  final List<Widget> popUpMenuList = const [
+    Text("Report"),
+    Text("Block"),
+    Text("Send Message"),
   ];
 
   @override
@@ -35,13 +55,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
-        appBar: _appbar(),
+        appBar: _appbar(context),
         body: _body(),
       ),
     );
   }
 
-  AppBar _appbar() {
+  AppBar _appbar(BuildContext context) {
     return AppBar(
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios),
@@ -79,11 +99,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         scrollDirection: Axis.vertical,
         children: [
           _about(
-              userid: userid,
-              username: username,
-              memberSince: memberSince,
-              followerNum: followerNum,
-              onlineStatus: onlineStatus),
+            userid: userid,
+            username: username,
+            memberSince: memberSince,
+            followerNum: followerNum,
+            isOnline: onlineStatus,
+          ),
           _buttons(isFollowing: isFollowing),
           _bio(fullName: fullName, bio: bio),
           _ongoingGames(),
@@ -104,73 +125,86 @@ Widget _about({
   required String username,
   required String memberSince,
   required int followerNum,
-  required bool onlineStatus,
+  required bool isOnline,
   required String userid,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15, top: 30, right: 8),
-            child: Text(
-              username,
-              style: const TextStyle(
-                fontSize: 45,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 37.5),
-            child: Image(
-                image: AssetImage("assets/icons/flags/italy_flag.png"),
-                height: 30),
-          ),
-        ],
-      ),
-      Padding(
-        padding: const EdgeInsets.only(left: 15, bottom: 10),
-        child: Text(
-          "@$userid",
-          style: const TextStyle(
-            fontSize: 15,
-            color: Colors.grey,
-          ),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(left: 15),
-        child: Text(
-          onlineStatus ? "Online" : "Offline",
-          style: TextStyle(
-              color: onlineStatus ? Colors.green : Colors.red,
-              fontSize: 15,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
-      InkWell(
-        onTap: () {
-          followersButtonPressed();
-        },
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Text("Member since: $memberSince"),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(left: 65, right: 5),
-              child: Icon(Icons.people),
-            ),
-            Text("$followerNum"),
-          ],
-        ),
-      )
+      _usernameRow(username),
+      _userId(userid),
+      _onlineStatus(isOnline),
+      _socialRow(memberSince, followerNum.toString()),
     ],
   );
 }
+
+//#region About Widgets
+Widget _usernameRow(String username) => Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 15, top: 30, right: 8),
+          child: Text(
+            username,
+            style: const TextStyle(
+              fontSize: 45,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(top: 37.5),
+          child: Image(
+            image: AssetImage("assets/icons/flags/italy_flag.png"),
+            height: 30,
+          ),
+        ),
+      ],
+    );
+
+Widget _userId(String userId) => Padding(
+      padding: const EdgeInsets.only(left: 15, bottom: 10),
+      child: Text(
+        "@$userId",
+        style: const TextStyle(
+          fontSize: 15,
+          color: Colors.grey,
+        ),
+      ),
+    );
+
+Widget _onlineStatus(bool isOnline) => Padding(
+      padding: const EdgeInsets.only(left: 15),
+      child: Text(
+        isOnline ? "Online" : "Offline",
+        style: TextStyle(
+          color: isOnline ? Colors.green : Colors.red,
+          fontSize: 15,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+
+Widget _socialRow(String memberSince, String followerNum) => InkWell(
+      onTap: () {
+        followersButtonPressed();
+      },
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 15),
+            child: Text("Member since: $memberSince"),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 65, right: 5),
+            child: Icon(Icons.people),
+          ),
+          Text(followerNum),
+        ],
+      ),
+    );
+
+//#endregion
 
 //Challenge and follow buttons
 Widget _buttons({required bool isFollowing}) {
@@ -190,8 +224,8 @@ Widget _buttons({required bool isFollowing}) {
           onPressed: () {
             challengeButtonPressed();
           },
-          child: const Row(
-            children: [
+          child: Row(
+            children: const [
               ImageIcon(
                 AssetImage("assets/icons/swords.png"),
                 color: Colors.white,
@@ -262,10 +296,10 @@ Widget _bio({required String fullName, required String bio}) {
 Widget _ongoingGames() {
   return Column(
     children: [
-      const Padding(
-        padding: EdgeInsets.only(left: 15, top: 45),
+      Padding(
+        padding: const EdgeInsets.only(left: 15, top: 45),
         child: Row(
-          children: [
+          children: const [
             Padding(
               padding: EdgeInsets.only(right: 5),
               child: Icon(
@@ -274,8 +308,10 @@ Widget _ongoingGames() {
                 size: 10,
               ),
             ),
-            Text("Ongoing Games",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(
+              "Ongoing Games",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),
@@ -310,10 +346,10 @@ Widget _stats({
     children: [
       Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 15, top: 30),
+          Padding(
+            padding: const EdgeInsets.only(left: 15, top: 30),
             child: Row(
-              children: [
+              children: const [
                 Padding(
                   padding: EdgeInsets.only(right: 5),
                   child: Icon(

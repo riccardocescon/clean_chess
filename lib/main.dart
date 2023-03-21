@@ -71,7 +71,21 @@ class _RootState extends State<Root> {
                 return PageRouteBuilder(
                   settings: settings,
                   pageBuilder: (context, animation, secondaryAnimation) =>
-                      const ProfileScreen(),
+                      const ProfileScreen(
+                    username: 'Logos',
+                    memberSince: '21 February 2021',
+                    followerNum: 7721,
+                    onlineStatus: true,
+                    fullName: 'Logos Ethos Pathos',
+                    bio:
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                    timeplayed: 100,
+                    isFollowing: true,
+                    userid: 'logos',
+                    wonGames: 40,
+                    lostGames: 30,
+                    drawnGames: 30,
+                  ),
                 );
               case Navigation.homepage:
                 return PageRouteBuilder(
