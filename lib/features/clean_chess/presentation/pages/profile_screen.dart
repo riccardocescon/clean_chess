@@ -1,3 +1,4 @@
+import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:flutter/material.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/profilepage_mode_items.dart';
 
@@ -235,8 +236,8 @@ Widget _challengeButton() => Padding(
         onPressed: () {
           challengeButtonPressed();
         },
-        child: const Row(
-          children: [
+        child: Row(
+          children: const [
             ImageIcon(
               AssetImage("assets/icons/swords.png"),
               color: Colors.white,
@@ -263,8 +264,8 @@ Widget _followButton() => ElevatedButton(
       onPressed: () {
         followButtonPressed();
       },
-      child: const Row(
-        children: [
+      child: Row(
+        children: const [
           Icon(
             Icons.person_add,
             color: Colors.white,
@@ -313,10 +314,10 @@ Widget _ongoingGames() {
 //#region Ongoing games
 
 Widget _ongoinGamesText() {
-  return const Padding(
-    padding: EdgeInsets.only(left: 15, top: 45),
+  return Padding(
+    padding: const EdgeInsets.only(left: 15, top: 45),
     child: Row(
-      children: [
+      children: const [
         Padding(
           padding: EdgeInsets.only(right: 5),
           child: Icon(
@@ -393,10 +394,10 @@ Widget _stats({
 //#region Stats Widgets
 
 Widget _statsText() {
-  return const Padding(
-    padding: EdgeInsets.only(left: 15, top: 30),
+  return Padding(
+    padding: const EdgeInsets.only(left: 15, top: 30),
     child: Row(
-      children: [
+      children: const [
         Padding(
           padding: EdgeInsets.only(right: 5),
           child: Icon(
@@ -500,32 +501,20 @@ Widget _board() {
   );
 }
 
-//Cell colors
-const blackCell = Color.fromARGB(255, 181, 136, 99);
-const whiteCell = Color.fromARGB(255, 240, 217, 181);
-Color getCellColor(int index, {Color? whiteColor, Color? blackColor}) {
-  int cellColor = (index % 2);
-  int row = (index ~/ 8) % 2;
-  if (row == 0) {
-    cellColor = (index % 2) == 0 ? 1 : 0;
-  }
-  return cellColor == 0 ? whiteColor ?? whiteCell : blackColor ?? blackCell;
-}
-
 //Gets called when user clicks on the follow button
-followButtonPressed() {}
+void followButtonPressed() {}
 
 //Gets called when user clicks on the challenge button
-challengeButtonPressed() {}
+void challengeButtonPressed() {}
 
 //Gets called when user clicks on a game board
-gamesButtonPressed(gameid) {}
+void gamesButtonPressed(gameid) {}
 
 //Gets called when user clicks on a stats card
-statsButtonPressed(gameMode) {}
+void statsButtonPressed(gameMode) {}
 
 //Gets called when user clicks on the number of followers
-followersButtonPressed() {}
+void followersButtonPressed() {}
 
 //Gets called when user clicks on the three vertical dots
-popupMenuButtonPressed() {}
+void popupMenuButtonPressed() {}
