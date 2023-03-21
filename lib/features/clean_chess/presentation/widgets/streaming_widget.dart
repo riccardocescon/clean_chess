@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/padded_items.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class StreamingWidget extends StatelessWidget {
           heigth5,
           const AspectRatio(
             aspectRatio: 1,
-            child: Placeholder(),
+            child: Chessboard(),
           ),
           heigth5,
           PaddedItems(

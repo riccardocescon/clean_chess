@@ -1,4 +1,4 @@
-import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:flutter/material.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/profilepage_mode_items.dart';
 
@@ -378,11 +378,12 @@ Widget _stats({
             child: Padding(
               padding: const EdgeInsets.only(right: 20, left: 20, top: 10),
               child: ListView.builder(
-                  itemCount: 6,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return modeItems[index];
-                  }),
+                itemCount: 6,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return modeItems[index];
+                },
+              ),
             ),
           ),
         ],
@@ -452,19 +453,28 @@ Widget _timeplayedWDL({
 //#endregion
 
 //Chessboards with username and match type for ongoing games
-Widget _chessboard(
-    {required String opponentName,
-    required String gameType,
-    required int gameid}) {
+Widget _chessboard({
+  required String opponentName,
+  required String gameType,
+  required int gameid,
+}) {
   return Padding(
     padding: const EdgeInsets.only(right: 20),
     child: Column(
       children: [
         InkWell(
-            onTap: () {
-              gamesButtonPressed(gameid);
-            },
-            child: _board()),
+          onTap: () {
+            gamesButtonPressed(gameid);
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: const SizedBox(
+              height: 144,
+              width: 144,
+              child: Chessboard(),
+            ),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 7),
           child: Text(
@@ -472,30 +482,6 @@ Widget _chessboard(
             style: const TextStyle(fontSize: 15),
           ),
         ),
-      ],
-    ),
-  );
-}
-
-//Chessboard
-Widget _board() {
-  return SizedBox(
-    height: 144,
-    width: 144,
-    child: GridView(
-      gridDelegate:
-          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 8),
-      children: [
-        for (int i = 0; i < 64; i++)
-          SizedBox(
-            height: 3,
-            width: 3,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: getCellColor(i),
-              ),
-            ),
-          ),
       ],
     ),
   );
