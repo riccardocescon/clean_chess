@@ -13,44 +13,39 @@ class Homepage extends StatelessWidget {
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-            children: [
-              const HomepageAppbar(),
-              SizedBox(
-                height: modeItemHeigth * 3,
-                child: ListView.builder(
-                  itemCount: homepage_mode_items.playModes.length,
-                  itemBuilder: (context, index) =>
-                      homepage_mode_items.playModes[index],
-                ),
-              ),
-              const SizedBox(height: 5),
-              Expanded(
-                child: Column(
-                  children: [
+          child: CustomScrollView(
+            slivers: [
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    const HomepageAppbar(),
+                    SizedBox(
+                      height: modeItemHeigth * 3,
+                      child: ListView.builder(
+                        itemCount: homepage_mode_items.playModes.length,
+                        itemBuilder: (context, index) =>
+                            homepage_mode_items.playModes[index],
+                      ),
+                    ),
+                    const SizedBox(height: 5),
                     _onlineInfo(),
                     const SizedBox(height: 5),
                     _liveStreamingText(),
                     const SizedBox(height: 10),
-                    Column(
-                      children: [
-                        _streamingUserItem(
-                          isWhite: false,
-                          title: 'IM',
-                          color: Colors.amber,
-                          name: 'Riccardo Cescon',
-                          elo: '2829',
-                          time: '0:22',
-                        ),
-                        //TODO: convert this column to a scrollable listview and place an Aspectratio Chessboard
-                        _streamingUserItem(
-                          isWhite: true,
-                          title: 'GM',
-                          color: Colors.pink,
-                          name: 'Hardal',
-                          elo: '3018',
-                        ),
-                      ],
+                    _streamingUserItem(
+                      isWhite: false,
+                      title: 'IM',
+                      color: Colors.amber,
+                      name: 'Riccardo Cescon',
+                      elo: '2829',
+                      time: '0:22',
+                    ),
+                    _streamingUserItem(
+                      isWhite: true,
+                      title: 'GM',
+                      color: Colors.pink,
+                      name: 'Hardal',
+                      elo: '3018',
                     ),
                   ],
                 ),
