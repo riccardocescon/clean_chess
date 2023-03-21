@@ -48,8 +48,8 @@ class Homepage extends StatelessWidget {
   Widget _modesList() => SizedBox(
         height: modeItemHeigth * 3,
         child: ListView.builder(
-          // itemCount: homepage_mode_items.playModes.length,
-          // itemBuilder: (context, index) => homepage_mode_items.playModes[index],
+          itemCount: homepage_mode_items.playModes.length,
+          itemBuilder: (context, index) => homepage_mode_items.playModes[index],
 
           // itemCount: homepage_mode_items.learnModes.length,
           // itemBuilder: (context, index) =>
@@ -59,9 +59,9 @@ class Homepage extends StatelessWidget {
           // itemBuilder: (context, index) =>
           //     homepage_mode_items.toolsModes[index],
 
-          itemCount: homepage_mode_items.communityModes.length,
-          itemBuilder: (context, index) =>
-              homepage_mode_items.communityModes[index],
+          // itemCount: homepage_mode_items.communityModes.length,
+          // itemBuilder: (context, index) =>
+          //     homepage_mode_items.communityModes[index],
         ),
       );
 
