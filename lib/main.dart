@@ -6,6 +6,7 @@ import 'package:cleanchess/chess/models/puzzle.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/login_screen.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/profile_screen.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';

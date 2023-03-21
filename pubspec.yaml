@@ -92,6 +92,8 @@ flutter:
     - assets/puzzles/
     - assets/img/
     - assets/icons/
+    - assets/icons/flags/
+
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
 

@@ -1,5 +1,5 @@
 
-![Logo](https://github.com/riccardocescon/clean_chess/blob/main/assets/img/logo.png)
+<img src="https://raw.githubusercontent.com/riccardocescon/clean_chess/main/assets/img/logo.png" width="100" />
 
 
 # Clean Chess
