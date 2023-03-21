@@ -1,6 +1,7 @@
 import 'package:cleanchess/core/clean_chess/presentation/widgets/homepage_mode_items.dart'
     as homepage_mode_items;
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_appbar.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/padded_items.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_widget.dart';
@@ -22,17 +23,34 @@ class Homepage extends StatelessWidget {
                 _modesList(),
                 heigth5,
                 _onlineInfo(),
-                heigth5,
-                _liveStreamingText(),
-                heigth10,
-                const StreamingWidget(),
-                heigth20,
-                _dailyPuzzleSection(),
+                _sortedLivePuzzle(completed: false),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _sortedLivePuzzle({required bool completed}) {
+    return Column(
+      children: completed
+          ? [
+              heigth20,
+              _liveStreamingText(),
+              heigth10,
+              const StreamingWidget(),
+              heigth20,
+              _dailyPuzzleSection(completed: true),
+            ]
+          : [
+              heigth20,
+              _dailyPuzzleSection(completed: false),
+              heigth20,
+              _liveStreamingText(),
+              heigth10,
+              const StreamingWidget(),
+            ],
     );
   }
 
@@ -65,11 +83,40 @@ class Homepage extends StatelessWidget {
         ),
       );
 
-  Widget _dailyPuzzleSection() => Column(
-        children: const [
+  Widget _dailyPuzzleSection({required bool completed}) => Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              CircleAvatar(
+                backgroundColor: Colors.lightBlue,
+                radius: 5,
+              ),
+              width10,
+              Text(
+                'Puzzle of the day',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          heigth10,
           AspectRatio(
             aspectRatio: 1,
-            child: Placeholder(),
+            child: Stack(
+              children: [
+                const Chessboard(),
+                Visibility(
+                  visible: completed,
+                  child: Container(
+                    color: Colors.grey.withAlpha(50),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       );

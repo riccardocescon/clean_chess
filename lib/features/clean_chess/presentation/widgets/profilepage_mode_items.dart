@@ -48,45 +48,46 @@ Widget statsCard({
 }) {
   return Column(
     children: [
-      InkWell(
-        onTap: () {
-          //statsButtonPressed(gameMode);
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(right: 12),
-          child: Container(
+      Padding(
+        padding: const EdgeInsets.only(right: 12),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: SizedBox(
             width: 125,
             height: 160,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: statsCardColor.withOpacity(0.5)),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 5),
-                  child: Container(
-                    height: 75,
-                    width: 75,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: statsCardColor,
-                    ),
-                    child: Icon(
-                      icon,
-                      size: 60,
-                      color: Colors.black,
+            child: MaterialButton(
+              onPressed: () {
+                //statsButtonPressed(gameMode);
+              },
+              color: statsCardColor.withOpacity(0.5),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20, bottom: 5),
+                    child: Container(
+                      height: 75,
+                      width: 75,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: statsCardColor,
+                      ),
+                      child: Icon(
+                        icon,
+                        size: 60,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-                Text(gameMode,
+                  Text(gameMode,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.w500)),
+                  Text(
+                    elo,
                     style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.w500)),
-                Text(
-                  elo,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w500),
-                ),
-              ],
+                        fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
