@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/profilepage_mode_items.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({
@@ -76,7 +77,6 @@ class ProfileScreen extends StatelessWidget {
             Icons.more_vert,
             color: Colors.white,
           ),
-          color: Colors.transparent,
           itemBuilder: (context) {
             return popUpMenuList.map((e) {
               return PopupMenuItem(
@@ -206,71 +206,79 @@ Widget _socialRow(String memberSince, String followerNum) => InkWell(
 
 //#endregion
 
-//Challenge and follow buttons
+//Challenge to game and follow
 Widget _buttons({required bool isFollowing}) {
-  return Row(
-    children: [
-      //Challenge button
-      Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.pink,
-            minimumSize: const Size(150, 35),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          onPressed: () {
-            challengeButtonPressed();
-          },
-          child: Row(
-            children: const [
-              ImageIcon(
-                AssetImage("assets/icons/swords.png"),
-                color: Colors.white,
-                size: 20,
-              ),
-              Text(
-                " Challenge",
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-              ),
-            ],
-          ),
-        ),
-      ),
-      //follow button
-      ElevatedButton(
+  return Padding(
+    padding: const EdgeInsets.only(top: 20),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        _challengeButton(),
+        _followButton(),
+      ],
+    ),
+  );
+}
+
+//#region challenge and follow buttons
+
+Widget _challengeButton() => Padding(
+      padding: const EdgeInsets.only(left: 12, right: 15),
+      child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: isFollowing
-              ? Colors.green
-              : const Color.fromARGB(225, 27, 27, 27),
-          minimumSize: const Size(200, 35),
+          backgroundColor: Colors.pink,
+          minimumSize: const Size(150, 35),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
         ),
         onPressed: () {
-          followButtonPressed();
+          challengeButtonPressed();
         },
-        child: Row(
+        child: const Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 5),
-              child: Icon(
-                  color: Colors.white,
-                  isFollowing ? Icons.person_add : Icons.person_remove_alt_1),
+            ImageIcon(
+              AssetImage("assets/icons/swords.png"),
+              color: Colors.white,
+              size: 20,
             ),
-            Text(isFollowing ? "Follow" : "Unfollow",
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold)),
+            Text(
+              " Challenge",
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
           ],
         ),
       ),
-    ],
-  );
-}
+    );
+
+Widget _followButton() => ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.green,
+        minimumSize: const Size(180, 35),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+      onPressed: () {
+        followButtonPressed();
+      },
+      child: const Row(
+        children: [
+          Icon(
+            Icons.person_add,
+            color: Colors.white,
+            size: 20,
+          ),
+          Text(
+            " Follow",
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ],
+      ),
+    );
+
+//#endregion
 
 //Fullname and bio
 Widget _bio({required String fullName, required String bio}) {
@@ -292,48 +300,58 @@ Widget _bio({required String fullName, required String bio}) {
   );
 }
 
-//Ongoing games
+//Ongoing games board and text
 Widget _ongoingGames() {
   return Column(
     children: [
-      Padding(
-        padding: const EdgeInsets.only(left: 15, top: 45),
-        child: Row(
-          children: const [
-            Padding(
-              padding: EdgeInsets.only(right: 5),
-              child: Icon(
-                Icons.circle,
-                color: Colors.green,
-                size: 10,
-              ),
-            ),
-            Text(
-              "Ongoing Games",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-      ),
-      //Vertical Scrollable list of games
-      SizedBox(
-        height: 180,
-        child: Padding(
-          padding: const EdgeInsets.only(right: 20, left: 20, top: 10),
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              _chessboard(gameType: "3+2", opponentName: "hardal", gameid: 1),
-              _chessboard(
-                  gameType: "1 day", opponentName: "alexrintt", gameid: 2),
-              _chessboard(gameType: "10+5", opponentName: "foobar", gameid: 3),
-            ],
-          ),
-        ),
-      ),
+      _ongoinGamesText(),
+      _ongoingBoard(),
     ],
   );
 }
+
+//#region Ongoing games
+
+Widget _ongoinGamesText() {
+  return const Padding(
+    padding: EdgeInsets.only(left: 15, top: 45),
+    child: Row(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(right: 5),
+          child: Icon(
+            Icons.circle,
+            color: Colors.green,
+            size: 10,
+          ),
+        ),
+        Text(
+          "Ongoing Games",
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _ongoingBoard() {
+  return SizedBox(
+    height: 180,
+    child: Padding(
+      padding: const EdgeInsets.only(right: 20, left: 20, top: 10),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          _chessboard(gameType: "3+2", opponentName: "hardal", gameid: 1),
+          _chessboard(gameType: "1 day", opponentName: "alexrintt", gameid: 2),
+          _chessboard(gameType: "10+5", opponentName: "foobar", gameid: 3),
+        ],
+      ),
+    ),
+  );
+}
+
+//#endregion
 
 //Stats
 Widget _stats({
@@ -346,101 +364,24 @@ Widget _stats({
     children: [
       Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15, top: 30),
-            child: Row(
-              children: const [
-                Padding(
-                  padding: EdgeInsets.only(right: 5),
-                  child: Icon(
-                    Icons.circle,
-                    color: Colors.blue,
-                    size: 10,
-                  ),
-                ),
-                Text(
-                  "Stats",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 70),
-                  child: Text("Time played: $timeplayed hours"),
-                ),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "${wonGames}W",
-                        style: const TextStyle(color: Colors.green),
-                      ),
-                      TextSpan(
-                        text: " / ${drawnGames}D / ",
-                        style: const TextStyle(color: Colors.grey),
-                      ),
-                      TextSpan(
-                        text: "${lostGames}L",
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    ],
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
+          _statsText(),
+          _timeplayedWDL(
+            timeplayed: timeplayed,
+            wonGames: wonGames,
+            drawnGames: drawnGames,
+            lostGames: lostGames,
           ),
           //Scrollable list of stats
           SizedBox(
             height: 200,
             child: Padding(
               padding: const EdgeInsets.only(right: 20, left: 20, top: 10),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  _statsCard(
-                    gameMode: "Bullet",
-                    elo: "1322",
-                    icon: Icons.speed,
-                    statsCardColor: const Color.fromARGB(223, 214, 25, 88),
-                  ),
-                  _statsCard(
-                    gameMode: "Blitz",
-                    elo: "2114",
-                    icon: Icons.flash_on,
-                    statsCardColor: const Color.fromARGB(223, 138, 249, 54),
-                  ),
-                  _statsCard(
-                    gameMode: "Rapid",
-                    elo: "954",
-                    icon: Icons.timer,
-                    statsCardColor: const Color.fromARGB(223, 21, 173, 255),
-                  ),
-                  _statsCard(
-                    gameMode: "Classical",
-                    elo: "771",
-                    icon: Icons.house,
-                    statsCardColor: const Color.fromARGB(223, 214, 25, 88),
-                  ),
-                  _statsCard(
-                    gameMode: "Daily",
-                    elo: "2731",
-                    icon: Icons.sunny,
-                    statsCardColor: const Color.fromARGB(223, 138, 249, 54),
-                  ),
-                  _statsCard(
-                    gameMode: "Puzzles",
-                    elo: "1533",
-                    icon: Icons.lightbulb,
-                    statsCardColor: const Color.fromARGB(223, 21, 173, 255),
-                  ),
-                ],
-              ),
+              child: ListView.builder(
+                  itemCount: 6,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return modeItems[index];
+                  }),
             ),
           ),
         ],
@@ -448,6 +389,66 @@ Widget _stats({
     ],
   );
 }
+
+//#region Stats Widgets
+
+Widget _statsText() {
+  return const Padding(
+    padding: EdgeInsets.only(left: 15, top: 30),
+    child: Row(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(right: 5),
+          child: Icon(
+            Icons.circle,
+            color: Colors.blue,
+            size: 10,
+          ),
+        ),
+        Text(
+          "Stats",
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _timeplayedWDL({
+  required int timeplayed,
+  required int wonGames,
+  required int drawnGames,
+  required int lostGames,
+}) {
+  return Row(
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(left: 30, right: 70),
+        child: Text("Time played: $timeplayed hours"),
+      ),
+      RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: "${wonGames}W",
+              style: const TextStyle(color: Colors.green),
+            ),
+            TextSpan(
+              text: " / ${drawnGames}D / ",
+              style: const TextStyle(color: Colors.grey),
+            ),
+            TextSpan(
+              text: "${lostGames}L",
+              style: const TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
+//#endregion
 
 //Chessboards with username and match type for ongoing games
 Widget _chessboard(
@@ -475,87 +476,26 @@ Widget _chessboard(
   );
 }
 
-//Stats card for stats
-Widget _statsCard({
-  required String gameMode,
-  required String elo,
-  required IconData icon,
-  required Color statsCardColor,
-}) {
-  return Column(
-    children: [
-      InkWell(
-        onTap: () {
-          statsButtonPressed(gameMode);
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(right: 12),
-          child: Container(
-            width: 125,
-            height: 160,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: statsCardColor.withOpacity(0.5)),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 5),
-                  child: Container(
-                    height: 75,
-                    width: 75,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: statsCardColor,
-                    ),
-                    child: Icon(
-                      icon,
-                      size: 60,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                Text(gameMode,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.w500)),
-                Text(
-                  elo,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    ],
-  );
-}
-
 //Chessboard
 Widget _board() {
-  return InkWell(
-    onTap: () {
-      //navigate to game
-    },
-    child: SizedBox(
-      height: 144,
-      width: 144,
-      child: GridView(
-        gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 8),
-        children: [
-          for (int i = 0; i < 64; i++)
-            SizedBox(
-              height: 3,
-              width: 3,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: getCellColor(i),
-                ),
+  return SizedBox(
+    height: 144,
+    width: 144,
+    child: GridView(
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 8),
+      children: [
+        for (int i = 0; i < 64; i++)
+          SizedBox(
+            height: 3,
+            width: 3,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: getCellColor(i),
               ),
             ),
-        ],
-      ),
+          ),
+      ],
     ),
   );
 }
