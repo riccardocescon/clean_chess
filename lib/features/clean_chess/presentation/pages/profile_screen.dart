@@ -19,27 +19,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final String bio =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
   final int timeplayed = 100;
-  bool isFollowing = false;
+  bool isFollowing = true;
   final userid = "logos";
   final wonGames = 40;
   final lostGames = 30;
   final drawnGames = 30;
-  final List<Widget> dropDownMenuList = [
+  final List<Widget> popUpMenuList = [
     const Text("Report"),
     const Text("Block"),
     const Text("Send Message"),
   ];
-
-  followButtonPressed() {
-    setState(() {
-      isFollowing = !isFollowing;
-      if (isFollowing) {
-        followerNum++;
-      } else {
-        followerNum--;
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +52,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       shadowColor: Colors.transparent,
       actions: [
         PopupMenuButton(
+          icon: const Icon(
+            Icons.more_vert,
+            color: Colors.white,
+          ),
+          color: Colors.transparent,
           itemBuilder: (context) {
-            return dropDownMenuList.map((e) {
+            return popUpMenuList.map((e) {
               return PopupMenuItem(
                 child: e,
-                onTap: () {
-                  print("tapped: $e");
-                },
               );
             }).toList();
           },
@@ -159,18 +150,23 @@ Widget _about({
               fontWeight: FontWeight.bold),
         ),
       ),
-      Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text("Member since: $memberSince"),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 65, right: 5),
-            child: Icon(Icons.people),
-          ),
-          Text(followerNum.toString()),
-        ],
+      InkWell(
+        onTap: () {
+          followersButtonPressed();
+        },
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text("Member since: $memberSince"),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 65, right: 5),
+              child: Icon(Icons.people),
+            ),
+            Text("$followerNum"),
+          ],
+        ),
       )
     ],
   );
@@ -192,7 +188,7 @@ Widget _buttons({required bool isFollowing}) {
             ),
           ),
           onPressed: () {
-            //challenge
+            challengeButtonPressed();
           },
           child: const Row(
             children: [
@@ -222,7 +218,7 @@ Widget _buttons({required bool isFollowing}) {
           ),
         ),
         onPressed: () {
-          //followButtonPressed();
+          followButtonPressed();
         },
         child: Row(
           children: [
@@ -291,9 +287,10 @@ Widget _ongoingGames() {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
-              _chessboard(gameType: "3+2", opponentName: "hardal"),
-              _chessboard(gameType: "1 day", opponentName: "alexrintt"),
-              _chessboard(gameType: "10+5", opponentName: "foobar"),
+              _chessboard(gameType: "3+2", opponentName: "hardal", gameid: 1),
+              _chessboard(
+                  gameType: "1 day", opponentName: "alexrintt", gameid: 2),
+              _chessboard(gameType: "10+5", opponentName: "foobar", gameid: 3),
             ],
           ),
         ),
@@ -417,12 +414,19 @@ Widget _stats({
 }
 
 //Chessboards with username and match type for ongoing games
-Widget _chessboard({required String opponentName, required String gameType}) {
+Widget _chessboard(
+    {required String opponentName,
+    required String gameType,
+    required int gameid}) {
   return Padding(
     padding: const EdgeInsets.only(right: 20),
     child: Column(
       children: [
-        _board(),
+        InkWell(
+            onTap: () {
+              gamesButtonPressed(gameid);
+            },
+            child: _board()),
         Padding(
           padding: const EdgeInsets.only(top: 7),
           child: Text(
@@ -446,7 +450,7 @@ Widget _statsCard({
     children: [
       InkWell(
         onTap: () {
-          //navigate to stats page
+          statsButtonPressed(gameMode);
         },
         child: Padding(
           padding: const EdgeInsets.only(right: 12),
@@ -531,3 +535,21 @@ Color getCellColor(int index, {Color? whiteColor, Color? blackColor}) {
   }
   return cellColor == 0 ? whiteColor ?? whiteCell : blackColor ?? blackCell;
 }
+
+//Gets called when user clicks on the follow button
+followButtonPressed() {}
+
+//Gets called when user clicks on the challenge button
+challengeButtonPressed() {}
+
+//Gets called when user clicks on a game board
+gamesButtonPressed(gameid) {}
+
+//Gets called when user clicks on a stats card
+statsButtonPressed(gameMode) {}
+
+//Gets called when user clicks on the number of followers
+followersButtonPressed() {}
+
+//Gets called when user clicks on the three vertical dots
+popupMenuButtonPressed() {}
