@@ -11,51 +11,105 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: CustomScrollView(
-            slivers: [
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    const HomepageAppbar(),
-                    SizedBox(
-                      height: modeItemHeigth * 3,
-                      child: ListView.builder(
-                        itemCount: homepage_mode_items.playModes.length,
-                        itemBuilder: (context, index) =>
-                            homepage_mode_items.playModes[index],
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    _onlineInfo(),
-                    const SizedBox(height: 5),
-                    _liveStreamingText(),
-                    const SizedBox(height: 10),
-                    _streamingUserItem(
-                      isWhite: false,
-                      title: 'IM',
-                      color: Colors.amber,
-                      name: 'Riccardo Cescon',
-                      elo: '2829',
-                      time: '0:22',
-                    ),
-                    _streamingUserItem(
-                      isWhite: true,
-                      title: 'GM',
-                      color: Colors.pink,
-                      name: 'Hardal',
-                      elo: '3018',
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+        body: _customScrollView(
+          children: [
+            _paddedItems(
+              [
+                const HomepageAppbar(),
+                //TODO: @alexrintt's slidebar
+                _modesList(),
+                heigth5,
+                _onlineInfo(),
+                heigth5,
+                _liveStreamingText(),
+                heigth10,
+                _streamingSection(),
+                heigth20,
+                _dailyPuzzleSection(),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
+
+  Widget _paddedItems(List<Widget> children) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          children: children,
+        ),
+      );
+
+  Widget _customScrollView({required List<Widget> children}) =>
+      CustomScrollView(
+        slivers: [
+          SliverList(
+            delegate: SliverChildListDelegate(children),
+          ),
+        ],
+      );
+
+  Widget _modesList() => SizedBox(
+        height: modeItemHeigth * 3,
+        child: ListView.builder(
+          // itemCount: homepage_mode_items.playModes.length,
+          // itemBuilder: (context, index) => homepage_mode_items.playModes[index],
+
+          // itemCount: homepage_mode_items.learnModes.length,
+          // itemBuilder: (context, index) =>
+          //     homepage_mode_items.learnModes[index],
+
+          // itemCount: homepage_mode_items.toolsModes.length,
+          // itemBuilder: (context, index) =>
+          //     homepage_mode_items.toolsModes[index],
+
+          itemCount: homepage_mode_items.communityModes.length,
+          itemBuilder: (context, index) =>
+              homepage_mode_items.communityModes[index],
+        ),
+      );
+
+  Widget _dailyPuzzleSection() => Column(
+        children: const [
+          AspectRatio(
+            aspectRatio: 1,
+            child: Placeholder(),
+          ),
+        ],
+      );
+
+  Widget _streamingSection() => Column(
+        children: [
+          _paddedItems([
+            _streamingUserItem(
+              isWhite: false,
+              title: 'IM',
+              color: Colors.amber,
+              name: 'Riccardo Cescon',
+              elo: '2829',
+              time: '0:22',
+            ),
+          ]),
+          heigth5,
+          const AspectRatio(
+            aspectRatio: 1,
+            child: Placeholder(),
+          ),
+          heigth5,
+          _paddedItems(
+            [
+              _streamingUserItem(
+                isWhite: true,
+                title: 'GM',
+                color: Colors.pink,
+                name: 'Hardal',
+                elo: '3018',
+              ),
+            ],
+          ),
+        ],
+      );
 
   Widget _streamingUserItem({
     required bool isWhite,

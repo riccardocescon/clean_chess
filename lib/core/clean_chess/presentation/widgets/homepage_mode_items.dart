@@ -13,6 +13,27 @@ List<Widget> playModes = [
   _localItem,
 ];
 
+List<Widget> learnModes = [
+  _tactisItem,
+  _studyItem,
+  _coordsItem,
+  _watchItem,
+];
+
+List<Widget> toolsModes = [
+  _analysisItem,
+  _boardEditorItem,
+  _clockItem,
+  _importGameItem,
+];
+
+List<Widget> communityModes = [
+  _searchItem,
+  _leaderboardItem,
+  _usersItem,
+];
+
+//#region Play modes
 Widget get _quickMatchItem => ModeItem(
       title: 'Quick match',
       subtitle: 'Play someone at your level',
@@ -107,6 +128,129 @@ Widget get _localItem => ModeItem(
       ),
       color: Colors.amber.shade700,
     );
+
+//#endregion
+
+//#region Learn modes
+Widget get _tactisItem => const ModeItem(
+      title: 'Tactics',
+      subtitle: 'Learn chess tactis',
+      icon: Icon(
+        Icons.lightbulb,
+        size: 35,
+        color: Colors.white,
+      ),
+      color: Colors.teal,
+    );
+Widget get _studyItem => const ModeItem(
+      title: 'Studies',
+      subtitle: 'Learn the art of chess',
+      icon: Icon(
+        Icons.menu_book_rounded,
+        size: 35,
+        color: Colors.white,
+      ),
+      color: Colors.indigo,
+    );
+Widget get _coordsItem => const ModeItem(
+      title: 'Coordinates',
+      subtitle: 'Never get lost again!',
+      icon: Icon(
+        Icons.public,
+        size: 35,
+        color: Colors.white,
+      ),
+      color: Colors.pink,
+    );
+Widget get _watchItem => ModeItem(
+      title: 'Watch',
+      subtitle: 'Watch high ranked players',
+      icon: Image.asset(
+        'assets/icons/Vision.png',
+        scale: 2.5,
+        color: Colors.black,
+      ),
+      color: Colors.lime,
+    );
+
+//#endregion
+
+//#region Tools modes
+Widget get _analysisItem => ModeItem(
+      title: 'Analysis',
+      subtitle: 'Analyse your games',
+      icon: Image.asset(
+        'assets/icons/Financial Growth Analysis.png',
+        scale: 2.5,
+        color: Colors.white,
+      ),
+      color: Colors.green.shade700,
+    );
+Widget get _boardEditorItem => ModeItem(
+      title: 'Board Editor',
+      subtitle: 'Edit the board',
+      icon: const Icon(
+        Icons.edit,
+        size: 35,
+        color: Colors.white,
+      ),
+      color: Colors.orange.shade700,
+    );
+Widget get _clockItem => ModeItem(
+      title: 'Clock',
+      subtitle: 'Start a chess clock',
+      icon: const Icon(
+        Icons.alarm,
+        size: 35,
+        color: Colors.white,
+      ),
+      color: Colors.purple.shade700,
+    );
+Widget get _importGameItem => ModeItem(
+      title: 'Import Game',
+      subtitle: 'Import your games',
+      icon: const Icon(
+        Icons.upload_file_rounded,
+        size: 35,
+        color: Colors.white,
+      ),
+      color: Colors.blue.shade600,
+    );
+//#endregion
+
+//#region Community modes
+Widget get _searchItem => ModeItem(
+      title: 'Search',
+      subtitle: 'Search for users and games',
+      icon: const Icon(
+        Icons.search,
+        size: 35,
+        color: Colors.white,
+      ),
+      color: Colors.red.shade600,
+    );
+Widget get _leaderboardItem => ModeItem(
+      title: 'Leaderboard',
+      subtitle: 'View the leaderboard',
+      icon: const Icon(
+        Icons.leaderboard,
+        size: 35,
+        color: Colors.white,
+      ),
+      color: Colors.purple.shade600,
+    );
+Widget get _usersItem => const ModeItem(
+      title: 'Users',
+      subtitle: 'Searh for users',
+      icon: Icon(
+        Icons.groups,
+        size: 35,
+        color: Colors.white,
+      ),
+      color: Colors.teal,
+    );
+
+//#endregion
 
 Widget _bottomStat(Widget icon, String value) => Expanded(
       child: Container(

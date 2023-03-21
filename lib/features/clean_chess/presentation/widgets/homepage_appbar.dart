@@ -40,7 +40,7 @@ class HomepageAppbar extends StatelessWidget {
 
   Widget _accountName(BuildContext context) => ConstrainedBox(
         constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.28),
         child: ElevatedButton(
           onPressed: () {},
           style: ButtonStyle(
