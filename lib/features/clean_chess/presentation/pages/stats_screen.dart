@@ -1,3 +1,4 @@
+import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:flutter/material.dart';
 
 const backgroundColor = Color.fromARGB(225, 17, 17, 17);
@@ -175,11 +176,14 @@ Widget _boardAndOpening() {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
+        const SizedBox(
           height: 120,
           width: 120,
-          color: Colors.pink,
-        ), //Switch container with => Chessboard()
+          child: AspectRatio(
+            aspectRatio: 1,
+            child: Chessboard(),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Text(
