@@ -29,15 +29,11 @@ class ProfileScreen extends StatelessWidget {
 
   final int followerNum;
 
-  final bool onlineStatus;
-
   final String fullName;
 
   final String bio;
 
   final int timeplayed;
-
-  final bool isFollowing;
 
   final String userid;
 
@@ -46,6 +42,10 @@ class ProfileScreen extends StatelessWidget {
   final int lostGames;
 
   final int drawnGames;
+
+  final bool isFollowing;
+
+  final bool onlineStatus;
 
   final List<Widget> popUpMenuList = const [
     Text("Report"),
@@ -256,7 +256,8 @@ Widget _challengeButton() => Padding(
 
 Widget _followButton() => ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.grey,
+        //isFollowing ? Colors.green : Colors.grey,
         minimumSize: const Size(180, 35),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
@@ -269,6 +270,8 @@ Widget _followButton() => ElevatedButton(
         children: [
           Icon(
             Icons.person_add,
+            //isFollowing ? Icons.person_add : Icons.person_add_disabled,
+
             color: Colors.white,
             size: 20,
           ),
