@@ -1,3 +1,4 @@
+import 'package:cleanchess/features/clean_chess/presentation/pages/stats_screen.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:flutter/material.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/profilepage_mode_items.dart';
@@ -236,8 +237,8 @@ Widget _challengeButton() => Padding(
         onPressed: () {
           challengeButtonPressed();
         },
-        child: Row(
-          children: const [
+        child: const Row(
+          children: [
             ImageIcon(
               AssetImage("assets/icons/swords.png"),
               color: Colors.white,
@@ -264,8 +265,8 @@ Widget _followButton() => ElevatedButton(
       onPressed: () {
         followButtonPressed();
       },
-      child: Row(
-        children: const [
+      child: const Row(
+        children: [
           Icon(
             Icons.person_add,
             color: Colors.white,
@@ -314,10 +315,10 @@ Widget _ongoingGames() {
 //#region Ongoing games
 
 Widget _ongoinGamesText() {
-  return Padding(
-    padding: const EdgeInsets.only(left: 15, top: 45),
+  return const Padding(
+    padding: EdgeInsets.only(left: 15, top: 45),
     child: Row(
-      children: const [
+      children: [
         Padding(
           padding: EdgeInsets.only(right: 5),
           child: Icon(
@@ -381,7 +382,13 @@ Widget _stats({
                 itemCount: 6,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return modeItems[index];
+                  return InkWell(
+                      child: modeItems[index],
+                      onTap: () {
+                        print("$index");
+                        //1:Bullet, 2:Blitz, 3:Rapid, 4:Classical, 5:Correspondence, 6:Puzzles
+                        navigateToStatsPage(context);
+                      });
                 },
               ),
             ),
@@ -395,10 +402,10 @@ Widget _stats({
 //#region Stats Widgets
 
 Widget _statsText() {
-  return Padding(
-    padding: const EdgeInsets.only(left: 15, top: 30),
+  return const Padding(
+    padding: EdgeInsets.only(left: 15, top: 30),
     child: Row(
-      children: const [
+      children: [
         Padding(
           padding: EdgeInsets.only(right: 5),
           child: Icon(
@@ -471,7 +478,9 @@ Widget _chessboard({
             child: const SizedBox(
               height: 144,
               width: 144,
-              child: Chessboard(),
+              child: InkWell(
+                child: Chessboard(),
+              ),
             ),
           ),
         ),
@@ -504,3 +513,11 @@ void followersButtonPressed() {}
 
 //Gets called when user clicks on the three vertical dots
 void popupMenuButtonPressed() {}
+
+//Navigates to stats page
+void navigateToStatsPage(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const StatsPage()),
+  );
+}

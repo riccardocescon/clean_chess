@@ -55,10 +55,7 @@ Widget statsCard({
           child: SizedBox(
             width: 125,
             height: 160,
-            child: MaterialButton(
-              onPressed: () {
-                //statsButtonPressed(gameMode);
-              },
+            child: Container(
               color: statsCardColor.withOpacity(0.5),
               child: Column(
                 children: [
