@@ -103,13 +103,10 @@ Widget _controllerButtons() {
 }
 
 Widget _chart() {
-  return Padding(
-    padding: const EdgeInsets.only(top: 20, bottom: 50),
-    child: Container(
-      height: 225,
-      width: 300,
-      color: Colors.blue,
-    ),
+  return const Padding(
+    padding: EdgeInsets.only(top: 20, bottom: 50),
+    child: Placeholder(
+        fallbackHeight: 225, fallbackWidth: 300), //TODO Chart Widget
   );
 }
 
@@ -154,9 +151,12 @@ Widget _gamesPlayedCard() {
     child: Padding(
       padding: const EdgeInsets.only(top: 5),
       child: Container(
+        decoration: ShapeDecoration(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            color: const Color.fromARGB(225, 23, 23, 23)),
         height: 180,
         width: 400,
-        color: const Color.fromARGB(225, 23, 23, 23),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -208,37 +208,7 @@ Widget _gameInfo() {
             padding: const EdgeInsets.only(top: 40),
             child: Text("$username  $opponentname"),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(rating),
-              const Icon(Icons.keyboard_arrow_up_sharp, color: Colors.green),
-              Text(
-                "$gainedElo",
-                style: const TextStyle(
-                  color: Colors.green,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 5, right: 5),
-                child: Image(
-                  image: AssetImage("assets/icons/swords.png"),
-                  color: Colors.white,
-                  width: 18,
-                  height: 18,
-                ),
-              ),
-              Text(opponentRating),
-              const Icon(
-                Icons.keyboard_arrow_down_sharp,
-                color: Colors.red,
-              ),
-              Text(
-                "$gainedEloOpponent",
-                style: const TextStyle(color: Colors.red),
-              ),
-            ],
-          ),
+          _userAndOpponent(),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Text(
@@ -250,6 +220,35 @@ Widget _gameInfo() {
         ],
       ),
     ),
+  );
+}
+
+Widget _userAndOpponent() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text(rating),
+      Text(
+        "$gainedElo",
+        style: const TextStyle(
+          color: Colors.green,
+        ),
+      ),
+      const Padding(
+        padding: EdgeInsets.only(left: 5, right: 5),
+        child: Image(
+          image: AssetImage("assets/icons/swords.png"),
+          color: Colors.white,
+          width: 18,
+          height: 18,
+        ),
+      ),
+      Text(opponentRating),
+      Text(
+        "$gainedEloOpponent",
+        style: const TextStyle(color: Colors.red),
+      ),
+    ],
   );
 }
 
