@@ -229,7 +229,7 @@ Widget _challengeButton() => Padding(
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.pink,
-          minimumSize: const Size(150, 35),
+          minimumSize: const Size(175, 35),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
@@ -256,9 +256,9 @@ Widget _challengeButton() => Padding(
 
 Widget _followButton() => ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.grey,
-        //isFollowing ? Colors.green : Colors.grey,
-        minimumSize: const Size(180, 35),
+        backgroundColor: Colors.green,
+        //isFollowing ? Colors.green : Colors.grey.shade900,
+        minimumSize: const Size(190, 35),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),

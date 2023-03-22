@@ -244,7 +244,7 @@ Widget _gameInfo() {
             child: Text(
               result,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 8),
+              style: const TextStyle(fontSize: 8, color: Colors.green),
             ),
           ),
         ],
