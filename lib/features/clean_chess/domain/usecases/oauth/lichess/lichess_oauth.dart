@@ -1,9 +1,9 @@
-import 'package:cleanchess/chess/error/failures.dart';
-import 'package:cleanchess/chess/utilities/extensions.dart';
+import 'package:cleanchess/core/errors/failure.dart';
 import 'package:cleanchess/core/usecases/usecase.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_oauth_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
+import 'package:cleanchess/core/utilities/extentions.dart';
 
 typedef OAuthParams = Map<String, String>;
 

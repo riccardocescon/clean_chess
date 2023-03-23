@@ -1,4 +1,4 @@
-import 'package:cleanchess/chess/error/failures.dart';
+import 'package:cleanchess/core/errors/failure.dart';
 import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
     as secure_storage_helper;
 import 'package:dartz/dartz.dart';

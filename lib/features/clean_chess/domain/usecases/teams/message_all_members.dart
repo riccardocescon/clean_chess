@@ -1,6 +1,6 @@
-import 'package:cleanchess/chess/error/failures.dart';
-import 'package:cleanchess/chess/utilities/utils.dart';
+import 'package:cleanchess/core/errors/failure.dart';
 import 'package:cleanchess/core/usecases/usecase.dart';
+import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/team_repository.dart';
 import 'package:dartz/dartz.dart';
 
