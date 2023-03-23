@@ -1,6 +1,6 @@
-import 'package:cleanchess/chess/error/failures.dart';
-import 'package:cleanchess/chess/utilities/extensions.dart';
-import 'package:cleanchess/chess/utilities/utils.dart';
+import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/utilities/empty.dart';
+import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_account_data_source.dart';
 import 'package:dartz/dartz.dart';

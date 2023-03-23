@@ -1,12 +1,11 @@
-import 'package:cleanchess/chess/error/failures.dart';
-import 'package:cleanchess/chess/utilities/extensions.dart';
+import 'package:cleanchess/core/errors/failure.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:oauth2/oauth2.dart';
+import 'package:cleanchess/core/utilities/extentions.dart';
 
-import 'repo_mocks.dart';
 import 'repo_mocks.mocks.dart';
 import 'usecases_test_utilities.dart' as usecases_test_utils;
 
