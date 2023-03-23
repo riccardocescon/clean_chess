@@ -56,6 +56,10 @@ dependencies:
   #     path: packages/lichess_client_dio
   mockito: ^5.3.2
   bloc_test: ^9.1.1
+  dartchess:
+    git:
+      url: https://github.com/lichess-org/dartchess
+      ref: main
 
 dev_dependencies:
   flutter_test:

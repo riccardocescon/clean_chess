@@ -234,6 +234,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.5"
+  dartchess:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: main
+      resolved-ref: "8ba91719920bf08a39973c6222ad0bf2faa82cf4"
+      url: "https://github.com/lichess-org/dartchess"
+    source: git
+    version: "0.1.0"
   dartz:
     dependency: "direct main"
     description:
@@ -274,6 +283,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  fast_immutable_collections:
+    dependency: transitive
+    description:
+      name: fast_immutable_collections
+      sha256: "60d68b272a33f919da05cd5f6dddcc69f62ace6a81b29f87a23b54a9126c971e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.0.0"
   file:
     dependency: transitive
     description:
