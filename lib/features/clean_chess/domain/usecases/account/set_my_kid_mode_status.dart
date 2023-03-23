@@ -1,4 +1,4 @@
-import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/clean_chess/errors/failure.dart';
 import 'package:cleanchess/core/usecases/usecase.dart';
 import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_account_repository.dart';

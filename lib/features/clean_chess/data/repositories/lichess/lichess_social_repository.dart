@@ -1,4 +1,4 @@
-import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/clean_chess/errors/failure.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_social_data_source.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/social_repository.dart';
 import 'package:dartz/dartz.dart';

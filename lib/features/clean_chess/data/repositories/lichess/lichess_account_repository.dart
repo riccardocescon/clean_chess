@@ -1,6 +1,6 @@
 import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_account_data_source.dart';
-import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/clean_chess/errors/failure.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/account_repositoy.dart';
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';

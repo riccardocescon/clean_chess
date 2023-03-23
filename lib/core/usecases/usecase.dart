@@ -1,4 +1,4 @@
-import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/clean_chess/errors/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 

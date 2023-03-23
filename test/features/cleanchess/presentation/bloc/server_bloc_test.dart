@@ -1,4 +1,4 @@
-import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/clean_chess/errors/failure.dart';
 import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';

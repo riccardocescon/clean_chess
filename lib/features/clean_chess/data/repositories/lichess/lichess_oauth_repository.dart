@@ -1,4 +1,4 @@
-import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/clean_chess/errors/failure.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_oauth_data_source.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/oauth_repository.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';

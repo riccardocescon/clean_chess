@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i7;
 
-import 'package:cleanchess/core/errors/failure.dart' as _i8;
+import 'package:cleanchess/core/clean_chess/errors/failure.dart' as _i8;
 import 'package:dartz/dartz.dart' as _i5;
 import 'package:dio/dio.dart' as _i2;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i4;

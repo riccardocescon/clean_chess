@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i10;
 
-import 'package:cleanchess/core/errors/failure.dart' as _i11;
+import 'package:cleanchess/core/clean_chess/errors/failure.dart' as _i11;
 import 'package:cleanchess/core/usecases/usecase.dart' as _i14;
 import 'package:cleanchess/core/utilities/empty.dart' as _i15;
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_account_repository.dart'

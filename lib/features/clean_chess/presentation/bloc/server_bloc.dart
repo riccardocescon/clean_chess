@@ -1,4 +1,4 @@
-import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/clean_chess/errors/failure.dart';
 import 'package:cleanchess/core/presentation/bloc/utilities/oauth_helper.dart'
     as oauth_helper;
 import 'package:cleanchess/core/usecases/usecase.dart';
