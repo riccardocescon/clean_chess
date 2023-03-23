@@ -1,10 +1,10 @@
-import 'package:cleanchess/chess/error/failures.dart';
-import 'package:cleanchess/chess/utilities/extensions.dart';
-import 'package:cleanchess/chess/utilities/utils.dart';
+import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_team_data_source.dart';
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
+import 'package:cleanchess/core/utilities/extentions.dart';
 
 class LichessTeamDataSource implements RemoteTeamDataSource {
   final LichessTokenProvider _tokenProvider;

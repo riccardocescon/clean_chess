@@ -1,4 +1,4 @@
-import 'package:cleanchess/chess/error/failures.dart';
+import 'package:cleanchess/core/errors/failure.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 abstract class ServerState {

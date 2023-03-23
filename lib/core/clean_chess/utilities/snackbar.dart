@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:cleanchess/chess/error/failures.dart';
+import 'package:cleanchess/core/errors/failure.dart';
 import 'package:flutter/material.dart';
 
 /// Shows an error message

@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i5;
 
-import 'package:cleanchess/chess/error/failures.dart' as _i6;
+import 'package:cleanchess/core/errors/failure.dart' as _i6;
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_oauth_data_source.dart'
     as _i2;
 import 'package:dartz/dartz.dart' as _i3;
