@@ -1,8 +1,7 @@
+import 'package:cleanchess/features/clean_chess/presentation/pages/stats_screen.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:flutter/material.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/profilepage_mode_items.dart';
-
-import '../widgets/chart.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({
@@ -522,6 +521,6 @@ void popupMenuButtonPressed() {}
 void navigateToStatsPage(BuildContext context) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => const Chart()),
+    MaterialPageRoute(builder: (context) => const StatsPage()),
   );
 }

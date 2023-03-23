@@ -61,11 +61,13 @@ Widget _body() {
     style: const TextStyle(
       color: Colors.white,
     ),
-    child: ListView(children: [
-      _controllerButtons(),
-      _chart(),
-      _gamesPlayed(),
-    ]),
+    child: ListView(
+      children: [
+        _controllerButtons(),
+        _chart(),
+        _gamesPlayed(),
+      ],
+    ),
   );
 }
 
@@ -106,7 +108,8 @@ Widget _chart() {
   return const Padding(
     padding: EdgeInsets.only(top: 20, bottom: 50),
     child: Placeholder(
-        fallbackHeight: 225, fallbackWidth: 300), //TODO Chart Widget
+      fallbackHeight: 200,
+    ), //Chart
   );
 }
 

@@ -6,20 +6,13 @@ int resultElo = 40; //How much elo the user gained/lost in a month
 int topELo = 2000; //The highest elo the user had this month
 int lowELo = 800; //The lowest elo the user had this month
 
-class Chart extends StatefulWidget {
+List<Color> gradientColors = [
+  resultElo < 0 ? Colors.pink : Colors.green,
+  resultElo < 0 ? Colors.pink : Colors.green,
+];
+
+class Chart extends StatelessWidget {
   const Chart({super.key});
-
-  @override
-  State<Chart> createState() => _ChartState();
-}
-
-class _ChartState extends State<Chart> {
-  List<Color> gradientColors = [
-    resultElo < 0 ? Colors.pink : Colors.green,
-    resultElo < 0 ? Colors.pink : Colors.green,
-  ];
-
-  bool showAvg = false;
 
   @override
   Widget build(BuildContext context) {
