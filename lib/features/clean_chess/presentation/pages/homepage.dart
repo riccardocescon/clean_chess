@@ -10,6 +10,17 @@ import 'package:flutter/material.dart';
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
 
+  Widget _buildSlider() {
+    return Stack(
+      fit: StackFit.loose,
+      children: <Widget>[
+        Positioned(
+          child: TextButton(onPressed: () {}, child: const Text('A')),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -19,7 +30,7 @@ class Homepage extends StatelessWidget {
             PaddedItems(
               children: [
                 const HomepageAppbar(),
-                //TODO: @alexrintt's slidebar
+                _buildSlider(),
                 _modesList(),
                 heigth5,
                 _onlineInfo(),
