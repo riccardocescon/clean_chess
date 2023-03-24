@@ -6,6 +6,8 @@ class ChessKit {
   late Chess _chess;
 
   List<Tuple2<Square, Piece>> get pieces => _chess.board.pieces.toList();
+  Chess get chess => _chess;
+  Side get turn => _chess.turn;
 
   ChessKit(Setup setup) : _chess = Chess.fromSetup(setup);
 
@@ -23,5 +25,23 @@ class ChessKit {
   bool _isValidMove(String rawUciMove) {
     final move = Move.fromUci(rawUciMove);
     return move != null && _chess.isLegal(move);
+  }
+
+  List<Square> getLegalMoves(Square square) {
+    // Assert that the square is not empty
+    final piece = _chess.board.pieceAt(square);
+    if (piece == null) {
+      return [];
+    }
+
+    // Get the legal moves for the piece
+    List<Square> legalMoves = [];
+    chess.legalMoves.where((key, value) => key == square).forEach(
+      (key, value) {
+        legalMoves.addAll(value.squares.toList());
+      },
+    );
+
+    return legalMoves;
   }
 }
