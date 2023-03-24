@@ -12,6 +12,15 @@ class ChessKit {
   /// Getter for the current turn
   Side get turn => _chess.turn;
 
+  bool get isCheckmate => _chess.isCheckmate;
+  bool get isStalemate => _chess.isStalemate;
+  bool get isInsufficientMaterial => _chess.isInsufficientMaterial;
+  bool get isGameOver => _chess.isGameOver;
+  bool get gameEnded =>
+      isCheckmate || isStalemate || isInsufficientMaterial || isGameOver;
+
+  Outcome get outcome => _chess.outcome!;
+
   ChessKit(Setup setup) : _chess = Chess.fromSetup(setup);
 
   /// Moves a piece on the board and returns the new state of the game

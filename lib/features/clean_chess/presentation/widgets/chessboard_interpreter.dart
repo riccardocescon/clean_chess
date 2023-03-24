@@ -117,6 +117,15 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
       showChesskitSnackbarError(context, move.left);
       return;
     }
+
+    if (_chessKit.gameEnded) {
+      final outcome = _chessKit.outcome;
+      if (outcome.winner == null) {
+        print("Draw");
+      } else {
+        print("${outcome.winner} won");
+      }
+    }
   }
 
   //#endregion
