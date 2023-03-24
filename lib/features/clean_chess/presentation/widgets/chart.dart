@@ -41,7 +41,7 @@ class Chart extends StatelessWidget {
       ),
 
       borderData: FlBorderData(
-        show: true,
+        show: false,
       ),
       //The X axis corresponds to the date, the Y axis to the elo
       minX: 0,
