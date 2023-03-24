@@ -1,3 +1,6 @@
+import 'package:cleanchess/core/chesskit/utilities/snackbar.dart';
+import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
+import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/features/chesskit/chesskit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:dartchess/dartchess.dart';
@@ -16,6 +19,7 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
   late ChessKit _chessKit;
 
   Square? _selectedSquare;
+  Piece? _selectedPiece;
 
   @override
   void initState() {
@@ -32,15 +36,50 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
       );
 
   void _onCellTap(Square cell) {
+    // Handle first tap
     if (_selectedSquare == null) {
-      _selectedSquare = cell;
-      setState(() {});
+      _handleFirstTap(cell);
       return;
     }
 
+    // Handle deselection if the same square is tapped twice
     if (_selectedSquare == cell) {
-      _selectedSquare = null;
-      setState(() {});
+      _resetSelection();
+      return;
+    }
+
+    // Handle second tap
+    assert(_selectedPiece != null);
+    final uci = "${_indexToCoord(_selectedSquare!)}${_indexToCoord(cell)}";
+    _handleMove(uci);
+
+    _resetSelection();
+  }
+
+  void _handleFirstTap(Square cell) {
+    // Assert that there is a piece on the cell
+    final pieceOnCell = _chessKit.pieces.any(
+      (element) => element.item1 == cell,
+    );
+    if (!pieceOnCell) return;
+
+    // Select the piece
+    _selectedPiece =
+        _chessKit.pieces.firstWhere((element) => element.item1 == cell).item2;
+    _selectedSquare = cell;
+    setState(() {});
+  }
+
+  void _resetSelection() {
+    _selectedSquare = null;
+    _selectedPiece = null;
+    setState(() {});
+  }
+
+  void _handleMove(String uci) {
+    final move = _chessKit.move(uci);
+    if (move.isLeft()) {
+      showChesskitSnackbarError(context, move.left);
       return;
     }
   }
