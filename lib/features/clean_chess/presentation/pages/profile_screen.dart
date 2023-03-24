@@ -388,8 +388,6 @@ Widget _stats({
                   return InkWell(
                       child: modeItems[index],
                       onTap: () {
-                        print("$index");
-                        //1:Bullet, 2:Blitz, 3:Rapid, 4:Classical, 5:Correspondence, 6:Puzzles
                         navigateToStatsPage(context);
                       });
                 },

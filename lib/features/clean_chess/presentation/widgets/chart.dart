@@ -24,42 +24,9 @@ class Chart extends StatelessWidget {
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
-          child: SizedBox(
-            width: double.infinity,
-            height: 200,
-            child: LineChart(_mainData()),
-          ),
+          child: SizedBox(height: 200, child: LineChart(_mainData())),
         ),
       ),
-    );
-  }
-
-  Widget topTitleWidgets() {
-    return Column(
-      children: [
-        Text("$elo"),
-        Text("$resultElo"),
-      ],
-    );
-  }
-
-  Widget bottomTitleWidgets() {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("21 April"),
-        Text("21 May"),
-      ],
-    );
-  }
-
-  Widget leftTitleWidgets() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("$topELo"),
-        Text("$lowELo"),
-      ],
     );
   }
 
@@ -72,6 +39,7 @@ class Chart extends StatelessWidget {
       titlesData: FlTitlesData(
         show: false,
       ),
+
       borderData: FlBorderData(
         show: true,
       ),

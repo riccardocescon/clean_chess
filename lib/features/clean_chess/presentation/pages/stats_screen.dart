@@ -1,3 +1,4 @@
+import 'package:cleanchess/features/clean_chess/presentation/widgets/chart.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:flutter/material.dart';
 
@@ -63,7 +64,6 @@ Widget _body() {
     ),
     child: ListView(
       children: [
-        _controllerButtons(),
         _chart(),
         _gamesPlayed(),
       ],
@@ -71,47 +71,78 @@ Widget _body() {
   );
 }
 
-Widget _controllerButtons() {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
+Widget _chart() {
+  return Padding(
+    padding: const EdgeInsets.only(top: 20, bottom: 35),
+    child: Column(
+      children: [
+        topTitleWidgets(),
+        const SizedBox(height: 200, child: Chart()),
+        bottomTitleWidgets(),
+      ],
+    ),
+  );
+}
+
+//#region Chart widgets
+
+Widget topTitleWidgets() {
+  return Column(
     children: [
-      IconButton(
-        icon: const Icon(Icons.arrow_back_ios),
-        onPressed: () {
-          if (index > 0) {
-            index--;
-          } else {
-            index = 5;
-          }
-        },
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              if (index > 0) {
+                index--;
+              } else {
+                index = 5;
+              }
+            },
+          ),
+          Text(gamemode[index],
+              style: const TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              )),
+          IconButton(
+            icon: const Icon(Icons.arrow_forward_ios),
+            onPressed: () {
+              if (index < 5) {
+                index++;
+              } else {
+                index = 0;
+              }
+            },
+          ),
+        ],
       ),
-      Text(gamemode[index],
-          style: const TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          )),
-      IconButton(
-        icon: const Icon(Icons.arrow_forward_ios),
-        onPressed: () {
-          if (index < 5) {
-            index++;
-          } else {
-            index = 0;
-          }
-        },
-      ),
+      // Column(
+      //   children: [
+      //     Text("$elo"),
+      //     Text("$resultElo"),
+      //   ],
+      // ),
     ],
   );
 }
 
-Widget _chart() {
+Widget bottomTitleWidgets() {
   return const Padding(
-    padding: EdgeInsets.only(top: 20, bottom: 50),
-    child: Placeholder(
-      fallbackHeight: 200,
-    ), //Chart
+    padding: EdgeInsets.all(15),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("21 April"),
+        Text("21 May"),
+      ],
+    ),
   );
 }
+
+//#endregion
 
 Widget _gamesPlayed() {
   return Column(
@@ -206,7 +237,7 @@ Widget _gameInfo() {
       child: Column(
         children: [
           Text("$gameTime $gameMode"),
-          Text(gameDate),
+          Text(gameDate, style: const TextStyle(fontSize: 10)),
           Padding(
             padding: const EdgeInsets.only(top: 40),
             child: Text("$username  $opponentname"),
@@ -232,7 +263,7 @@ Widget _userAndOpponent() {
     children: [
       Text(rating),
       Text(
-        "$gainedElo",
+        " +$gainedElo",
         style: const TextStyle(
           color: Colors.green,
         ),
@@ -248,7 +279,7 @@ Widget _userAndOpponent() {
       ),
       Text(opponentRating),
       Text(
-        "$gainedEloOpponent",
+        " $gainedEloOpponent",
         style: const TextStyle(color: Colors.red),
       ),
     ],
