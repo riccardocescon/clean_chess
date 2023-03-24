@@ -1,9 +1,8 @@
-import 'package:cleanchess/chess/error/failures.dart';
-import 'package:cleanchess/chess/utilities/extensions.dart';
-import 'package:cleanchess/chess/utilities/utils.dart';
+import 'package:cleanchess/core/errors/failure.dart';
 import 'package:cleanchess/core/presentation/bloc/utilities/oauth_helper.dart'
     as oauth_helper;
 import 'package:cleanchess/core/usecases/usecase.dart';
+import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
@@ -16,6 +15,7 @@ import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.d
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
+import 'package:cleanchess/core/utilities/extentions.dart';
 
 class ServerBloc extends Bloc<ServerEvent, ServerState> {
   final LichessTokenProvider tokenProvider;
