@@ -26,6 +26,7 @@ class Chessboard extends StatelessWidget {
   /// Getter for whether the board is interactable
   bool get _tappable => onCellTap != null;
 
+  /// Getter for the splash color
   Color get _splashColor => _tappable ? Colors.pink : Colors.transparent;
 
   @override

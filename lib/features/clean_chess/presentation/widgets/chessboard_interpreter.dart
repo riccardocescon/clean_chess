@@ -1,5 +1,4 @@
 import 'package:cleanchess/core/chesskit/utilities/snackbar.dart';
-import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/features/chesskit/chesskit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
@@ -16,11 +15,20 @@ class ChessboardInterpreter extends StatefulWidget {
 }
 
 class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
+  /// Chesskit instance for this Widget
+  /// It will handle all the logic for the game
   late ChessKit _chessKit;
 
+  //#region UI variables
+  /// The currently selected square
   Square? _selectedSquare;
+
+  /// The currently selected piece
   Piece? _selectedPiece;
-  List<Square> _selectedSquares = [];
+
+  /// The squares that are legal moves for the [_selectedPiece]
+  final List<Square> _selectedSquares = [];
+  //#endregion
 
   @override
   void initState() {
