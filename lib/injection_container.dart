@@ -1,23 +1,13 @@
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
-import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_account_data_source.dart';
-import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_oauth_data_source.dart';
-import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_social_data_source.dart';
-import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_team_data_source.dart';
-import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_user_data_source.dart';
-import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_account_repository.dart';
-import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_social_repository.dart';
-import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_user_repository.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_datasource.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_repositories.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
-import 'package:cleanchess/features/clean_chess/domain/usecases/socials/get_following_users.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
 import 'package:get_it/get_it.dart';
-
-import 'features/clean_chess/data/repositories/lichess/lichess_oauth_repository.dart';
-import 'features/clean_chess/data/repositories/lichess/lichess_team_repository.dart';
 
 final sl = GetIt.instance;
 

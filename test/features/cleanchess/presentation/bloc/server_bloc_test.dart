@@ -1,8 +1,7 @@
-import 'package:cleanchess/chess/error/failures.dart';
-import 'package:cleanchess/chess/utilities/utils.dart';
+import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
