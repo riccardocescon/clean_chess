@@ -1,3 +1,4 @@
+import 'package:cleanchess/features/clean_chess/presentation/pages/stats_screen.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:flutter/material.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/profilepage_mode_items.dart';
@@ -28,15 +29,11 @@ class ProfileScreen extends StatelessWidget {
 
   final int followerNum;
 
-  final bool onlineStatus;
-
   final String fullName;
 
   final String bio;
 
   final int timeplayed;
-
-  final bool isFollowing;
 
   final String userid;
 
@@ -45,6 +42,10 @@ class ProfileScreen extends StatelessWidget {
   final int lostGames;
 
   final int drawnGames;
+
+  final bool isFollowing;
+
+  final bool onlineStatus;
 
   final List<Widget> popUpMenuList = const [
     Text("Report"),
@@ -228,7 +229,7 @@ Widget _challengeButton() => Padding(
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.pink,
-          minimumSize: const Size(150, 35),
+          minimumSize: const Size(175, 35),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
@@ -236,8 +237,8 @@ Widget _challengeButton() => Padding(
         onPressed: () {
           challengeButtonPressed();
         },
-        child: Row(
-          children: const [
+        child: const Row(
+          children: [
             ImageIcon(
               AssetImage("assets/icons/swords.png"),
               color: Colors.white,
@@ -256,7 +257,8 @@ Widget _challengeButton() => Padding(
 Widget _followButton() => ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.green,
-        minimumSize: const Size(180, 35),
+        //isFollowing ? Colors.green : Colors.grey.shade900,
+        minimumSize: const Size(190, 35),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
@@ -264,10 +266,12 @@ Widget _followButton() => ElevatedButton(
       onPressed: () {
         followButtonPressed();
       },
-      child: Row(
-        children: const [
+      child: const Row(
+        children: [
           Icon(
             Icons.person_add,
+            //isFollowing ? Icons.person_add : Icons.person_add_disabled,
+
             color: Colors.white,
             size: 20,
           ),
@@ -314,10 +318,10 @@ Widget _ongoingGames() {
 //#region Ongoing games
 
 Widget _ongoinGamesText() {
-  return Padding(
-    padding: const EdgeInsets.only(left: 15, top: 45),
+  return const Padding(
+    padding: EdgeInsets.only(left: 15, top: 45),
     child: Row(
-      children: const [
+      children: [
         Padding(
           padding: EdgeInsets.only(right: 5),
           child: Icon(
@@ -381,7 +385,11 @@ Widget _stats({
                 itemCount: 6,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return modeItems[index];
+                  return InkWell(
+                      child: modeItems[index],
+                      onTap: () {
+                        navigateToStatsPage(context);
+                      });
                 },
               ),
             ),
@@ -395,10 +403,10 @@ Widget _stats({
 //#region Stats Widgets
 
 Widget _statsText() {
-  return Padding(
-    padding: const EdgeInsets.only(left: 15, top: 30),
+  return const Padding(
+    padding: EdgeInsets.only(left: 15, top: 30),
     child: Row(
-      children: const [
+      children: [
         Padding(
           padding: EdgeInsets.only(right: 5),
           child: Icon(
@@ -471,7 +479,9 @@ Widget _chessboard({
             child: const SizedBox(
               height: 144,
               width: 144,
-              child: Chessboard(),
+              child: InkWell(
+                child: Chessboard(),
+              ),
             ),
           ),
         ),
@@ -504,3 +514,11 @@ void followersButtonPressed() {}
 
 //Gets called when user clicks on the three vertical dots
 void popupMenuButtonPressed() {}
+
+//Navigates to stats page
+void navigateToStatsPage(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const StatsPage()),
+  );
+}
