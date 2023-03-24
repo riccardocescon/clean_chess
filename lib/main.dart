@@ -1,4 +1,5 @@
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
+import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/login_screen.dart';
@@ -13,11 +14,19 @@ void main() async {
 
   await init();
 
-  runApp(const Root());
+  final hasAccessToken =
+      (await sl<LichessTokenProvider>().getClient()).isRight();
+
+  runApp(Root(hasAccessToken: hasAccessToken));
 }
 
 class Root extends StatefulWidget {
-  const Root({super.key});
+  const Root({
+    super.key,
+    required this.hasAccessToken,
+  });
+
+  final bool hasAccessToken;
 
   @override
   State<Root> createState() => _RootState();
@@ -37,8 +46,9 @@ class _RootState extends State<Root> {
         child: MaterialApp(
           theme: theme,
           debugShowCheckedModeBanner: false,
-          initialRoute: Navigation.homepage,
-          // initialRoute: Navigation.loginScreen, For testing purposes.
+          initialRoute: widget.hasAccessToken
+              ? Navigation.homepage
+              : Navigation.loginScreen,
           onGenerateRoute: (settings) {
             switch (settings.name) {
               case Navigation.loginScreen:
