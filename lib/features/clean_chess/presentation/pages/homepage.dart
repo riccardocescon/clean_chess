@@ -1,3 +1,4 @@
+import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/core/clean_chess/presentation/widgets/homepage_mode_items.dart'
     as homepage_mode_items;
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
@@ -6,6 +7,7 @@ import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_ap
 import 'package:cleanchess/features/clean_chess/presentation/widgets/padded_items.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shared_tools/extensions/navigator_alias.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
@@ -20,7 +22,7 @@ class Homepage extends StatelessWidget {
               children: [
                 const HomepageAppbar(),
                 //TODO: @alexrintt's slidebar
-                _modesList(),
+                _modesList(context),
                 heigth5,
                 _onlineInfo(),
                 _sortedLivePuzzle(completed: false),
@@ -63,11 +65,13 @@ class Homepage extends StatelessWidget {
         ],
       );
 
-  Widget _modesList() => SizedBox(
+  Widget _modesList(BuildContext context) => SizedBox(
         height: modeItemHeigth * 3,
         child: ListView.builder(
-          itemCount: homepage_mode_items.playModes.length,
-          itemBuilder: (context, index) => homepage_mode_items.playModes[index],
+          itemCount: homepage_mode_items.playModes().length,
+          itemBuilder: (context, index) => homepage_mode_items.playModes(
+            onPressed: (index) => _onGameModePressed(context, index),
+          )[index],
 
           // itemCount: homepage_mode_items.learnModes.length,
           // itemBuilder: (context, index) =>
@@ -174,4 +178,10 @@ class Homepage extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       );
+
+  void _onGameModePressed(BuildContext context, int index) {
+    if (index == 0) {
+      context.pushNamed(Navigation.gamepage);
+    }
+  }
 }

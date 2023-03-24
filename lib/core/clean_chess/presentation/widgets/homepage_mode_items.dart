@@ -4,14 +4,14 @@ import 'package:cleanchess/features/clean_chess/presentation/widgets/mode_item_w
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-List<Widget> playModes = [
-  _quickMatchItem,
-  _puzzleItem,
-  _computerItem,
-  _friendsItem,
-  _tournamentItem,
-  _localItem,
-];
+List<Widget> playModes({Function(int)? onPressed}) => [
+      _quickMatchItem(onPressed),
+      _puzzleItem,
+      _computerItem,
+      _friendsItem,
+      _tournamentItem,
+      _localItem,
+    ];
 
 List<Widget> learnModes = [
   _tactisItem,
@@ -34,9 +34,10 @@ List<Widget> communityModes = [
 ];
 
 //#region Play modes
-Widget get _quickMatchItem => ModeItem(
+Widget _quickMatchItem(Function(int)? onPressed) => ModeItem(
       title: 'Quick match',
       subtitle: 'Play someone at your level',
+      onPressed: () => onPressed?.call(0),
       color: Colors.pink,
       icon: Image.asset(
         'assets/icons/Crown.png',

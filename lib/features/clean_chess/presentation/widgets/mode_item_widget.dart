@@ -8,6 +8,7 @@ class ModeItem extends StatelessWidget {
     required this.subtitle,
     required this.icon,
     required this.color,
+    this.onPressed,
     this.stats,
   });
 
@@ -16,6 +17,7 @@ class ModeItem extends StatelessWidget {
   final List<Widget>? stats;
   final Color color;
   final Widget icon;
+  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -23,7 +25,7 @@ class ModeItem extends StatelessWidget {
         height: modeItemHeigth,
         child: MaterialButton(
           padding: const EdgeInsets.all(5),
-          onPressed: () {},
+          onPressed: () => onPressed?.call(),
           child: Row(
             children: [
               _modeIcon,

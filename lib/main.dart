@@ -1,5 +1,6 @@
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/game_page.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/login_screen.dart';
 import 'package:cleanchess/injection_container.dart';
@@ -52,6 +53,12 @@ class _RootState extends State<Root> {
                   settings: settings,
                   pageBuilder: (context, animation, secondaryAnimation) =>
                       const Homepage(),
+                );
+              case Navigation.gamepage:
+                return PageRouteBuilder(
+                  settings: settings,
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      const GamePage(),
                 );
               default:
                 return PageRouteBuilder(
