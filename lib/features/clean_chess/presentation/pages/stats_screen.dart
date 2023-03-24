@@ -77,7 +77,7 @@ Widget _chart() {
     child: Column(
       children: [
         topTitleWidgets(),
-        const SizedBox(height: 200, child: Chart()),
+        const SizedBox(height: 150, child: Chart()),
         bottomTitleWidgets(),
       ],
     ),
@@ -104,7 +104,7 @@ Widget topTitleWidgets() {
           ),
           Text(gamemode[index],
               style: const TextStyle(
-                fontSize: 30,
+                fontSize: 35,
                 fontWeight: FontWeight.bold,
               )),
           IconButton(
@@ -119,12 +119,21 @@ Widget topTitleWidgets() {
           ),
         ],
       ),
-      // Column(
-      //   children: [
-      //     Text("$elo"),
-      //     Text("$resultElo"),
-      //   ],
-      // ),
+      Column(
+        children: [
+          Text("$elo",
+              style:
+                  const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("$resultElo",
+                  style: const TextStyle(fontSize: 15, color: Colors.green)),
+              const Icon(Icons.arrow_drop_up, color: Colors.green),
+            ],
+          ), //TODO color
+        ],
+      ),
     ],
   );
 }
