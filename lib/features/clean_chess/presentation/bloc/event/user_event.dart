@@ -1,65 +1,48 @@
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.dart';
+import 'package:flutter/foundation.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-abstract class UserEvent implements ServerEvent {
-  const UserEvent();
-}
+part 'user_event.freezed.dart';
 
-class SearchUsersByTermEvent extends UserEvent {
-  final String term;
-  final bool friend;
-  const SearchUsersByTermEvent({required this.term, this.friend = false});
-}
+@freezed
+abstract class UserEvent with _$UserEvent implements ServerEvent {
+  const factory UserEvent.searchUsersByTerm({
+    required String term,
+    @Default(false) bool friend,
+  }) = SearchUsersByTermEvent;
 
-class SearchUsernamesByTermEvent extends UserEvent {
-  final String term;
-  final bool friend;
-  const SearchUsernamesByTermEvent({required this.term, this.friend = false});
-}
+  const factory UserEvent.searchUsernamesByTerm({
+    required String term,
+    @Default(false) bool friend,
+  }) = SearchUsernamesByTermEvent;
 
-class GetRealtimeStatusEvent extends UserEvent {
-  final List<String> ids;
-  final bool withGameIds;
-  const GetRealtimeStatusEvent({
-    required this.ids,
-    this.withGameIds = false,
-  });
-}
+  const factory UserEvent.getRealtimeStatus({
+    required List<String> ids,
+    @Default(false) bool withGameIds,
+  }) = GetRealtimeStatusEvent;
 
-// Coming soon...
-class GetTop10PlayersEvent extends UserEvent {
-  const GetTop10PlayersEvent();
-}
+  // // Coming soon...
+  const factory UserEvent.getTop10Players() = GetTop10PlayersEvent;
 
-// Coming soon...
-class GetChessVariantLeaderboardEvent extends UserEvent {
-  final PerfType perfType;
-  final int nb;
-  const GetChessVariantLeaderboardEvent({
-    required this.perfType,
-    this.nb = 100,
-  });
-}
+  // // Coming soon...
+  const factory UserEvent.getChessVariantLeaderboard({
+    required PerfType perfType,
+    @Default(100) int nb,
+  }) = GetChessVariantLeaderboardEvent;
 
-class GetPublicDataEvent extends UserEvent {
-  final String username;
-  final bool trophies;
-  const GetPublicDataEvent({
-    required this.username,
-    this.trophies = false,
-  });
-}
+  const factory UserEvent.getPublicData({
+    required String username,
+    @Default(false) bool trophies,
+  }) = GetPublicDataEvent;
 
-class GetRatingHistoryEvent extends UserEvent {
-  final String username;
-  const GetRatingHistoryEvent({required this.username});
-}
+  const factory UserEvent.getRatingHistory({
+    required String username,
+  }) = GetRatingHistoryEvent;
 
-class GetManyByIdsEvent extends UserEvent {
-  final List<String> ids;
-  const GetManyByIdsEvent({required this.ids});
-}
+  const factory UserEvent.getManyByIds({
+    required List<String> ids,
+  }) = GetManyByIdsEvent;
 
-class GetLiveStreamersEvent extends UserEvent {
-  const GetLiveStreamersEvent();
+  const factory UserEvent.getLiveStreamers() = GetLiveStreamersEvent;
 }

@@ -48,13 +48,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _requestRealTimeStatus(BuildContext context) {
     BlocProvider.of<ServerBloc>(context).add(
-      GetRealtimeStatusEvent(ids: [widget.user.id!]),
+      UserEvent.getRealtimeStatus(ids: [widget.user.id!]),
     );
   }
 
   void _requestFollowingUsers(BuildContext context) {
     BlocProvider.of<ServerBloc>(context).add(
-      const GetFollowingUsersEvent(),
+      const SocialEvent.getFollowingUsers(),
     );
   }
 

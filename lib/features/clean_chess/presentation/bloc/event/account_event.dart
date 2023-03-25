@@ -1,27 +1,19 @@
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.dart';
 
-abstract class AccountEvent implements ServerEvent {
-  const AccountEvent();
-}
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class GetMyProfileEvent extends AccountEvent {
-  const GetMyProfileEvent();
-}
+part 'account_event.freezed.dart';
 
-class GetMyEmailEvent extends AccountEvent {
-  const GetMyEmailEvent();
-}
+@freezed
+abstract class AccountEvent with _$AccountEvent implements ServerEvent {
+  const factory AccountEvent.getMyProfile() = GetMyProfileEvent;
 
-class GetMyKidModeStatusEvent extends AccountEvent {
-  const GetMyKidModeStatusEvent();
-}
+  const factory AccountEvent.getMyEmail() = GetMyEmailEvent;
 
-class SetMyKidModeStatusEvent extends AccountEvent {
-  final bool kidModeStatus;
+  const factory AccountEvent.getMyKidModeStatus() = GetMyKidModeStatusEvent;
 
-  const SetMyKidModeStatusEvent(this.kidModeStatus);
-}
+  const factory AccountEvent.setMyKidModeStatus(bool kidModeStatus) =
+      SetMyKidModeStatusEvent;
 
-class GetMyPreferencesEvent extends AccountEvent {
-  const GetMyPreferencesEvent();
+  const factory AccountEvent.getMyPreferences() = GetMyPreferencesEvent;
 }

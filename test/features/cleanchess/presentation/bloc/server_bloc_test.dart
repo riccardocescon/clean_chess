@@ -1045,7 +1045,7 @@ void main() async {
         ),
         expect: () => [
           isA<LichessLoading>(),
-          isA<LichessLoaded<List<RealTimeUserStatus>>>(),
+          isA<LichessRealTimeStatsFetched>(),
         ],
         verify: (bloc) {
           verify(mockGetRealtimeStatus.call(any)).called(1);
@@ -1331,7 +1331,7 @@ void main() async {
         act: (bloc) => bloc.add(const GetFollowingUsersEvent()),
         expect: () => [
           isA<LichessLoading>(),
-          isA<LichessLoaded<List<User>>>(),
+          isA<LichessFollowingUsersFetched>(),
         ],
         verify: (bloc) {
           verify(mockGetFollowingUsers.call(any)).called(1);

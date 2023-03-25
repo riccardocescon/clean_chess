@@ -1,19 +1,16 @@
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.dart';
 
-abstract class SocialEvent implements ServerEvent {
-  const SocialEvent();
-}
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class GetFollowingUsersEvent extends SocialEvent {
-  const GetFollowingUsersEvent();
-}
+part 'social_event.freezed.dart';
 
-class FollowUserEvent extends SocialEvent {
-  final String username;
-  const FollowUserEvent({required this.username});
-}
-
-class UnfollowUserEvent extends SocialEvent {
-  final String username;
-  const UnfollowUserEvent({required this.username});
+@freezed
+abstract class SocialEvent with _$SocialEvent implements ServerEvent {
+  const factory SocialEvent.getFollowingUsers() = GetFollowingUsersEvent;
+  const factory SocialEvent.followUser({
+    required String username,
+  }) = FollowUserEvent;
+  const factory SocialEvent.unfollowUser({
+    required String username,
+  }) = UnfollowUserEvent;
 }

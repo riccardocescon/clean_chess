@@ -1,82 +1,70 @@
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.dart';
+import 'package:flutter/foundation.dart';
 
-abstract class TeamEvent implements ServerEvent {
-  const TeamEvent();
-}
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class GetTeamsByUserIdEvent extends TeamEvent {
-  final String userId;
-  const GetTeamsByUserIdEvent({required this.userId});
-}
+part 'teams_event.freezed.dart';
 
-class GetTeamByIdEvent extends TeamEvent {
-  final String teamId;
-  const GetTeamByIdEvent({required this.teamId});
-}
+@freezed
+abstract class TeamEvent with _$TeamEvent implements ServerEvent {
+  const factory TeamEvent.getTeamsByUserIdEvent({
+    required String userId,
+  }) = GetTeamsByUserIdEvent;
 
-class GetTeamMembersEvent extends TeamEvent {
-  final String teamId;
-  final int maxMembers;
-  const GetTeamMembersEvent({required this.teamId, this.maxMembers = 100});
-}
+  const factory TeamEvent.getTeamById({
+    required String teamId,
+  }) = GetTeamByIdEvent;
 
-class GetTeamJoinRequestsEvent extends TeamEvent {
-  final String teamId;
-  const GetTeamJoinRequestsEvent({required this.teamId});
-}
+  const factory TeamEvent.getTeamMembers({
+    required String teamId,
+    @Default(100) int maxMembers,
+  }) = GetTeamMembersEvent;
 
-class AcceptJoinRequestEvent extends TeamEvent {
-  final String teamId;
-  final String userId;
-  const AcceptJoinRequestEvent({required this.teamId, required this.userId});
-}
+  const factory TeamEvent.getTeamJoinRequests({
+    required String teamId,
+  }) = GetTeamJoinRequestsEvent;
 
-class DeclineJoinRequestEvent extends TeamEvent {
-  final String teamId;
-  final String userId;
-  const DeclineJoinRequestEvent({required this.teamId, required this.userId});
-}
+  const factory TeamEvent.acceptJoinRequest({
+    required String teamId,
+    required String userId,
+  }) = AcceptJoinRequestEvent;
 
-class KickMemberFromTeamEvent extends TeamEvent {
-  final String teamId;
-  final String userId;
-  const KickMemberFromTeamEvent({required this.teamId, required this.userId});
-}
+  const factory TeamEvent.declineJoinRequest({
+    required String teamId,
+    required String userId,
+  }) = DeclineJoinRequestEvent;
 
-class JoinTeamEvent extends TeamEvent {
-  final String teamId;
+  const factory TeamEvent.kickMemberFromTeam({
+    required String teamId,
+    required String userId,
+  }) = KickMemberFromTeamEvent;
 
-  /// If the team requries a message, a [LichessOAuthFailure]
-  /// will be thrown with error code 400, that may means that
-  /// the team requires a message, so you can try again with
-  /// a message with a minimum length of 30 characters.
-  final String? message;
-  final String? password;
+  const factory TeamEvent.joinTeam({
+    required String teamId,
 
-  const JoinTeamEvent({required this.teamId, this.message, this.password});
-}
+    /// If the team requries a message, a [LichessOAuthFailure]
+    /// will be thrown with error code 400, that may means that
+    /// the team requires a message, so you can try again with
+    /// a message with a minimum length of 30 characters.
+    String? message,
+    String? password,
+  }) = JoinTeamEvent;
 
-class LeaveTeamEvent extends TeamEvent {
-  final String teamId;
-  const LeaveTeamEvent({required this.teamId});
-}
+  const factory TeamEvent.leaveTeam({
+    required String teamId,
+  }) = LeaveTeamEvent;
 
-class MessageAllMembersEvent extends TeamEvent {
-  final String teamId;
-  final String message;
-  const MessageAllMembersEvent({
-    required this.teamId,
-    required this.message,
-  });
-}
+  const factory TeamEvent.messageAllMembers({
+    required String teamId,
+    required String message,
+  }) = MessageAllMembersEvent;
 
-class SearchTeamByNameEvent extends TeamEvent {
-  final String teamName;
-  final int page;
-  const SearchTeamByNameEvent({required this.teamName, this.page = 1});
-}
+  const factory TeamEvent.searchTeamByName({
+    required String teamName,
+    @Default(1) int page,
+  }) = SearchTeamByNameEvent;
 
-class GetPopularTeamsEvent extends TeamEvent {
-  final int page;
-  const GetPopularTeamsEvent({this.page = 1});
+  const factory TeamEvent.getPopularTeams({
+    @Default(1) int page,
+  }) = GetPopularTeamsEvent;
 }
