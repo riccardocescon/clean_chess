@@ -1,4 +1,5 @@
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chart.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/stats_game_card.dart';
 import 'package:flutter/material.dart';
 
 const backgroundColor = Color.fromARGB(225, 17, 17, 17);
@@ -46,16 +47,19 @@ class StatsPage extends StatelessWidget {
   }
 
   Widget _body(BuildContext context) {
-    return DefaultTextStyle(
-      style: const TextStyle(
-        color: Colors.white,
-      ),
-      child: ListView(
-        children: [
-          _chart(context),
-          _gamesPlayed(context),
-        ],
-      ),
+    return Scaffold(
+      body: DefaultTextStyle(
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+          child: SizedBox(
+            child: ListView(
+              children: [
+                _chart(context),
+                _gamesPlayed(context),
+              ],
+            ),
+          )),
     );
   }
 
@@ -149,50 +153,65 @@ class StatsPage extends StatelessWidget {
     return Column(
       children: [
         _gamesPlayedText(context),
-        // ListBody(
-        //   children: const [
-        //     //FIXME
-        //     GamesCard(
-        //       gainedElo: 4,
-        //       gainedEloOpponent: -6,
-        //       gameDate: "Yesterday 22:05",
-        //       gameMode: "Standart",
-        //       gameTime: "3 + 0",
-        //       openingName: "Scandavian Defense",
-        //       opponentRating: 1324,
-        //       opponentname: "alexrintt",
-        //       rating: 1233,
-        //       result: "White timed out, black is victorious",
-        //       username: "hardal",
-        //     ),
-        //     GamesCard(
-        //       gainedElo: 4,
-        //       gainedEloOpponent: -6,
-        //       gameDate: "Yesterday 22:05",
-        //       gameMode: "Standart",
-        //       gameTime: "3 + 0",
-        //       openingName: "Scandavian Defense",
-        //       opponentRating: 1324,
-        //       opponentname: "alexrintt",
-        //       rating: 1233,
-        //       result: "White timed out, black is victorious",
-        //       username: "hardal",
-        //     ),
-        //     GamesCard(
-        //       gainedElo: 4,
-        //       gainedEloOpponent: -6,
-        //       gameDate: "Yesterday 22:05",
-        //       gameMode: "Standart",
-        //       gameTime: "3 + 0",
-        //       openingName: "Scandavian Defense",
-        //       opponentRating: 1324,
-        //       opponentname: "alexrintt",
-        //       rating: 1233,
-        //       result: "White timed out, black is victorious",
-        //       username: "hardal",
-        //     ),
-        //   ],
-        // ),
+        ListBody(
+          children: const [
+            //FIXME
+
+            SizedBox(
+              width: 400,
+              height: 180,
+              child: GamesCard(
+                gainedElo: 4,
+                gainedEloOpponent: -6,
+                gameDate: "Yesterday at 22:05",
+                gameMode: "Standart",
+                gameTime: "2 + 1",
+                openingName: "Scandavian Defense",
+                opponentRating: 1324,
+                opponentname: "alexrintt",
+                rating: 1233,
+                result: "White timed out, black is victorious",
+                username: "hardal",
+              ),
+            ),
+
+            SizedBox(
+              width: 400,
+              height: 180,
+              child: GamesCard(
+                gainedElo: 6,
+                gainedEloOpponent: -8,
+                gameDate: "Last Wednesday at 15:42",
+                gameMode: "Standart",
+                gameTime: "1 + 0",
+                openingName: "Tennison Gambit",
+                opponentRating: 1225,
+                opponentname: "riccardocescon",
+                rating: 1211,
+                result: "Black timed out, white is victorious",
+                username: "hardal",
+              ),
+            ),
+
+            SizedBox(
+              width: 400,
+              height: 180,
+              child: GamesCard(
+                gainedElo: 4,
+                gainedEloOpponent: -2,
+                gameDate: "29/02/2023",
+                gameMode: "Anti-Chess",
+                gameTime: "1 + 1",
+                openingName: "Queen's Gambit",
+                opponentRating: 1324,
+                opponentname: "chesslover31",
+                rating: 1188,
+                result: "Draw by repetition",
+                username: "hardal",
+              ),
+            ),
+          ],
+        ),
       ], //Test
     );
   }

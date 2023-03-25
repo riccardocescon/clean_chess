@@ -61,8 +61,6 @@ class GamesCard extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               color: const Color.fromARGB(225, 23, 23, 23)),
-          height: 180,
-          width: 400,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
