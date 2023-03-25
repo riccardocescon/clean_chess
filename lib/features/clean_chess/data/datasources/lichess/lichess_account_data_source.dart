@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/utilities/debug.dart';
 import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
@@ -19,6 +20,8 @@ class LichessAccountDataSource implements RemoteAccountDataSource {
   @override
   Future<Either<Failure, User>> getMyUserProfile() async {
     try {
+      logDebug('Getting user profile...',
+          tag: 'Account', color: LogColor.lightBlue);
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -36,6 +39,8 @@ class LichessAccountDataSource implements RemoteAccountDataSource {
   @override
   Future<Either<Failure, String>> getMyUserEmail() async {
     try {
+      logDebug('Getting user email...',
+          tag: 'Account', color: LogColor.lightBlue);
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -53,6 +58,11 @@ class LichessAccountDataSource implements RemoteAccountDataSource {
   @override
   Future<Either<Failure, bool>> getMyKidModeStatus() async {
     try {
+      logDebug(
+        'Getting user kid mode status...',
+        tag: 'Account',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -70,6 +80,11 @@ class LichessAccountDataSource implements RemoteAccountDataSource {
     required bool status,
   }) async {
     try {
+      logDebug(
+        'Setting user kid mode status to $status...',
+        tag: 'Account',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -87,6 +102,11 @@ class LichessAccountDataSource implements RemoteAccountDataSource {
   @override
   Future<Either<Failure, UserPreferences>> getMyPreferences() async {
     try {
+      logDebug(
+        'Getting user preferences...',
+        tag: 'Account',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 

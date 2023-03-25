@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/utilities/debug.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_oauth_data_source.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
 import 'package:dartz/dartz.dart';
@@ -36,6 +37,11 @@ class LichessOAuthDataSource implements RemoteOAuthDataSource {
     );
 
     try {
+      logDebug(
+        'authenticating with Lichess...',
+        tag: 'OAuth',
+        color: LogColor.lightBlue,
+      );
       // Open the authorization URL in the browser
       final result = await FlutterWebAuth.authenticate(
         url: authorizationUrl.toString(),
@@ -62,6 +68,11 @@ class LichessOAuthDataSource implements RemoteOAuthDataSource {
     required OAuthParams params,
   }) async {
     try {
+      logDebug(
+        'gaining access to Lichess...',
+        tag: 'OAuth',
+        color: LogColor.lightBlue,
+      );
       final response = await grant.handleAuthorizationResponse(params);
       return Right(response.credentials.accessToken);
     } catch (e) {
