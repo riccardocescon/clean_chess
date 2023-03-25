@@ -20,7 +20,7 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Fetch user profile data
-    BlocProvider.of<ServerBloc>(context).add(const GetMyProfileEvent());
+    BlocProvider.of<ServerBloc>(context).add(const AccountEvent.getMyProfile());
     return BlocListener<ServerBloc, ServerState>(
       listener: (context, state) {
         if (state is LichessUserFetched) {
