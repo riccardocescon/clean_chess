@@ -6,6 +6,7 @@ import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_ap
 import 'package:cleanchess/features/clean_chess/presentation/widgets/padded_items.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
@@ -26,16 +27,18 @@ class Homepage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: _customScrollView(
-          children: [
-            PaddedItems(
-              children: [
-                const HomepageAppbar(),
-                _buildSlider(),
-                _modesList(),
-                heigth5,
-                _onlineInfo(),
-                _sortedLivePuzzle(completed: false),
-              ],
+          slivers: [
+            const HomepageAppbar(),
+            _modesList(),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  // _buildSlider(),
+                  heigth5,
+                  _onlineInfo(),
+                  _sortedLivePuzzle(completed: false),
+                ],
+              ),
             ),
           ],
         ),
@@ -65,32 +68,14 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  Widget _customScrollView({required List<Widget> children}) =>
-      CustomScrollView(
-        slivers: [
-          SliverList(
-            delegate: SliverChildListDelegate(children),
-          ),
-        ],
+  Widget _customScrollView({required List<Widget> slivers}) => CustomScrollView(
+        slivers: slivers,
       );
 
-  Widget _modesList() => SizedBox(
-        height: modeItemHeigth * 3,
-        child: ListView.builder(
-          itemCount: homepage_mode_items.playModes.length,
-          itemBuilder: (context, index) => homepage_mode_items.playModes[index],
-
-          // itemCount: homepage_mode_items.learnModes.length,
-          // itemBuilder: (context, index) =>
-          //     homepage_mode_items.learnModes[index],
-
-          // itemCount: homepage_mode_items.toolsModes.length,
-          // itemBuilder: (context, index) =>
-          //     homepage_mode_items.toolsModes[index],
-
-          // itemCount: homepage_mode_items.communityModes.length,
-          // itemBuilder: (context, index) =>
-          //     homepage_mode_items.communityModes[index],
+  Widget _modesList() => SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => homepage_mode_items.playModes[index],
+          childCount: homepage_mode_items.playModes.length,
         ),
       );
 

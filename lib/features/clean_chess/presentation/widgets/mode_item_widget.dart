@@ -18,61 +18,40 @@ class ModeItem extends StatelessWidget {
   final Widget icon;
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        width: double.maxFinite,
-        height: modeItemHeigth,
-        child: MaterialButton(
-          padding: const EdgeInsets.all(5),
-          onPressed: () {},
-          child: Row(
-            children: [
-              _modeIcon,
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _title(title),
-                      _subtitle(subtitle),
-                      if (stats != null) _bottomStats(),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () {},
+      leading: _modeIcon,
+      title: _title(title),
+      subtitle: _subtitle(subtitle),
+      // if (stats != null) _bottomStats(),
+    );
+  }
 
   Widget get _modeIcon => SizedBox(
-        width: 70,
-        height: 80,
+        width: kToolbarHeight,
+        height: kToolbarHeight,
         child: CircleAvatar(
           backgroundColor: color,
           child: icon,
         ),
       );
 
-  Widget _title(String title) => Expanded(
-        child: Text(
-          title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-          ),
+  Widget _title(String title) => Text(
+        title,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
         ),
       );
 
-  Widget _subtitle(String subtitle) => Expanded(
-        child: Text(
-          subtitle,
-          style: TextStyle(
-            color: Colors.white.withAlpha(60),
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
+  Widget _subtitle(String subtitle) => Text(
+        subtitle,
+        style: TextStyle(
+          color: Colors.white.withAlpha(60),
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
         ),
       );
 
