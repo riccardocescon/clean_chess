@@ -1,32 +1,48 @@
 import 'package:cleanchess/core/clean_chess/presentation/widgets/homepage_mode_items.dart'
     as homepage_mode_items;
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/event/account_event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_appbar.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/padded_items.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
+
+User? user;
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: _customScrollView(
-          children: [
-            PaddedItems(
-              children: [
-                const HomepageAppbar(),
-                //TODO: @alexrintt's slidebar
-                _modesList(),
-                heigth5,
-                _onlineInfo(),
-                _sortedLivePuzzle(completed: false),
-              ],
-            ),
-          ],
+    // Fetch user profile data
+    BlocProvider.of<ServerBloc>(context).add(const GetMyProfileEvent());
+    return BlocListener<ServerBloc, ServerState>(
+      listener: (context, state) {
+        if (state is LichessUserFetched) {
+          user = state.user;
+        }
+      },
+      child: SafeArea(
+        child: Scaffold(
+          body: _customScrollView(
+            children: [
+              PaddedItems(
+                children: [
+                  const HomepageAppbar(),
+                  //TODO: @alexrintt's slidebar
+                  _modesList(),
+                  heigth5,
+                  _onlineInfo(),
+                  _sortedLivePuzzle(completed: false),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

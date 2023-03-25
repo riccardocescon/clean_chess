@@ -62,6 +62,8 @@ dependencies:
       ref: main
   auto_size_text: ^3.0.0
   fl_chart: ^0.61.0
+  skeletons: ^0.0.3
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:

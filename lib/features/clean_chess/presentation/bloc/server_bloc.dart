@@ -344,7 +344,7 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
 
         status.fold(
           (failure) => emit(LichessError(failure)),
-          (data) => emit(LichessLoaded<List<RealTimeUserStatus>>(data)),
+          (data) => emit(LichessRealTimeStatsFetched(data)),
         );
       },
     );
@@ -434,7 +434,7 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
 
         user.fold(
           (failure) => emit(LichessError(failure)),
-          (data) => emit(LichessLoaded<List<User>>(data)),
+          (data) => emit(LichessFollowingUsersFetched(data)),
         );
       },
     );

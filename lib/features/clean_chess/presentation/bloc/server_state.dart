@@ -25,6 +25,18 @@ class LichessUserFetched extends ServerState {
   const LichessUserFetched(this.user);
 }
 
+class LichessRealTimeStatsFetched extends ServerState {
+  final List<RealTimeUserStatus> realTimeStats;
+
+  const LichessRealTimeStatsFetched(this.realTimeStats);
+}
+
+class LichessFollowingUsersFetched extends ServerState {
+  final List<User> followingUsers;
+
+  const LichessFollowingUsersFetched(this.followingUsers);
+}
+
 class LichessError extends ServerState {
   final Failure failure;
 
