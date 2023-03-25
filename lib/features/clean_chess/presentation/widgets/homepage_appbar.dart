@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +35,7 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
     return Align(
       alignment: Alignment.centerLeft,
       child: InkWell(
-        onTap: () => navigateToStatsPage(context),
+        onTap: () => _pushToProfilePage(context),
         customBorder: ContinuousRectangleBorder(
           borderRadius: BorderRadius.circular(k8dp),
         ),

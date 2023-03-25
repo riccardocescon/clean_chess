@@ -3,7 +3,6 @@ import 'package:cleanchess/core/clean_chess/presentation/widgets/homepage_mode_i
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_appbar.dart';
-import 'package:cleanchess/features/clean_chess/presentation/widgets/padded_items.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';

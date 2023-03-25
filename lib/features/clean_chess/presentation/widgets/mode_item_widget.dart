@@ -1,4 +1,3 @@
-import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:flutter/material.dart';
 
 class ModeItem extends StatelessWidget {
