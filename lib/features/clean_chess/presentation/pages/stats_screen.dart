@@ -139,11 +139,11 @@ Widget topTitleWidgets() {
 }
 
 Widget bottomTitleWidgets() {
-  return const Padding(
-    padding: EdgeInsets.all(15),
+  return Padding(
+    padding: const EdgeInsets.all(15),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
+      children: const [
         Text("21 April"),
         Text("21 May"),
       ],

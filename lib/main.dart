@@ -113,12 +113,13 @@ ThemeData _createDarkThemeData() {
     headlineColor: Colors.white,
     disabledColor: const Color.fromARGB(255, 78, 78, 78),
     base: ThemeData.dark(),
-    fontFamily: AppFont.montserrat,
+    fontFamily: AppFont.segoe,
   );
 }
 
 enum AppFont {
   montserrat('Montserrat'),
+  segoe('Segoe UI'),
   robotoMono('Roboto Mono');
 
   const AppFont(this.pubspecAssetKey);

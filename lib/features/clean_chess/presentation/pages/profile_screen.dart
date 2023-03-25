@@ -237,8 +237,8 @@ Widget _challengeButton() => Padding(
         onPressed: () {
           challengeButtonPressed();
         },
-        child: const Row(
-          children: [
+        child: Row(
+          children: const [
             ImageIcon(
               AssetImage("assets/icons/swords.png"),
               color: Colors.white,
@@ -266,8 +266,8 @@ Widget _followButton() => ElevatedButton(
       onPressed: () {
         followButtonPressed();
       },
-      child: const Row(
-        children: [
+      child: Row(
+        children: const [
           Icon(
             Icons.person_add,
             //isFollowing ? Icons.person_add : Icons.person_add_disabled,
@@ -318,10 +318,10 @@ Widget _ongoingGames() {
 //#region Ongoing games
 
 Widget _ongoinGamesText() {
-  return const Padding(
-    padding: EdgeInsets.only(left: 15, top: 45),
+  return Padding(
+    padding: const EdgeInsets.only(left: 15, top: 45),
     child: Row(
-      children: [
+      children: const [
         Padding(
           padding: EdgeInsets.only(right: 5),
           child: Icon(
@@ -403,10 +403,10 @@ Widget _stats({
 //#region Stats Widgets
 
 Widget _statsText() {
-  return const Padding(
-    padding: EdgeInsets.only(left: 15, top: 30),
+  return Padding(
+    padding: const EdgeInsets.only(left: 15, top: 30),
     child: Row(
-      children: [
+      children: const [
         Padding(
           padding: EdgeInsets.only(right: 5),
           child: Icon(
