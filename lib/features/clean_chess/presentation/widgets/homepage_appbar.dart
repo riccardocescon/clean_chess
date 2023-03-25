@@ -36,7 +36,6 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
     return Align(
       alignment: Alignment.centerLeft,
       child: InkWell(
-        overlayColor: MaterialStateProperty.all<Color>(Colors.red),
         onTap: () => navigateToStatsPage(context),
         customBorder: ContinuousRectangleBorder(
           borderRadius: BorderRadius.circular(k8dp),

@@ -11,17 +11,6 @@ import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
 
-  Widget _buildSlider() {
-    return Stack(
-      fit: StackFit.loose,
-      children: <Widget>[
-        Positioned(
-          child: TextButton(onPressed: () {}, child: const Text('A')),
-        )
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,12 +19,11 @@ class Homepage extends StatelessWidget {
           slivers: [
             const HomepageAppbar(),
             _modesList(),
+            _onlineInfo(),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
                   // _buildSlider(),
-                  heigth5,
-                  _onlineInfo(),
                   _sortedLivePuzzle(completed: false),
                 ],
               ),
@@ -117,12 +105,21 @@ class Homepage extends StatelessWidget {
         ],
       );
 
-  Widget _onlineInfo() => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _text('100.000 Players'),
-          _text('50.000 Games'),
-        ],
+  Widget _onlineInfo() => SliverPadding(
+        padding: const EdgeInsets.all(k10dp),
+        sliver: SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _text('100.000 Players'),
+                  _text('50.000 Games'),
+                ],
+              ),
+            ],
+          ),
+        ),
       );
 
   Widget _liveStreamingText() => Column(
