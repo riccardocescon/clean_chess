@@ -1,5 +1,4 @@
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chart.dart';
-import 'package:cleanchess/features/clean_chess/presentation/widgets/stats_game_card.dart';
 import 'package:flutter/material.dart';
 
 const backgroundColor = Color.fromARGB(225, 17, 17, 17);
@@ -30,7 +29,7 @@ class StatsPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: backgroundColor,
         appBar: _appbar(context),
-        body: _body(),
+        body: _body(context),
       ),
     );
   }
@@ -46,26 +45,26 @@ class StatsPage extends StatelessWidget {
     );
   }
 
-  Widget _body() {
+  Widget _body(BuildContext context) {
     return DefaultTextStyle(
       style: const TextStyle(
         color: Colors.white,
       ),
       child: ListView(
         children: [
-          _chart(),
-          _gamesPlayed(),
+          _chart(context),
+          _gamesPlayed(context),
         ],
       ),
     );
   }
 
-  Widget _chart() {
+  Widget _chart(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 35),
       child: Column(
         children: [
-          topTitleWidgets(),
+          topTitleWidgets(context),
           const SizedBox(height: 150, child: Chart()),
           bottomTitleWidgets(),
         ],
@@ -75,7 +74,7 @@ class StatsPage extends StatelessWidget {
 
 //#region Chart widgets
 
-  Widget topTitleWidgets() {
+  Widget topTitleWidgets(BuildContext context) {
     return Column(
       children: [
         Row(
@@ -92,8 +91,9 @@ class StatsPage extends StatelessWidget {
               },
             ),
             Text(gamemode[index],
-                style: const TextStyle(
-                  fontSize: 35,
+                style: TextStyle(
+                  fontSize:
+                      Theme.of(context).textTheme.headlineMedium?.fontSize,
                   fontWeight: FontWeight.bold,
                 )),
             IconButton(
@@ -111,13 +111,18 @@ class StatsPage extends StatelessWidget {
         Column(
           children: [
             Text("$elo",
-                style:
-                    const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                style: TextStyle(
+                    fontSize:
+                        Theme.of(context).textTheme.headlineSmall?.fontSize,
+                    fontWeight: FontWeight.bold)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("$resultElo",
-                    style: const TextStyle(fontSize: 15, color: Colors.green)),
+                    style: TextStyle(
+                        fontSize:
+                            Theme.of(context).textTheme.labelLarge?.fontSize,
+                        color: Colors.green)),
                 const Icon(Icons.arrow_drop_up, color: Colors.green),
               ],
             ), //TODO color
@@ -140,59 +145,59 @@ class StatsPage extends StatelessWidget {
     );
   }
 
-  Widget _gamesPlayed() {
+  Widget _gamesPlayed(BuildContext context) {
     return Column(
       children: [
-        _gamesPlayedText(),
-        ListBody(
-          children: const [
-            //FIXME
-            GamesCard(
-              gainedElo: 4,
-              gainedEloOpponent: -6,
-              gameDate: "Yesterday 22:05",
-              gameMode: "Standart",
-              gameTime: "3 + 0",
-              openingName: "Scandavian Defense",
-              opponentRating: 1324,
-              opponentname: "alexrintt",
-              rating: 1233,
-              result: "White timed out, black is victorious",
-              username: "hardal",
-            ),
-            GamesCard(
-              gainedElo: 4,
-              gainedEloOpponent: -6,
-              gameDate: "Yesterday 22:05",
-              gameMode: "Standart",
-              gameTime: "3 + 0",
-              openingName: "Scandavian Defense",
-              opponentRating: 1324,
-              opponentname: "alexrintt",
-              rating: 1233,
-              result: "White timed out, black is victorious",
-              username: "hardal",
-            ),
-            GamesCard(
-              gainedElo: 4,
-              gainedEloOpponent: -6,
-              gameDate: "Yesterday 22:05",
-              gameMode: "Standart",
-              gameTime: "3 + 0",
-              openingName: "Scandavian Defense",
-              opponentRating: 1324,
-              opponentname: "alexrintt",
-              rating: 1233,
-              result: "White timed out, black is victorious",
-              username: "hardal",
-            ),
-          ],
-        ),
+        _gamesPlayedText(context),
+        // ListBody(
+        //   children: const [
+        //     //FIXME
+        //     GamesCard(
+        //       gainedElo: 4,
+        //       gainedEloOpponent: -6,
+        //       gameDate: "Yesterday 22:05",
+        //       gameMode: "Standart",
+        //       gameTime: "3 + 0",
+        //       openingName: "Scandavian Defense",
+        //       opponentRating: 1324,
+        //       opponentname: "alexrintt",
+        //       rating: 1233,
+        //       result: "White timed out, black is victorious",
+        //       username: "hardal",
+        //     ),
+        //     GamesCard(
+        //       gainedElo: 4,
+        //       gainedEloOpponent: -6,
+        //       gameDate: "Yesterday 22:05",
+        //       gameMode: "Standart",
+        //       gameTime: "3 + 0",
+        //       openingName: "Scandavian Defense",
+        //       opponentRating: 1324,
+        //       opponentname: "alexrintt",
+        //       rating: 1233,
+        //       result: "White timed out, black is victorious",
+        //       username: "hardal",
+        //     ),
+        //     GamesCard(
+        //       gainedElo: 4,
+        //       gainedEloOpponent: -6,
+        //       gameDate: "Yesterday 22:05",
+        //       gameMode: "Standart",
+        //       gameTime: "3 + 0",
+        //       openingName: "Scandavian Defense",
+        //       opponentRating: 1324,
+        //       opponentname: "alexrintt",
+        //       rating: 1233,
+        //       result: "White timed out, black is victorious",
+        //       username: "hardal",
+        //     ),
+        //   ],
+        // ),
       ], //Test
     );
   }
 
-  Widget _gamesPlayedText() {
+  Widget _gamesPlayedText(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 12, bottom: 20),
       child: Row(
@@ -206,8 +211,8 @@ class StatsPage extends StatelessWidget {
             ),
           ),
           Text("$numberOfGames ${gamemode[index]} Games",
-              style: const TextStyle(
-                fontSize: 16,
+              style: TextStyle(
+                fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
                 fontWeight: FontWeight.w500,
               )),
         ],
