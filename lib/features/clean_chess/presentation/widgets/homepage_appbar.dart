@@ -1,5 +1,6 @@
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/profile_screen.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
@@ -21,7 +22,12 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
       title: _accountName(context),
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SettingsScreen()),
+            );
+          },
           icon: const Icon(
             Icons.settings_outlined,
             color: Colors.white,
