@@ -2,27 +2,29 @@ import 'package:cleanchess/features/clean_chess/presentation/widgets/chart.dart'
 import 'package:cleanchess/features/clean_chess/presentation/widgets/stats_game_card.dart';
 import 'package:flutter/material.dart';
 
-const backgroundColor = Color.fromARGB(225, 17, 17, 17);
-//
-const List<String> gamemode = [
-  "Bullet",
-  "Blitz",
-  "Rapid",
-  "Classical",
-  "Daily",
-  "Puzzles",
-];
-
 int index = 0;
 
 @override
 class StatsPage extends StatelessWidget {
+  final List<String> gamemode = const [
+    "Bullet",
+    "Blitz",
+    "Rapid",
+    "Classical",
+    "Daily",
+    "Puzzles",
+  ];
+
+  final backgroundColor = const Color.fromARGB(225, 17, 17, 17);
+
+  final int numberOfGames;
+
+  //
+
   const StatsPage({
     super.key,
     required this.numberOfGames,
   });
-
-  final int numberOfGames;
 
   @override
   Widget build(BuildContext context) {
