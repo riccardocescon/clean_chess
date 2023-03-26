@@ -22,7 +22,6 @@ class ProfileScreen extends StatelessWidget {
 
   final backgroundColor = const Color.fromARGB(225, 17, 17, 17);
 
-  ///
   final String username;
 
   final String memberSince;
@@ -519,6 +518,9 @@ void popupMenuButtonPressed() {}
 void navigateToStatsPage(BuildContext context) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => const StatsPage()),
+    MaterialPageRoute(
+        builder: (context) => const StatsPage(
+              numberOfGames: 54, //TODO
+            )),
   );
 }
