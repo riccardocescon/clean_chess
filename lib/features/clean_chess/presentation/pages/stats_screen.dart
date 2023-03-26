@@ -70,7 +70,7 @@ class StatsPage extends StatelessWidget {
         children: [
           topTitleWidgets(context),
           const SizedBox(height: 150, child: Chart()),
-          bottomTitleWidgets(),
+          bottomTitleWidgets(context),
         ],
       ),
     );
@@ -136,14 +136,22 @@ class StatsPage extends StatelessWidget {
     );
   }
 
-  Widget bottomTitleWidgets() {
+  Widget bottomTitleWidgets(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
-          Text("21 April"),
-          Text("21 May"), //TODO date
+        children: [
+          Text(
+            "21 April",
+            style: TextStyle(
+                fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize),
+          ),
+          Text(
+            "21 May",
+            style: TextStyle(
+                fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize),
+          ), //TODO date
         ],
       ),
     );

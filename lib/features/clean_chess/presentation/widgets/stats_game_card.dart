@@ -47,11 +47,11 @@ class GamesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _body(),
+      body: _body(context),
     );
   }
 
-  Widget _body() {
+  Widget _body(BuildContext context) {
     return InkWell(
       onTap: () => clickedOnPlayedGame(),
       child: Padding(
@@ -61,20 +61,23 @@ class GamesCard extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               color: const Color.fromARGB(225, 23, 23, 23)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _boardAndOpening(),
-              _gameInfo(),
-              _starShareResult(),
-            ],
+          child: DefaultTextStyle(
+            style: const TextStyle(color: Colors.white),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _boardAndOpening(context),
+                _gameInfo(context),
+                _starShareResult(),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _boardAndOpening() {
+  Widget _boardAndOpening(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 25),
       child: Column(
@@ -92,7 +95,8 @@ class GamesCard extends StatelessWidget {
             padding: const EdgeInsets.only(top: 10),
             child: Text(
               openingName,
-              style: const TextStyle(fontSize: 12),
+              style: TextStyle(
+                  fontSize: Theme.of(context).textTheme.bodySmall?.fontSize),
             ),
           ),
         ],
@@ -100,25 +104,32 @@ class GamesCard extends StatelessWidget {
     );
   }
 
-  Widget _gameInfo() {
+  Widget _gameInfo(BuildContext context) {
     return Flexible(
       child: Padding(
         padding: const EdgeInsets.only(top: 15, left: 15),
         child: Column(
           children: [
-            Text("$gameTime $gameMode"),
-            Text(gameDate, style: const TextStyle(fontSize: 10)),
+            Text("$gameTime $gameMode",
+                style: TextStyle(
+                    fontSize:
+                        Theme.of(context).textTheme.bodyMedium?.fontSize)),
+            Text(gameDate,
+                style: TextStyle(
+                    fontSize: Theme.of(context).textTheme.bodySmall?.fontSize)),
             Padding(
               padding: const EdgeInsets.only(top: 40),
               child: Text("$username  $opponentname"),
             ),
-            _userAndOpponent(),
+            _userAndOpponent(context),
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Text(
                 result,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 8, color: Colors.green),
+                style: TextStyle(
+                    fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
+                    color: Colors.green),
               ),
             ),
           ],
@@ -127,15 +138,18 @@ class GamesCard extends StatelessWidget {
     );
   }
 
-  Widget _userAndOpponent() {
+  Widget _userAndOpponent(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("$rating"),
+        Text("$rating",
+            style: TextStyle(
+                fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize)),
         Text(
           " +$gainedElo",
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.green,
+            fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
           ),
         ),
         const Padding(
@@ -147,10 +161,16 @@ class GamesCard extends StatelessWidget {
             height: 18,
           ),
         ),
-        Text("$opponentRating"),
+        Text(
+          "$opponentRating",
+          style: TextStyle(
+              fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize),
+        ),
         Text(
           " $gainedEloOpponent",
-          style: const TextStyle(color: Colors.red),
+          style: TextStyle(
+              color: Colors.red,
+              fontSize: Theme.of(context).textTheme.bodySmall?.fontSize),
         ),
       ],
     );
