@@ -1,3 +1,4 @@
+import 'package:cleanchess/features/clean_chess/presentation/widgets/setting_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,7 +29,13 @@ import 'package:url_launcher/url_launcher.dart';
 // Contribute with us B
 // Propose a translation B
 
+bool give15secondsValue = false;
+
 final Uri _url = Uri.parse('https://github.com/riccardocescon/clean_chess');
+final Uri _urlBug = Uri.parse(
+    'https://github.com/riccardocescon/clean_chess/issues/new?assignees=&labels=&template=bug_report.md&title=');
+final Uri _urlFeature = Uri.parse(
+    'https://github.com/riccardocescon/clean_chess/issues/new?assignees=&labels=&template=feature_request.md&title=');
 
 class Display extends StatelessWidget {
   const Display({super.key});
@@ -40,7 +47,7 @@ class Display extends StatelessWidget {
         style: universalTextStyle,
         child: const Text("Hello!"),
       ),
-      appBar: _appbar(context, "Display"),
+      appBar: settingAppBar(context, "Display"),
     );
   }
 }
@@ -53,9 +60,16 @@ class Clock extends StatelessWidget {
     return Scaffold(
       body: DefaultTextStyle(
         style: universalTextStyle,
-        child: const Text("Hello!"),
+        child: Column(
+          children: [
+            settingSwitch(
+                value: give15secondsValue,
+                settingName: "Give 15 seconds",
+                settingIcon: Icons.access_time)
+          ],
+        ),
       ),
-      appBar: _appbar(context, "Clock"),
+      appBar: settingAppBar(context, "Clock"),
     );
   }
 }
@@ -70,7 +84,7 @@ class Sound extends StatelessWidget {
         style: universalTextStyle,
         child: const Text("Hello!"),
       ),
-      appBar: _appbar(context, "Sound"),
+      appBar: settingAppBar(context, "Sound"),
     );
   }
 }
@@ -85,86 +99,43 @@ class Contribute extends StatelessWidget {
           style: universalTextStyle,
           child: Column(
             children: [
-              _settingButton(
+              settingButton(
                   settingName: "Report a bug",
-                  onTap: _launchUrl,
+                  onTap: _launchUrlBug,
                   settingIcon: Icons.bug_report),
-              _settingButton(
+              settingButton(
                   settingName: "Request a feature",
-                  onTap: _launchUrl,
+                  onTap: _launchUrlFeature,
                   settingIcon: Icons.question_mark),
-              _settingButton(
+              settingButton(
                   settingName: "Contribute with us",
                   onTap: _launchUrl,
                   settingIcon: Icons.code),
-              _settingButton(
+              settingButton(
                   settingName: "Propose a translation",
                   onTap: _launchUrl,
                   settingIcon: Icons.translate),
             ],
           )),
-      appBar: _appbar(context, "Contribute"),
+      appBar: settingAppBar(context, "Contribute"),
     );
   }
-}
-
-AppBar _appbar(BuildContext context, String pageName) {
-  return AppBar(
-    title: DefaultTextStyle(
-      style: universalTextStyle,
-      child: Column(
-        children: [
-          Text("Settings",
-              style: TextStyle(
-                  fontSize: Theme.of(context).textTheme.titleMedium?.fontSize)),
-          Text(
-            pageName,
-            style: TextStyle(
-                fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
-                color: Colors.grey),
-          )
-        ],
-      ),
-    ),
-    leading: IconButton(
-      icon: const Icon(Icons.arrow_back_ios),
-      onPressed: () => Navigator.of(context).pop(),
-    ),
-  );
-}
-
-TextStyle universalTextStyle = const TextStyle(
-  color: Colors.white,
-);
-
-Widget _settingButton(
-    {required String settingName,
-    required void Function() onTap,
-    required IconData settingIcon}) {
-  return DefaultTextStyle(
-    style: universalTextStyle,
-    child: InkWell(
-      onTap: onTap,
-      child: Container(
-        color: const Color.fromARGB(225, 19, 19, 19),
-        width: 400,
-        height: 50,
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(settingIcon),
-            ),
-            Text(settingName),
-          ],
-        ),
-      ),
-    ),
-  );
 }
 
 Future<void> _launchUrl() async {
   if (!await launchUrl(_url)) {
     throw Exception('Could not launch $_url');
+  }
+}
+
+Future<void> _launchUrlBug() async {
+  if (!await launchUrl(_urlBug)) {
+    throw Exception('Could not launch $_urlBug');
+  }
+}
+
+Future<void> _launchUrlFeature() async {
+  if (!await launchUrl(_urlFeature)) {
+    throw Exception('Could not launch $_urlFeature');
   }
 }

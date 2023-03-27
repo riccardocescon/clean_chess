@@ -58,6 +58,7 @@ dependencies:
   bloc_test: ^9.1.1
   auto_size_text: ^3.0.0
   fl_chart: ^0.61.0
+  flutter_switch: ^0.3.2
 
 dev_dependencies:
   flutter_test:
