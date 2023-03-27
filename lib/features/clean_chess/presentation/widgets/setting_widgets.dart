@@ -1,37 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-// S = switcher
-// P = custom Page
-// D = Dropdown
+// ignore: todo
+//TODO LIST:
+// 2 buttons widget
+// switcher widget
+// setstates on value changes & save values somewhere
+// themes & piece sets pages
+// better icons
 
-//  Board highlights S
 bool boardHighlightsValue = false;
-// Piece destinations S
 bool pieceDestinationsValue = false;
-// Board coordinates S
 bool boardCoordinatesValue = false;
-// Move list while playing S
 bool moveListWhilePlayingValue = false;
-// Move notation D //TODO
-bool moveNotationValue = false;
-// Zen mode S
+bool moveNotationValue = false; //True = chess piece symbol, false = letter
 bool zenModeValue = false;
 
-// Clock position D //TODO
-bool clockPositionValue = false;
-// Tenths of seconds D //TODO
-bool tenthsOfSecondsValue = false;
-// Sound when time gets critical S
+bool clockPositionValue = false; //True = left, false = right
 bool criticalTimeSoundValue = false;
-// Give more time S
 bool give15secondsValue = false;
 
-// Notifications S
 bool notificationsValue = false;
-// Vibrate on game events S
 bool vibrateOnGameEventsValue = false;
-// Toggle sound S
 bool toggleSoundValue = false;
 
 final Uri _url = Uri.parse('https://github.com/riccardocescon/clean_chess');
@@ -98,7 +88,6 @@ Widget settingButton(
 }
 
 Widget settingSwitch({
-  //TODO create a switch widget
   required String settingName,
   required bool value,
 }) {
@@ -113,7 +102,42 @@ Widget settingSwitch({
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 15),
-                child: Text(settingName),
+                child: Row(
+                  children: [
+                    Text(settingName),
+                    //switcher widget here
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget twoButtons(
+    {required String settingName,
+    required String buttonText,
+    required String buttonText2}) {
+  return DefaultTextStyle(
+    style: universalTextStyle,
+    child: SizedBox(
+      width: 400,
+      height: 50,
+      child: Row(
+        children: [
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Row(
+                  children: [
+                    Text(settingName),
+                    //two buttons widget here
+                  ],
+                ),
               ),
             ],
           ),

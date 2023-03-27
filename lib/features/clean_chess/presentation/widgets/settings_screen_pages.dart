@@ -22,6 +22,10 @@ class Display extends StatelessWidget {
                 settingName: "Move list while playing",
                 value: moveListWhilePlayingValue),
             settingSwitch(settingName: "Zen mode", value: zenModeValue),
+            twoButtons(
+                settingName: "Board notation",
+                buttonText: "Chess piece symbol",
+                buttonText2: "Letter"),
           ],
         ),
       ),
@@ -48,6 +52,10 @@ class Clock extends StatelessWidget {
               value: give15secondsValue,
               settingName: "Sound when time gets critical",
             ),
+            twoButtons(
+                settingName: "Clock position",
+                buttonText: "Left",
+                buttonText2: "Right"),
           ],
         ),
       ),
@@ -63,23 +71,24 @@ class Sound extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTextStyle(
-          style: universalTextStyle,
-          child: Column(
-            children: [
-              settingSwitch(
-                value: toggleSoundValue,
-                settingName: "Toggle sound",
-              ),
-              settingSwitch(
-                value: vibrateOnGameEventsValue,
-                settingName: "Vibrate on game events",
-              ),
-              settingSwitch(
-                value: notificationsValue,
-                settingName: "Notifications",
-              ),
-            ],
-          )),
+        style: universalTextStyle,
+        child: Column(
+          children: [
+            settingSwitch(
+              value: toggleSoundValue,
+              settingName: "Toggle sound",
+            ),
+            settingSwitch(
+              value: vibrateOnGameEventsValue,
+              settingName: "Vibrate on game events",
+            ),
+            settingSwitch(
+              value: notificationsValue,
+              settingName: "Notifications",
+            ),
+          ],
+        ),
+      ),
       appBar: settingAppBar(context, "Sound"),
     );
   }
@@ -92,28 +101,55 @@ class Contribute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTextStyle(
-          style: universalTextStyle,
-          child: Column(
-            children: [
-              settingButton(
-                  settingName: "Report a bug",
-                  onTap: launchUrlBug,
-                  settingIcon: Icons.bug_report),
-              settingButton(
-                  settingName: "Request a feature",
-                  onTap: launchUrlFeature,
-                  settingIcon: Icons.question_mark),
-              settingButton(
-                  settingName: "Contribute with us",
-                  onTap: launchUrlPage,
-                  settingIcon: Icons.code),
-              settingButton(
-                  settingName: "Propose a translation",
-                  onTap: launchUrlPage,
-                  settingIcon: Icons.translate),
-            ],
-          )),
+        style: universalTextStyle,
+        child: Column(
+          children: [
+            settingButton(
+                settingName: "Report a bug",
+                onTap: launchUrlBug,
+                settingIcon: Icons.bug_report),
+            settingButton(
+                settingName: "Request a feature",
+                onTap: launchUrlFeature,
+                settingIcon: Icons.question_mark),
+            settingButton(
+                settingName: "Contribute with us",
+                onTap: launchUrlPage,
+                settingIcon: Icons.code),
+            settingButton(
+                settingName: "Propose a translation",
+                onTap: launchUrlPage,
+                settingIcon: Icons.translate),
+          ],
+        ),
+      ),
       appBar: settingAppBar(context, "Contribute"),
+    );
+  }
+}
+
+class Themes extends StatelessWidget {
+  const Themes({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: DefaultTextStyle(
+        style: universalTextStyle,
+        child: Column(
+          children: [
+            settingButton(
+                settingName: "Board themes",
+                onTap: () {},
+                settingIcon: Icons.color_lens),
+            settingButton(
+                settingName: "Piece set",
+                onTap: () {},
+                settingIcon: Icons.panorama_wide_angle),
+          ],
+        ),
+      ),
+      appBar: settingAppBar(context, "Themes"),
     );
   }
 }

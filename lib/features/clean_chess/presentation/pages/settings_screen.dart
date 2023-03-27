@@ -34,21 +34,16 @@ Widget _body(BuildContext context) {
       // settingButton(
       //   settingName: "Behavior",
       //   onTap: () => Navigator.of(context)
-      //       .push(MaterialPageRoute(builder: (context) => const Display())),
+      //       .push(MaterialPageRoute(builder: (context) => const Behavior())),
       //   settingIcon: Icons.settings_applications,
       // ),
       // settingButton(
       //   settingName: "Language",
       //   onTap: () => Navigator.of(context)
-      //       .push(MaterialPageRoute(builder: (context) => const Display())),
+      //       .push(MaterialPageRoute(builder: (context) => const Language())),
       //   settingIcon: Icons.language,
       // ),
-      // settingButton(
-      //   settingName: "Theme",
-      //   onTap: () => Navigator.of(context)
-      //       .push(MaterialPageRoute(builder: (context) => const Display())),
-      //   settingIcon: Icons.color_lens,
-      // ),
+
       settingButton(
         settingName: "Sound",
         onTap: () => Navigator.of(context)
@@ -61,6 +56,12 @@ Widget _body(BuildContext context) {
       //       .push(MaterialPageRoute(builder: (context) => const Display())),
       //   settingIcon: Icons.privacy_tip,
       // ),
+      settingButton(
+        settingName: "Themes",
+        onTap: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const Themes())),
+        settingIcon: Icons.color_lens,
+      ),
       settingButton(
         settingName: "Contribute",
         onTap: () => Navigator.of(context)
