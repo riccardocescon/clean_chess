@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:flutter/cupertino.dart';
 // ignore: todo
 //TODO LIST:
 // 2 buttons widget
@@ -8,6 +8,19 @@ import 'package:url_launcher/url_launcher.dart';
 // setstates on value changes & save values somewhere
 // themes & piece sets pages
 // better icons
+
+Widget settingPage(BuildContext context,
+    {required String settingName, required List<Widget> children}) {
+  return Scaffold(
+    body: DefaultTextStyle(
+      style: universalTextStyle,
+      child: Column(
+        children: children,
+      ),
+    ),
+    appBar: settingAppBar(context, settingName),
+  );
+}
 
 AppBar settingAppBar(BuildContext context, String pageName) {
   return AppBar(
@@ -62,34 +75,44 @@ Widget settingButton(
   );
 }
 
-Widget settingSwitch({
-  required String settingName,
-  required bool value,
-}) {
-  return DefaultTextStyle(
-    style: universalTextStyle,
-    child: SizedBox(
+class SettingSwitch extends StatefulWidget {
+  SettingSwitch({super.key, required this.settingName, required this.val});
+  bool val;
+  String settingName;
+
+  @override
+  State<SettingSwitch> createState() => _SettingSwitchState();
+}
+
+class _SettingSwitchState extends State<SettingSwitch> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
       width: 400,
       height: 50,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 15),
-                child: Row(
-                  children: [
-                    Text(settingName),
-                    //switcher widget here
-                  ],
-                ),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Text(widget.settingName),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 25),
+            child: CupertinoSwitch(
+              value: widget.val,
+              activeColor: Colors.pink,
+              onChanged: (bool? value) {
+                setState(() {
+                  widget.val = value ?? false;
+                });
+              },
+            ),
           ),
         ],
       ),
-    ),
-  );
+    );
+  }
 }
 
 Widget twoButtons(
@@ -106,7 +129,7 @@ Widget twoButtons(
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 15),
+                padding: const EdgeInsets.only(left: 20),
                 child: Row(
                   children: [
                     Text(settingName),
@@ -123,11 +146,11 @@ Widget twoButtons(
 }
 
 bool boardHighlightsValue = false;
-bool pieceDestinationsValue = false;
-bool boardCoordinatesValue = false;
+bool pieceDestinationsValue = true;
+bool boardCoordinatesValue = true;
 bool moveListWhilePlayingValue = false;
 bool moveNotationValue = false; //True = chess piece symbol, false = letter
-bool zenModeValue = false;
+bool zenModeValue = true;
 
 bool clockPositionValue = false; //True = left, false = right
 bool criticalTimeSoundValue = false;
@@ -163,17 +186,4 @@ Future<void> launchUrlFeature() async {
   if (!await launchUrl(_urlFeature)) {
     throw Exception('Could not launch $_urlFeature');
   }
-}
-
-Widget settingPage(BuildContext context,
-    {required String settingName, required List<Widget> children}) {
-  return Scaffold(
-    body: DefaultTextStyle(
-      style: universalTextStyle,
-      child: Column(
-        children: children,
-      ),
-    ),
-    appBar: settingAppBar(context, settingName),
-  );
 }
