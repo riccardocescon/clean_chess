@@ -1,5 +1,5 @@
 import 'package:cleanchess/features/clean_chess/presentation/widgets/setting_widgets.dart';
-import 'package:cleanchess/features/clean_chess/presentation/widgets/settings_screen_pages.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/settings_screen_pages.dart';
 import 'package:flutter/material.dart';
 
 int index = 0;
@@ -53,7 +53,7 @@ Widget _body(BuildContext context) {
       // settingButton(
       //   settingName: "Privacy",
       //   onTap: () => Navigator.of(context)
-      //       .push(MaterialPageRoute(builder: (context) => const Display())),
+      //       .push(MaterialPageRoute(builder: (context) => const Privacy())),
       //   settingIcon: Icons.privacy_tip,
       // ),
       settingButton(

@@ -9,27 +9,6 @@ import 'package:url_launcher/url_launcher.dart';
 // themes & piece sets pages
 // better icons
 
-bool boardHighlightsValue = false;
-bool pieceDestinationsValue = false;
-bool boardCoordinatesValue = false;
-bool moveListWhilePlayingValue = false;
-bool moveNotationValue = false; //True = chess piece symbol, false = letter
-bool zenModeValue = false;
-
-bool clockPositionValue = false; //True = left, false = right
-bool criticalTimeSoundValue = false;
-bool give15secondsValue = false;
-
-bool notificationsValue = false;
-bool vibrateOnGameEventsValue = false;
-bool toggleSoundValue = false;
-
-final Uri _url = Uri.parse('https://github.com/riccardocescon/clean_chess');
-final Uri _urlBug = Uri.parse(
-    'https://github.com/riccardocescon/clean_chess/issues/new?assignees=&labels=&template=bug_report.md&title=');
-final Uri _urlFeature = Uri.parse(
-    'https://github.com/riccardocescon/clean_chess/issues/new?assignees=&labels=&template=feature_request.md&title=');
-
 AppBar settingAppBar(BuildContext context, String pageName) {
   return AppBar(
     title: DefaultTextStyle(
@@ -57,10 +36,6 @@ AppBar settingAppBar(BuildContext context, String pageName) {
     ),
   );
 }
-
-TextStyle universalTextStyle = const TextStyle(
-  color: Colors.white,
-);
 
 Widget settingButton(
     {required String settingName,
@@ -147,6 +122,31 @@ Widget twoButtons(
   );
 }
 
+bool boardHighlightsValue = false;
+bool pieceDestinationsValue = false;
+bool boardCoordinatesValue = false;
+bool moveListWhilePlayingValue = false;
+bool moveNotationValue = false; //True = chess piece symbol, false = letter
+bool zenModeValue = false;
+
+bool clockPositionValue = false; //True = left, false = right
+bool criticalTimeSoundValue = false;
+bool give15secondsValue = false;
+
+bool notificationsValue = false;
+bool vibrateOnGameEventsValue = false;
+bool toggleSoundValue = false;
+
+TextStyle universalTextStyle = const TextStyle(
+  color: Colors.white,
+);
+
+final Uri _url = Uri.parse('https://github.com/riccardocescon/clean_chess');
+final Uri _urlBug = Uri.parse(
+    'https://github.com/riccardocescon/clean_chess/issues/new?assignees=&labels=&template=bug_report.md&title=');
+final Uri _urlFeature = Uri.parse(
+    'https://github.com/riccardocescon/clean_chess/issues/new?assignees=&labels=&template=feature_request.md&title=');
+
 Future<void> launchUrlPage() async {
   if (!await launchUrl(_url)) {
     throw Exception('Could not launch $_url');
@@ -163,4 +163,17 @@ Future<void> launchUrlFeature() async {
   if (!await launchUrl(_urlFeature)) {
     throw Exception('Could not launch $_urlFeature');
   }
+}
+
+Widget settingPage(BuildContext context,
+    {required String settingName, required List<Widget> children}) {
+  return Scaffold(
+    body: DefaultTextStyle(
+      style: universalTextStyle,
+      child: Column(
+        children: children,
+      ),
+    ),
+    appBar: settingAppBar(context, settingName),
+  );
 }
