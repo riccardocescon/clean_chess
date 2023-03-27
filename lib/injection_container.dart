@@ -3,6 +3,7 @@ import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_repositories.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_revoke_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
@@ -19,6 +20,7 @@ Future<void> init() async {
   sl.registerLazySingleton(
     () => ServerBloc(
       tokenProvider: sl<LichessTokenProvider>(),
+      revokeToken: sl<LichessRevokeToken>(),
       oauth: sl<LichessOAuth>(),
       gainAccessToken: sl<LichessGainAccessToken>(),
       getMyProfile: sl<GetMyProfile>(),
@@ -55,6 +57,8 @@ Future<void> init() async {
 
   // Register usecases
   sl.registerLazySingleton(() => LichessOAuth(sl<LichessOAuthRepository>()));
+  sl.registerLazySingleton(
+      () => LichessRevokeToken(sl<LichessOAuthRepository>()));
   sl.registerLazySingleton(
     () => LichessGainAccessToken(sl<LichessOAuthRepository>()),
   );

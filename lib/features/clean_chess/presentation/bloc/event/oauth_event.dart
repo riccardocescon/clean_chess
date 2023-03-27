@@ -7,4 +7,5 @@ part 'oauth_event.freezed.dart';
 @freezed
 abstract class OAuthEvent with _$OAuthEvent implements ServerEvent {
   const factory OAuthEvent.lichessOAuth() = LichessOAuthEvent;
+  const factory OAuthEvent.revokeToken() = LichessRevokeTokenEvent;
 }

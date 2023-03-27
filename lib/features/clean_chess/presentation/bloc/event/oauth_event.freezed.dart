@@ -19,32 +19,38 @@ mixin _$OAuthEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() lichessOAuth,
+    required TResult Function() revokeToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? lichessOAuth,
+    TResult? Function()? revokeToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? lichessOAuth,
+    TResult Function()? revokeToken,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LichessOAuthEvent value) lichessOAuth,
+    required TResult Function(LichessRevokeTokenEvent value) revokeToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LichessOAuthEvent value)? lichessOAuth,
+    TResult? Function(LichessRevokeTokenEvent value)? revokeToken,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LichessOAuthEvent value)? lichessOAuth,
+    TResult Function(LichessRevokeTokenEvent value)? revokeToken,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -107,6 +113,7 @@ class _$LichessOAuthEvent implements LichessOAuthEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() lichessOAuth,
+    required TResult Function() revokeToken,
   }) {
     return lichessOAuth();
   }
@@ -115,6 +122,7 @@ class _$LichessOAuthEvent implements LichessOAuthEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? lichessOAuth,
+    TResult? Function()? revokeToken,
   }) {
     return lichessOAuth?.call();
   }
@@ -123,6 +131,7 @@ class _$LichessOAuthEvent implements LichessOAuthEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? lichessOAuth,
+    TResult Function()? revokeToken,
     required TResult orElse(),
   }) {
     if (lichessOAuth != null) {
@@ -135,6 +144,7 @@ class _$LichessOAuthEvent implements LichessOAuthEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LichessOAuthEvent value) lichessOAuth,
+    required TResult Function(LichessRevokeTokenEvent value) revokeToken,
   }) {
     return lichessOAuth(this);
   }
@@ -143,6 +153,7 @@ class _$LichessOAuthEvent implements LichessOAuthEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LichessOAuthEvent value)? lichessOAuth,
+    TResult? Function(LichessRevokeTokenEvent value)? revokeToken,
   }) {
     return lichessOAuth?.call(this);
   }
@@ -151,6 +162,7 @@ class _$LichessOAuthEvent implements LichessOAuthEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LichessOAuthEvent value)? lichessOAuth,
+    TResult Function(LichessRevokeTokenEvent value)? revokeToken,
     required TResult orElse(),
   }) {
     if (lichessOAuth != null) {
@@ -162,4 +174,107 @@ class _$LichessOAuthEvent implements LichessOAuthEvent {
 
 abstract class LichessOAuthEvent implements OAuthEvent {
   const factory LichessOAuthEvent() = _$LichessOAuthEvent;
+}
+
+/// @nodoc
+abstract class _$$LichessRevokeTokenEventCopyWith<$Res> {
+  factory _$$LichessRevokeTokenEventCopyWith(_$LichessRevokeTokenEvent value,
+          $Res Function(_$LichessRevokeTokenEvent) then) =
+      __$$LichessRevokeTokenEventCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$LichessRevokeTokenEventCopyWithImpl<$Res>
+    extends _$OAuthEventCopyWithImpl<$Res, _$LichessRevokeTokenEvent>
+    implements _$$LichessRevokeTokenEventCopyWith<$Res> {
+  __$$LichessRevokeTokenEventCopyWithImpl(_$LichessRevokeTokenEvent _value,
+      $Res Function(_$LichessRevokeTokenEvent) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$LichessRevokeTokenEvent implements LichessRevokeTokenEvent {
+  const _$LichessRevokeTokenEvent();
+
+  @override
+  String toString() {
+    return 'OAuthEvent.revokeToken()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LichessRevokeTokenEvent);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() lichessOAuth,
+    required TResult Function() revokeToken,
+  }) {
+    return revokeToken();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? lichessOAuth,
+    TResult? Function()? revokeToken,
+  }) {
+    return revokeToken?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? lichessOAuth,
+    TResult Function()? revokeToken,
+    required TResult orElse(),
+  }) {
+    if (revokeToken != null) {
+      return revokeToken();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LichessOAuthEvent value) lichessOAuth,
+    required TResult Function(LichessRevokeTokenEvent value) revokeToken,
+  }) {
+    return revokeToken(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LichessOAuthEvent value)? lichessOAuth,
+    TResult? Function(LichessRevokeTokenEvent value)? revokeToken,
+  }) {
+    return revokeToken?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LichessOAuthEvent value)? lichessOAuth,
+    TResult Function(LichessRevokeTokenEvent value)? revokeToken,
+    required TResult orElse(),
+  }) {
+    if (revokeToken != null) {
+      return revokeToken(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class LichessRevokeTokenEvent implements OAuthEvent {
+  const factory LichessRevokeTokenEvent() = _$LichessRevokeTokenEvent;
 }

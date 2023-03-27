@@ -8,3 +8,6 @@ Future saveTimedAccessToken(String accessToken) async =>
 
 Future<String?> getTimedAccessToken() async =>
     const FlutterSecureStorage().read(key: _timedAccessToken);
+
+Future<void> deleteTimedAccessToken() async =>
+    const FlutterSecureStorage().delete(key: _timedAccessToken);

@@ -7,6 +7,7 @@ import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_revoke_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
@@ -22,6 +23,7 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
 
   //#region OAuth UseCases
   final LichessOAuth oauth;
+  final LichessRevokeToken revokeToken;
   //#endregion
 
   //#region Account UseCases
@@ -68,6 +70,7 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
 
   ServerBloc({
     required this.tokenProvider,
+    required this.revokeToken,
     required this.oauth,
     required this.gainAccessToken,
     required this.getMyProfile,
@@ -102,6 +105,18 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
   }) : super(LichessInitial()) {
     //#region OAuth Events
     on<LichessOAuthEvent>(_oauthProcedure);
+    on<LichessRevokeTokenEvent>((event, emit) async {
+      emit(LichessLoading());
+      final result = await revokeToken.call(tokenProvider.accessToken);
+
+      if (result.isLeft()) {
+        emit(LichessError(result.left));
+        return;
+      }
+
+      await tokenProvider.revokeToken();
+      emit(const LichessTokenRevoked());
+    });
     //#endregion
 
     //#region Account Events

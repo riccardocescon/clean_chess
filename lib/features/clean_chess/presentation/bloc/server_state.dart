@@ -37,6 +37,10 @@ class LichessFollowingUsersFetched extends ServerState {
   const LichessFollowingUsersFetched(this.followingUsers);
 }
 
+class LichessTokenRevoked extends ServerState {
+  const LichessTokenRevoked();
+}
+
 class LichessError extends ServerState {
   final Failure failure;
 

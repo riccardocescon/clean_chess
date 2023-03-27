@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/event/account_event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +23,15 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
   User? user;
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) {
+    return BlocListener<ServerBloc, ServerState>(
+      listener: (context, state) {
+        if (state is LichessTokenRevoked) {
+          Navigator.popUntil(context, (route) => route.isFirst);
+          Navigator.pushReplacementNamed(context, Navigation.loginScreen);
+        }
+      },
+      child: Container(
         width: double.maxFinite,
         height: 100,
         margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -33,7 +43,11 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
               children: [
                 _accountName(context),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    BlocProvider.of<ServerBloc>(context).add(
+                      const OAuthEvent.revokeToken(),
+                    );
+                  },
                   icon: const Icon(
                     Icons.settings_outlined,
                     color: Colors.white,
@@ -51,7 +65,9 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
             ),
           ],
         ),
-      );
+      ),
+    );
+  }
 
   Widget _accountName(BuildContext context) =>
       BlocConsumer<ServerBloc, ServerState>(

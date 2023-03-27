@@ -18,6 +18,11 @@ class LichessTokenProvider {
   void setClient() =>
       _client = LichessClientDio.create(accessToken: _accessToken);
 
+  /// This getter MUST be called just for getting the access token
+  /// in order to Revoke it!
+  /// You do not have the need to call it in any other place
+  String get accessToken => _accessToken!;
+
   /// Save the access token to the secure storage
   /// and to the runtime cache for future use
   Future<void> saveAccessToken(String accessToken) async {
@@ -57,5 +62,11 @@ class LichessTokenProvider {
     _accessToken = accessToken;
     setClient();
     return Right(_client!);
+  }
+
+  Future<void> revokeToken() async {
+    _accessToken = null;
+    _client = null;
+    await secure_storage_helper.deleteTimedAccessToken();
   }
 }

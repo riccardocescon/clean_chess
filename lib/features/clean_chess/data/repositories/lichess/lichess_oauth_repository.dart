@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_oauth_data_source.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/oauth_repository.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
@@ -31,4 +32,8 @@ class LichessOAuthRepository implements OAuthRepository {
         grant: grant,
         params: params,
       );
+
+  @override
+  Future<Either<Failure, Empty>> revokeToken(String accessToken) =>
+      oAuthDataSource.revokeToken(accessToken);
 }
