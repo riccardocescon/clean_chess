@@ -1,5 +1,6 @@
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_revoke_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
@@ -7,6 +8,8 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 class MLichessOAuth extends Mock implements LichessOAuth {}
+
+class MLichessRevokeToken extends Mock implements LichessRevokeToken {}
 
 class MLichessGainAccessToken extends Mock implements LichessGainAccessToken {}
 
@@ -71,6 +74,7 @@ class MUnfollowUser extends Mock implements UnfollowUser {}
 
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
+  MockSpec<MLichessRevokeToken>(),
   MockSpec<MLichessGainAccessToken>(),
   MockSpec<MGetMyProfile>(),
   MockSpec<MGetMyEmail>(),

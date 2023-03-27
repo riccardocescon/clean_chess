@@ -16,6 +16,7 @@ void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late MockMLichessOAuth mockLichessOAuth;
+  late MockMLichessRevokeToken mockLichessRevokeToken;
   late MockMLichessGainAccessToken mockLichessGainAccessToken;
   late MockMGetMyProfile mockGetMyProfile;
   late MockMLichessTokenProvider mockLichessTokenProvider;
@@ -52,6 +53,7 @@ void main() async {
 
   setUp(() {
     mockLichessTokenProvider = MockMLichessTokenProvider();
+    mockLichessRevokeToken = MockMLichessRevokeToken();
     mockLichessOAuth = MockMLichessOAuth();
     mockLichessGainAccessToken = MockMLichessGainAccessToken();
     mockGetMyProfile = MockMGetMyProfile();
@@ -86,6 +88,7 @@ void main() async {
 
     bloc = ServerBloc(
       tokenProvider: mockLichessTokenProvider,
+      revokeToken: mockLichessRevokeToken,
       oauth: mockLichessOAuth,
       gainAccessToken: mockLichessGainAccessToken,
       getMyProfile: mockGetMyProfile,
@@ -200,6 +203,44 @@ void main() async {
           verify(mockLichessOAuth.call(any)).called(1);
           verify(mockLichessGainAccessToken.call(any)).called(1);
           verifyNever(mockLichessTokenProvider.saveAccessToken(any));
+        },
+      );
+
+      blocTest(
+        'Success Revoke Token',
+        build: () {
+          when(mockLichessRevokeToken.call(any)).thenAnswer(
+            (_) async => const Right(null),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const LichessRevokeTokenEvent()),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessTokenRevoked>(),
+        ],
+        verify: (bloc) {
+          verify(mockLichessRevokeToken.call(any)).called(1);
+        },
+      );
+
+      blocTest(
+        'Failure Revoke Token',
+        build: () {
+          when(mockLichessRevokeToken.call(any)).thenAnswer(
+            (_) async => Left(LichessOAuthFailure('RevokeToken error')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const LichessRevokeTokenEvent()),
+        expect: () => [
+          isA<LichessLoading>(),
+          isA<LichessError>(),
+        ],
+        verify: (bloc) {
+          verify(mockLichessRevokeToken.call(any)).called(1);
         },
       );
     });

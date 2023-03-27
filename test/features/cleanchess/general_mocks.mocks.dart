@@ -496,6 +496,12 @@ class MockMFlutterSecureStorage extends _i1.Mock
 class MockMLichessTokenProvider extends _i1.Mock
     implements _i6.MLichessTokenProvider {
   @override
+  String get accessToken => (super.noSuchMethod(
+        Invocation.getter(#accessToken),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+  @override
   void setClient() => super.noSuchMethod(
         Invocation.method(
           #setClient,
@@ -538,4 +544,13 @@ class MockMLichessTokenProvider extends _i1.Mock
           ),
         )),
       ) as _i7.Future<_i5.Either<_i8.Failure, _i3.LichessClient>>);
+  @override
+  _i7.Future<void> revokeToken() => (super.noSuchMethod(
+        Invocation.method(
+          #revokeToken,
+          [],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
