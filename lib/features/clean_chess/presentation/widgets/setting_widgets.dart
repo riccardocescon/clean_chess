@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/cupertino.dart';
-// ignore: todo
-//TODO LIST:
-// 2 buttons widget
-// setstates on value changes & save values somewhere
-// themes & piece sets pages
-// better icons
 
 bool boardHighlightsValue = false;
 bool pieceDestinationsValue = true;
