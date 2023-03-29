@@ -23,21 +23,24 @@ bool notificationsValue = false;
 bool vibrateOnGameEventsValue = false;
 bool toggleSoundValue = false;
 
-TextStyle universalTextStyle = const TextStyle(
-  color: Colors.white,
-);
-
 final Uri _url = Uri.parse('https://github.com/riccardocescon/clean_chess');
 final Uri _urlBug = Uri.parse(
     'https://github.com/riccardocescon/clean_chess/issues/new?assignees=&labels=&template=bug_report.md&title=');
 final Uri _urlFeature = Uri.parse(
     'https://github.com/riccardocescon/clean_chess/issues/new?assignees=&labels=&template=feature_request.md&title=');
 
+TextStyle universalTextStyle(BuildContext context) {
+  return TextStyle(
+    color: Colors.white,
+    fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize,
+  );
+}
+
 Widget settingPage(BuildContext context,
     {required String settingName, required List<Widget> children}) {
   return Scaffold(
     body: DefaultTextStyle(
-      style: universalTextStyle,
+      style: universalTextStyle(context),
       child: Column(
         children: children,
       ),
@@ -49,7 +52,7 @@ Widget settingPage(BuildContext context,
 AppBar settingAppBar(BuildContext context, String pageName) {
   return AppBar(
     title: DefaultTextStyle(
-      style: universalTextStyle,
+      style: universalTextStyle(context),
       child: Column(
         children: [
           Text("Settings",
@@ -75,11 +78,12 @@ AppBar settingAppBar(BuildContext context, String pageName) {
 }
 
 Widget settingButton(
-    {required String settingName,
+    {required BuildContext context,
+    required String settingName,
     required void Function() onTap,
     required IconData settingIcon}) {
   return DefaultTextStyle(
-    style: universalTextStyle,
+    style: universalTextStyle(context),
     child: InkWell(
       onTap: onTap,
       child: SizedBox(
@@ -100,11 +104,12 @@ Widget settingButton(
 }
 
 Widget navigateButton({
+  required BuildContext context,
   required String settingName,
   required void Function() onTap,
 }) {
   return DefaultTextStyle(
-    style: universalTextStyle,
+    style: universalTextStyle(context),
     child: InkWell(
       onTap: onTap,
       child: SizedBox(
@@ -191,7 +196,7 @@ class TwoButtonsState extends State<TwoButtons> {
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
-      style: universalTextStyle,
+      style: universalTextStyle(context),
       child: SizedBox(
         width: 400,
         height: 50,

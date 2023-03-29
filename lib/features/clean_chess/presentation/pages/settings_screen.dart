@@ -19,12 +19,14 @@ Widget _body(BuildContext context) {
   return Column(
     children: [
       settingButton(
+        context: context,
         settingName: "Display",
         onTap: () => Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => const Display())),
         settingIcon: Icons.display_settings,
       ),
       settingButton(
+        context: context,
         settingName: "Clock",
         onTap: () => Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => const Clock())),
@@ -44,6 +46,7 @@ Widget _body(BuildContext context) {
       // ),
 
       settingButton(
+        context: context,
         settingName: "Sound",
         onTap: () => Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => const Sound())),
@@ -56,12 +59,14 @@ Widget _body(BuildContext context) {
       //   settingIcon: Icons.privacy_tip,
       // ),
       settingButton(
+        context: context,
         settingName: "Themes",
         onTap: () => Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => const Themes())),
         settingIcon: Icons.color_lens,
       ),
       settingButton(
+        context: context,
         settingName: "Contribute",
         onTap: () => Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => const Contribute())),
@@ -82,6 +87,7 @@ class Display extends StatelessWidget {
       children: List.of(
         [
           navigateButton(
+            context: context,
             settingName: "Piece Animations",
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const PieceAnimations())),
@@ -175,18 +181,22 @@ class Contribute extends StatelessWidget {
         settingName: "Contribute",
         children: List.of([
           settingButton(
+              context: context,
               settingName: "Report a bug",
               onTap: launchUrlBug,
               settingIcon: Icons.bug_report),
           settingButton(
+              context: context,
               settingName: "Request a feature",
               onTap: launchUrlFeature,
               settingIcon: Icons.question_mark),
           settingButton(
+              context: context,
               settingName: "Contribute with us",
               onTap: launchUrlPage,
               settingIcon: Icons.code),
           settingButton(
+              context: context,
               settingName: "Propose a translation",
               onTap: launchUrlPage,
               settingIcon: Icons.translate),
@@ -205,11 +215,13 @@ class Themes extends StatelessWidget {
       children: List.of(
         [
           navigateButton(
+            context: context,
             settingName: "Board themes",
             onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const BoardThemes())),
           ),
           navigateButton(
+            context: context,
             settingName: "Piece sets",
             onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const PieceSets())),
