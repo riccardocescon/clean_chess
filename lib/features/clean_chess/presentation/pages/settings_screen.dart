@@ -81,11 +81,11 @@ class Display extends StatelessWidget {
       settingName: "Display",
       children: List.of(
         [
-          settingButton(
-              settingName: "Piece Animations",
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const PieceAnimations())),
-              settingIcon: Icons.movie_filter),
+          navigateButton(
+            settingName: "Piece Animations",
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const PieceAnimations())),
+          ),
           SettingSwitch(
               settingName: "Board highlights", val: boardHighlightsValue),
           SettingSwitch(
@@ -96,10 +96,12 @@ class Display extends StatelessWidget {
               settingName: "Move list while playing",
               val: moveListWhilePlayingValue),
           SettingSwitch(settingName: "Zen mode", val: zenModeValue),
-          twoButtons(
-              settingName: "Board notation",
-              buttonText: "Chess piece symbol",
-              buttonText2: "Letter"),
+          TwoButtons(
+            settingName: "Move notation",
+            buttonText: "Letter",
+            buttonText2: "Piece Symbol",
+            val: moveNotationValue,
+          ),
         ],
       ),
     );
@@ -124,10 +126,12 @@ class Clock extends StatelessWidget {
             val: give15secondsValue,
             settingName: "Sound when time gets critical",
           ),
-          twoButtons(
-              settingName: "Clock position",
-              buttonText: "Left",
-              buttonText2: "Right"),
+          TwoButtons(
+            settingName: "Clock position",
+            buttonText: "Left",
+            buttonText2: "Right",
+            val: clockPositionValue,
+          ),
         ],
       ),
     );
@@ -200,16 +204,16 @@ class Themes extends StatelessWidget {
       settingName: "Themes",
       children: List.of(
         [
-          settingButton(
-              settingName: "Board themes",
-              onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const BoardThemes())),
-              settingIcon: Icons.color_lens),
-          settingButton(
-              settingName: "Piece sets",
-              onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const PieceSets())),
-              settingIcon: Icons.pie_chart),
+          navigateButton(
+            settingName: "Board themes",
+            onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const BoardThemes())),
+          ),
+          navigateButton(
+            settingName: "Piece sets",
+            onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const PieceSets())),
+          ),
         ],
       ),
     );
