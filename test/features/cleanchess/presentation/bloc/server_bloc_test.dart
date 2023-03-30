@@ -51,6 +51,7 @@ void main() async {
   late MockMFollowUser mockFollowUser;
   late MockMUnfollowUser mockUnfollowUser;
   late MGetCurrentTvGames mockMGetCurrentTvGames;
+  late MStreamCurrentTvGames mockMStreamCurrentTvGames;
 
   late ServerBloc bloc;
 
@@ -89,43 +90,44 @@ void main() async {
     mockFollowUser = MockMFollowUser();
     mockUnfollowUser = MockMUnfollowUser();
     mockMGetCurrentTvGames = MockMGetCurrentTvGames();
+    mockMStreamCurrentTvGames = MockMStreamCurrentTvGames();
 
     bloc = ServerBloc(
-      tokenProvider: mockLichessTokenProvider,
-      revokeToken: mockLichessRevokeToken,
-      oauth: mockLichessOAuth,
-      gainAccessToken: mockLichessGainAccessToken,
-      getMyProfile: mockGetMyProfile,
-      getMyEmail: mockGetMyEmail,
-      getMyKidModeStatus: mockGetMyKidModeStatus,
-      setMyKidModeStatus: mockSetMyKidModeStatus,
-      getMyPreferences: mockGetMyPreferences,
-      getTeamsByUser: mockGetTeamsByUser,
-      getTeamById: mockGetTeamById,
-      getTeamMembers: mockGetTeamMembers,
-      getTeamJoinRequests: mockGetTeamJoinRequests,
-      acceptJoinRequest: mockAcceptJoinRequest,
-      declineJoinRequest: mockDeclineJoinRequest,
-      kickMemberFromTeam: mockKickMemberFromTeam,
-      joinTeam: mockJoinTeam,
-      leaveTeam: mockLeaveTeam,
-      messageAllMembers: mockMessageAllMembers,
-      searchTeamByName: mockSearchTeamByName,
-      searchPopularTeams: mockGetPopularTeams,
-      searchUsersByTerm: mockSearchUsersByTerm,
-      getUsernamesByTerm: mockSearchUsernamesByTerm,
-      getRealtimeStatus: mockGetRealtimeStatus,
-      getTop10Players: mockGetTop10Players,
-      getChessVariantLeaderboard: mockGetChessVariantLeaderboard,
-      getPublicData: mockGetPublicData,
-      getRatingHistory: mockGetRatingHistory,
-      getManyByIds: mockGetManyByIds,
-      getLiveStreamers: mockGetLiveStreamers,
-      getFollowingUsers: mockGetFollowingUsers,
-      followUser: mockFollowUser,
-      unfollowUser: mockUnfollowUser,
-      getCurrentTvGames: mockMGetCurrentTvGames,
-    );
+        tokenProvider: mockLichessTokenProvider,
+        revokeToken: mockLichessRevokeToken,
+        oauth: mockLichessOAuth,
+        gainAccessToken: mockLichessGainAccessToken,
+        getMyProfile: mockGetMyProfile,
+        getMyEmail: mockGetMyEmail,
+        getMyKidModeStatus: mockGetMyKidModeStatus,
+        setMyKidModeStatus: mockSetMyKidModeStatus,
+        getMyPreferences: mockGetMyPreferences,
+        getTeamsByUser: mockGetTeamsByUser,
+        getTeamById: mockGetTeamById,
+        getTeamMembers: mockGetTeamMembers,
+        getTeamJoinRequests: mockGetTeamJoinRequests,
+        acceptJoinRequest: mockAcceptJoinRequest,
+        declineJoinRequest: mockDeclineJoinRequest,
+        kickMemberFromTeam: mockKickMemberFromTeam,
+        joinTeam: mockJoinTeam,
+        leaveTeam: mockLeaveTeam,
+        messageAllMembers: mockMessageAllMembers,
+        searchTeamByName: mockSearchTeamByName,
+        searchPopularTeams: mockGetPopularTeams,
+        searchUsersByTerm: mockSearchUsersByTerm,
+        getUsernamesByTerm: mockSearchUsernamesByTerm,
+        getRealtimeStatus: mockGetRealtimeStatus,
+        getTop10Players: mockGetTop10Players,
+        getChessVariantLeaderboard: mockGetChessVariantLeaderboard,
+        getPublicData: mockGetPublicData,
+        getRatingHistory: mockGetRatingHistory,
+        getManyByIds: mockGetManyByIds,
+        getLiveStreamers: mockGetLiveStreamers,
+        getFollowingUsers: mockGetFollowingUsers,
+        followUser: mockFollowUser,
+        unfollowUser: mockUnfollowUser,
+        getCurrentTvGames: mockMGetCurrentTvGames,
+        streamCurrentTvGames: mockMStreamCurrentTvGames);
   });
 
   // all tests are kinda the same

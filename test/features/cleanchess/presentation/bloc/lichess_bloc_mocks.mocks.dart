@@ -1547,3 +1547,40 @@ class MockMGetCurrentTvGames extends _i1.Mock
           ) as _i9.Future<
               _i3.Either<_i10.Failure, List<_i12.LichessTvGameBasicInfo>>>);
 }
+
+/// A class which mocks [MStreamCurrentTvGames].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMStreamCurrentTvGames extends _i1.Mock
+    implements _i8.MStreamCurrentTvGames {
+  @override
+  _i9.Future<
+      _i3.Either<_i10.Failure,
+          _i9.Stream<_i12.LichessTvGameSummary>>> call() => (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [],
+        ),
+        returnValue: _i9.Future<
+                _i3.Either<_i10.Failure,
+                    _i9.Stream<_i12.LichessTvGameSummary>>>.value(
+            _FakeEither_1<_i10.Failure, _i9.Stream<_i12.LichessTvGameSummary>>(
+          this,
+          Invocation.method(
+            #call,
+            [],
+          ),
+        )),
+        returnValueForMissingStub: _i9.Future<
+                _i3.Either<_i10.Failure,
+                    _i9.Stream<_i12.LichessTvGameSummary>>>.value(
+            _FakeEither_1<_i10.Failure, _i9.Stream<_i12.LichessTvGameSummary>>(
+          this,
+          Invocation.method(
+            #call,
+            [],
+          ),
+        )),
+      ) as _i9.Future<
+          _i3.Either<_i10.Failure, _i9.Stream<_i12.LichessTvGameSummary>>>);
+}

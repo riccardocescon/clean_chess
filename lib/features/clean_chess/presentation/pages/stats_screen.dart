@@ -178,11 +178,13 @@ Widget _gamesPlayedText() {
             size: 10,
           ),
         ),
-        Text("$numberOfGames ${gamemode[index]} Games",
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            )),
+        Text(
+          "$numberOfGames ${gamemode[index]} Games",
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ],
     ),
   );

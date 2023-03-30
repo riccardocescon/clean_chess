@@ -4,6 +4,7 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/li
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/tv/get_current_tv_games.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/tv/stream_current_tv_game.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -75,6 +76,8 @@ class MUnfollowUser extends Mock implements UnfollowUser {}
 
 class MGetCurrentTvGames extends Mock implements GetCurrentTvGames {}
 
+class MStreamCurrentTvGames extends Mock implements StreamCurrentTvGames {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessRevokeToken>(),
@@ -109,5 +112,6 @@ class MGetCurrentTvGames extends Mock implements GetCurrentTvGames {}
   MockSpec<MFollowUser>(),
   MockSpec<MUnfollowUser>(),
   MockSpec<MGetCurrentTvGames>(),
+  MockSpec<MStreamCurrentTvGames>(),
 ])
 void main() {}

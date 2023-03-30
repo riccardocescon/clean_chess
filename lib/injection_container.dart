@@ -8,6 +8,7 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/li
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_revoke_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/tv/stream_current_tv_game.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_bloc.dart';
@@ -21,8 +22,6 @@ final sl = GetIt.instance;
 Future<void> init() async {
   // Generics
   sl.registerLazySingleton<LichessTokenProvider>(() => LichessTokenProvider());
-
-  // We're done with the TDD, let's just inject this and make an ez test
 
   // Register usecases
   sl.registerLazySingleton(() => LichessOAuth(sl<LichessOAuthRepository>()));
@@ -121,6 +120,9 @@ Future<void> init() async {
   sl.registerLazySingleton<GetCurrentTvGames>(
     () => GetCurrentTvGames(sl<TvRepository>()),
   );
+  sl.registerLazySingleton<StreamCurrentTvGames>(
+    () => StreamCurrentTvGames(sl<TvRepository>()),
+  );
 
   // Register repositories
   sl.registerLazySingleton<LichessOAuthRepository>(
@@ -206,6 +208,7 @@ Future<void> init() async {
       followUser: sl<FollowUser>(),
       unfollowUser: sl<UnfollowUser>(),
       getCurrentTvGames: sl<GetCurrentTvGames>(),
+      streamCurrentTvGames: sl<StreamCurrentTvGames>(),
     ),
   );
 
