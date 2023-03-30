@@ -4,14 +4,21 @@ import 'package:cleanchess/features/clean_chess/presentation/widgets/mode_item_w
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-List<Widget> playModes = [
-  _quickMatchItem,
-  _puzzleItem,
-  _computerItem,
-  _friendsItem,
-  _tournamentItem,
-  _localItem,
-];
+// Modes available in the pre-release.
+List<Widget> get preReleaseModes => [
+      _quickMatchItem,
+      _puzzleItem,
+      _computerItem,
+    ];
+
+List<Widget> get playModes => [
+      _quickMatchItem,
+      _puzzleItem,
+      _computerItem,
+      _friendsItem,
+      _tournamentItem,
+      _localItem,
+    ];
 
 List<Widget> learnModes = [
   _tactisItem,

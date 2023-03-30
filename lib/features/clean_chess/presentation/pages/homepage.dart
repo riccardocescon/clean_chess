@@ -14,6 +14,7 @@ import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_w
 import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 User? user;
@@ -54,17 +55,30 @@ class _HomepageState extends State<Homepage> {
       },
       child: SafeArea(
         child: Scaffold(
-          body: _customScrollView(
-            children: [
-              PaddedItems(
-                children: [
-                  const HomepageAppbar(),
-                  //TODO: @alexrintt's slidebar
-                  _modesList(),
-                  heigth5,
-                  _onlineInfo(),
-                  _sortedLivePuzzle(completed: false),
-                ],
+          body: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.all(
+                  k4dp,
+                ),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    const HomepageAppbar(),
+                  ]),
+                ),
+              ),
+              _modesList(),
+              SliverPadding(
+                padding: const EdgeInsets.all(
+                  k4dp,
+                ),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    //TODO: @alexrintt's slidebar
+                    _onlineInfo(),
+                    _sortedLivePuzzle(completed: false),
+                  ]),
+                ),
               ),
             ],
           ),
@@ -95,32 +109,10 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget _customScrollView({required List<Widget> children}) =>
-      CustomScrollView(
-        slivers: [
-          SliverList(
-            delegate: SliverChildListDelegate(children),
-          ),
-        ],
-      );
-
-  Widget _modesList() => SizedBox(
-        height: modeItemHeigth * 3,
-        child: ListView.builder(
-          itemCount: homepage_mode_items.playModes.length,
-          itemBuilder: (context, index) => homepage_mode_items.playModes[index],
-
-          // itemCount: homepage_mode_items.learnModes.length,
-          // itemBuilder: (context, index) =>
-          //     homepage_mode_items.learnModes[index],
-
-          // itemCount: homepage_mode_items.toolsModes.length,
-          // itemBuilder: (context, index) =>
-          //     homepage_mode_items.toolsModes[index],
-
-          // itemCount: homepage_mode_items.communityModes.length,
-          // itemBuilder: (context, index) =>
-          //     homepage_mode_items.communityModes[index],
+  Widget _modesList() => SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => homepage_mode_items.preReleaseModes[index],
+          childCount: homepage_mode_items.preReleaseModes.length,
         ),
       );
 

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-abstract class Failure with EquatableMixin {
+abstract class Failure with EquatableMixin implements Exception {
   final String message;
   const Failure(this.message);
 

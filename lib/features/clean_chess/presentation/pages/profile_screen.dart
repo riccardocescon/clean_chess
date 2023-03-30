@@ -395,12 +395,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   // Class [PerfMode] will be implemented inside LichessClient
   List<PerfMode> get _supportedStats => [
-        PerfMode(widget.user.perfs!.bullet!, GameMode.bullet),
-        PerfMode(widget.user.perfs!.blitz!, GameMode.blitz),
-        PerfMode(widget.user.perfs!.rapid!, GameMode.rapid),
-        PerfMode(widget.user.perfs!.classical!, GameMode.classical),
-        PerfMode(widget.user.perfs!.correspondence!, GameMode.daily),
-        PerfMode(widget.user.perfs!.puzzle!, GameMode.puzzle),
+        // PerfMode(widget.user.perfs!.bullet!, GameMode.bullet),
+        // PerfMode(widget.user.perfs!.blitz!, GameMode.blitz),
+        // PerfMode(widget.user.perfs!.rapid!, GameMode.rapid),
+        // PerfMode(widget.user.perfs!.classical!, GameMode.classical),
+        // PerfMode(widget.user.perfs!.correspondence!, GameMode.daily),
+        // PerfMode(widget.user.perfs!.puzzle!, GameMode.puzzle),
       ];
 
 //#endregion

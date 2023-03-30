@@ -267,6 +267,22 @@ class MockMGetMyProfile extends _i1.Mock implements _i8.MGetMyProfile {
         ),
       ) as _i4.LichessAccountRepository);
   @override
+  set Type(dynamic _Type) => super.noSuchMethod(
+        Invocation.setter(
+          #Type,
+          _Type,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  set Params(dynamic _Params) => super.noSuchMethod(
+        Invocation.setter(
+          #Params,
+          _Params,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   _i9.Future<_i3.Either<_i10.Failure, _i12.User>> call() => (super.noSuchMethod(
         Invocation.method(
           #call,
@@ -308,6 +324,22 @@ class MockMGetMyEmail extends _i1.Mock implements _i8.MGetMyEmail {
           Invocation.getter(#repository),
         ),
       ) as _i4.LichessAccountRepository);
+  @override
+  set Type(dynamic _Type) => super.noSuchMethod(
+        Invocation.setter(
+          #Type,
+          _Type,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  set Params(dynamic _Params) => super.noSuchMethod(
+        Invocation.setter(
+          #Params,
+          _Params,
+        ),
+        returnValueForMissingStub: null,
+      );
   @override
   _i9.Future<_i3.Either<_i10.Failure, String>> call() => (super.noSuchMethod(
         Invocation.method(
@@ -351,6 +383,22 @@ class MockMGetMyKidModeStatus extends _i1.Mock
           Invocation.getter(#repository),
         ),
       ) as _i4.LichessAccountRepository);
+  @override
+  set Type(dynamic _Type) => super.noSuchMethod(
+        Invocation.setter(
+          #Type,
+          _Type,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  set Params(dynamic _Params) => super.noSuchMethod(
+        Invocation.setter(
+          #Params,
+          _Params,
+        ),
+        returnValueForMissingStub: null,
+      );
   @override
   _i9.Future<_i3.Either<_i10.Failure, bool>> call() => (super.noSuchMethod(
         Invocation.method(
@@ -437,6 +485,22 @@ class MockMGetMyPreferences extends _i1.Mock implements _i8.MGetMyPreferences {
           Invocation.getter(#repository),
         ),
       ) as _i4.LichessAccountRepository);
+  @override
+  set Type(dynamic _Type) => super.noSuchMethod(
+        Invocation.setter(
+          #Type,
+          _Type,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  set Params(dynamic _Params) => super.noSuchMethod(
+        Invocation.setter(
+          #Params,
+          _Params,
+        ),
+        returnValueForMissingStub: null,
+      );
   @override
   _i9.Future<_i3.Either<_i10.Failure, _i12.UserPreferences>> call() =>
       (super.noSuchMethod(
@@ -1130,6 +1194,22 @@ class MockMGetTop10Players extends _i1.Mock implements _i8.MGetTop10Players {
         ),
       ) as _i6.UserRepository);
   @override
+  set Type(dynamic _Type) => super.noSuchMethod(
+        Invocation.setter(
+          #Type,
+          _Type,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  set Params(dynamic _Params) => super.noSuchMethod(
+        Invocation.setter(
+          #Params,
+          _Params,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   _i9.Future<_i3.Either<_i10.Failure, Map<String, List<_i12.User>>>> call() =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1354,6 +1434,22 @@ class MockMGetLiveStreamers extends _i1.Mock implements _i8.MGetLiveStreamers {
         ),
       ) as _i6.UserRepository);
   @override
+  set Type(dynamic _Type) => super.noSuchMethod(
+        Invocation.setter(
+          #Type,
+          _Type,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  set Params(dynamic _Params) => super.noSuchMethod(
+        Invocation.setter(
+          #Params,
+          _Params,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   _i9.Future<_i3.Either<_i10.Failure, List<_i12.User>>> call() =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1398,6 +1494,22 @@ class MockMGetFollowingUsers extends _i1.Mock
           Invocation.getter(#repository),
         ),
       ) as _i7.SocialRepository);
+  @override
+  set Type(dynamic _Type) => super.noSuchMethod(
+        Invocation.setter(
+          #Type,
+          _Type,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  set Params(dynamic _Params) => super.noSuchMethod(
+        Invocation.setter(
+          #Params,
+          _Params,
+        ),
+        returnValueForMissingStub: null,
+      );
   @override
   _i9.Future<_i3.Either<_i10.Failure, List<_i12.User>>> call() =>
       (super.noSuchMethod(
@@ -1517,6 +1629,22 @@ class MockMUnfollowUser extends _i1.Mock implements _i8.MUnfollowUser {
 /// See the documentation for Mockito's code generation for more information.
 class MockMGetCurrentTvGames extends _i1.Mock
     implements _i8.MGetCurrentTvGames {
+  @override
+  set Type(dynamic _Type) => super.noSuchMethod(
+        Invocation.setter(
+          #Type,
+          _Type,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  set Params(dynamic _Params) => super.noSuchMethod(
+        Invocation.setter(
+          #Params,
+          _Params,
+        ),
+        returnValueForMissingStub: null,
+      );
   @override
   _i9.Future<_i3.Either<_i10.Failure, List<_i12.LichessTvGameBasicInfo>>>
       call() => (super.noSuchMethod(
