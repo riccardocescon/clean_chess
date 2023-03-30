@@ -4,10 +4,8 @@ import 'package:cleanchess/features/clean_chess/domain/repositories/tv_repositor
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-@freezed
 class TvGameStreamState extends Equatable {
   const TvGameStreamState({
     required this.status,

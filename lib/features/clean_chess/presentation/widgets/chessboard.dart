@@ -42,6 +42,7 @@ class _ChessboardState extends State<Chessboard> {
     return ChessBoard(
       controller: _controller,
       boardColor: BoardColor.orange,
+      enableUserMoves: false,
       arrows: [
         // BoardArrow(
         //   from: 'd2',
