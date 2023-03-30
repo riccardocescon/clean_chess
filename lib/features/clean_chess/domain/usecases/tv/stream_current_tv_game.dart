@@ -6,10 +6,10 @@ import 'package:cleanchess/features/clean_chess/domain/repositories/tv_repositor
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class GetCurrentTvGames extends UseCaseNoArgs<Stream<LichessTvGameSummary>> {
+class StreamCurrentTvGames extends UseCaseNoArgs<Stream<LichessTvGameSummary>> {
   final TvRepository _tvRepository;
 
-  const GetCurrentTvGames(this._tvRepository);
+  const StreamCurrentTvGames(this._tvRepository);
 
   @override
   Future<Either<Failure, Stream<LichessTvGameSummary>>> call() async {

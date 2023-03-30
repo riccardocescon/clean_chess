@@ -3,3 +3,7 @@ import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.d
 class GetStreamingGames extends ServerEvent {
   const GetStreamingGames();
 }
+
+class StreamCurrentTvGamesEvent extends ServerEvent {
+  const StreamCurrentTvGamesEvent();
+}

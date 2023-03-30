@@ -10,6 +10,7 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/li
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/tv/get_current_tv_games.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/tv/stream_current_tv_game.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/event/tv_event.dart';
@@ -70,11 +71,8 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
   //#endregion
 
   //#region Tv
-  // here are all usecases, so let's start from there!
-  // okay how do we define a usecase?
-  // GetCurrentTvGames? Yup, i'll take a quick look at the function name u gave on lichessClient and if it requires data (don't think but just to be sure)
-  // in case we need data, the usecase should ask for them to the bloc
   final GetCurrentTvGames getCurrentTvGames;
+  final StreamCurrentTvGames streamCurrentTvGames;
   //#endregion
 
   ServerBloc({
@@ -111,7 +109,8 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
     required this.getFollowingUsers,
     required this.followUser,
     required this.unfollowUser,
-    required this.getCurrentTvGames, // we are calling it from outside so we can inject it and then test it
+    required this.getCurrentTvGames,
+    required this.streamCurrentTvGames,
   }) : super(LichessInitial()) {
     //#region OAuth Events
     on<LichessOAuthEvent>(_oauthProcedure);
@@ -494,15 +493,29 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
 
       final streamingGames = await getCurrentTvGames.call();
 
-      // we may use the generic Success state, but i don't like it!
-      // let's create a custom state for this event
-
       streamingGames.fold(
         (failure) => emit(LichessError(failure)),
         (data) => emit(const LichessStreamingGamesFetched()),
       );
     });
+    on<StreamCurrentTvGamesEvent>((event, emit) async {
+      emit(LichessLoading());
 
+      final streamingGames = await streamCurrentTvGames.call();
+
+      if (streamingGames.isLeft()) {
+        emit(LichessError(streamingGames.left));
+        return;
+      }
+
+      // TODO: we need to make this bloc listen to the stream until a StopStreamingEvent is called,
+      // so we should make those varibales class variables
+      final gameStreamListener = streamingGames.right.listen((event) {
+        //TODO: emit streaming update events
+      });
+    });
+
+    //TODO: SopStreamingEvent
     //#endregion
   }
 

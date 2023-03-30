@@ -45,7 +45,6 @@ class LichessTvDataSource extends RemoteTvDataSource {
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
       final client = maybeClient.right;
-      //intellisense is so slow on liveshare, can you copy the item?
       final response = client.tv.streamCurrentTvGame();
       return Right(response);
     } catch (e) {
