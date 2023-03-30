@@ -31,4 +31,25 @@ class LichessTvDataSource extends RemoteTvDataSource {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }
   }
+
+  @override
+  Future<Either<Failure, Stream<LichessTvGameSummary>>>
+      streamCurrentTvGame() async {
+    try {
+      logDebug(
+        'Getting current Stream Tv Game',
+        tag: 'Account',
+        color: LogColor.lightBlue,
+      );
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      //intellisense is so slow on liveshare, can you copy the item?
+      final response = client.tv.streamCurrentTvGame();
+      return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
 }

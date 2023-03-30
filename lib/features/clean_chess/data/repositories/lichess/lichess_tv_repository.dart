@@ -22,4 +22,9 @@ class LichessTvRepository extends TvRepository {
     // get the response it will analyze that and validate and make the model
     return await _lichessTvDataSource.getCurrentTvGames();
   }
+
+  @override
+  Future<Either<Failure, Stream<LichessTvGameSummary>>> streamCurrentTvGame() {
+    return _lichessTvDataSource.streamCurrentTvGame();
+  }
 }

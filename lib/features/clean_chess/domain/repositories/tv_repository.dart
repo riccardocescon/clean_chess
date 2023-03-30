@@ -10,4 +10,5 @@ abstract class TvRepository {
   const TvRepository();
 
   Future<Either<Failure, List<LichessTvGameBasicInfo>>> getCurrentTvGames();
+  Future<Either<Failure, Stream<LichessTvGameSummary>>> streamCurrentTvGame();
 }

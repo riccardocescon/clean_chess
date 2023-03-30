@@ -1,21 +1,46 @@
+import 'dart:async';
+
 import 'package:cleanchess/core/clean_chess/presentation/widgets/homepage_mode_items.dart'
     as homepage_mode_items;
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/event/account_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_appbar.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/padded_items.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_widget.dart';
+import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 User? user;
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  TvGameStreamBloc get _tvGameStreamBloc => sl<TvGameStreamBloc>();
+  late StreamSubscription<AsyncSnapshot<LichessTvGameSummary>> _listener;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _tvGameStreamBloc.startStreaming();
+  }
+
+  @override
+  void dispose() {
+    _listener.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,17 +147,24 @@ class Homepage extends StatelessWidget {
           heigth10,
           AspectRatio(
             aspectRatio: 1,
-            child: Stack(
-              children: [
-                const Chessboard(),
-                Visibility(
-                  visible: completed,
-                  child: Container(
-                    color: Colors.grey.withAlpha(50),
-                  ),
-                ),
-              ],
+            child: BlocBuilder<TvGameStreamBloc,
+                AsyncSnapshot<LichessTvGameSummary>>(
+              bloc: _tvGameStreamBloc,
+              builder: (context, state) {
+                return Chessboard(fen: state.data?.data?.fen);
+              },
             ),
+            // child: Stack(
+            //   children: [
+            //     const Chessboard(),
+            //     Visibility(
+            //       visible: completed,
+            //       child: Container(
+            //         color: Colors.grey.withAlpha(50),
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ),
         ],
       );
