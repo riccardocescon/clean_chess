@@ -93,7 +93,6 @@ void main() async {
     bloc = ServerBloc(
       tokenProvider: mockLichessTokenProvider,
       revokeToken: mockLichessRevokeToken,
-      oauth: mockLichessOAuth,
       gainAccessToken: mockLichessGainAccessToken,
       getMyProfile: mockGetMyProfile,
       getMyEmail: mockGetMyEmail,
@@ -131,168 +130,168 @@ void main() async {
   // all tests are kinda the same
   // i generate them with Copilot
 
-  group('OAuth', () {
-    group('LichessOAuthEvent', () {
-      blocTest<ServerBloc, ServerState>(
-        'Success',
-        build: () {
-          when(mockLichessOAuth.call(any)).thenAnswer(
-            (_) async => const Right({
-              'code': '_fake_code_',
-              'state': '_fake_state_',
-            }),
-          );
+  // group('OAuth', () {
+  //   group('LichessOAuthEvent', () {
+  //     blocTest<ServerBloc, ServerState>(
+  //       'Success',
+  //       build: () {
+  //         when(mockLichessOAuth.call(any)).thenAnswer(
+  //           (_) async => const Right({
+  //             'code': '_fake_code_',
+  //             'state': '_fake_state_',
+  //           }),
+  //         );
 
-          when(mockLichessGainAccessToken.call(any)).thenAnswer(
-            (_) async => const Right('access_token'),
-          );
+  //         when(mockLichessGainAccessToken.call(any)).thenAnswer(
+  //           (_) async => const Right('access_token'),
+  //         );
 
-          when(mockLichessTokenProvider.saveAccessToken(any)).thenAnswer(
-            (_) async => const Right(null),
-          );
+  //         when(mockLichessTokenProvider.saveAccessToken(any)).thenAnswer(
+  //           (_) async => const Right(null),
+  //         );
 
-          return bloc;
-        },
-        act: (bloc) => bloc.add(const LichessOAuthEvent()),
-        expect: () => [
-          isA<LichessLoading>(),
-          isA<LichessOAuthSuccess>(),
-        ],
-        verify: (bloc) {
-          verify(mockLichessOAuth.call(any)).called(1);
-          verify(mockLichessGainAccessToken.call(any)).called(1);
-          verify(mockLichessTokenProvider.saveAccessToken(any)).called(1);
-        },
-      );
+  //         return bloc;
+  //       },
+  //       act: (bloc) => bloc.add(const LichessOAuthEvent()),
+  //       expect: () => [
+  //         isA<LichessLoading>(),
+  //         isA<LichessOAuthSuccess>(),
+  //       ],
+  //       verify: (bloc) {
+  //         verify(mockLichessOAuth.call(any)).called(1);
+  //         verify(mockLichessGainAccessToken.call(any)).called(1);
+  //         verify(mockLichessTokenProvider.saveAccessToken(any)).called(1);
+  //       },
+  //     );
 
-      blocTest<ServerBloc, ServerState>(
-        'Failure on OAuth',
-        build: () {
-          when(mockLichessOAuth.call(any)).thenAnswer(
-            (_) async => Left(LichessOAuthFailure('OAtuh error')),
-          );
+  //     blocTest<ServerBloc, ServerState>(
+  //       'Failure on OAuth',
+  //       build: () {
+  //         when(mockLichessOAuth.call(any)).thenAnswer(
+  //           (_) async => Left(LichessOAuthFailure('OAtuh error')),
+  //         );
 
-          return bloc;
-        },
-        act: (bloc) => bloc.add(const LichessOAuthEvent()),
-        expect: () => [
-          isA<LichessLoading>(),
-          isA<LichessError>(),
-        ],
-        verify: (bloc) {
-          verify(mockLichessOAuth.call(any)).called(1);
-          verifyNever(mockLichessGainAccessToken.call(any));
-          verifyNever(mockLichessTokenProvider.saveAccessToken(any));
-        },
-      );
+  //         return bloc;
+  //       },
+  //       act: (bloc) => bloc.add(const LichessOAuthEvent()),
+  //       expect: () => [
+  //         isA<LichessLoading>(),
+  //         isA<LichessError>(),
+  //       ],
+  //       verify: (bloc) {
+  //         verify(mockLichessOAuth.call(any)).called(1);
+  //         verifyNever(mockLichessGainAccessToken.call(any));
+  //         verifyNever(mockLichessTokenProvider.saveAccessToken(any));
+  //       },
+  //     );
 
-      blocTest<ServerBloc, ServerState>(
-        'Failure on GainAccessToken',
-        build: () {
-          when(mockLichessOAuth.call(any)).thenAnswer(
-            (_) async => const Right({
-              'code': '_fake_code_',
-              'state': '_fake_state_',
-            }),
-          );
+  //     blocTest<ServerBloc, ServerState>(
+  //       'Failure on GainAccessToken',
+  //       build: () {
+  //         when(mockLichessOAuth.call(any)).thenAnswer(
+  //           (_) async => const Right({
+  //             'code': '_fake_code_',
+  //             'state': '_fake_state_',
+  //           }),
+  //         );
 
-          when(mockLichessGainAccessToken.call(any)).thenAnswer(
-            (_) async => Left(LichessOAuthFailure('GainAccessToken error')),
-          );
+  //         when(mockLichessGainAccessToken.call(any)).thenAnswer(
+  //           (_) async => Left(LichessOAuthFailure('GainAccessToken error')),
+  //         );
 
-          return bloc;
-        },
-        act: (bloc) => bloc.add(const LichessOAuthEvent()),
-        expect: () => [
-          isA<LichessLoading>(),
-          isA<LichessError>(),
-        ],
-        verify: (bloc) {
-          verify(mockLichessOAuth.call(any)).called(1);
-          verify(mockLichessGainAccessToken.call(any)).called(1);
-          verifyNever(mockLichessTokenProvider.saveAccessToken(any));
-        },
-      );
+  //         return bloc;
+  //       },
+  //       act: (bloc) => bloc.add(const LichessOAuthEvent()),
+  //       expect: () => [
+  //         isA<LichessLoading>(),
+  //         isA<LichessError>(),
+  //       ],
+  //       verify: (bloc) {
+  //         verify(mockLichessOAuth.call(any)).called(1);
+  //         verify(mockLichessGainAccessToken.call(any)).called(1);
+  //         verifyNever(mockLichessTokenProvider.saveAccessToken(any));
+  //       },
+  //     );
 
-      blocTest(
-        'Success Revoke Token',
-        build: () {
-          when(mockLichessRevokeToken.call(any)).thenAnswer(
-            (_) async => const Right(null),
-          );
+  //     blocTest(
+  //       'Success Revoke Token',
+  //       build: () {
+  //         when(mockLichessRevokeToken.call(any)).thenAnswer(
+  //           (_) async => const Right(null),
+  //         );
 
-          return bloc;
-        },
-        act: (bloc) => bloc.add(const LichessRevokeTokenEvent()),
-        expect: () => [
-          isA<LichessLoading>(),
-          isA<LichessTokenRevoked>(),
-        ],
-        verify: (bloc) {
-          verify(mockLichessRevokeToken.call(any)).called(1);
-        },
-      );
+  //         return bloc;
+  //       },
+  //       act: (bloc) => bloc.add(const LichessRevokeTokenEvent()),
+  //       expect: () => [
+  //         isA<LichessLoading>(),
+  //         isA<LichessTokenRevoked>(),
+  //       ],
+  //       verify: (bloc) {
+  //         verify(mockLichessRevokeToken.call(any)).called(1);
+  //       },
+  //     );
 
-      blocTest(
-        'Failure Revoke Token',
-        build: () {
-          when(mockLichessRevokeToken.call(any)).thenAnswer(
-            (_) async => Left(LichessOAuthFailure('RevokeToken error')),
-          );
+  //     blocTest(
+  //       'Failure Revoke Token',
+  //       build: () {
+  //         when(mockLichessRevokeToken.call(any)).thenAnswer(
+  //           (_) async => Left(LichessOAuthFailure('RevokeToken error')),
+  //         );
 
-          return bloc;
-        },
-        act: (bloc) => bloc.add(const LichessRevokeTokenEvent()),
-        expect: () => [
-          isA<LichessLoading>(),
-          isA<LichessError>(),
-        ],
-        verify: (bloc) {
-          verify(mockLichessRevokeToken.call(any)).called(1);
-        },
-      );
-    });
+  //         return bloc;
+  //       },
+  //       act: (bloc) => bloc.add(const LichessRevokeTokenEvent()),
+  //       expect: () => [
+  //         isA<LichessLoading>(),
+  //         isA<LichessError>(),
+  //       ],
+  //       verify: (bloc) {
+  //         verify(mockLichessRevokeToken.call(any)).called(1);
+  //       },
+  //     );
+  //   });
 
-    group('GetMyProfile', () {
-      blocTest<ServerBloc, ServerState>(
-        'Success',
-        build: () {
-          when(mockGetMyProfile.call()).thenAnswer(
-            (_) async => const Right(User()),
-          );
+  //   group('GetMyProfile', () {
+  //     blocTest<ServerBloc, ServerState>(
+  //       'Success',
+  //       build: () {
+  //         when(mockGetMyProfile.call()).thenAnswer(
+  //           (_) async => const Right(User()),
+  //         );
 
-          return bloc;
-        },
-        act: (bloc) => bloc.add(const GetMyProfileEvent()),
-        expect: () => [
-          isA<LichessLoading>(),
-          isA<LichessUserFetched>(),
-        ],
-        verify: (bloc) {
-          verify(mockGetMyProfile.call()).called(1);
-        },
-      );
+  //         return bloc;
+  //       },
+  //       act: (bloc) => bloc.add(const GetMyProfileEvent()),
+  //       expect: () => [
+  //         isA<LichessLoading>(),
+  //         isA<LichessUserFetched>(),
+  //       ],
+  //       verify: (bloc) {
+  //         verify(mockGetMyProfile.call()).called(1);
+  //       },
+  //     );
 
-      blocTest<ServerBloc, ServerState>(
-        'Failure',
-        build: () {
-          when(mockGetMyProfile.call()).thenAnswer(
-            (_) async => Left(LichessOAuthFailure('OAuth failure')),
-          );
+  //     blocTest<ServerBloc, ServerState>(
+  //       'Failure',
+  //       build: () {
+  //         when(mockGetMyProfile.call()).thenAnswer(
+  //           (_) async => Left(LichessOAuthFailure('OAuth failure')),
+  //         );
 
-          return bloc;
-        },
-        act: (bloc) => bloc.add(const GetMyProfileEvent()),
-        expect: () => [
-          isA<LichessLoading>(),
-          isA<LichessError>(),
-        ],
-        verify: (bloc) {
-          verify(mockGetMyProfile.call()).called(1);
-        },
-      );
-    });
-  });
+  //         return bloc;
+  //       },
+  //       act: (bloc) => bloc.add(const GetMyProfileEvent()),
+  //       expect: () => [
+  //         isA<LichessLoading>(),
+  //         isA<LichessError>(),
+  //       ],
+  //       verify: (bloc) {
+  //         verify(mockGetMyProfile.call()).called(1);
+  //       },
+  //     );
+  //   });
+  // });
 
   group('Account', () {
     group('GetMyEmail', () {

@@ -10,7 +10,8 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
-import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_bloc.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_game_stream_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import 'features/clean_chess/data/repositories/lichess/lichess_tv_repository.dart';
@@ -174,7 +175,6 @@ Future<void> init() async {
     () => ServerBloc(
       tokenProvider: sl<LichessTokenProvider>(),
       revokeToken: sl<LichessRevokeToken>(),
-      oauth: sl<LichessOAuth>(),
       gainAccessToken: sl<LichessGainAccessToken>(),
       getMyProfile: sl<GetMyProfile>(),
       getMyEmail: sl<GetMyEmail>(),
@@ -210,7 +210,17 @@ Future<void> init() async {
   );
 
   // Standalone Blocs...
-  sl.registerLazySingleton<TvGameStreamBloc>(
-    () => TvGameStreamBloc(tvRepository: sl<TvRepository>()),
+  sl.registerLazySingleton<TvGameStreamCubit>(
+    () => TvGameStreamCubit(tvRepository: sl<TvRepository>()),
   );
+  sl.registerSingleton<AuthCubit>(
+    AuthCubit(
+      gainAccessToken: sl<LichessGainAccessToken>(),
+      oauth: sl<LichessOAuth>(),
+      revokeToken: sl<LichessRevokeToken>(),
+      tokenProvider: sl<LichessTokenProvider>(),
+    ),
+  );
+  await sl<AuthCubit>().loadInitialState();
+  assert(sl<AuthCubit>().state.status.isDefined);
 }

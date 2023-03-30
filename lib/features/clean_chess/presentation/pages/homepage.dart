@@ -6,7 +6,7 @@ import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/event/account_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
-import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_bloc.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_game_stream_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_appbar.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/padded_items.dart';
@@ -26,7 +26,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  TvGameStreamBloc get _tvGameStreamBloc => sl<TvGameStreamBloc>();
+  TvGameStreamCubit get _tvGameStreamBloc => sl<TvGameStreamCubit>();
   late StreamSubscription<AsyncSnapshot<LichessTvGameSummary>> _listener;
 
   @override
@@ -147,7 +147,7 @@ class _HomepageState extends State<Homepage> {
           heigth10,
           AspectRatio(
             aspectRatio: 1,
-            child: BlocBuilder<TvGameStreamBloc,
+            child: BlocBuilder<TvGameStreamCubit,
                 AsyncSnapshot<LichessTvGameSummary>>(
               bloc: _tvGameStreamBloc,
               builder: (context, state) {

@@ -3,7 +3,9 @@ import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_lined_board.dart';
+import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,9 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
         height: _buttonSize.height,
         child: ElevatedButton.icon(
           onPressed: () {
-            BlocProvider.of<ServerBloc>(context).add(
-              const LichessOAuthEvent(),
-            );
+            sl<AuthCubit>().login();
           },
           icon: Image.asset(
             'assets/img/lichess_logo.png',

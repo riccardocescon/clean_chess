@@ -26,8 +26,8 @@ enum TvGameStreamStateStatus {
   streaming,
 }
 
-class TvGameStreamBloc extends Cubit<AsyncSnapshot<LichessTvGameSummary>> {
-  TvGameStreamBloc({
+class TvGameStreamCubit extends Cubit<AsyncSnapshot<LichessTvGameSummary>> {
+  TvGameStreamCubit({
     required this.tvRepository,
   }) : super(const AsyncSnapshot.nothing());
 

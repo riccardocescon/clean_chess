@@ -1,6 +1,7 @@
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/login_screen.dart';
 import 'package:cleanchess/injection_container.dart';
@@ -14,19 +15,13 @@ void main() async {
 
   await init();
 
-  final hasAccessToken =
-      (await sl<LichessTokenProvider>().getClient()).isRight();
-
-  runApp(Root(hasAccessToken: hasAccessToken));
+  runApp(const Root());
 }
 
 class Root extends StatefulWidget {
   const Root({
     super.key,
-    required this.hasAccessToken,
   });
-
-  final bool hasAccessToken;
 
   @override
   State<Root> createState() => _RootState();
@@ -43,33 +38,34 @@ class _RootState extends State<Root> {
           statusBarColor: theme.scaffoldBackgroundColor,
           systemNavigationBarColor: theme.scaffoldBackgroundColor,
         ),
-        child: MaterialApp(
-          theme: theme,
-          debugShowCheckedModeBanner: false,
-          initialRoute: widget.hasAccessToken
-              ? Navigation.homepage
-              : Navigation.loginScreen,
-          onGenerateRoute: (settings) {
-            switch (settings.name) {
-              case Navigation.loginScreen:
-                return PageRouteBuilder(
-                  settings: settings,
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      const LoginScreen(),
-                );
-              case Navigation.homepage:
-                return PageRouteBuilder(
-                  settings: settings,
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      const Homepage(),
-                );
-              default:
-                return PageRouteBuilder(
-                  settings: settings,
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      const LoginScreen(),
-                );
+        child: BlocBuilder<AuthCubit, AuthState>(
+          bloc: sl<AuthCubit>(),
+          builder: (context, state) {
+            if (state.status == AuthStatus.notLogged) {
+              return const LoginScreen();
             }
+
+            return MaterialApp(
+              theme: theme,
+              debugShowCheckedModeBanner: false,
+              initialRoute: Navigation.homepage,
+              onGenerateRoute: (settings) {
+                switch (settings.name) {
+                  case Navigation.homepage:
+                    return PageRouteBuilder(
+                      settings: settings,
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const Homepage(),
+                    );
+                  default:
+                    return PageRouteBuilder(
+                      settings: settings,
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const LoginScreen(),
+                    );
+                }
+              },
+            );
           },
         ),
       ),

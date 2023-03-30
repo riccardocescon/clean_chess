@@ -1,6 +1,4 @@
 import 'package:cleanchess/core/errors/failure.dart';
-import 'package:cleanchess/core/presentation/bloc/utilities/oauth_helper.dart'
-    as oauth_helper;
 import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
@@ -23,7 +21,6 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
   final LichessTokenProvider tokenProvider;
 
   //#region OAuth UseCases
-  final LichessOAuth oauth;
   final LichessRevokeToken revokeToken;
   //#endregion
 
@@ -80,7 +77,6 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
   ServerBloc({
     required this.tokenProvider,
     required this.revokeToken,
-    required this.oauth,
     required this.gainAccessToken,
     required this.getMyProfile,
     required this.getMyEmail,
@@ -114,19 +110,7 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
     required this.getCurrentTvGames, // we are calling it from outside so we can inject it and then test it
   }) : super(LichessInitial()) {
     //#region OAuth Events
-    on<LichessOAuthEvent>(_oauthProcedure);
-    on<LichessRevokeTokenEvent>((event, emit) async {
-      emit(LichessLoading());
-      final result = await revokeToken.call(tokenProvider.accessToken);
 
-      if (result.isLeft()) {
-        emit(LichessError(result.left));
-        return;
-      }
-
-      await tokenProvider.revokeToken();
-      emit(const LichessTokenRevoked());
-    });
     //#endregion
 
     //#region Account Events
@@ -504,63 +488,5 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
     });
 
     //#endregion
-  }
-
-  void _oauthProcedure(
-    LichessOAuthEvent event,
-    Emitter<ServerState> emit,
-  ) async {
-    emit(LichessLoading());
-
-    // Generate an authorization URL that asks for the oauth2 permission
-    const clientId = 'cleanchess';
-    final grant = oauth_helper.getAuthorizationCodeGrant(
-      clientId: clientId,
-      oauthUri: 'https://lichess.org/oauth',
-      tokenUri: 'https://lichess.org/api/token',
-    );
-
-    // Generate a random StateVerifier for the authorization request
-    final stateVerifier = oauth_helper.getRandomVerifier;
-
-    // Create a callback URL that will be used by the authorization server
-    // to redirect the user back to the app with the authorization code
-    const redirectUri = 'com.example.cleanchess://authorize';
-
-    try {
-      // Perform the authorization request
-      final data = await oauth.call(
-        LichessOAuthParams(
-          grant: grant,
-          stateVerifier: stateVerifier,
-          redirectUri: redirectUri,
-        ),
-      );
-
-      if (data.isLeft()) {
-        emit(LichessError(data.left));
-        return;
-      }
-
-      // Extract the authorization parameters from the response
-      final OAuthParams params = data.right;
-
-      // Exchange the authorization code for an access token
-      final accessToken = await gainAccessToken.call(
-        LichessGainAccessTokenParams(grant: grant, parameters: params),
-      );
-
-      if (accessToken.isLeft()) {
-        emit(LichessError(accessToken.left));
-        return;
-      }
-
-      // Save the access token
-      await tokenProvider.saveAccessToken(accessToken.right);
-
-      emit(const LichessOAuthSuccess());
-    } catch (e) {
-      emit(LichessError(UnexpectedFailure(e.toString())));
-    }
   }
 }
