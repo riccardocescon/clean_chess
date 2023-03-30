@@ -1,38 +1,84 @@
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_game_stream_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/padded_items.dart';
+import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class StreamingWidget extends StatelessWidget {
+class StreamingWidget extends StatefulWidget {
   const StreamingWidget({super.key});
+
+  @override
+  State<StreamingWidget> createState() => _StreamingWidgetState();
+}
+
+class _StreamingWidgetState extends State<StreamingWidget> {
+  TvGameStreamCubit get _tvGameStreamBloc => sl<TvGameStreamCubit>();
 
   @override
   Widget build(BuildContext context) => Column(
         children: [
           PaddedItems(children: [
-            _streamingUserItem(
-              isWhite: false,
-              title: 'IM',
-              color: Colors.amber,
-              name: 'Riccardo Cescon',
-              elo: '2829',
-              time: '0:22',
+            BlocBuilder<TvGameStreamCubit, AsyncSnapshot<LichessTvGameSummary>>(
+              bloc: _tvGameStreamBloc,
+              builder: (context, state) {
+                return _streamingUserItem(
+                  isWhite: false,
+                  title: 'IM',
+                  color: Colors.amber,
+                  name: state.data?.data?.blackPlayer?.user?.name ??
+                      state.data?.data?.blackPlayer?.user?.id ??
+                      'Loading info...',
+                  elo: state.data?.data?.blackPlayer?.rating?.toString() ??
+                      'Loading...',
+                  time: '0:20',
+                );
+              },
             ),
           ]),
           heigth5,
-          const AspectRatio(
+          AspectRatio(
             aspectRatio: 1,
-            child: Chessboard(),
+            child: BlocBuilder<TvGameStreamCubit,
+                AsyncSnapshot<LichessTvGameSummary>>(
+              bloc: _tvGameStreamBloc,
+              builder: (context, state) {
+                return Chessboard(fen: state.data?.data?.fen);
+              },
+            ),
+            // child: Stack(
+            //   children: [
+            //     const Chessboard(),
+            //     Visibility(
+            //       visible: completed,
+            //       child: Container(
+            //         color: Colors.grey.withAlpha(50),
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ),
           heigth5,
           PaddedItems(
             children: [
-              _streamingUserItem(
-                isWhite: true,
-                title: 'GM',
-                color: Colors.pink,
-                name: 'Hardal',
-                elo: '3018',
+              BlocBuilder<TvGameStreamCubit,
+                  AsyncSnapshot<LichessTvGameSummary>>(
+                bloc: _tvGameStreamBloc,
+                builder: (context, state) {
+                  return _streamingUserItem(
+                    isWhite: true,
+                    title: 'GM',
+                    color: Colors.pink,
+                    name: state.data?.data?.whitePlayer?.user?.name ??
+                        state.data?.data?.whitePlayer?.user?.id ??
+                        'Loading info...',
+                    elo: state.data?.data?.whitePlayer?.rating?.toString() ??
+                        'Loading...',
+                    time: '0:20',
+                  );
+                },
               ),
             ],
           ),

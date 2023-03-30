@@ -137,15 +137,9 @@ class _HomepageState extends State<Homepage> {
             ],
           ),
           heigth10,
-          AspectRatio(
+          const AspectRatio(
             aspectRatio: 1,
-            child: BlocBuilder<TvGameStreamCubit,
-                AsyncSnapshot<LichessTvGameSummary>>(
-              bloc: _tvGameStreamBloc,
-              builder: (context, state) {
-                return Chessboard(fen: state.data?.data?.fen);
-              },
-            ),
+            child: Chessboard(),
             // child: Stack(
             //   children: [
             //     const Chessboard(),

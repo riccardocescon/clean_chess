@@ -61,10 +61,21 @@ class TvGameStreamCubit extends Cubit<AsyncSnapshot<LichessTvGameSummary>> {
   }
 
   Future<void> _startListener() async {
+    List<LichessGamePlayer>? players;
+
     _subscription = _stream?.listen(
       (lichessGameSummary) {
+        if (lichessGameSummary.data?.players != null) {
+          players = lichessGameSummary.data?.players;
+        }
+
         emit(
-          AsyncSnapshot.withData(ConnectionState.active, lichessGameSummary),
+          AsyncSnapshot.withData(
+            ConnectionState.active,
+            lichessGameSummary.copyWith.data!.call(
+              players: players,
+            ),
+          ),
         );
       },
       cancelOnError: true,
