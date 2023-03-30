@@ -18,6 +18,7 @@ class ProfileScreen extends StatefulWidget {
 
   final lichess.User user;
 
+
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -473,6 +474,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final lostGames = widget.user.count?.loss ?? 0;
     return Row(
       children: [
+
         Padding(
           padding: const EdgeInsets.only(left: 30, right: 70),
           child: Text("Time played: $timeplayed hours"),
@@ -560,4 +562,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
       MaterialPageRoute(builder: (context) => const StatsPage()),
     );
   }
+
 }

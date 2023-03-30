@@ -1,9 +1,11 @@
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/event/account_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/profile_screen.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';

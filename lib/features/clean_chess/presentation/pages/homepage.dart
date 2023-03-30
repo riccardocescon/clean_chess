@@ -9,7 +9,6 @@ import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.d
 import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_appbar.dart';
-import 'package:cleanchess/features/clean_chess/presentation/widgets/padded_items.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_widget.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
@@ -95,32 +94,14 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget _customScrollView({required List<Widget> children}) =>
-      CustomScrollView(
-        slivers: [
-          SliverList(
-            delegate: SliverChildListDelegate(children),
-          ),
-        ],
+  Widget _customScrollView({required List<Widget> slivers}) => CustomScrollView(
+        slivers: slivers,
       );
 
-  Widget _modesList() => SizedBox(
-        height: modeItemHeigth * 3,
-        child: ListView.builder(
-          itemCount: homepage_mode_items.playModes.length,
-          itemBuilder: (context, index) => homepage_mode_items.playModes[index],
-
-          // itemCount: homepage_mode_items.learnModes.length,
-          // itemBuilder: (context, index) =>
-          //     homepage_mode_items.learnModes[index],
-
-          // itemCount: homepage_mode_items.toolsModes.length,
-          // itemBuilder: (context, index) =>
-          //     homepage_mode_items.toolsModes[index],
-
-          // itemCount: homepage_mode_items.communityModes.length,
-          // itemBuilder: (context, index) =>
-          //     homepage_mode_items.communityModes[index],
+  Widget _modesList() => SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => homepage_mode_items.playModes[index],
+          childCount: homepage_mode_items.playModes.length,
         ),
       );
 
@@ -169,12 +150,21 @@ class _HomepageState extends State<Homepage> {
         ],
       );
 
-  Widget _onlineInfo() => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _text('100.000 Players'),
-          _text('50.000 Games'),
-        ],
+  Widget _onlineInfo() => SliverPadding(
+        padding: const EdgeInsets.all(k10dp),
+        sliver: SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _text('100.000 Players'),
+                  _text('50.000 Games'),
+                ],
+              ),
+            ],
+          ),
+        ),
       );
 
   Widget _liveStreamingText() => Column(
