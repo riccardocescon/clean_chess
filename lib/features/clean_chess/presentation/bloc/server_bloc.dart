@@ -1,7 +1,6 @@
 import 'package:cleanchess/core/errors/failure.dart';
 import 'package:cleanchess/core/presentation/bloc/utilities/oauth_helper.dart'
     as oauth_helper;
-import 'package:cleanchess/core/usecases/usecase.dart';
 import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
@@ -10,8 +9,10 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/li
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_revoke_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/tv/get_current_tv_games.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/event/tv_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,6 +69,14 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
   final UnfollowUser unfollowUser;
   //#endregion
 
+  //#region Tv
+  // here are all usecases, so let's start from there!
+  // okay how do we define a usecase?
+  // GetCurrentTvGames? Yup, i'll take a quick look at the function name u gave on lichessClient and if it requires data (don't think but just to be sure)
+  // in case we need data, the usecase should ask for them to the bloc
+  final GetCurrentTvGames getCurrentTvGames;
+  //#endregion
+
   ServerBloc({
     required this.tokenProvider,
     required this.revokeToken,
@@ -102,6 +111,7 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
     required this.getFollowingUsers,
     required this.followUser,
     required this.unfollowUser,
+    required this.getCurrentTvGames, // we are calling it from outside so we can inject it and then test it
   }) : super(LichessInitial()) {
     //#region OAuth Events
     on<LichessOAuthEvent>(_oauthProcedure);
@@ -122,7 +132,7 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
     //#region Account Events
     on<GetMyProfileEvent>((event, emit) async {
       emit(LichessLoading());
-      final user = await getMyProfile.call(NoParams());
+      final user = await getMyProfile.call();
 
       user.fold(
         (failure) => emit(LichessError(failure)),
@@ -131,7 +141,7 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
     });
     on<GetMyEmailEvent>((event, emit) async {
       emit(LichessLoading());
-      final email = await getMyEmail.call(NoParams());
+      final email = await getMyEmail.call();
 
       email.fold(
         (failure) => emit(LichessError(failure)),
@@ -140,7 +150,7 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
     });
     on<GetMyKidModeStatusEvent>((event, emit) async {
       emit(LichessLoading());
-      final kidModeStatus = await getMyKidModeStatus.call(NoParams());
+      final kidModeStatus = await getMyKidModeStatus.call();
 
       kidModeStatus.fold(
         (failure) => emit(LichessError(failure)),
@@ -158,7 +168,7 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
     });
     on<GetMyPreferencesEvent>((event, emit) async {
       emit(LichessLoading());
-      final preferences = await getMyPreferences.call(NoParams());
+      final preferences = await getMyPreferences.call();
 
       preferences.fold(
         (failure) => emit(LichessError(failure)),
@@ -366,7 +376,7 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
     on<GetTop10PlayersEvent>(
       (event, emit) async {
         emit(LichessLoading());
-        final users = await getTop10Players.call(NoParams());
+        final users = await getTop10Players.call();
 
         users.fold(
           (failure) => emit(LichessError(failure)),
@@ -431,7 +441,7 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
     on<GetLiveStreamersEvent>(
       (event, emit) async {
         emit(LichessLoading());
-        final users = await getLiveStreamers.call(NoParams());
+        final users = await getLiveStreamers.call();
 
         users.fold(
           (failure) => emit(LichessError(failure)),
@@ -445,7 +455,7 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
     on<GetFollowingUsersEvent>(
       (event, emit) async {
         emit(LichessLoading());
-        final user = await getFollowingUsers.call(NoParams());
+        final user = await getFollowingUsers.call();
 
         user.fold(
           (failure) => emit(LichessError(failure)),
@@ -475,6 +485,24 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
         );
       },
     );
+    //#endregion
+    //#region Tv Api
+
+    // we need an event to call this
+    on<GetStreamingGames>((event, emit) async {
+      emit(LichessLoading());
+
+      final streamingGames = await getCurrentTvGames.call();
+
+      // we may use the generic Success state, but i don't like it!
+      // let's create a custom state for this event
+
+      streamingGames.fold(
+        (failure) => emit(LichessError(failure)),
+        (data) => emit(const LichessStreamingGamesFetched()),
+      );
+    });
+
     //#endregion
   }
 

@@ -1,6 +1,7 @@
 import 'package:cleanchess/core/errors/failure.dart';
 import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/bloc/event/tv_event.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
 import 'package:dartz/dartz.dart';
@@ -10,6 +11,7 @@ import 'package:lichess_client_dio/lichess_client_dio.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../general_mocks.mocks.dart';
+import 'lichess_bloc_mocks.dart';
 import 'lichess_bloc_mocks.mocks.dart';
 
 void main() async {
@@ -48,6 +50,7 @@ void main() async {
   late MockMGetFollowingUsers mockGetFollowingUsers;
   late MockMFollowUser mockFollowUser;
   late MockMUnfollowUser mockUnfollowUser;
+  late MGetCurrentTvGames mockMGetCurrentTvGames;
 
   late ServerBloc bloc;
 
@@ -85,6 +88,7 @@ void main() async {
     mockGetFollowingUsers = MockMGetFollowingUsers();
     mockFollowUser = MockMFollowUser();
     mockUnfollowUser = MockMUnfollowUser();
+    mockMGetCurrentTvGames = MockMGetCurrentTvGames();
 
     bloc = ServerBloc(
       tokenProvider: mockLichessTokenProvider,
@@ -120,8 +124,12 @@ void main() async {
       getFollowingUsers: mockGetFollowingUsers,
       followUser: mockFollowUser,
       unfollowUser: mockUnfollowUser,
+      getCurrentTvGames: mockMGetCurrentTvGames,
     );
   });
+
+  // all tests are kinda the same
+  // i generate them with Copilot
 
   group('OAuth', () {
     group('LichessOAuthEvent', () {
@@ -249,7 +257,7 @@ void main() async {
       blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
-          when(mockGetMyProfile.call(any)).thenAnswer(
+          when(mockGetMyProfile.call()).thenAnswer(
             (_) async => const Right(User()),
           );
 
@@ -261,14 +269,14 @@ void main() async {
           isA<LichessUserFetched>(),
         ],
         verify: (bloc) {
-          verify(mockGetMyProfile.call(any)).called(1);
+          verify(mockGetMyProfile.call()).called(1);
         },
       );
 
       blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
-          when(mockGetMyProfile.call(any)).thenAnswer(
+          when(mockGetMyProfile.call()).thenAnswer(
             (_) async => Left(LichessOAuthFailure('OAuth failure')),
           );
 
@@ -280,7 +288,7 @@ void main() async {
           isA<LichessError>(),
         ],
         verify: (bloc) {
-          verify(mockGetMyProfile.call(any)).called(1);
+          verify(mockGetMyProfile.call()).called(1);
         },
       );
     });
@@ -291,7 +299,7 @@ void main() async {
       blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
-          when(mockGetMyEmail.call(any)).thenAnswer(
+          when(mockGetMyEmail.call()).thenAnswer(
             (_) async => const Right('email'),
           );
 
@@ -303,14 +311,14 @@ void main() async {
           isA<LichessLoaded<String>>(),
         ],
         verify: (bloc) {
-          verify(mockGetMyEmail.call(any)).called(1);
+          verify(mockGetMyEmail.call()).called(1);
         },
       );
 
       blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
-          when(mockGetMyEmail.call(any)).thenAnswer(
+          when(mockGetMyEmail.call()).thenAnswer(
             (_) async => Left(LichessOAuthFailure('OAuth failure')),
           );
 
@@ -322,7 +330,7 @@ void main() async {
           isA<LichessError>(),
         ],
         verify: (bloc) {
-          verify(mockGetMyEmail.call(any)).called(1);
+          verify(mockGetMyEmail.call()).called(1);
         },
       );
     });
@@ -331,7 +339,7 @@ void main() async {
       blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
-          when(mockGetMyKidModeStatus.call(any)).thenAnswer(
+          when(mockGetMyKidModeStatus.call()).thenAnswer(
             (_) async => const Right(true),
           );
 
@@ -343,14 +351,14 @@ void main() async {
           isA<LichessLoaded<bool>>(),
         ],
         verify: (bloc) {
-          verify(mockGetMyKidModeStatus.call(any)).called(1);
+          verify(mockGetMyKidModeStatus.call()).called(1);
         },
       );
 
       blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
-          when(mockGetMyKidModeStatus.call(any)).thenAnswer(
+          when(mockGetMyKidModeStatus.call()).thenAnswer(
             (_) async => Left(LichessOAuthFailure('OAuth failure')),
           );
 
@@ -362,7 +370,7 @@ void main() async {
           isA<LichessError>(),
         ],
         verify: (bloc) {
-          verify(mockGetMyKidModeStatus.call(any)).called(1);
+          verify(mockGetMyKidModeStatus.call()).called(1);
         },
       );
     });
@@ -411,7 +419,7 @@ void main() async {
       blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
-          when(mockGetMyPreferences.call(any)).thenAnswer(
+          when(mockGetMyPreferences.call()).thenAnswer(
             (_) async => const Right(UserPreferences()),
           );
 
@@ -423,14 +431,14 @@ void main() async {
           isA<LichessLoaded<UserPreferences>>(),
         ],
         verify: (bloc) {
-          verify(mockGetMyPreferences.call(any)).called(1);
+          verify(mockGetMyPreferences.call()).called(1);
         },
       );
 
       blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
-          when(mockGetMyPreferences.call(any)).thenAnswer(
+          when(mockGetMyPreferences.call()).thenAnswer(
             (_) async => Left(LichessOAuthFailure('OAuth failure')),
           );
 
@@ -442,7 +450,7 @@ void main() async {
           isA<LichessError>(),
         ],
         verify: (bloc) {
-          verify(mockGetMyPreferences.call(any)).called(1);
+          verify(mockGetMyPreferences.call()).called(1);
         },
       );
     });
@@ -1119,7 +1127,7 @@ void main() async {
       blocTest<ServerBloc, ServerState>(
         'Success',
         build: () {
-          when(mockGetTop10Players.call(any)).thenAnswer(
+          when(mockGetTop10Players.call()).thenAnswer(
             (_) async => const Right(<String, List<User>>{}),
           );
 
@@ -1133,14 +1141,14 @@ void main() async {
           isA<LichessLoaded<Map<String, List<User>>>>(),
         ],
         verify: (bloc) {
-          verify(mockGetTop10Players.call(any)).called(1);
+          verify(mockGetTop10Players.call()).called(1);
         },
       );
 
       blocTest<ServerBloc, ServerState>(
         'Failure',
         build: () {
-          when(mockGetTop10Players.call(any)).thenAnswer(
+          when(mockGetTop10Players.call()).thenAnswer(
             (_) async => Left(LichessOAuthFailure('OAuth failure')),
           );
 
@@ -1152,7 +1160,7 @@ void main() async {
           isA<LichessError>(),
         ],
         verify: (bloc) {
-          verify(mockGetTop10Players.call(any)).called(1);
+          verify(mockGetTop10Players.call()).called(1);
         },
       );
     });
@@ -1324,7 +1332,7 @@ void main() async {
       blocTest(
         'Success',
         build: () {
-          when(mockGetLiveStreamers.call(any)).thenAnswer(
+          when(mockGetLiveStreamers.call()).thenAnswer(
             (_) async => const Right(<User>[]),
           );
 
@@ -1336,13 +1344,13 @@ void main() async {
           isA<LichessLoaded<List<User>>>(),
         ],
         verify: (bloc) {
-          verify(mockGetLiveStreamers.call(any)).called(1);
+          verify(mockGetLiveStreamers.call()).called(1);
         },
       );
       blocTest(
         'Failure',
         build: () {
-          when(mockGetLiveStreamers.call(any)).thenAnswer(
+          when(mockGetLiveStreamers.call()).thenAnswer(
             (_) async => Left(LichessOAuthFailure('OAuth failure')),
           );
 
@@ -1354,7 +1362,7 @@ void main() async {
           isA<LichessError>(),
         ],
         verify: (bloc) {
-          verify(mockGetLiveStreamers.call(any)).called(1);
+          verify(mockGetLiveStreamers.call()).called(1);
         },
       );
     });
@@ -1363,7 +1371,7 @@ void main() async {
       blocTest(
         'Success',
         build: () {
-          when(mockGetFollowingUsers.call(any)).thenAnswer(
+          when(mockGetFollowingUsers.call()).thenAnswer(
             (_) async => const Right(<User>[]),
           );
 
@@ -1375,13 +1383,13 @@ void main() async {
           isA<LichessFollowingUsersFetched>(),
         ],
         verify: (bloc) {
-          verify(mockGetFollowingUsers.call(any)).called(1);
+          verify(mockGetFollowingUsers.call()).called(1);
         },
       );
       blocTest(
         'Failure',
         build: () {
-          when(mockGetFollowingUsers.call(any)).thenAnswer(
+          when(mockGetFollowingUsers.call()).thenAnswer(
             (_) async => Left(LichessOAuthFailure('OAuth failure')),
           );
 
@@ -1393,7 +1401,7 @@ void main() async {
           isA<LichessError>(),
         ],
         verify: (bloc) {
-          verify(mockGetFollowingUsers.call(any)).called(1);
+          verify(mockGetFollowingUsers.call()).called(1);
         },
       );
     });
@@ -1477,5 +1485,44 @@ void main() async {
         },
       );
     });
+  });
+  group('GetStremingGames', () {
+    blocTest(
+      'Success',
+      build: () {
+        when(mockMGetCurrentTvGames.call()).thenAnswer(
+          (_) async => const Right([]),
+        );
+
+        return bloc;
+      },
+      act: (bloc) => bloc.add(const GetStreamingGames()),
+      expect: () => [
+        isA<LichessLoading>(),
+        isA<LichessStreamingGamesFetched>(),
+      ],
+      verify: (bloc) {
+        verify(mockMGetCurrentTvGames.call()).called(1);
+      },
+    );
+
+    blocTest(
+      'failure',
+      build: () {
+        when(mockMGetCurrentTvGames.call()).thenAnswer(
+          (_) async => Left(LichessOAuthFailure('OAuth failure')),
+        );
+
+        return bloc;
+      },
+      act: (bloc) => bloc.add(const GetStreamingGames()),
+      expect: () => [
+        isA<LichessLoading>(),
+        isA<LichessError>(),
+      ],
+      verify: (bloc) {
+        verify(mockMGetCurrentTvGames.call()).called(1);
+      },
+    );
   });
 }

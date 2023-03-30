@@ -41,6 +41,10 @@ class LichessTokenRevoked extends ServerState {
   const LichessTokenRevoked();
 }
 
+class LichessStreamingGamesFetched extends ServerState {
+  const LichessStreamingGamesFetched();
+}
+
 class LichessError extends ServerState {
   final Failure failure;
 

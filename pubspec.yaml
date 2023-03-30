@@ -44,7 +44,8 @@ dependencies:
   url_launcher: ^6.1.10
   flutter_web_auth: ^0.5.0
   flutter_secure_storage: ^8.0.0
-  lichess_client_dio: ^0.0.3
+  lichess_client_dio: ^0.0.4
+  flutter_chess_board: ^1.0.1
   # Useful tools to remove Flutter boilerplate code from context and navigator mainly.
   # Also includes useful extensions to work with pixels and dp.
   flutter_shared_tools:
