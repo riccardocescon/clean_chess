@@ -207,7 +207,8 @@ class TwoButtonsState extends State<TwoButtons> {
                   onTap: () => setState(() {
                     widget.val = true;
                   }),
-                  child: Container(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
                     width: 100,
                     height: 30,
                     decoration: BoxDecoration(
