@@ -111,6 +111,7 @@ class LichessAccountDataSource implements RemoteAccountDataSource {
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
       final client = maybeClient.right;
+
       final response = await client.account.getMyPreferences();
       return Right(response);
     } catch (e) {

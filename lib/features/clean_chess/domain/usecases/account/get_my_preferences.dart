@@ -4,13 +4,13 @@ import 'package:cleanchess/features/clean_chess/data/repositories/lichess/liches
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class GetMyPreferences extends UseCase<UserPreferences, NoParams> {
+class GetMyPreferences extends UseCaseNoArgs<UserPreferences> {
   final LichessAccountRepository repository;
 
   GetMyPreferences(this.repository);
 
   @override
-  Future<Either<Failure, UserPreferences>> call(NoParams params) async {
+  Future<Either<Failure, UserPreferences>> call() async {
     return await repository.getMyPreferences();
   }
 }

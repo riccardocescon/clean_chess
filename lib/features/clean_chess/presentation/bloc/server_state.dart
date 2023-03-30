@@ -41,6 +41,12 @@ class LichessTokenRevoked extends ServerState {
   const LichessTokenRevoked();
 }
 
+// Yeah the Lichess prefix isnt' right, but yknow we're
+// building this for lichess mainly, so its good for now
+class LichessStreamingGamesFetched extends ServerState {
+  const LichessStreamingGamesFetched();
+}
+
 class LichessError extends ServerState {
   final Failure failure;
 

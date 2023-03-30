@@ -543,18 +543,18 @@ packages:
     dependency: transitive
     description:
       name: lichess_client
-      sha256: a12bada9f185b47a4297493282ea6819f4f0d6e09da9b197d178d80db3350915
+      sha256: "139a06e6b5e1eefbc97ab63feb1d976ef5fd8e5472cf3e9fd97faae263971536"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.11"
+    version: "0.0.14"
   lichess_client_dio:
     dependency: "direct main"
     description:
       name: lichess_client_dio
-      sha256: def6898804918fcd66514775739e07ab12c8bc6c45992f3215c142e7c2eb1973
+      sha256: "1fada71fae11fc32aa1ddc906d462454e7ea6e914e51e034bd8b0ec95a1f4a7c"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.3"
+    version: "0.0.5"
   lints:
     dependency: transitive
     description:

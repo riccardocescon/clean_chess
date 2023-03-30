@@ -79,9 +79,30 @@ class _FakeTeamsServiceDio_4 extends _i1.SmartFake
         );
 }
 
-class _FakeRelationsService_5 extends _i1.SmartFake
+class _FakeTvServiceDio_5 extends _i1.SmartFake implements _i3.TvServiceDio {
+  _FakeTvServiceDio_5(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeGamesServiceDio_6 extends _i1.SmartFake
+    implements _i3.GamesServiceDio {
+  _FakeGamesServiceDio_6(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeRelationsService_7 extends _i1.SmartFake
     implements _i3.RelationsService {
-  _FakeRelationsService_5(
+  _FakeRelationsService_7(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -90,8 +111,8 @@ class _FakeRelationsService_5 extends _i1.SmartFake
         );
 }
 
-class _FakeIOSOptions_6 extends _i1.SmartFake implements _i4.IOSOptions {
-  _FakeIOSOptions_6(
+class _FakeIOSOptions_8 extends _i1.SmartFake implements _i4.IOSOptions {
+  _FakeIOSOptions_8(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -100,9 +121,9 @@ class _FakeIOSOptions_6 extends _i1.SmartFake implements _i4.IOSOptions {
         );
 }
 
-class _FakeAndroidOptions_7 extends _i1.SmartFake
+class _FakeAndroidOptions_9 extends _i1.SmartFake
     implements _i4.AndroidOptions {
-  _FakeAndroidOptions_7(
+  _FakeAndroidOptions_9(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -111,8 +132,8 @@ class _FakeAndroidOptions_7 extends _i1.SmartFake
         );
 }
 
-class _FakeLinuxOptions_8 extends _i1.SmartFake implements _i4.LinuxOptions {
-  _FakeLinuxOptions_8(
+class _FakeLinuxOptions_10 extends _i1.SmartFake implements _i4.LinuxOptions {
+  _FakeLinuxOptions_10(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -121,9 +142,9 @@ class _FakeLinuxOptions_8 extends _i1.SmartFake implements _i4.LinuxOptions {
         );
 }
 
-class _FakeWindowsOptions_9 extends _i1.SmartFake
+class _FakeWindowsOptions_11 extends _i1.SmartFake
     implements _i4.WindowsOptions {
-  _FakeWindowsOptions_9(
+  _FakeWindowsOptions_11(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -132,8 +153,8 @@ class _FakeWindowsOptions_9 extends _i1.SmartFake
         );
 }
 
-class _FakeWebOptions_10 extends _i1.SmartFake implements _i4.WebOptions {
-  _FakeWebOptions_10(
+class _FakeWebOptions_12 extends _i1.SmartFake implements _i4.WebOptions {
+  _FakeWebOptions_12(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -142,8 +163,8 @@ class _FakeWebOptions_10 extends _i1.SmartFake implements _i4.WebOptions {
         );
 }
 
-class _FakeMacOsOptions_11 extends _i1.SmartFake implements _i4.MacOsOptions {
-  _FakeMacOsOptions_11(
+class _FakeMacOsOptions_13 extends _i1.SmartFake implements _i4.MacOsOptions {
+  _FakeMacOsOptions_13(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -152,8 +173,8 @@ class _FakeMacOsOptions_11 extends _i1.SmartFake implements _i4.MacOsOptions {
         );
 }
 
-class _FakeEither_12<L, R> extends _i1.SmartFake implements _i5.Either<L, R> {
-  _FakeEither_12(
+class _FakeEither_14<L, R> extends _i1.SmartFake implements _i5.Either<L, R> {
+  _FakeEither_14(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -227,13 +248,37 @@ class MockMLichessClientDio extends _i1.Mock implements _i6.MLichessClientDio {
         ),
       ) as _i3.TeamsServiceDio);
   @override
+  _i3.TvServiceDio get tv => (super.noSuchMethod(
+        Invocation.getter(#tv),
+        returnValue: _FakeTvServiceDio_5(
+          this,
+          Invocation.getter(#tv),
+        ),
+        returnValueForMissingStub: _FakeTvServiceDio_5(
+          this,
+          Invocation.getter(#tv),
+        ),
+      ) as _i3.TvServiceDio);
+  @override
+  _i3.GamesServiceDio get games => (super.noSuchMethod(
+        Invocation.getter(#games),
+        returnValue: _FakeGamesServiceDio_6(
+          this,
+          Invocation.getter(#games),
+        ),
+        returnValueForMissingStub: _FakeGamesServiceDio_6(
+          this,
+          Invocation.getter(#games),
+        ),
+      ) as _i3.GamesServiceDio);
+  @override
   _i3.RelationsService get social => (super.noSuchMethod(
         Invocation.getter(#social),
-        returnValue: _FakeRelationsService_5(
+        returnValue: _FakeRelationsService_7(
           this,
           Invocation.getter(#social),
         ),
-        returnValueForMissingStub: _FakeRelationsService_5(
+        returnValueForMissingStub: _FakeRelationsService_7(
           this,
           Invocation.getter(#social),
         ),
@@ -258,11 +303,11 @@ class MockMFlutterSecureStorage extends _i1.Mock
   @override
   _i4.IOSOptions get iOptions => (super.noSuchMethod(
         Invocation.getter(#iOptions),
-        returnValue: _FakeIOSOptions_6(
+        returnValue: _FakeIOSOptions_8(
           this,
           Invocation.getter(#iOptions),
         ),
-        returnValueForMissingStub: _FakeIOSOptions_6(
+        returnValueForMissingStub: _FakeIOSOptions_8(
           this,
           Invocation.getter(#iOptions),
         ),
@@ -270,11 +315,11 @@ class MockMFlutterSecureStorage extends _i1.Mock
   @override
   _i4.AndroidOptions get aOptions => (super.noSuchMethod(
         Invocation.getter(#aOptions),
-        returnValue: _FakeAndroidOptions_7(
+        returnValue: _FakeAndroidOptions_9(
           this,
           Invocation.getter(#aOptions),
         ),
-        returnValueForMissingStub: _FakeAndroidOptions_7(
+        returnValueForMissingStub: _FakeAndroidOptions_9(
           this,
           Invocation.getter(#aOptions),
         ),
@@ -282,11 +327,11 @@ class MockMFlutterSecureStorage extends _i1.Mock
   @override
   _i4.LinuxOptions get lOptions => (super.noSuchMethod(
         Invocation.getter(#lOptions),
-        returnValue: _FakeLinuxOptions_8(
+        returnValue: _FakeLinuxOptions_10(
           this,
           Invocation.getter(#lOptions),
         ),
-        returnValueForMissingStub: _FakeLinuxOptions_8(
+        returnValueForMissingStub: _FakeLinuxOptions_10(
           this,
           Invocation.getter(#lOptions),
         ),
@@ -294,11 +339,11 @@ class MockMFlutterSecureStorage extends _i1.Mock
   @override
   _i4.WindowsOptions get wOptions => (super.noSuchMethod(
         Invocation.getter(#wOptions),
-        returnValue: _FakeWindowsOptions_9(
+        returnValue: _FakeWindowsOptions_11(
           this,
           Invocation.getter(#wOptions),
         ),
-        returnValueForMissingStub: _FakeWindowsOptions_9(
+        returnValueForMissingStub: _FakeWindowsOptions_11(
           this,
           Invocation.getter(#wOptions),
         ),
@@ -306,11 +351,11 @@ class MockMFlutterSecureStorage extends _i1.Mock
   @override
   _i4.WebOptions get webOptions => (super.noSuchMethod(
         Invocation.getter(#webOptions),
-        returnValue: _FakeWebOptions_10(
+        returnValue: _FakeWebOptions_12(
           this,
           Invocation.getter(#webOptions),
         ),
-        returnValueForMissingStub: _FakeWebOptions_10(
+        returnValueForMissingStub: _FakeWebOptions_12(
           this,
           Invocation.getter(#webOptions),
         ),
@@ -318,11 +363,11 @@ class MockMFlutterSecureStorage extends _i1.Mock
   @override
   _i4.MacOsOptions get mOptions => (super.noSuchMethod(
         Invocation.getter(#mOptions),
-        returnValue: _FakeMacOsOptions_11(
+        returnValue: _FakeMacOsOptions_13(
           this,
           Invocation.getter(#mOptions),
         ),
-        returnValueForMissingStub: _FakeMacOsOptions_11(
+        returnValueForMissingStub: _FakeMacOsOptions_13(
           this,
           Invocation.getter(#mOptions),
         ),
@@ -527,7 +572,7 @@ class MockMLichessTokenProvider extends _i1.Mock
         ),
         returnValue:
             _i7.Future<_i5.Either<_i8.Failure, _i3.LichessClient>>.value(
-                _FakeEither_12<_i8.Failure, _i3.LichessClient>(
+                _FakeEither_14<_i8.Failure, _i3.LichessClient>(
           this,
           Invocation.method(
             #getClient,
@@ -536,7 +581,7 @@ class MockMLichessTokenProvider extends _i1.Mock
         )),
         returnValueForMissingStub:
             _i7.Future<_i5.Either<_i8.Failure, _i3.LichessClient>>.value(
-                _FakeEither_12<_i8.Failure, _i3.LichessClient>(
+                _FakeEither_14<_i8.Failure, _i3.LichessClient>(
           this,
           Invocation.method(
             #getClient,

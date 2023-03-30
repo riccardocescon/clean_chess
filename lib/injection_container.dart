@@ -1,5 +1,6 @@
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_datasource.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_tv_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_repositories.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
@@ -10,11 +11,16 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import 'features/clean_chess/data/repositories/lichess/lichess_tv_repository.dart';
+import 'features/clean_chess/domain/usecases/tv/get_current_tv_games.dart';
+
 final sl = GetIt.instance;
 
 Future<void> init() async {
   // Generics
   sl.registerLazySingleton<LichessTokenProvider>(() => LichessTokenProvider());
+
+  // We're done with the TDD, let's just inject this and make an ez test
 
   // Register bloc
   sl.registerLazySingleton(
@@ -52,6 +58,7 @@ Future<void> init() async {
       getFollowingUsers: sl<GetFollowingUsers>(),
       followUser: sl<FollowUser>(),
       unfollowUser: sl<UnfollowUser>(),
+      getCurrentTvGames: sl<GetCurrentTvGames>(),
     ),
   );
 
@@ -144,6 +151,9 @@ Future<void> init() async {
   sl.registerLazySingleton(
     () => UnfollowUser(sl<LichessSocialRepository>()),
   );
+  sl.registerLazySingleton(
+    () => GetCurrentTvGames(sl<LichessTvRepository>()),
+  );
 
   // Register repositories
   sl.registerLazySingleton<LichessOAuthRepository>(
@@ -171,6 +181,11 @@ Future<void> init() async {
       socialDataSource: sl<LichessSocialDataSource>(),
     ),
   );
+  sl.registerLazySingleton<LichessTvRepository>(
+    () => LichessTvRepository(
+      sl<LichessTvDataSource>(),
+    ),
+  );
 
   // Register data sources
   sl.registerLazySingleton<LichessOAuthDataSource>(
@@ -187,5 +202,8 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<LichessSocialDataSource>(
     () => LichessSocialDataSource(sl<LichessTokenProvider>()),
+  );
+  sl.registerLazySingleton<LichessTvDataSource>(
+    () => LichessTvDataSource(sl<LichessTokenProvider>()),
   );
 }
