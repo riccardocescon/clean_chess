@@ -27,85 +27,49 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  TvGameStreamCubit get _tvGameStreamBloc => sl<TvGameStreamCubit>();
-  late StreamSubscription<AsyncSnapshot<LichessTvGameSummary>> _listener;
-
   @override
   void initState() {
     super.initState();
 
-    _tvGameStreamBloc.startStreaming();
-  }
-
-  @override
-  void dispose() {
-    _listener.cancel();
-    super.dispose();
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   BlocProvider.of<ServerBloc>(context)
+    //       .add(const AccountEvent.getMyProfile());
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     // Fetch user profile data
-    BlocProvider.of<ServerBloc>(context).add(const AccountEvent.getMyProfile());
-    return BlocListener<ServerBloc, ServerState>(
-      listener: (context, state) {
-        if (state is LichessUserFetched) {
-          user = state.user;
-        }
-      },
-      child: SafeArea(
-        child: Scaffold(
-          body: CustomScrollView(
-            slivers: [
-              SliverPadding(
-                padding: const EdgeInsets.all(
-                  k4dp,
-                ),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate([
-                    const HomepageAppbar(),
-                  ]),
-                ),
+    return SafeArea(
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.all(
+                k4dp,
               ),
-              _modesList(),
-              SliverPadding(
-                padding: const EdgeInsets.all(
-                  k4dp,
-                ),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate([
-                    //TODO: @alexrintt's slidebar
-                    _onlineInfo(),
-                    _sortedLivePuzzle(completed: false),
-                  ]),
-                ),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  const HomepageAppbar(),
+                ]),
               ),
-            ],
-          ),
+            ),
+            _modesList(),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  heigth20,
+                  _dailyPuzzleSection(completed: false),
+                  heigth20,
+                  _liveStreamingText(),
+                  heigth10,
+                ],
+              ),
+            ),
+            const StreamingWidget(),
+          ],
         ),
       ),
-    );
-  }
-
-  Widget _sortedLivePuzzle({required bool completed}) {
-    return Column(
-      children: completed
-          ? [
-              heigth20,
-              _liveStreamingText(),
-              heigth10,
-              const StreamingWidget(),
-              heigth20,
-              _dailyPuzzleSection(completed: true),
-            ]
-          : [
-              heigth20,
-              _dailyPuzzleSection(completed: false),
-              heigth20,
-              _liveStreamingText(),
-              heigth10,
-              const StreamingWidget(),
-            ],
     );
   }
 

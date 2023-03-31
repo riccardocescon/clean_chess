@@ -50,6 +50,14 @@ class _RootState extends State<Root> {
               theme: theme,
               debugShowCheckedModeBanner: false,
               initialRoute: Navigation.homepage,
+              builder: (context, child) {
+                return ScrollConfiguration(
+                  behavior: const ScrollBehavior().copyWith(
+                    physics: const ClampingScrollPhysics(),
+                  ),
+                  child: child!,
+                );
+              },
               onGenerateRoute: (settings) {
                 if (!isLogged) {
                   return PageRouteBuilder(
