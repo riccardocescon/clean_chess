@@ -56,7 +56,6 @@ class TvGameStreamCubit extends Cubit<AsyncSnapshot<LichessTvGameSummary>> {
       emit(AsyncSnapshot.withError(ConnectionState.none, l));
     }, (r) {
       _stream = r;
-      _startListener();
     });
   }
 
