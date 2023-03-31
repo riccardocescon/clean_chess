@@ -45,8 +45,6 @@ class TvGameStreamCubit extends Cubit<AsyncSnapshot<LichessTvGameSummary>> {
     }
 
     _establishStreamConnection();
-
-    _startListener();
   }
 
   Future<void> _establishStreamConnection() async {
@@ -56,6 +54,7 @@ class TvGameStreamCubit extends Cubit<AsyncSnapshot<LichessTvGameSummary>> {
       emit(AsyncSnapshot.withError(ConnectionState.none, l));
     }, (r) {
       _stream = r;
+      _startListener();
     });
   }
 
