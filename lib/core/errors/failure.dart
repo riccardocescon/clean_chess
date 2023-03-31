@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 abstract class Failure with EquatableMixin implements Exception {
   final String message;
+
   const Failure(this.message);
 
   @override
@@ -9,63 +10,64 @@ abstract class Failure with EquatableMixin implements Exception {
 }
 
 class UnexpectedFailure extends Failure {
-  UnexpectedFailure(String message) : super(message);
+  const UnexpectedFailure(String message) : super(message);
 }
 
 class PieceNotFoundOnCellFailure extends Failure {
-  PieceNotFoundOnCellFailure(String message) : super(message);
+  const PieceNotFoundOnCellFailure(String message) : super(message);
 }
 
 class PieceFenInvalidFailure extends Failure {
-  PieceFenInvalidFailure(String message) : super(message);
+  const PieceFenInvalidFailure(String message) : super(message);
 }
 
 class InvalidFen extends Failure {
-  InvalidFen() : super("Invalid FEN");
+  const InvalidFen() : super("Invalid FEN");
 }
 
 class CellNotFoundOnBoard extends Failure {
-  CellNotFoundOnBoard(String message) : super(message);
+  const CellNotFoundOnBoard(String message) : super(message);
 }
 
 class UnexpectedPieceType extends Failure {
-  UnexpectedPieceType(String message) : super(message);
+  const UnexpectedPieceType(String message) : super(message);
 }
 
 class InvalidPlayerTurnFailure extends Failure {
-  InvalidPlayerTurnFailure() : super("Invalid player turn");
+  const InvalidPlayerTurnFailure() : super("Invalid player turn");
 }
 
 class InvalidMoveFailure extends Failure {
-  InvalidMoveFailure(String message) : super(message);
+  const InvalidMoveFailure(String message) : super(message);
 }
 
 class NoPreviousMoveFailure extends Failure {
-  NoPreviousMoveFailure() : super("No previous move");
+  const NoPreviousMoveFailure() : super("No previous move");
 }
 
 class NoNextMoveFailure extends Failure {
-  NoNextMoveFailure() : super("No next move");
+  const NoNextMoveFailure() : super("No next move");
 }
 
 class InvalidMoveIndexFailure extends Failure {
-  InvalidMoveIndexFailure(String message) : super(message);
+  const InvalidMoveIndexFailure(String message) : super(message);
 }
 
 class CannotMoveOnPreviousMoveFailure extends Failure {
-  CannotMoveOnPreviousMoveFailure() : super("Cannot move on previous move");
+  const CannotMoveOnPreviousMoveFailure()
+      : super("Cannot move on previous move");
 }
 
 class CannotMoveWhileInCheckFailure extends Failure {
-  CannotMoveWhileInCheckFailure() : super("Cannot move while in check");
+  const CannotMoveWhileInCheckFailure() : super("Cannot move while in check");
 }
 
 class CannotMoveCreatingCheckFailure extends Failure {
-  CannotMoveCreatingCheckFailure() : super("Cannot move creating check");
+  const CannotMoveCreatingCheckFailure() : super("Cannot move creating check");
 }
 
 class LichessOAuthFailure extends Failure {
-  LichessOAuthFailure(String message) : super(message);
+  const LichessOAuthFailure(String message) : super(message);
 }
 
 class LichessOAuthCancelled extends Failure {

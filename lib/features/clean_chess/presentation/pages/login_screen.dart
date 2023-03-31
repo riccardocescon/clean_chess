@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
@@ -17,14 +19,32 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late final _buttonSize = Size(MediaQuery.of(context).size.width * 0.7, 50);
+  Size get _buttonSize => Size(MediaQuery.of(context).size.width * 0.7, 50);
+
+  late StreamSubscription<AuthState> _authCubitListener;
+
+  @override
+  void initState() {
+    super.initState();
+    _authCubitListener = sl<AuthCubit>().stream.listen((state) {
+      if (state.error != null) {
+        if (context.mounted) {
+          showSnackbarError(context, state.error!);
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _authCubitListener.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildServerBlocListener(
-        child: _buildScaffoldBody(),
-      ),
+      body: _buildScaffoldBody(),
     );
   }
 
@@ -69,22 +89,5 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-      );
-
-  Widget _buildServerBlocListener({required Widget child}) =>
-      BlocListener<ServerBloc, ServerState>(
-        listener: (context, state) {
-          if (state is LichessOAuthSuccess) {
-            // Get user profile
-            if (context.mounted) {
-              Navigator.pushReplacementNamed(context, Navigation.homepage);
-            }
-          } else if (state is LichessError) {
-            if (context.mounted) {
-              showSnackbarError(context, state.failure);
-            }
-          }
-        },
-        child: child,
       );
 }

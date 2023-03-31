@@ -41,15 +41,20 @@ class _RootState extends State<Root> {
         child: BlocBuilder<AuthCubit, AuthState>(
           bloc: sl<AuthCubit>(),
           builder: (context, state) {
-            if (state.status == AuthStatus.notLogged) {
-              return const LoginScreen();
-            }
-
             return MaterialApp(
+              key: UniqueKey(),
               theme: theme,
               debugShowCheckedModeBanner: false,
               initialRoute: Navigation.homepage,
               onGenerateRoute: (settings) {
+                if (state.status == AuthStatus.notLogged) {
+                  return PageRouteBuilder(
+                    settings: settings,
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const LoginScreen(),
+                  );
+                }
+
                 switch (settings.name) {
                   case Navigation.homepage:
                     return PageRouteBuilder(

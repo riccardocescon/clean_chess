@@ -1,3 +1,4 @@
+import 'package:cleanchess/core/errors/failure.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
@@ -29,7 +30,7 @@ class AuthState extends Equatable {
   });
 
   final AuthStatus status;
-  final AuthError? error;
+  final Failure? error;
 
   @override
   List<Object?> get props => [status, error];
@@ -107,7 +108,7 @@ class AuthCubit extends Cubit<AuthState> {
         return emit(
           const AuthState(
             status: AuthStatus.notLogged,
-            error: AuthError.unknown,
+            error: LichessOAuthFailure('Unknown'),
           ),
         );
       }
@@ -124,7 +125,7 @@ class AuthCubit extends Cubit<AuthState> {
         return emit(
           const AuthState(
             status: AuthStatus.notLogged,
-            error: AuthError.cancelled,
+            error: LichessOAuthFailure('Cancelled'),
           ),
         );
       }
@@ -137,7 +138,7 @@ class AuthCubit extends Cubit<AuthState> {
       return emit(
         const AuthState(
           status: AuthStatus.notLogged,
-          error: AuthError.unknown,
+          error: LichessOAuthFailure('Unknown'),
         ),
       );
     }

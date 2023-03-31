@@ -15,10 +15,6 @@ class LichessLoaded<T> extends ServerState {
   const LichessLoaded(this.data);
 }
 
-class LichessOAuthSuccess extends ServerState {
-  const LichessOAuthSuccess();
-}
-
 class LichessUserFetched extends ServerState {
   final User user;
 
