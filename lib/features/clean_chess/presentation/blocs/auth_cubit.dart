@@ -106,9 +106,9 @@ class AuthCubit extends Cubit<AuthState> {
 
       if (data.isLeft()) {
         return emit(
-          const AuthState(
+          AuthState(
             status: AuthStatus.notLogged,
-            error: LichessOAuthFailure('Unknown'),
+            error: data.left,
           ),
         );
       }
@@ -125,7 +125,7 @@ class AuthCubit extends Cubit<AuthState> {
         return emit(
           const AuthState(
             status: AuthStatus.notLogged,
-            error: LichessOAuthFailure('Cancelled'),
+            error: LichessOAuthCancelled(),
           ),
         );
       }
@@ -136,9 +136,9 @@ class AuthCubit extends Cubit<AuthState> {
       return emit(const AuthState(status: AuthStatus.logged));
     } catch (e) {
       return emit(
-        const AuthState(
+        AuthState(
           status: AuthStatus.notLogged,
-          error: LichessOAuthFailure('Unknown'),
+          error: UnexpectedFailure(e.toString()),
         ),
       );
     }

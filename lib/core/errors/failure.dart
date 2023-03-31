@@ -71,9 +71,9 @@ class LichessOAuthFailure extends Failure {
 }
 
 class LichessOAuthCancelled extends Failure {
-  LichessOAuthCancelled() : super("Lichess OAuth Cancelled by user");
+  const LichessOAuthCancelled() : super("Lichess OAuth Cancelled by user");
 }
 
 class NoAccessTokenFailure extends Failure {
-  NoAccessTokenFailure() : super("No access token");
+  const NoAccessTokenFailure() : super("No access token");
 }
