@@ -1,5 +1,4 @@
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
-import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
@@ -41,12 +40,12 @@ class _RootState extends State<Root> {
         child: BlocBuilder<AuthCubit, AuthState>(
           bloc: sl<AuthCubit>(),
           builder: (context, state) {
-            final isLogged = state.status == AuthStatus.logged;
+            final isLogged = state == AuthState.logged();
 
             return MaterialApp(
               key: isLogged
-                  ? Key(AuthStatus.logged.toString())
-                  : Key(AuthStatus.notLogged.toString()),
+                  ? Key(AuthState.logged.toString())
+                  : Key(AuthState.notLogged.toString()),
               theme: theme,
               debugShowCheckedModeBanner: false,
               initialRoute: Navigation.homepage,

@@ -127,9 +127,6 @@ void main() async {
     );
   });
 
-  // all tests are kinda the same
-  // i generate them with Copilot
-
   // group('OAuth', () {
   //   group('LichessOAuthEvent', () {
   //     blocTest<ServerBloc, ServerState>(

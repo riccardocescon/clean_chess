@@ -4,37 +4,54 @@ import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_revoke_token.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cleanchess/core/presentation/bloc/utilities/oauth_helper.dart'
     as oauth_helper;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-enum AuthStatus {
-  logged,
-  notLogged,
-  loading,
-  initial;
+part 'auth_cubit.freezed.dart';
 
-  bool get isDefined => this == logged || this == notLogged;
+// enum AuthStatus {
+//   logged,
+//   notLogged,
+//   loading,
+//   initial;
+
+//   bool get isDefined => this == logged || this == notLogged;
+// }
+
+@freezed
+class AuthState with _$AuthState {
+  factory AuthState.initial() = _InitialAuthStats;
+
+  factory AuthState.logged() = _LoggedAuthStats;
+
+  factory AuthState.notLogged() = _NotLoggedAuthStats;
+
+  factory AuthState.loading() = _LoadingAuthStats;
+
+  factory AuthState.error(Failure error) = _ErrorAuthStats;
+
+  // bool get isDefined => this is LoggedAuthStats || this is NotLoggedAuthStats;
 }
 
-enum AuthError {
-  cancelled,
-  unknown,
-}
+// enum AuthError {
+//   cancelled, ----> We can use the AuthError.error to know this, such as: UserCencelledFailure
+//   unknown,
+// }
 
-class AuthState extends Equatable {
-  const AuthState({
-    required this.status,
-    this.error,
-  });
+// class AuthState extends Equatable {
+//   const AuthState({
+//     required this.status,
+//     this.error,
+//   });
 
-  final AuthStatus status;
-  final Failure? error;
+//   final AuthStatus status;
+//   final Failure? error;
 
-  @override
-  List<Object?> get props => [status, error];
-}
+//   @override
+//   List<Object?> get props => [status, error];
+// }
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit({
@@ -42,7 +59,7 @@ class AuthCubit extends Cubit<AuthState> {
     required this.gainAccessToken,
     required this.oauth,
     required this.revokeToken,
-  }) : super(const AuthState(status: AuthStatus.initial));
+  }) : super(AuthState.initial());
 
   final LichessTokenProvider tokenProvider;
   final LichessGainAccessToken gainAccessToken;
@@ -53,9 +70,11 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await tokenProvider.getClient();
 
     if (result.isRight()) {
-      emit(const AuthState(status: AuthStatus.logged));
+      // emit(const AuthState(status: AuthStatus.logged));
+      emit(AuthState.logged());
     } else {
-      emit(const AuthState(status: AuthStatus.notLogged));
+      // emit(const AuthState(status: AuthStatus.notLogged));
+      emit(AuthState.notLogged());
     }
   }
 
@@ -77,7 +96,8 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> _startAuthFlow() async {
-    emit(const AuthState(status: AuthStatus.loading));
+    // emit(const AuthState(status: AuthStatus.loading));
+    emit(AuthState.loading());
 
     // Generate an authorization URL that asks for the oauth2 permission
     const clientId = 'cleanchess';
@@ -105,12 +125,13 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       if (data.isLeft()) {
-        return emit(
-          AuthState(
-            status: AuthStatus.notLogged,
-            error: data.left,
-          ),
-        );
+        // return emit(
+        //   AuthState(
+        //     status: AuthStatus.notLogged,
+        //     error: data.left,
+        //   ),
+        // );
+        return emit(AuthState.notLogged());
       }
 
       // Extract the authorization parameters from the response
@@ -122,25 +143,29 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       if (accessToken.isLeft()) {
-        return emit(
-          const AuthState(
-            status: AuthStatus.notLogged,
-            error: LichessOAuthCancelled(),
-          ),
-        );
+        // return emit(
+        //   AuthState(
+        //     status: AuthStatus.notLogged,
+        //     error: data.left,
+        //   ),
+        // );
+        return emit(AuthState.notLogged());
       }
 
       // Save the access token
       await tokenProvider.saveAccessToken(accessToken.right);
 
-      return emit(const AuthState(status: AuthStatus.logged));
+      // return emit(const AuthState(status: AuthStatus.logged));
+      return emit(AuthState.logged());
     } catch (e) {
-      return emit(
-        AuthState(
-          status: AuthStatus.notLogged,
-          error: UnexpectedFailure(e.toString()),
-        ),
-      );
+      // return emit(
+      //   AuthState(
+      //     status: AuthStatus.notLogged,
+      //     error: data.left,
+      //   ),
+      // );
+
+      return emit(AuthState.error(UnexpectedFailure(e.toString())));
     }
   }
 }

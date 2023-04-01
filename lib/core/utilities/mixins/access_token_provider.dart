@@ -56,7 +56,7 @@ class LichessTokenProvider {
     final accessToken = await secure_storage_helper.getTimedAccessToken();
 
     // If there is no access token in the secure storage, return a [NoAccessTokenFailure]
-    if (accessToken == null) return Left(NoAccessTokenFailure());
+    if (accessToken == null) return const Left(NoAccessTokenFailure());
 
     // If there is an access token in the secure storage, create the client and return it
     _accessToken = accessToken;

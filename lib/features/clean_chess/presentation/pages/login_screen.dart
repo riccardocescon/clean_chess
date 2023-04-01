@@ -27,11 +27,18 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _authCubitListener = sl<AuthCubit>().stream.listen((state) {
-      if (state.error != null) {
-        if (context.mounted) {
-          showSnackbarError(context, state.error!);
-        }
-      }
+      state.map(
+        initial: (state) => null,
+        loading: (state) => null, // Loading
+        logged: (state) => null, // Push to homepage
+        notLogged: (state) => null, // Show login page
+        error: (state) => showSnackbarSuccess(context, state.error.message),
+      );
+      // if (state.error != null) {
+      //   if (context.mounted) {
+      //     showSnackbarError(context, state.error!);
+      //   }
+      // }
     });
   }
 

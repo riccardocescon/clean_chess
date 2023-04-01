@@ -222,5 +222,5 @@ Future<void> init() async {
     ),
   );
   await sl<AuthCubit>().loadInitialState();
-  assert(sl<AuthCubit>().state.status.isDefined);
+  // assert(sl<AuthCubit>().state.status.isDefined);
 }
