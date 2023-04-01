@@ -13,7 +13,6 @@ import 'package:skeletons/skeletons.dart';
 
 import '../bloc/server_bloc.dart';
 import '../bloc/server_state.dart';
-
 class HomepageAppbar extends StatefulWidget {
   const HomepageAppbar({super.key});
 

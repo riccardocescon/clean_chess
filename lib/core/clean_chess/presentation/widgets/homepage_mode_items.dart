@@ -20,12 +20,12 @@ List<Widget> get playModes => [
       _localItem,
     ];
 
-List<Widget> learnModes = [
-  _tactisItem,
-  _studyItem,
-  _coordsItem,
-  _watchItem,
-];
+List<Widget> get learnModes => [
+      _tactisItem,
+      _studyItem,
+      _coordsItem,
+      _watchItem,
+    ];
 
 List<Widget> toolsModes = [
   _analysisItem,

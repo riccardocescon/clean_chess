@@ -9,7 +9,6 @@ import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.d
 import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_game_stream_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_appbar.dart';
-import 'package:cleanchess/features/clean_chess/presentation/widgets/padded_items.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_widget.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
@@ -119,12 +118,21 @@ class _HomepageState extends State<Homepage> {
         ],
       );
 
-  Widget _onlineInfo() => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _text('100.000 Players'),
-          _text('50.000 Games'),
-        ],
+  Widget _onlineInfo() => SliverPadding(
+        padding: const EdgeInsets.all(k10dp),
+        sliver: SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _text('100.000 Players'),
+                  _text('50.000 Games'),
+                ],
+              ),
+            ],
+          ),
+        ),
       );
 
   Widget _liveStreamingText() => Column(
