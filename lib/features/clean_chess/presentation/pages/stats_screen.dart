@@ -75,22 +75,8 @@ class StatsPage extends StatelessWidget {
           bottomTitleWidgets(context),
         ],
       ),
-    ],
-  );
-}
-
-Widget bottomTitleWidgets() {
-  return Padding(
-    padding: const EdgeInsets.all(15),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: const [
-        Text("21 April"),
-        Text("21 May"),
-      ],
-    ),
-  );
-}
+    );
+  }
 
 //#endregion
 

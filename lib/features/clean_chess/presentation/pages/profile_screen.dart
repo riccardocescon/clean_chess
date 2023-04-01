@@ -434,7 +434,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ],
-
         ),
       ],
     );
@@ -558,7 +557,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void navigateToStatsPage(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const StatsPage()),
+      MaterialPageRoute(
+        builder: (context) => const StatsPage(
+          numberOfGames: 1,
+        ),
+      ),
     );
   }
 }
