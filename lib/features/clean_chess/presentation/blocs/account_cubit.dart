@@ -45,7 +45,7 @@ class AccountCubit extends Cubit<AccountState> {
     required GetMyKidModeStatus getKidModeStatus,
     required SetMyKidModeStatus setKidModeStatus,
     required GetMyPreferences getMyPreferences,
-  }) : super(const _InitialAccountState()) {
+  }) : super(const AccountState.initial()) {
     _getMyProfile = getMyProfile;
     _getMyEmail = getMyEmail;
     _getKidModeStatus = getKidModeStatus;
