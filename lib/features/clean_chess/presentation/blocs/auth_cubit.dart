@@ -12,15 +12,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'auth_cubit.freezed.dart';
 
-// enum AuthStatus {
-//   logged,
-//   notLogged,
-//   loading,
-//   initial;
-
-//   bool get isDefined => this == logged || this == notLogged;
-// }
-
 @freezed
 class AuthState with _$AuthState, EquatableMixin {
   factory AuthState.initial() = _InitialAuthStats;
