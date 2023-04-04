@@ -4,6 +4,7 @@ import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_gain_access_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_revoke_token.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cleanchess/core/presentation/bloc/utilities/oauth_helper.dart'
     as oauth_helper;
@@ -21,7 +22,7 @@ part 'auth_cubit.freezed.dart';
 // }
 
 @freezed
-class AuthState with _$AuthState {
+class AuthState with _$AuthState, EquatableMixin {
   factory AuthState.initial() = _InitialAuthStats;
 
   factory AuthState.logged() = _LoggedAuthStats;
@@ -30,28 +31,20 @@ class AuthState with _$AuthState {
 
   factory AuthState.loading() = _LoadingAuthStats;
 
+  factory AuthState.loggedOut() = _LoggedOutAuthStats;
+
   factory AuthState.error(Failure error) = _ErrorAuthStats;
 
-  // bool get isDefined => this is LoggedAuthStats || this is NotLoggedAuthStats;
+  const AuthState._();
+
+  @override
+  List<Object?> get props {
+    return maybeWhen(
+      error: (error) => [error],
+      orElse: () => [],
+    );
+  }
 }
-
-// enum AuthError {
-//   cancelled, ----> We can use the AuthError.error to know this, such as: UserCencelledFailure
-//   unknown,
-// }
-
-// class AuthState extends Equatable {
-//   const AuthState({
-//     required this.status,
-//     this.error,
-//   });
-
-//   final AuthStatus status;
-//   final Failure? error;
-
-//   @override
-//   List<Object?> get props => [status, error];
-// }
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit({
@@ -70,11 +63,9 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await tokenProvider.getClient();
 
     if (result.isRight()) {
-      // emit(const AuthState(status: AuthStatus.logged));
-      emit(AuthState.logged());
+      emit(_LoggedAuthStats());
     } else {
-      // emit(const AuthState(status: AuthStatus.notLogged));
-      emit(AuthState.notLogged());
+      emit(_NotLoggedAuthStats());
     }
   }
 
@@ -83,21 +74,21 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> revoke() async {
-    // emit(LichessLoading());
-    // final result = await revokeToken.call(tokenProvider.accessToken);
+    emit(_LoadingAuthStats());
+    final result = await revokeToken.call(tokenProvider.accessToken);
 
-    // if (result.isLeft()) {
-    //   emit(LichessError(result.left));
-    //   return;
-    // }
+    if (result.isLeft()) {
+      emit(_ErrorAuthStats(result.left));
+      return;
+    }
 
-    // await tokenProvider.revokeToken();
-    // emit(const LichessTokenRevoked());
+    await tokenProvider.revokeToken();
+    emit(_LoggedOutAuthStats());
   }
 
   Future<void> _startAuthFlow() async {
     // emit(const AuthState(status: AuthStatus.loading));
-    emit(AuthState.loading());
+    emit(_LoadingAuthStats());
 
     // Generate an authorization URL that asks for the oauth2 permission
     const clientId = 'cleanchess';
@@ -125,13 +116,7 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       if (data.isLeft()) {
-        // return emit(
-        //   AuthState(
-        //     status: AuthStatus.notLogged,
-        //     error: data.left,
-        //   ),
-        // );
-        return emit(AuthState.notLogged());
+        return emit(_NotLoggedAuthStats());
       }
 
       // Extract the authorization parameters from the response
@@ -143,29 +128,16 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       if (accessToken.isLeft()) {
-        // return emit(
-        //   AuthState(
-        //     status: AuthStatus.notLogged,
-        //     error: data.left,
-        //   ),
-        // );
-        return emit(AuthState.notLogged());
+        return emit(_NotLoggedAuthStats());
       }
 
       // Save the access token
       await tokenProvider.saveAccessToken(accessToken.right);
 
       // return emit(const AuthState(status: AuthStatus.logged));
-      return emit(AuthState.logged());
+      return emit(_LoggedAuthStats());
     } catch (e) {
-      // return emit(
-      //   AuthState(
-      //     status: AuthStatus.notLogged,
-      //     error: data.left,
-      //   ),
-      // );
-
-      return emit(AuthState.error(UnexpectedFailure(e.toString())));
+      return emit(_ErrorAuthStats(UnexpectedFailure(e.toString())));
     }
   }
 }

@@ -40,7 +40,10 @@ class _RootState extends State<Root> {
         child: BlocBuilder<AuthCubit, AuthState>(
           bloc: sl<AuthCubit>(),
           builder: (context, state) {
-            final isLogged = state == AuthState.logged();
+            final isLogged = state.maybeMap(
+              logged: (_) => true,
+              orElse: () => false,
+            );
 
             return MaterialApp(
               key: isLogged

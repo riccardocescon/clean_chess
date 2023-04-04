@@ -1,15 +1,9 @@
 import 'dart:async';
-
-import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_lined_board.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,18 +21,10 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _authCubitListener = sl<AuthCubit>().stream.listen((state) {
-      state.map(
-        initial: (state) => null,
-        loading: (state) => null, // Loading
-        logged: (state) => null, // Push to homepage
-        notLogged: (state) => null, // Show login page
+      state.maybeMap(
         error: (state) => showSnackbarSuccess(context, state.error.message),
+        orElse: () {},
       );
-      // if (state.error != null) {
-      //   if (context.mounted) {
-      //     showSnackbarError(context, state.error!);
-      //   }
-      // }
     });
   }
 

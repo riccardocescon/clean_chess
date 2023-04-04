@@ -22,6 +22,7 @@ mixin _$AuthState {
     required TResult Function() logged,
     required TResult Function() notLogged,
     required TResult Function() loading,
+    required TResult Function() loggedOut,
     required TResult Function(Failure error) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -31,6 +32,7 @@ mixin _$AuthState {
     TResult? Function()? logged,
     TResult? Function()? notLogged,
     TResult? Function()? loading,
+    TResult? Function()? loggedOut,
     TResult? Function(Failure error)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -40,6 +42,7 @@ mixin _$AuthState {
     TResult Function()? logged,
     TResult Function()? notLogged,
     TResult Function()? loading,
+    TResult Function()? loggedOut,
     TResult Function(Failure error)? error,
     required TResult orElse(),
   }) =>
@@ -50,6 +53,7 @@ mixin _$AuthState {
     required TResult Function(_LoggedAuthStats value) logged,
     required TResult Function(_NotLoggedAuthStats value) notLogged,
     required TResult Function(_LoadingAuthStats value) loading,
+    required TResult Function(_LoggedOutAuthStats value) loggedOut,
     required TResult Function(_ErrorAuthStats value) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -59,6 +63,7 @@ mixin _$AuthState {
     TResult? Function(_LoggedAuthStats value)? logged,
     TResult? Function(_NotLoggedAuthStats value)? notLogged,
     TResult? Function(_LoadingAuthStats value)? loading,
+    TResult? Function(_LoggedOutAuthStats value)? loggedOut,
     TResult? Function(_ErrorAuthStats value)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -68,6 +73,7 @@ mixin _$AuthState {
     TResult Function(_LoggedAuthStats value)? logged,
     TResult Function(_NotLoggedAuthStats value)? notLogged,
     TResult Function(_LoadingAuthStats value)? loading,
+    TResult Function(_LoggedOutAuthStats value)? loggedOut,
     TResult Function(_ErrorAuthStats value)? error,
     required TResult orElse(),
   }) =>
@@ -109,22 +115,8 @@ class __$$_InitialAuthStatsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_InitialAuthStats implements _InitialAuthStats {
-  _$_InitialAuthStats();
-
-  @override
-  String toString() {
-    return 'AuthState.initial()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_InitialAuthStats);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
+class _$_InitialAuthStats extends _InitialAuthStats {
+  _$_InitialAuthStats() : super._();
 
   @override
   @optionalTypeArgs
@@ -133,6 +125,7 @@ class _$_InitialAuthStats implements _InitialAuthStats {
     required TResult Function() logged,
     required TResult Function() notLogged,
     required TResult Function() loading,
+    required TResult Function() loggedOut,
     required TResult Function(Failure error) error,
   }) {
     return initial();
@@ -145,6 +138,7 @@ class _$_InitialAuthStats implements _InitialAuthStats {
     TResult? Function()? logged,
     TResult? Function()? notLogged,
     TResult? Function()? loading,
+    TResult? Function()? loggedOut,
     TResult? Function(Failure error)? error,
   }) {
     return initial?.call();
@@ -157,6 +151,7 @@ class _$_InitialAuthStats implements _InitialAuthStats {
     TResult Function()? logged,
     TResult Function()? notLogged,
     TResult Function()? loading,
+    TResult Function()? loggedOut,
     TResult Function(Failure error)? error,
     required TResult orElse(),
   }) {
@@ -173,6 +168,7 @@ class _$_InitialAuthStats implements _InitialAuthStats {
     required TResult Function(_LoggedAuthStats value) logged,
     required TResult Function(_NotLoggedAuthStats value) notLogged,
     required TResult Function(_LoadingAuthStats value) loading,
+    required TResult Function(_LoggedOutAuthStats value) loggedOut,
     required TResult Function(_ErrorAuthStats value) error,
   }) {
     return initial(this);
@@ -185,6 +181,7 @@ class _$_InitialAuthStats implements _InitialAuthStats {
     TResult? Function(_LoggedAuthStats value)? logged,
     TResult? Function(_NotLoggedAuthStats value)? notLogged,
     TResult? Function(_LoadingAuthStats value)? loading,
+    TResult? Function(_LoggedOutAuthStats value)? loggedOut,
     TResult? Function(_ErrorAuthStats value)? error,
   }) {
     return initial?.call(this);
@@ -197,6 +194,7 @@ class _$_InitialAuthStats implements _InitialAuthStats {
     TResult Function(_LoggedAuthStats value)? logged,
     TResult Function(_NotLoggedAuthStats value)? notLogged,
     TResult Function(_LoadingAuthStats value)? loading,
+    TResult Function(_LoggedOutAuthStats value)? loggedOut,
     TResult Function(_ErrorAuthStats value)? error,
     required TResult orElse(),
   }) {
@@ -207,8 +205,9 @@ class _$_InitialAuthStats implements _InitialAuthStats {
   }
 }
 
-abstract class _InitialAuthStats implements AuthState {
+abstract class _InitialAuthStats extends AuthState {
   factory _InitialAuthStats() = _$_InitialAuthStats;
+  _InitialAuthStats._() : super._();
 }
 
 /// @nodoc
@@ -229,22 +228,8 @@ class __$$_LoggedAuthStatsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LoggedAuthStats implements _LoggedAuthStats {
-  _$_LoggedAuthStats();
-
-  @override
-  String toString() {
-    return 'AuthState.logged()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_LoggedAuthStats);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
+class _$_LoggedAuthStats extends _LoggedAuthStats {
+  _$_LoggedAuthStats() : super._();
 
   @override
   @optionalTypeArgs
@@ -253,6 +238,7 @@ class _$_LoggedAuthStats implements _LoggedAuthStats {
     required TResult Function() logged,
     required TResult Function() notLogged,
     required TResult Function() loading,
+    required TResult Function() loggedOut,
     required TResult Function(Failure error) error,
   }) {
     return logged();
@@ -265,6 +251,7 @@ class _$_LoggedAuthStats implements _LoggedAuthStats {
     TResult? Function()? logged,
     TResult? Function()? notLogged,
     TResult? Function()? loading,
+    TResult? Function()? loggedOut,
     TResult? Function(Failure error)? error,
   }) {
     return logged?.call();
@@ -277,6 +264,7 @@ class _$_LoggedAuthStats implements _LoggedAuthStats {
     TResult Function()? logged,
     TResult Function()? notLogged,
     TResult Function()? loading,
+    TResult Function()? loggedOut,
     TResult Function(Failure error)? error,
     required TResult orElse(),
   }) {
@@ -293,6 +281,7 @@ class _$_LoggedAuthStats implements _LoggedAuthStats {
     required TResult Function(_LoggedAuthStats value) logged,
     required TResult Function(_NotLoggedAuthStats value) notLogged,
     required TResult Function(_LoadingAuthStats value) loading,
+    required TResult Function(_LoggedOutAuthStats value) loggedOut,
     required TResult Function(_ErrorAuthStats value) error,
   }) {
     return logged(this);
@@ -305,6 +294,7 @@ class _$_LoggedAuthStats implements _LoggedAuthStats {
     TResult? Function(_LoggedAuthStats value)? logged,
     TResult? Function(_NotLoggedAuthStats value)? notLogged,
     TResult? Function(_LoadingAuthStats value)? loading,
+    TResult? Function(_LoggedOutAuthStats value)? loggedOut,
     TResult? Function(_ErrorAuthStats value)? error,
   }) {
     return logged?.call(this);
@@ -317,6 +307,7 @@ class _$_LoggedAuthStats implements _LoggedAuthStats {
     TResult Function(_LoggedAuthStats value)? logged,
     TResult Function(_NotLoggedAuthStats value)? notLogged,
     TResult Function(_LoadingAuthStats value)? loading,
+    TResult Function(_LoggedOutAuthStats value)? loggedOut,
     TResult Function(_ErrorAuthStats value)? error,
     required TResult orElse(),
   }) {
@@ -327,8 +318,9 @@ class _$_LoggedAuthStats implements _LoggedAuthStats {
   }
 }
 
-abstract class _LoggedAuthStats implements AuthState {
+abstract class _LoggedAuthStats extends AuthState {
   factory _LoggedAuthStats() = _$_LoggedAuthStats;
+  _LoggedAuthStats._() : super._();
 }
 
 /// @nodoc
@@ -349,22 +341,8 @@ class __$$_NotLoggedAuthStatsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_NotLoggedAuthStats implements _NotLoggedAuthStats {
-  _$_NotLoggedAuthStats();
-
-  @override
-  String toString() {
-    return 'AuthState.notLogged()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_NotLoggedAuthStats);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
+class _$_NotLoggedAuthStats extends _NotLoggedAuthStats {
+  _$_NotLoggedAuthStats() : super._();
 
   @override
   @optionalTypeArgs
@@ -373,6 +351,7 @@ class _$_NotLoggedAuthStats implements _NotLoggedAuthStats {
     required TResult Function() logged,
     required TResult Function() notLogged,
     required TResult Function() loading,
+    required TResult Function() loggedOut,
     required TResult Function(Failure error) error,
   }) {
     return notLogged();
@@ -385,6 +364,7 @@ class _$_NotLoggedAuthStats implements _NotLoggedAuthStats {
     TResult? Function()? logged,
     TResult? Function()? notLogged,
     TResult? Function()? loading,
+    TResult? Function()? loggedOut,
     TResult? Function(Failure error)? error,
   }) {
     return notLogged?.call();
@@ -397,6 +377,7 @@ class _$_NotLoggedAuthStats implements _NotLoggedAuthStats {
     TResult Function()? logged,
     TResult Function()? notLogged,
     TResult Function()? loading,
+    TResult Function()? loggedOut,
     TResult Function(Failure error)? error,
     required TResult orElse(),
   }) {
@@ -413,6 +394,7 @@ class _$_NotLoggedAuthStats implements _NotLoggedAuthStats {
     required TResult Function(_LoggedAuthStats value) logged,
     required TResult Function(_NotLoggedAuthStats value) notLogged,
     required TResult Function(_LoadingAuthStats value) loading,
+    required TResult Function(_LoggedOutAuthStats value) loggedOut,
     required TResult Function(_ErrorAuthStats value) error,
   }) {
     return notLogged(this);
@@ -425,6 +407,7 @@ class _$_NotLoggedAuthStats implements _NotLoggedAuthStats {
     TResult? Function(_LoggedAuthStats value)? logged,
     TResult? Function(_NotLoggedAuthStats value)? notLogged,
     TResult? Function(_LoadingAuthStats value)? loading,
+    TResult? Function(_LoggedOutAuthStats value)? loggedOut,
     TResult? Function(_ErrorAuthStats value)? error,
   }) {
     return notLogged?.call(this);
@@ -437,6 +420,7 @@ class _$_NotLoggedAuthStats implements _NotLoggedAuthStats {
     TResult Function(_LoggedAuthStats value)? logged,
     TResult Function(_NotLoggedAuthStats value)? notLogged,
     TResult Function(_LoadingAuthStats value)? loading,
+    TResult Function(_LoggedOutAuthStats value)? loggedOut,
     TResult Function(_ErrorAuthStats value)? error,
     required TResult orElse(),
   }) {
@@ -447,8 +431,9 @@ class _$_NotLoggedAuthStats implements _NotLoggedAuthStats {
   }
 }
 
-abstract class _NotLoggedAuthStats implements AuthState {
+abstract class _NotLoggedAuthStats extends AuthState {
   factory _NotLoggedAuthStats() = _$_NotLoggedAuthStats;
+  _NotLoggedAuthStats._() : super._();
 }
 
 /// @nodoc
@@ -469,22 +454,8 @@ class __$$_LoadingAuthStatsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LoadingAuthStats implements _LoadingAuthStats {
-  _$_LoadingAuthStats();
-
-  @override
-  String toString() {
-    return 'AuthState.loading()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_LoadingAuthStats);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
+class _$_LoadingAuthStats extends _LoadingAuthStats {
+  _$_LoadingAuthStats() : super._();
 
   @override
   @optionalTypeArgs
@@ -493,6 +464,7 @@ class _$_LoadingAuthStats implements _LoadingAuthStats {
     required TResult Function() logged,
     required TResult Function() notLogged,
     required TResult Function() loading,
+    required TResult Function() loggedOut,
     required TResult Function(Failure error) error,
   }) {
     return loading();
@@ -505,6 +477,7 @@ class _$_LoadingAuthStats implements _LoadingAuthStats {
     TResult? Function()? logged,
     TResult? Function()? notLogged,
     TResult? Function()? loading,
+    TResult? Function()? loggedOut,
     TResult? Function(Failure error)? error,
   }) {
     return loading?.call();
@@ -517,6 +490,7 @@ class _$_LoadingAuthStats implements _LoadingAuthStats {
     TResult Function()? logged,
     TResult Function()? notLogged,
     TResult Function()? loading,
+    TResult Function()? loggedOut,
     TResult Function(Failure error)? error,
     required TResult orElse(),
   }) {
@@ -533,6 +507,7 @@ class _$_LoadingAuthStats implements _LoadingAuthStats {
     required TResult Function(_LoggedAuthStats value) logged,
     required TResult Function(_NotLoggedAuthStats value) notLogged,
     required TResult Function(_LoadingAuthStats value) loading,
+    required TResult Function(_LoggedOutAuthStats value) loggedOut,
     required TResult Function(_ErrorAuthStats value) error,
   }) {
     return loading(this);
@@ -545,6 +520,7 @@ class _$_LoadingAuthStats implements _LoadingAuthStats {
     TResult? Function(_LoggedAuthStats value)? logged,
     TResult? Function(_NotLoggedAuthStats value)? notLogged,
     TResult? Function(_LoadingAuthStats value)? loading,
+    TResult? Function(_LoggedOutAuthStats value)? loggedOut,
     TResult? Function(_ErrorAuthStats value)? error,
   }) {
     return loading?.call(this);
@@ -557,6 +533,7 @@ class _$_LoadingAuthStats implements _LoadingAuthStats {
     TResult Function(_LoggedAuthStats value)? logged,
     TResult Function(_NotLoggedAuthStats value)? notLogged,
     TResult Function(_LoadingAuthStats value)? loading,
+    TResult Function(_LoggedOutAuthStats value)? loggedOut,
     TResult Function(_ErrorAuthStats value)? error,
     required TResult orElse(),
   }) {
@@ -567,8 +544,122 @@ class _$_LoadingAuthStats implements _LoadingAuthStats {
   }
 }
 
-abstract class _LoadingAuthStats implements AuthState {
+abstract class _LoadingAuthStats extends AuthState {
   factory _LoadingAuthStats() = _$_LoadingAuthStats;
+  _LoadingAuthStats._() : super._();
+}
+
+/// @nodoc
+abstract class _$$_LoggedOutAuthStatsCopyWith<$Res> {
+  factory _$$_LoggedOutAuthStatsCopyWith(_$_LoggedOutAuthStats value,
+          $Res Function(_$_LoggedOutAuthStats) then) =
+      __$$_LoggedOutAuthStatsCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_LoggedOutAuthStatsCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$_LoggedOutAuthStats>
+    implements _$$_LoggedOutAuthStatsCopyWith<$Res> {
+  __$$_LoggedOutAuthStatsCopyWithImpl(
+      _$_LoggedOutAuthStats _value, $Res Function(_$_LoggedOutAuthStats) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_LoggedOutAuthStats extends _LoggedOutAuthStats {
+  _$_LoggedOutAuthStats() : super._();
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() logged,
+    required TResult Function() notLogged,
+    required TResult Function() loading,
+    required TResult Function() loggedOut,
+    required TResult Function(Failure error) error,
+  }) {
+    return loggedOut();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? logged,
+    TResult? Function()? notLogged,
+    TResult? Function()? loading,
+    TResult? Function()? loggedOut,
+    TResult? Function(Failure error)? error,
+  }) {
+    return loggedOut?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? logged,
+    TResult Function()? notLogged,
+    TResult Function()? loading,
+    TResult Function()? loggedOut,
+    TResult Function(Failure error)? error,
+    required TResult orElse(),
+  }) {
+    if (loggedOut != null) {
+      return loggedOut();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_InitialAuthStats value) initial,
+    required TResult Function(_LoggedAuthStats value) logged,
+    required TResult Function(_NotLoggedAuthStats value) notLogged,
+    required TResult Function(_LoadingAuthStats value) loading,
+    required TResult Function(_LoggedOutAuthStats value) loggedOut,
+    required TResult Function(_ErrorAuthStats value) error,
+  }) {
+    return loggedOut(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_InitialAuthStats value)? initial,
+    TResult? Function(_LoggedAuthStats value)? logged,
+    TResult? Function(_NotLoggedAuthStats value)? notLogged,
+    TResult? Function(_LoadingAuthStats value)? loading,
+    TResult? Function(_LoggedOutAuthStats value)? loggedOut,
+    TResult? Function(_ErrorAuthStats value)? error,
+  }) {
+    return loggedOut?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_InitialAuthStats value)? initial,
+    TResult Function(_LoggedAuthStats value)? logged,
+    TResult Function(_NotLoggedAuthStats value)? notLogged,
+    TResult Function(_LoadingAuthStats value)? loading,
+    TResult Function(_LoggedOutAuthStats value)? loggedOut,
+    TResult Function(_ErrorAuthStats value)? error,
+    required TResult orElse(),
+  }) {
+    if (loggedOut != null) {
+      return loggedOut(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LoggedOutAuthStats extends AuthState {
+  factory _LoggedOutAuthStats() = _$_LoggedOutAuthStats;
+  _LoggedOutAuthStats._() : super._();
 }
 
 /// @nodoc
@@ -604,27 +695,11 @@ class __$$_ErrorAuthStatsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ErrorAuthStats implements _ErrorAuthStats {
-  _$_ErrorAuthStats(this.error);
+class _$_ErrorAuthStats extends _ErrorAuthStats {
+  _$_ErrorAuthStats(this.error) : super._();
 
   @override
   final Failure error;
-
-  @override
-  String toString() {
-    return 'AuthState.error(error: $error)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_ErrorAuthStats &&
-            (identical(other.error, error) || other.error == error));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, error);
 
   @JsonKey(ignore: true)
   @override
@@ -639,6 +714,7 @@ class _$_ErrorAuthStats implements _ErrorAuthStats {
     required TResult Function() logged,
     required TResult Function() notLogged,
     required TResult Function() loading,
+    required TResult Function() loggedOut,
     required TResult Function(Failure error) error,
   }) {
     return error(this.error);
@@ -651,6 +727,7 @@ class _$_ErrorAuthStats implements _ErrorAuthStats {
     TResult? Function()? logged,
     TResult? Function()? notLogged,
     TResult? Function()? loading,
+    TResult? Function()? loggedOut,
     TResult? Function(Failure error)? error,
   }) {
     return error?.call(this.error);
@@ -663,6 +740,7 @@ class _$_ErrorAuthStats implements _ErrorAuthStats {
     TResult Function()? logged,
     TResult Function()? notLogged,
     TResult Function()? loading,
+    TResult Function()? loggedOut,
     TResult Function(Failure error)? error,
     required TResult orElse(),
   }) {
@@ -679,6 +757,7 @@ class _$_ErrorAuthStats implements _ErrorAuthStats {
     required TResult Function(_LoggedAuthStats value) logged,
     required TResult Function(_NotLoggedAuthStats value) notLogged,
     required TResult Function(_LoadingAuthStats value) loading,
+    required TResult Function(_LoggedOutAuthStats value) loggedOut,
     required TResult Function(_ErrorAuthStats value) error,
   }) {
     return error(this);
@@ -691,6 +770,7 @@ class _$_ErrorAuthStats implements _ErrorAuthStats {
     TResult? Function(_LoggedAuthStats value)? logged,
     TResult? Function(_NotLoggedAuthStats value)? notLogged,
     TResult? Function(_LoadingAuthStats value)? loading,
+    TResult? Function(_LoggedOutAuthStats value)? loggedOut,
     TResult? Function(_ErrorAuthStats value)? error,
   }) {
     return error?.call(this);
@@ -703,6 +783,7 @@ class _$_ErrorAuthStats implements _ErrorAuthStats {
     TResult Function(_LoggedAuthStats value)? logged,
     TResult Function(_NotLoggedAuthStats value)? notLogged,
     TResult Function(_LoadingAuthStats value)? loading,
+    TResult Function(_LoggedOutAuthStats value)? loggedOut,
     TResult Function(_ErrorAuthStats value)? error,
     required TResult orElse(),
   }) {
@@ -713,8 +794,9 @@ class _$_ErrorAuthStats implements _ErrorAuthStats {
   }
 }
 
-abstract class _ErrorAuthStats implements AuthState {
+abstract class _ErrorAuthStats extends AuthState {
   factory _ErrorAuthStats(final Failure error) = _$_ErrorAuthStats;
+  _ErrorAuthStats._() : super._();
 
   Failure get error;
   @JsonKey(ignore: true)
