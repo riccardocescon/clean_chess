@@ -29,7 +29,7 @@ mixin _$UserState {
     required TResult Function(User user) publicData,
     required TResult Function(List<RatingHistory> ratings) ratingHistory,
     required TResult Function(List<User> users) usersByIds,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -44,7 +44,7 @@ mixin _$UserState {
     TResult? Function(User user)? publicData,
     TResult? Function(List<RatingHistory> ratings)? ratingHistory,
     TResult? Function(List<User> users)? usersByIds,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -59,7 +59,7 @@ mixin _$UserState {
     TResult Function(User user)? publicData,
     TResult Function(List<RatingHistory> ratings)? ratingHistory,
     TResult Function(List<User> users)? usersByIds,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -76,7 +76,7 @@ mixin _$UserState {
     required TResult Function(_PublicDataUserState value) publicData,
     required TResult Function(_RatingHistoryUserState value) ratingHistory,
     required TResult Function(_UsersByIdsUserState value) usersByIds,
-    required TResult Function(_ErrorUserState value) error,
+    required TResult Function(_ErrorUserState value) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -92,7 +92,7 @@ mixin _$UserState {
     TResult? Function(_PublicDataUserState value)? publicData,
     TResult? Function(_RatingHistoryUserState value)? ratingHistory,
     TResult? Function(_UsersByIdsUserState value)? usersByIds,
-    TResult? Function(_ErrorUserState value)? error,
+    TResult? Function(_ErrorUserState value)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -108,7 +108,7 @@ mixin _$UserState {
     TResult Function(_PublicDataUserState value)? publicData,
     TResult Function(_RatingHistoryUserState value)? ratingHistory,
     TResult Function(_UsersByIdsUserState value)? usersByIds,
-    TResult Function(_ErrorUserState value)? error,
+    TResult Function(_ErrorUserState value)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -166,7 +166,7 @@ class _$_InitialUserState extends _InitialUserState {
     required TResult Function(User user) publicData,
     required TResult Function(List<RatingHistory> ratings) ratingHistory,
     required TResult Function(List<User> users) usersByIds,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return initial();
   }
@@ -184,7 +184,7 @@ class _$_InitialUserState extends _InitialUserState {
     TResult? Function(User user)? publicData,
     TResult? Function(List<RatingHistory> ratings)? ratingHistory,
     TResult? Function(List<User> users)? usersByIds,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return initial?.call();
   }
@@ -202,7 +202,7 @@ class _$_InitialUserState extends _InitialUserState {
     TResult Function(User user)? publicData,
     TResult Function(List<RatingHistory> ratings)? ratingHistory,
     TResult Function(List<User> users)? usersByIds,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -225,7 +225,7 @@ class _$_InitialUserState extends _InitialUserState {
     required TResult Function(_PublicDataUserState value) publicData,
     required TResult Function(_RatingHistoryUserState value) ratingHistory,
     required TResult Function(_UsersByIdsUserState value) usersByIds,
-    required TResult Function(_ErrorUserState value) error,
+    required TResult Function(_ErrorUserState value) failure,
   }) {
     return initial(this);
   }
@@ -244,7 +244,7 @@ class _$_InitialUserState extends _InitialUserState {
     TResult? Function(_PublicDataUserState value)? publicData,
     TResult? Function(_RatingHistoryUserState value)? ratingHistory,
     TResult? Function(_UsersByIdsUserState value)? usersByIds,
-    TResult? Function(_ErrorUserState value)? error,
+    TResult? Function(_ErrorUserState value)? failure,
   }) {
     return initial?.call(this);
   }
@@ -263,7 +263,7 @@ class _$_InitialUserState extends _InitialUserState {
     TResult Function(_PublicDataUserState value)? publicData,
     TResult Function(_RatingHistoryUserState value)? ratingHistory,
     TResult Function(_UsersByIdsUserState value)? usersByIds,
-    TResult Function(_ErrorUserState value)? error,
+    TResult Function(_ErrorUserState value)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -313,7 +313,7 @@ class _$_LoadingUserState extends _LoadingUserState {
     required TResult Function(User user) publicData,
     required TResult Function(List<RatingHistory> ratings) ratingHistory,
     required TResult Function(List<User> users) usersByIds,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return loading();
   }
@@ -331,7 +331,7 @@ class _$_LoadingUserState extends _LoadingUserState {
     TResult? Function(User user)? publicData,
     TResult? Function(List<RatingHistory> ratings)? ratingHistory,
     TResult? Function(List<User> users)? usersByIds,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return loading?.call();
   }
@@ -349,7 +349,7 @@ class _$_LoadingUserState extends _LoadingUserState {
     TResult Function(User user)? publicData,
     TResult Function(List<RatingHistory> ratings)? ratingHistory,
     TResult Function(List<User> users)? usersByIds,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -372,7 +372,7 @@ class _$_LoadingUserState extends _LoadingUserState {
     required TResult Function(_PublicDataUserState value) publicData,
     required TResult Function(_RatingHistoryUserState value) ratingHistory,
     required TResult Function(_UsersByIdsUserState value) usersByIds,
-    required TResult Function(_ErrorUserState value) error,
+    required TResult Function(_ErrorUserState value) failure,
   }) {
     return loading(this);
   }
@@ -391,7 +391,7 @@ class _$_LoadingUserState extends _LoadingUserState {
     TResult? Function(_PublicDataUserState value)? publicData,
     TResult? Function(_RatingHistoryUserState value)? ratingHistory,
     TResult? Function(_UsersByIdsUserState value)? usersByIds,
-    TResult? Function(_ErrorUserState value)? error,
+    TResult? Function(_ErrorUserState value)? failure,
   }) {
     return loading?.call(this);
   }
@@ -410,7 +410,7 @@ class _$_LoadingUserState extends _LoadingUserState {
     TResult Function(_PublicDataUserState value)? publicData,
     TResult Function(_RatingHistoryUserState value)? ratingHistory,
     TResult Function(_UsersByIdsUserState value)? usersByIds,
-    TResult Function(_ErrorUserState value)? error,
+    TResult Function(_ErrorUserState value)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -492,7 +492,7 @@ class _$_UsersByTermUserState extends _UsersByTermUserState {
     required TResult Function(User user) publicData,
     required TResult Function(List<RatingHistory> ratings) ratingHistory,
     required TResult Function(List<User> users) usersByIds,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return usersByTerm(user);
   }
@@ -510,7 +510,7 @@ class _$_UsersByTermUserState extends _UsersByTermUserState {
     TResult? Function(User user)? publicData,
     TResult? Function(List<RatingHistory> ratings)? ratingHistory,
     TResult? Function(List<User> users)? usersByIds,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return usersByTerm?.call(user);
   }
@@ -528,7 +528,7 @@ class _$_UsersByTermUserState extends _UsersByTermUserState {
     TResult Function(User user)? publicData,
     TResult Function(List<RatingHistory> ratings)? ratingHistory,
     TResult Function(List<User> users)? usersByIds,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (usersByTerm != null) {
@@ -551,7 +551,7 @@ class _$_UsersByTermUserState extends _UsersByTermUserState {
     required TResult Function(_PublicDataUserState value) publicData,
     required TResult Function(_RatingHistoryUserState value) ratingHistory,
     required TResult Function(_UsersByIdsUserState value) usersByIds,
-    required TResult Function(_ErrorUserState value) error,
+    required TResult Function(_ErrorUserState value) failure,
   }) {
     return usersByTerm(this);
   }
@@ -570,7 +570,7 @@ class _$_UsersByTermUserState extends _UsersByTermUserState {
     TResult? Function(_PublicDataUserState value)? publicData,
     TResult? Function(_RatingHistoryUserState value)? ratingHistory,
     TResult? Function(_UsersByIdsUserState value)? usersByIds,
-    TResult? Function(_ErrorUserState value)? error,
+    TResult? Function(_ErrorUserState value)? failure,
   }) {
     return usersByTerm?.call(this);
   }
@@ -589,7 +589,7 @@ class _$_UsersByTermUserState extends _UsersByTermUserState {
     TResult Function(_PublicDataUserState value)? publicData,
     TResult Function(_RatingHistoryUserState value)? ratingHistory,
     TResult Function(_UsersByIdsUserState value)? usersByIds,
-    TResult Function(_ErrorUserState value)? error,
+    TResult Function(_ErrorUserState value)? failure,
     required TResult orElse(),
   }) {
     if (usersByTerm != null) {
@@ -678,7 +678,7 @@ class _$_UsernamesByTermUserState extends _UsernamesByTermUserState {
     required TResult Function(User user) publicData,
     required TResult Function(List<RatingHistory> ratings) ratingHistory,
     required TResult Function(List<User> users) usersByIds,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return usernamesByTerm(users);
   }
@@ -696,7 +696,7 @@ class _$_UsernamesByTermUserState extends _UsernamesByTermUserState {
     TResult? Function(User user)? publicData,
     TResult? Function(List<RatingHistory> ratings)? ratingHistory,
     TResult? Function(List<User> users)? usersByIds,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return usernamesByTerm?.call(users);
   }
@@ -714,7 +714,7 @@ class _$_UsernamesByTermUserState extends _UsernamesByTermUserState {
     TResult Function(User user)? publicData,
     TResult Function(List<RatingHistory> ratings)? ratingHistory,
     TResult Function(List<User> users)? usersByIds,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (usernamesByTerm != null) {
@@ -737,7 +737,7 @@ class _$_UsernamesByTermUserState extends _UsernamesByTermUserState {
     required TResult Function(_PublicDataUserState value) publicData,
     required TResult Function(_RatingHistoryUserState value) ratingHistory,
     required TResult Function(_UsersByIdsUserState value) usersByIds,
-    required TResult Function(_ErrorUserState value) error,
+    required TResult Function(_ErrorUserState value) failure,
   }) {
     return usernamesByTerm(this);
   }
@@ -756,7 +756,7 @@ class _$_UsernamesByTermUserState extends _UsernamesByTermUserState {
     TResult? Function(_PublicDataUserState value)? publicData,
     TResult? Function(_RatingHistoryUserState value)? ratingHistory,
     TResult? Function(_UsersByIdsUserState value)? usersByIds,
-    TResult? Function(_ErrorUserState value)? error,
+    TResult? Function(_ErrorUserState value)? failure,
   }) {
     return usernamesByTerm?.call(this);
   }
@@ -775,7 +775,7 @@ class _$_UsernamesByTermUserState extends _UsernamesByTermUserState {
     TResult Function(_PublicDataUserState value)? publicData,
     TResult Function(_RatingHistoryUserState value)? ratingHistory,
     TResult Function(_UsersByIdsUserState value)? usersByIds,
-    TResult Function(_ErrorUserState value)? error,
+    TResult Function(_ErrorUserState value)? failure,
     required TResult orElse(),
   }) {
     if (usernamesByTerm != null) {
@@ -865,7 +865,7 @@ class _$_RealtimeStatusUserState extends _RealtimeStatusUserState {
     required TResult Function(User user) publicData,
     required TResult Function(List<RatingHistory> ratings) ratingHistory,
     required TResult Function(List<User> users) usersByIds,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return realtimeStatus(this.realtimeStatus);
   }
@@ -883,7 +883,7 @@ class _$_RealtimeStatusUserState extends _RealtimeStatusUserState {
     TResult? Function(User user)? publicData,
     TResult? Function(List<RatingHistory> ratings)? ratingHistory,
     TResult? Function(List<User> users)? usersByIds,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return realtimeStatus?.call(this.realtimeStatus);
   }
@@ -901,7 +901,7 @@ class _$_RealtimeStatusUserState extends _RealtimeStatusUserState {
     TResult Function(User user)? publicData,
     TResult Function(List<RatingHistory> ratings)? ratingHistory,
     TResult Function(List<User> users)? usersByIds,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (realtimeStatus != null) {
@@ -924,7 +924,7 @@ class _$_RealtimeStatusUserState extends _RealtimeStatusUserState {
     required TResult Function(_PublicDataUserState value) publicData,
     required TResult Function(_RatingHistoryUserState value) ratingHistory,
     required TResult Function(_UsersByIdsUserState value) usersByIds,
-    required TResult Function(_ErrorUserState value) error,
+    required TResult Function(_ErrorUserState value) failure,
   }) {
     return realtimeStatus(this);
   }
@@ -943,7 +943,7 @@ class _$_RealtimeStatusUserState extends _RealtimeStatusUserState {
     TResult? Function(_PublicDataUserState value)? publicData,
     TResult? Function(_RatingHistoryUserState value)? ratingHistory,
     TResult? Function(_UsersByIdsUserState value)? usersByIds,
-    TResult? Function(_ErrorUserState value)? error,
+    TResult? Function(_ErrorUserState value)? failure,
   }) {
     return realtimeStatus?.call(this);
   }
@@ -962,7 +962,7 @@ class _$_RealtimeStatusUserState extends _RealtimeStatusUserState {
     TResult Function(_PublicDataUserState value)? publicData,
     TResult Function(_RatingHistoryUserState value)? ratingHistory,
     TResult Function(_UsersByIdsUserState value)? usersByIds,
-    TResult Function(_ErrorUserState value)? error,
+    TResult Function(_ErrorUserState value)? failure,
     required TResult orElse(),
   }) {
     if (realtimeStatus != null) {
@@ -1051,7 +1051,7 @@ class _$_Top10PlayersUserState extends _Top10PlayersUserState {
     required TResult Function(User user) publicData,
     required TResult Function(List<RatingHistory> ratings) ratingHistory,
     required TResult Function(List<User> users) usersByIds,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return top10Players(data);
   }
@@ -1069,7 +1069,7 @@ class _$_Top10PlayersUserState extends _Top10PlayersUserState {
     TResult? Function(User user)? publicData,
     TResult? Function(List<RatingHistory> ratings)? ratingHistory,
     TResult? Function(List<User> users)? usersByIds,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return top10Players?.call(data);
   }
@@ -1087,7 +1087,7 @@ class _$_Top10PlayersUserState extends _Top10PlayersUserState {
     TResult Function(User user)? publicData,
     TResult Function(List<RatingHistory> ratings)? ratingHistory,
     TResult Function(List<User> users)? usersByIds,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (top10Players != null) {
@@ -1110,7 +1110,7 @@ class _$_Top10PlayersUserState extends _Top10PlayersUserState {
     required TResult Function(_PublicDataUserState value) publicData,
     required TResult Function(_RatingHistoryUserState value) ratingHistory,
     required TResult Function(_UsersByIdsUserState value) usersByIds,
-    required TResult Function(_ErrorUserState value) error,
+    required TResult Function(_ErrorUserState value) failure,
   }) {
     return top10Players(this);
   }
@@ -1129,7 +1129,7 @@ class _$_Top10PlayersUserState extends _Top10PlayersUserState {
     TResult? Function(_PublicDataUserState value)? publicData,
     TResult? Function(_RatingHistoryUserState value)? ratingHistory,
     TResult? Function(_UsersByIdsUserState value)? usersByIds,
-    TResult? Function(_ErrorUserState value)? error,
+    TResult? Function(_ErrorUserState value)? failure,
   }) {
     return top10Players?.call(this);
   }
@@ -1148,7 +1148,7 @@ class _$_Top10PlayersUserState extends _Top10PlayersUserState {
     TResult Function(_PublicDataUserState value)? publicData,
     TResult Function(_RatingHistoryUserState value)? ratingHistory,
     TResult Function(_UsersByIdsUserState value)? usersByIds,
-    TResult Function(_ErrorUserState value)? error,
+    TResult Function(_ErrorUserState value)? failure,
     required TResult orElse(),
   }) {
     if (top10Players != null) {
@@ -1240,7 +1240,7 @@ class _$_ChessVariantLeaderboardUserState
     required TResult Function(User user) publicData,
     required TResult Function(List<RatingHistory> ratings) ratingHistory,
     required TResult Function(List<User> users) usersByIds,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return chessVariantLeaderboard(users);
   }
@@ -1258,7 +1258,7 @@ class _$_ChessVariantLeaderboardUserState
     TResult? Function(User user)? publicData,
     TResult? Function(List<RatingHistory> ratings)? ratingHistory,
     TResult? Function(List<User> users)? usersByIds,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return chessVariantLeaderboard?.call(users);
   }
@@ -1276,7 +1276,7 @@ class _$_ChessVariantLeaderboardUserState
     TResult Function(User user)? publicData,
     TResult Function(List<RatingHistory> ratings)? ratingHistory,
     TResult Function(List<User> users)? usersByIds,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (chessVariantLeaderboard != null) {
@@ -1299,7 +1299,7 @@ class _$_ChessVariantLeaderboardUserState
     required TResult Function(_PublicDataUserState value) publicData,
     required TResult Function(_RatingHistoryUserState value) ratingHistory,
     required TResult Function(_UsersByIdsUserState value) usersByIds,
-    required TResult Function(_ErrorUserState value) error,
+    required TResult Function(_ErrorUserState value) failure,
   }) {
     return chessVariantLeaderboard(this);
   }
@@ -1318,7 +1318,7 @@ class _$_ChessVariantLeaderboardUserState
     TResult? Function(_PublicDataUserState value)? publicData,
     TResult? Function(_RatingHistoryUserState value)? ratingHistory,
     TResult? Function(_UsersByIdsUserState value)? usersByIds,
-    TResult? Function(_ErrorUserState value)? error,
+    TResult? Function(_ErrorUserState value)? failure,
   }) {
     return chessVariantLeaderboard?.call(this);
   }
@@ -1337,7 +1337,7 @@ class _$_ChessVariantLeaderboardUserState
     TResult Function(_PublicDataUserState value)? publicData,
     TResult Function(_RatingHistoryUserState value)? ratingHistory,
     TResult Function(_UsersByIdsUserState value)? usersByIds,
-    TResult Function(_ErrorUserState value)? error,
+    TResult Function(_ErrorUserState value)? failure,
     required TResult orElse(),
   }) {
     if (chessVariantLeaderboard != null) {
@@ -1429,7 +1429,7 @@ class _$_PublicDataUserState extends _PublicDataUserState {
     required TResult Function(User user) publicData,
     required TResult Function(List<RatingHistory> ratings) ratingHistory,
     required TResult Function(List<User> users) usersByIds,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return publicData(user);
   }
@@ -1447,7 +1447,7 @@ class _$_PublicDataUserState extends _PublicDataUserState {
     TResult? Function(User user)? publicData,
     TResult? Function(List<RatingHistory> ratings)? ratingHistory,
     TResult? Function(List<User> users)? usersByIds,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return publicData?.call(user);
   }
@@ -1465,7 +1465,7 @@ class _$_PublicDataUserState extends _PublicDataUserState {
     TResult Function(User user)? publicData,
     TResult Function(List<RatingHistory> ratings)? ratingHistory,
     TResult Function(List<User> users)? usersByIds,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (publicData != null) {
@@ -1488,7 +1488,7 @@ class _$_PublicDataUserState extends _PublicDataUserState {
     required TResult Function(_PublicDataUserState value) publicData,
     required TResult Function(_RatingHistoryUserState value) ratingHistory,
     required TResult Function(_UsersByIdsUserState value) usersByIds,
-    required TResult Function(_ErrorUserState value) error,
+    required TResult Function(_ErrorUserState value) failure,
   }) {
     return publicData(this);
   }
@@ -1507,7 +1507,7 @@ class _$_PublicDataUserState extends _PublicDataUserState {
     TResult? Function(_PublicDataUserState value)? publicData,
     TResult? Function(_RatingHistoryUserState value)? ratingHistory,
     TResult? Function(_UsersByIdsUserState value)? usersByIds,
-    TResult? Function(_ErrorUserState value)? error,
+    TResult? Function(_ErrorUserState value)? failure,
   }) {
     return publicData?.call(this);
   }
@@ -1526,7 +1526,7 @@ class _$_PublicDataUserState extends _PublicDataUserState {
     TResult Function(_PublicDataUserState value)? publicData,
     TResult Function(_RatingHistoryUserState value)? ratingHistory,
     TResult Function(_UsersByIdsUserState value)? usersByIds,
-    TResult Function(_ErrorUserState value)? error,
+    TResult Function(_ErrorUserState value)? failure,
     required TResult orElse(),
   }) {
     if (publicData != null) {
@@ -1613,7 +1613,7 @@ class _$_RatingHistoryUserState extends _RatingHistoryUserState {
     required TResult Function(User user) publicData,
     required TResult Function(List<RatingHistory> ratings) ratingHistory,
     required TResult Function(List<User> users) usersByIds,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return ratingHistory(ratings);
   }
@@ -1631,7 +1631,7 @@ class _$_RatingHistoryUserState extends _RatingHistoryUserState {
     TResult? Function(User user)? publicData,
     TResult? Function(List<RatingHistory> ratings)? ratingHistory,
     TResult? Function(List<User> users)? usersByIds,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return ratingHistory?.call(ratings);
   }
@@ -1649,7 +1649,7 @@ class _$_RatingHistoryUserState extends _RatingHistoryUserState {
     TResult Function(User user)? publicData,
     TResult Function(List<RatingHistory> ratings)? ratingHistory,
     TResult Function(List<User> users)? usersByIds,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (ratingHistory != null) {
@@ -1672,7 +1672,7 @@ class _$_RatingHistoryUserState extends _RatingHistoryUserState {
     required TResult Function(_PublicDataUserState value) publicData,
     required TResult Function(_RatingHistoryUserState value) ratingHistory,
     required TResult Function(_UsersByIdsUserState value) usersByIds,
-    required TResult Function(_ErrorUserState value) error,
+    required TResult Function(_ErrorUserState value) failure,
   }) {
     return ratingHistory(this);
   }
@@ -1691,7 +1691,7 @@ class _$_RatingHistoryUserState extends _RatingHistoryUserState {
     TResult? Function(_PublicDataUserState value)? publicData,
     TResult? Function(_RatingHistoryUserState value)? ratingHistory,
     TResult? Function(_UsersByIdsUserState value)? usersByIds,
-    TResult? Function(_ErrorUserState value)? error,
+    TResult? Function(_ErrorUserState value)? failure,
   }) {
     return ratingHistory?.call(this);
   }
@@ -1710,7 +1710,7 @@ class _$_RatingHistoryUserState extends _RatingHistoryUserState {
     TResult Function(_PublicDataUserState value)? publicData,
     TResult Function(_RatingHistoryUserState value)? ratingHistory,
     TResult Function(_UsersByIdsUserState value)? usersByIds,
-    TResult Function(_ErrorUserState value)? error,
+    TResult Function(_ErrorUserState value)? failure,
     required TResult orElse(),
   }) {
     if (ratingHistory != null) {
@@ -1798,7 +1798,7 @@ class _$_UsersByIdsUserState extends _UsersByIdsUserState {
     required TResult Function(User user) publicData,
     required TResult Function(List<RatingHistory> ratings) ratingHistory,
     required TResult Function(List<User> users) usersByIds,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return usersByIds(users);
   }
@@ -1816,7 +1816,7 @@ class _$_UsersByIdsUserState extends _UsersByIdsUserState {
     TResult? Function(User user)? publicData,
     TResult? Function(List<RatingHistory> ratings)? ratingHistory,
     TResult? Function(List<User> users)? usersByIds,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return usersByIds?.call(users);
   }
@@ -1834,7 +1834,7 @@ class _$_UsersByIdsUserState extends _UsersByIdsUserState {
     TResult Function(User user)? publicData,
     TResult Function(List<RatingHistory> ratings)? ratingHistory,
     TResult Function(List<User> users)? usersByIds,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (usersByIds != null) {
@@ -1857,7 +1857,7 @@ class _$_UsersByIdsUserState extends _UsersByIdsUserState {
     required TResult Function(_PublicDataUserState value) publicData,
     required TResult Function(_RatingHistoryUserState value) ratingHistory,
     required TResult Function(_UsersByIdsUserState value) usersByIds,
-    required TResult Function(_ErrorUserState value) error,
+    required TResult Function(_ErrorUserState value) failure,
   }) {
     return usersByIds(this);
   }
@@ -1876,7 +1876,7 @@ class _$_UsersByIdsUserState extends _UsersByIdsUserState {
     TResult? Function(_PublicDataUserState value)? publicData,
     TResult? Function(_RatingHistoryUserState value)? ratingHistory,
     TResult? Function(_UsersByIdsUserState value)? usersByIds,
-    TResult? Function(_ErrorUserState value)? error,
+    TResult? Function(_ErrorUserState value)? failure,
   }) {
     return usersByIds?.call(this);
   }
@@ -1895,7 +1895,7 @@ class _$_UsersByIdsUserState extends _UsersByIdsUserState {
     TResult Function(_PublicDataUserState value)? publicData,
     TResult Function(_RatingHistoryUserState value)? ratingHistory,
     TResult Function(_UsersByIdsUserState value)? usersByIds,
-    TResult Function(_ErrorUserState value)? error,
+    TResult Function(_ErrorUserState value)? failure,
     required TResult orElse(),
   }) {
     if (usersByIds != null) {
@@ -1975,9 +1975,9 @@ class _$_ErrorUserState extends _ErrorUserState {
     required TResult Function(User user) publicData,
     required TResult Function(List<RatingHistory> ratings) ratingHistory,
     required TResult Function(List<User> users) usersByIds,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
-    return error(this.error);
+    return failure(error);
   }
 
   @override
@@ -1993,9 +1993,9 @@ class _$_ErrorUserState extends _ErrorUserState {
     TResult? Function(User user)? publicData,
     TResult? Function(List<RatingHistory> ratings)? ratingHistory,
     TResult? Function(List<User> users)? usersByIds,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
-    return error?.call(this.error);
+    return failure?.call(error);
   }
 
   @override
@@ -2011,11 +2011,11 @@ class _$_ErrorUserState extends _ErrorUserState {
     TResult Function(User user)? publicData,
     TResult Function(List<RatingHistory> ratings)? ratingHistory,
     TResult Function(List<User> users)? usersByIds,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
-    if (error != null) {
-      return error(this.error);
+    if (failure != null) {
+      return failure(error);
     }
     return orElse();
   }
@@ -2034,9 +2034,9 @@ class _$_ErrorUserState extends _ErrorUserState {
     required TResult Function(_PublicDataUserState value) publicData,
     required TResult Function(_RatingHistoryUserState value) ratingHistory,
     required TResult Function(_UsersByIdsUserState value) usersByIds,
-    required TResult Function(_ErrorUserState value) error,
+    required TResult Function(_ErrorUserState value) failure,
   }) {
-    return error(this);
+    return failure(this);
   }
 
   @override
@@ -2053,9 +2053,9 @@ class _$_ErrorUserState extends _ErrorUserState {
     TResult? Function(_PublicDataUserState value)? publicData,
     TResult? Function(_RatingHistoryUserState value)? ratingHistory,
     TResult? Function(_UsersByIdsUserState value)? usersByIds,
-    TResult? Function(_ErrorUserState value)? error,
+    TResult? Function(_ErrorUserState value)? failure,
   }) {
-    return error?.call(this);
+    return failure?.call(this);
   }
 
   @override
@@ -2072,11 +2072,11 @@ class _$_ErrorUserState extends _ErrorUserState {
     TResult Function(_PublicDataUserState value)? publicData,
     TResult Function(_RatingHistoryUserState value)? ratingHistory,
     TResult Function(_UsersByIdsUserState value)? usersByIds,
-    TResult Function(_ErrorUserState value)? error,
+    TResult Function(_ErrorUserState value)? failure,
     required TResult orElse(),
   }) {
-    if (error != null) {
-      return error(this);
+    if (failure != null) {
+      return failure(this);
     }
     return orElse();
   }

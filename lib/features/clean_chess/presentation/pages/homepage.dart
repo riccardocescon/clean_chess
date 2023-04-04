@@ -1,18 +1,12 @@
-import 'dart:async';
-
 import 'package:cleanchess/core/clean_chess/presentation/widgets/homepage_mode_items.dart'
     as homepage_mode_items;
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/event/account_event.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
-import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_game_stream_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_appbar.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_widget.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
@@ -30,10 +24,7 @@ class _HomepageState extends State<Homepage> {
   void initState() {
     super.initState();
 
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   BlocProvider.of<ServerBloc>(context)
-    //       .add(const AccountEvent.getMyProfile());
-    // });
+    sl<AccountCubit>().getMyProfile();
   }
 
   @override

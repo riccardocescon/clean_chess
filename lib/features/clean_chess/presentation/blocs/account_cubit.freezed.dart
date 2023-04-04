@@ -25,7 +25,7 @@ mixin _$AccountState {
     required TResult Function(bool status) kidModeStatus,
     required TResult Function() kidModeStatusSet,
     required TResult Function(UserPreferences preferences) myPreferences,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -37,7 +37,7 @@ mixin _$AccountState {
     TResult? Function(bool status)? kidModeStatus,
     TResult? Function()? kidModeStatusSet,
     TResult? Function(UserPreferences preferences)? myPreferences,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -49,7 +49,7 @@ mixin _$AccountState {
     TResult Function(bool status)? kidModeStatus,
     TResult Function()? kidModeStatusSet,
     TResult Function(UserPreferences preferences)? myPreferences,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -63,7 +63,7 @@ mixin _$AccountState {
     required TResult Function(_KidModeStatusSetAccountState value)
         kidModeStatusSet,
     required TResult Function(_MyPreferencesAccountState value) myPreferences,
-    required TResult Function(_ErrorAccountState value) error,
+    required TResult Function(_ErrorAccountState value) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -75,7 +75,7 @@ mixin _$AccountState {
     TResult? Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult? Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult? Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult? Function(_ErrorAccountState value)? error,
+    TResult? Function(_ErrorAccountState value)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -87,7 +87,7 @@ mixin _$AccountState {
     TResult Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult Function(_ErrorAccountState value)? error,
+    TResult Function(_ErrorAccountState value)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -142,7 +142,7 @@ class _$_InitialAccountState extends _InitialAccountState {
     required TResult Function(bool status) kidModeStatus,
     required TResult Function() kidModeStatusSet,
     required TResult Function(UserPreferences preferences) myPreferences,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return initial();
   }
@@ -157,7 +157,7 @@ class _$_InitialAccountState extends _InitialAccountState {
     TResult? Function(bool status)? kidModeStatus,
     TResult? Function()? kidModeStatusSet,
     TResult? Function(UserPreferences preferences)? myPreferences,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return initial?.call();
   }
@@ -172,7 +172,7 @@ class _$_InitialAccountState extends _InitialAccountState {
     TResult Function(bool status)? kidModeStatus,
     TResult Function()? kidModeStatusSet,
     TResult Function(UserPreferences preferences)? myPreferences,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -192,7 +192,7 @@ class _$_InitialAccountState extends _InitialAccountState {
     required TResult Function(_KidModeStatusSetAccountState value)
         kidModeStatusSet,
     required TResult Function(_MyPreferencesAccountState value) myPreferences,
-    required TResult Function(_ErrorAccountState value) error,
+    required TResult Function(_ErrorAccountState value) failure,
   }) {
     return initial(this);
   }
@@ -207,7 +207,7 @@ class _$_InitialAccountState extends _InitialAccountState {
     TResult? Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult? Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult? Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult? Function(_ErrorAccountState value)? error,
+    TResult? Function(_ErrorAccountState value)? failure,
   }) {
     return initial?.call(this);
   }
@@ -222,7 +222,7 @@ class _$_InitialAccountState extends _InitialAccountState {
     TResult Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult Function(_ErrorAccountState value)? error,
+    TResult Function(_ErrorAccountState value)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -268,7 +268,7 @@ class _$_LoadingAccountState extends _LoadingAccountState {
     required TResult Function(bool status) kidModeStatus,
     required TResult Function() kidModeStatusSet,
     required TResult Function(UserPreferences preferences) myPreferences,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return loading();
   }
@@ -283,7 +283,7 @@ class _$_LoadingAccountState extends _LoadingAccountState {
     TResult? Function(bool status)? kidModeStatus,
     TResult? Function()? kidModeStatusSet,
     TResult? Function(UserPreferences preferences)? myPreferences,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return loading?.call();
   }
@@ -298,7 +298,7 @@ class _$_LoadingAccountState extends _LoadingAccountState {
     TResult Function(bool status)? kidModeStatus,
     TResult Function()? kidModeStatusSet,
     TResult Function(UserPreferences preferences)? myPreferences,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -318,7 +318,7 @@ class _$_LoadingAccountState extends _LoadingAccountState {
     required TResult Function(_KidModeStatusSetAccountState value)
         kidModeStatusSet,
     required TResult Function(_MyPreferencesAccountState value) myPreferences,
-    required TResult Function(_ErrorAccountState value) error,
+    required TResult Function(_ErrorAccountState value) failure,
   }) {
     return loading(this);
   }
@@ -333,7 +333,7 @@ class _$_LoadingAccountState extends _LoadingAccountState {
     TResult? Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult? Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult? Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult? Function(_ErrorAccountState value)? error,
+    TResult? Function(_ErrorAccountState value)? failure,
   }) {
     return loading?.call(this);
   }
@@ -348,7 +348,7 @@ class _$_LoadingAccountState extends _LoadingAccountState {
     TResult Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult Function(_ErrorAccountState value)? error,
+    TResult Function(_ErrorAccountState value)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -429,7 +429,7 @@ class _$_ProfileAccountState extends _ProfileAccountState {
     required TResult Function(bool status) kidModeStatus,
     required TResult Function() kidModeStatusSet,
     required TResult Function(UserPreferences preferences) myPreferences,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return profile(user);
   }
@@ -444,7 +444,7 @@ class _$_ProfileAccountState extends _ProfileAccountState {
     TResult? Function(bool status)? kidModeStatus,
     TResult? Function()? kidModeStatusSet,
     TResult? Function(UserPreferences preferences)? myPreferences,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return profile?.call(user);
   }
@@ -459,7 +459,7 @@ class _$_ProfileAccountState extends _ProfileAccountState {
     TResult Function(bool status)? kidModeStatus,
     TResult Function()? kidModeStatusSet,
     TResult Function(UserPreferences preferences)? myPreferences,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (profile != null) {
@@ -479,7 +479,7 @@ class _$_ProfileAccountState extends _ProfileAccountState {
     required TResult Function(_KidModeStatusSetAccountState value)
         kidModeStatusSet,
     required TResult Function(_MyPreferencesAccountState value) myPreferences,
-    required TResult Function(_ErrorAccountState value) error,
+    required TResult Function(_ErrorAccountState value) failure,
   }) {
     return profile(this);
   }
@@ -494,7 +494,7 @@ class _$_ProfileAccountState extends _ProfileAccountState {
     TResult? Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult? Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult? Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult? Function(_ErrorAccountState value)? error,
+    TResult? Function(_ErrorAccountState value)? failure,
   }) {
     return profile?.call(this);
   }
@@ -509,7 +509,7 @@ class _$_ProfileAccountState extends _ProfileAccountState {
     TResult Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult Function(_ErrorAccountState value)? error,
+    TResult Function(_ErrorAccountState value)? failure,
     required TResult orElse(),
   }) {
     if (profile != null) {
@@ -585,7 +585,7 @@ class _$_MyEmailAccountState extends _MyEmailAccountState {
     required TResult Function(bool status) kidModeStatus,
     required TResult Function() kidModeStatusSet,
     required TResult Function(UserPreferences preferences) myPreferences,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return myEmail(email);
   }
@@ -600,7 +600,7 @@ class _$_MyEmailAccountState extends _MyEmailAccountState {
     TResult? Function(bool status)? kidModeStatus,
     TResult? Function()? kidModeStatusSet,
     TResult? Function(UserPreferences preferences)? myPreferences,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return myEmail?.call(email);
   }
@@ -615,7 +615,7 @@ class _$_MyEmailAccountState extends _MyEmailAccountState {
     TResult Function(bool status)? kidModeStatus,
     TResult Function()? kidModeStatusSet,
     TResult Function(UserPreferences preferences)? myPreferences,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (myEmail != null) {
@@ -635,7 +635,7 @@ class _$_MyEmailAccountState extends _MyEmailAccountState {
     required TResult Function(_KidModeStatusSetAccountState value)
         kidModeStatusSet,
     required TResult Function(_MyPreferencesAccountState value) myPreferences,
-    required TResult Function(_ErrorAccountState value) error,
+    required TResult Function(_ErrorAccountState value) failure,
   }) {
     return myEmail(this);
   }
@@ -650,7 +650,7 @@ class _$_MyEmailAccountState extends _MyEmailAccountState {
     TResult? Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult? Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult? Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult? Function(_ErrorAccountState value)? error,
+    TResult? Function(_ErrorAccountState value)? failure,
   }) {
     return myEmail?.call(this);
   }
@@ -665,7 +665,7 @@ class _$_MyEmailAccountState extends _MyEmailAccountState {
     TResult Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult Function(_ErrorAccountState value)? error,
+    TResult Function(_ErrorAccountState value)? failure,
     required TResult orElse(),
   }) {
     if (myEmail != null) {
@@ -744,7 +744,7 @@ class _$_KidModeStatusAccountState extends _KidModeStatusAccountState {
     required TResult Function(bool status) kidModeStatus,
     required TResult Function() kidModeStatusSet,
     required TResult Function(UserPreferences preferences) myPreferences,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return kidModeStatus(status);
   }
@@ -759,7 +759,7 @@ class _$_KidModeStatusAccountState extends _KidModeStatusAccountState {
     TResult? Function(bool status)? kidModeStatus,
     TResult? Function()? kidModeStatusSet,
     TResult? Function(UserPreferences preferences)? myPreferences,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return kidModeStatus?.call(status);
   }
@@ -774,7 +774,7 @@ class _$_KidModeStatusAccountState extends _KidModeStatusAccountState {
     TResult Function(bool status)? kidModeStatus,
     TResult Function()? kidModeStatusSet,
     TResult Function(UserPreferences preferences)? myPreferences,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (kidModeStatus != null) {
@@ -794,7 +794,7 @@ class _$_KidModeStatusAccountState extends _KidModeStatusAccountState {
     required TResult Function(_KidModeStatusSetAccountState value)
         kidModeStatusSet,
     required TResult Function(_MyPreferencesAccountState value) myPreferences,
-    required TResult Function(_ErrorAccountState value) error,
+    required TResult Function(_ErrorAccountState value) failure,
   }) {
     return kidModeStatus(this);
   }
@@ -809,7 +809,7 @@ class _$_KidModeStatusAccountState extends _KidModeStatusAccountState {
     TResult? Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult? Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult? Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult? Function(_ErrorAccountState value)? error,
+    TResult? Function(_ErrorAccountState value)? failure,
   }) {
     return kidModeStatus?.call(this);
   }
@@ -824,7 +824,7 @@ class _$_KidModeStatusAccountState extends _KidModeStatusAccountState {
     TResult Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult Function(_ErrorAccountState value)? error,
+    TResult Function(_ErrorAccountState value)? failure,
     required TResult orElse(),
   }) {
     if (kidModeStatus != null) {
@@ -878,7 +878,7 @@ class _$_KidModeStatusSetAccountState extends _KidModeStatusSetAccountState {
     required TResult Function(bool status) kidModeStatus,
     required TResult Function() kidModeStatusSet,
     required TResult Function(UserPreferences preferences) myPreferences,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return kidModeStatusSet();
   }
@@ -893,7 +893,7 @@ class _$_KidModeStatusSetAccountState extends _KidModeStatusSetAccountState {
     TResult? Function(bool status)? kidModeStatus,
     TResult? Function()? kidModeStatusSet,
     TResult? Function(UserPreferences preferences)? myPreferences,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return kidModeStatusSet?.call();
   }
@@ -908,7 +908,7 @@ class _$_KidModeStatusSetAccountState extends _KidModeStatusSetAccountState {
     TResult Function(bool status)? kidModeStatus,
     TResult Function()? kidModeStatusSet,
     TResult Function(UserPreferences preferences)? myPreferences,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (kidModeStatusSet != null) {
@@ -928,7 +928,7 @@ class _$_KidModeStatusSetAccountState extends _KidModeStatusSetAccountState {
     required TResult Function(_KidModeStatusSetAccountState value)
         kidModeStatusSet,
     required TResult Function(_MyPreferencesAccountState value) myPreferences,
-    required TResult Function(_ErrorAccountState value) error,
+    required TResult Function(_ErrorAccountState value) failure,
   }) {
     return kidModeStatusSet(this);
   }
@@ -943,7 +943,7 @@ class _$_KidModeStatusSetAccountState extends _KidModeStatusSetAccountState {
     TResult? Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult? Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult? Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult? Function(_ErrorAccountState value)? error,
+    TResult? Function(_ErrorAccountState value)? failure,
   }) {
     return kidModeStatusSet?.call(this);
   }
@@ -958,7 +958,7 @@ class _$_KidModeStatusSetAccountState extends _KidModeStatusSetAccountState {
     TResult Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult Function(_ErrorAccountState value)? error,
+    TResult Function(_ErrorAccountState value)? failure,
     required TResult orElse(),
   }) {
     if (kidModeStatusSet != null) {
@@ -1042,7 +1042,7 @@ class _$_MyPreferencesAccountState extends _MyPreferencesAccountState {
     required TResult Function(bool status) kidModeStatus,
     required TResult Function() kidModeStatusSet,
     required TResult Function(UserPreferences preferences) myPreferences,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return myPreferences(preferences);
   }
@@ -1057,7 +1057,7 @@ class _$_MyPreferencesAccountState extends _MyPreferencesAccountState {
     TResult? Function(bool status)? kidModeStatus,
     TResult? Function()? kidModeStatusSet,
     TResult? Function(UserPreferences preferences)? myPreferences,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return myPreferences?.call(preferences);
   }
@@ -1072,7 +1072,7 @@ class _$_MyPreferencesAccountState extends _MyPreferencesAccountState {
     TResult Function(bool status)? kidModeStatus,
     TResult Function()? kidModeStatusSet,
     TResult Function(UserPreferences preferences)? myPreferences,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (myPreferences != null) {
@@ -1092,7 +1092,7 @@ class _$_MyPreferencesAccountState extends _MyPreferencesAccountState {
     required TResult Function(_KidModeStatusSetAccountState value)
         kidModeStatusSet,
     required TResult Function(_MyPreferencesAccountState value) myPreferences,
-    required TResult Function(_ErrorAccountState value) error,
+    required TResult Function(_ErrorAccountState value) failure,
   }) {
     return myPreferences(this);
   }
@@ -1107,7 +1107,7 @@ class _$_MyPreferencesAccountState extends _MyPreferencesAccountState {
     TResult? Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult? Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult? Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult? Function(_ErrorAccountState value)? error,
+    TResult? Function(_ErrorAccountState value)? failure,
   }) {
     return myPreferences?.call(this);
   }
@@ -1122,7 +1122,7 @@ class _$_MyPreferencesAccountState extends _MyPreferencesAccountState {
     TResult Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult Function(_ErrorAccountState value)? error,
+    TResult Function(_ErrorAccountState value)? failure,
     required TResult orElse(),
   }) {
     if (myPreferences != null) {
@@ -1199,9 +1199,9 @@ class _$_ErrorAccountState extends _ErrorAccountState {
     required TResult Function(bool status) kidModeStatus,
     required TResult Function() kidModeStatusSet,
     required TResult Function(UserPreferences preferences) myPreferences,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
-    return error(this.error);
+    return failure(error);
   }
 
   @override
@@ -1214,9 +1214,9 @@ class _$_ErrorAccountState extends _ErrorAccountState {
     TResult? Function(bool status)? kidModeStatus,
     TResult? Function()? kidModeStatusSet,
     TResult? Function(UserPreferences preferences)? myPreferences,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
-    return error?.call(this.error);
+    return failure?.call(error);
   }
 
   @override
@@ -1229,11 +1229,11 @@ class _$_ErrorAccountState extends _ErrorAccountState {
     TResult Function(bool status)? kidModeStatus,
     TResult Function()? kidModeStatusSet,
     TResult Function(UserPreferences preferences)? myPreferences,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
-    if (error != null) {
-      return error(this.error);
+    if (failure != null) {
+      return failure(error);
     }
     return orElse();
   }
@@ -1249,9 +1249,9 @@ class _$_ErrorAccountState extends _ErrorAccountState {
     required TResult Function(_KidModeStatusSetAccountState value)
         kidModeStatusSet,
     required TResult Function(_MyPreferencesAccountState value) myPreferences,
-    required TResult Function(_ErrorAccountState value) error,
+    required TResult Function(_ErrorAccountState value) failure,
   }) {
-    return error(this);
+    return failure(this);
   }
 
   @override
@@ -1264,9 +1264,9 @@ class _$_ErrorAccountState extends _ErrorAccountState {
     TResult? Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult? Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult? Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult? Function(_ErrorAccountState value)? error,
+    TResult? Function(_ErrorAccountState value)? failure,
   }) {
-    return error?.call(this);
+    return failure?.call(this);
   }
 
   @override
@@ -1279,11 +1279,11 @@ class _$_ErrorAccountState extends _ErrorAccountState {
     TResult Function(_KidModeStatusAccountState value)? kidModeStatus,
     TResult Function(_KidModeStatusSetAccountState value)? kidModeStatusSet,
     TResult Function(_MyPreferencesAccountState value)? myPreferences,
-    TResult Function(_ErrorAccountState value)? error,
+    TResult Function(_ErrorAccountState value)? failure,
     required TResult orElse(),
   }) {
-    if (error != null) {
-      return error(this);
+    if (failure != null) {
+      return failure(this);
     }
     return orElse();
   }

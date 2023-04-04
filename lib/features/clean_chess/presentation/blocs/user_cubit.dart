@@ -37,14 +37,14 @@ abstract class UserState with _$UserState, EquatableMixin {
 
   const factory UserState.usersByIds(List<User> users) = _UsersByIdsUserState;
 
-  const factory UserState.error(Failure error) = _ErrorUserState;
+  const factory UserState.failure(Failure error) = _ErrorUserState;
 
   const UserState._();
 
   @override
   List<Object?> get props {
     return maybeWhen(
-      error: (error) => [error],
+      failure: (error) => [error],
       orElse: () => [],
     );
   }

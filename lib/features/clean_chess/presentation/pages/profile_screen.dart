@@ -1,9 +1,9 @@
-import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/server_state.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/stats_screen.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/loading_skeleton.dart';
+import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/profilepage_mode_items.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,15 +47,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ];
 
   void _requestRealTimeStatus(BuildContext context) {
-    BlocProvider.of<ServerBloc>(context).add(
-      UserEvent.getRealtimeStatus(ids: [widget.user.id!]),
-    );
+    sl<UserCubit>().getRealtimeStatus(userIds: [widget.user.id!]);
   }
 
   void _requestFollowingUsers(BuildContext context) {
-    BlocProvider.of<ServerBloc>(context).add(
-      const SocialEvent.getFollowingUsers(),
-    );
+    sl<SocialCubit>().getFollowingUsers();
   }
 
   @override
@@ -170,12 +166,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _onlineStatus() {
     return Padding(
       padding: const EdgeInsets.only(left: 15),
-      child: BlocConsumer<ServerBloc, ServerState>(
+      child: BlocConsumer<UserCubit, UserState>(
         listener: (context, state) {
-          if (state is LichessRealTimeStatsFetched) {
-            _realTimeUserStatus = state.realTimeStats.first;
-            _requestFollowingUsers(context);
-          }
+          state.maybeMap(
+            realtimeStatus: (value) {
+              _realTimeUserStatus = value.realtimeStatus.first;
+              _requestFollowingUsers(context);
+            },
+            orElse: () {},
+          );
         },
         builder: (context, state) {
           if (_realTimeUserStatus == null) {
@@ -217,11 +216,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: EdgeInsets.only(left: 65, right: 5),
                 child: Icon(Icons.people),
               ),
-              BlocConsumer<ServerBloc, ServerState>(
+              BlocConsumer<SocialCubit, SocialState>(
                 listener: (context, state) {
-                  if (state is LichessFollowingUsersFetched) {
-                    _followingUsers = state.followingUsers;
-                  }
+                  state.maybeMap(
+                    followingUsers: (value) {
+                      _followingUsers = value.users;
+                    },
+                    orElse: () {},
+                  );
                 },
                 builder: (context, state) {
                   if (_followingUsers == null) {

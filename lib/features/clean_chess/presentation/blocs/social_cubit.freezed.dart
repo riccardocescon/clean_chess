@@ -23,7 +23,7 @@ mixin _$SocialState {
     required TResult Function(List<User> users) followingUsers,
     required TResult Function() userFollowed,
     required TResult Function() userUnfollowed,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -33,7 +33,7 @@ mixin _$SocialState {
     TResult? Function(List<User> users)? followingUsers,
     TResult? Function()? userFollowed,
     TResult? Function()? userUnfollowed,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -43,7 +43,7 @@ mixin _$SocialState {
     TResult Function(List<User> users)? followingUsers,
     TResult Function()? userFollowed,
     TResult Function()? userUnfollowed,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -54,7 +54,7 @@ mixin _$SocialState {
     required TResult Function(_FollowingUsersSocialState value) followingUsers,
     required TResult Function(_UserFollowedSocialState value) userFollowed,
     required TResult Function(_UserUnfollowedSocialState value) userUnfollowed,
-    required TResult Function(_ErrorSocialState value) error,
+    required TResult Function(_ErrorSocialState value) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -64,7 +64,7 @@ mixin _$SocialState {
     TResult? Function(_FollowingUsersSocialState value)? followingUsers,
     TResult? Function(_UserFollowedSocialState value)? userFollowed,
     TResult? Function(_UserUnfollowedSocialState value)? userUnfollowed,
-    TResult? Function(_ErrorSocialState value)? error,
+    TResult? Function(_ErrorSocialState value)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -74,7 +74,7 @@ mixin _$SocialState {
     TResult Function(_FollowingUsersSocialState value)? followingUsers,
     TResult Function(_UserFollowedSocialState value)? userFollowed,
     TResult Function(_UserUnfollowedSocialState value)? userUnfollowed,
-    TResult Function(_ErrorSocialState value)? error,
+    TResult Function(_ErrorSocialState value)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -127,7 +127,7 @@ class _$_InitialSocialState extends _InitialSocialState {
     required TResult Function(List<User> users) followingUsers,
     required TResult Function() userFollowed,
     required TResult Function() userUnfollowed,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return initial();
   }
@@ -140,7 +140,7 @@ class _$_InitialSocialState extends _InitialSocialState {
     TResult? Function(List<User> users)? followingUsers,
     TResult? Function()? userFollowed,
     TResult? Function()? userUnfollowed,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return initial?.call();
   }
@@ -153,7 +153,7 @@ class _$_InitialSocialState extends _InitialSocialState {
     TResult Function(List<User> users)? followingUsers,
     TResult Function()? userFollowed,
     TResult Function()? userUnfollowed,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -170,7 +170,7 @@ class _$_InitialSocialState extends _InitialSocialState {
     required TResult Function(_FollowingUsersSocialState value) followingUsers,
     required TResult Function(_UserFollowedSocialState value) userFollowed,
     required TResult Function(_UserUnfollowedSocialState value) userUnfollowed,
-    required TResult Function(_ErrorSocialState value) error,
+    required TResult Function(_ErrorSocialState value) failure,
   }) {
     return initial(this);
   }
@@ -183,7 +183,7 @@ class _$_InitialSocialState extends _InitialSocialState {
     TResult? Function(_FollowingUsersSocialState value)? followingUsers,
     TResult? Function(_UserFollowedSocialState value)? userFollowed,
     TResult? Function(_UserUnfollowedSocialState value)? userUnfollowed,
-    TResult? Function(_ErrorSocialState value)? error,
+    TResult? Function(_ErrorSocialState value)? failure,
   }) {
     return initial?.call(this);
   }
@@ -196,7 +196,7 @@ class _$_InitialSocialState extends _InitialSocialState {
     TResult Function(_FollowingUsersSocialState value)? followingUsers,
     TResult Function(_UserFollowedSocialState value)? userFollowed,
     TResult Function(_UserUnfollowedSocialState value)? userUnfollowed,
-    TResult Function(_ErrorSocialState value)? error,
+    TResult Function(_ErrorSocialState value)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -240,7 +240,7 @@ class _$_LoadingSocialState extends _LoadingSocialState {
     required TResult Function(List<User> users) followingUsers,
     required TResult Function() userFollowed,
     required TResult Function() userUnfollowed,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return loading();
   }
@@ -253,7 +253,7 @@ class _$_LoadingSocialState extends _LoadingSocialState {
     TResult? Function(List<User> users)? followingUsers,
     TResult? Function()? userFollowed,
     TResult? Function()? userUnfollowed,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return loading?.call();
   }
@@ -266,7 +266,7 @@ class _$_LoadingSocialState extends _LoadingSocialState {
     TResult Function(List<User> users)? followingUsers,
     TResult Function()? userFollowed,
     TResult Function()? userUnfollowed,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -283,7 +283,7 @@ class _$_LoadingSocialState extends _LoadingSocialState {
     required TResult Function(_FollowingUsersSocialState value) followingUsers,
     required TResult Function(_UserFollowedSocialState value) userFollowed,
     required TResult Function(_UserUnfollowedSocialState value) userUnfollowed,
-    required TResult Function(_ErrorSocialState value) error,
+    required TResult Function(_ErrorSocialState value) failure,
   }) {
     return loading(this);
   }
@@ -296,7 +296,7 @@ class _$_LoadingSocialState extends _LoadingSocialState {
     TResult? Function(_FollowingUsersSocialState value)? followingUsers,
     TResult? Function(_UserFollowedSocialState value)? userFollowed,
     TResult? Function(_UserUnfollowedSocialState value)? userUnfollowed,
-    TResult? Function(_ErrorSocialState value)? error,
+    TResult? Function(_ErrorSocialState value)? failure,
   }) {
     return loading?.call(this);
   }
@@ -309,7 +309,7 @@ class _$_LoadingSocialState extends _LoadingSocialState {
     TResult Function(_FollowingUsersSocialState value)? followingUsers,
     TResult Function(_UserFollowedSocialState value)? userFollowed,
     TResult Function(_UserUnfollowedSocialState value)? userUnfollowed,
-    TResult Function(_ErrorSocialState value)? error,
+    TResult Function(_ErrorSocialState value)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -387,7 +387,7 @@ class _$_FollowingUsersSocialState extends _FollowingUsersSocialState {
     required TResult Function(List<User> users) followingUsers,
     required TResult Function() userFollowed,
     required TResult Function() userUnfollowed,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return followingUsers(users);
   }
@@ -400,7 +400,7 @@ class _$_FollowingUsersSocialState extends _FollowingUsersSocialState {
     TResult? Function(List<User> users)? followingUsers,
     TResult? Function()? userFollowed,
     TResult? Function()? userUnfollowed,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return followingUsers?.call(users);
   }
@@ -413,7 +413,7 @@ class _$_FollowingUsersSocialState extends _FollowingUsersSocialState {
     TResult Function(List<User> users)? followingUsers,
     TResult Function()? userFollowed,
     TResult Function()? userUnfollowed,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (followingUsers != null) {
@@ -430,7 +430,7 @@ class _$_FollowingUsersSocialState extends _FollowingUsersSocialState {
     required TResult Function(_FollowingUsersSocialState value) followingUsers,
     required TResult Function(_UserFollowedSocialState value) userFollowed,
     required TResult Function(_UserUnfollowedSocialState value) userUnfollowed,
-    required TResult Function(_ErrorSocialState value) error,
+    required TResult Function(_ErrorSocialState value) failure,
   }) {
     return followingUsers(this);
   }
@@ -443,7 +443,7 @@ class _$_FollowingUsersSocialState extends _FollowingUsersSocialState {
     TResult? Function(_FollowingUsersSocialState value)? followingUsers,
     TResult? Function(_UserFollowedSocialState value)? userFollowed,
     TResult? Function(_UserUnfollowedSocialState value)? userUnfollowed,
-    TResult? Function(_ErrorSocialState value)? error,
+    TResult? Function(_ErrorSocialState value)? failure,
   }) {
     return followingUsers?.call(this);
   }
@@ -456,7 +456,7 @@ class _$_FollowingUsersSocialState extends _FollowingUsersSocialState {
     TResult Function(_FollowingUsersSocialState value)? followingUsers,
     TResult Function(_UserFollowedSocialState value)? userFollowed,
     TResult Function(_UserUnfollowedSocialState value)? userUnfollowed,
-    TResult Function(_ErrorSocialState value)? error,
+    TResult Function(_ErrorSocialState value)? failure,
     required TResult orElse(),
   }) {
     if (followingUsers != null) {
@@ -506,7 +506,7 @@ class _$_UserFollowedSocialState extends _UserFollowedSocialState {
     required TResult Function(List<User> users) followingUsers,
     required TResult Function() userFollowed,
     required TResult Function() userUnfollowed,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return userFollowed();
   }
@@ -519,7 +519,7 @@ class _$_UserFollowedSocialState extends _UserFollowedSocialState {
     TResult? Function(List<User> users)? followingUsers,
     TResult? Function()? userFollowed,
     TResult? Function()? userUnfollowed,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return userFollowed?.call();
   }
@@ -532,7 +532,7 @@ class _$_UserFollowedSocialState extends _UserFollowedSocialState {
     TResult Function(List<User> users)? followingUsers,
     TResult Function()? userFollowed,
     TResult Function()? userUnfollowed,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (userFollowed != null) {
@@ -549,7 +549,7 @@ class _$_UserFollowedSocialState extends _UserFollowedSocialState {
     required TResult Function(_FollowingUsersSocialState value) followingUsers,
     required TResult Function(_UserFollowedSocialState value) userFollowed,
     required TResult Function(_UserUnfollowedSocialState value) userUnfollowed,
-    required TResult Function(_ErrorSocialState value) error,
+    required TResult Function(_ErrorSocialState value) failure,
   }) {
     return userFollowed(this);
   }
@@ -562,7 +562,7 @@ class _$_UserFollowedSocialState extends _UserFollowedSocialState {
     TResult? Function(_FollowingUsersSocialState value)? followingUsers,
     TResult? Function(_UserFollowedSocialState value)? userFollowed,
     TResult? Function(_UserUnfollowedSocialState value)? userUnfollowed,
-    TResult? Function(_ErrorSocialState value)? error,
+    TResult? Function(_ErrorSocialState value)? failure,
   }) {
     return userFollowed?.call(this);
   }
@@ -575,7 +575,7 @@ class _$_UserFollowedSocialState extends _UserFollowedSocialState {
     TResult Function(_FollowingUsersSocialState value)? followingUsers,
     TResult Function(_UserFollowedSocialState value)? userFollowed,
     TResult Function(_UserUnfollowedSocialState value)? userUnfollowed,
-    TResult Function(_ErrorSocialState value)? error,
+    TResult Function(_ErrorSocialState value)? failure,
     required TResult orElse(),
   }) {
     if (userFollowed != null) {
@@ -621,7 +621,7 @@ class _$_UserUnfollowedSocialState extends _UserUnfollowedSocialState {
     required TResult Function(List<User> users) followingUsers,
     required TResult Function() userFollowed,
     required TResult Function() userUnfollowed,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return userUnfollowed();
   }
@@ -634,7 +634,7 @@ class _$_UserUnfollowedSocialState extends _UserUnfollowedSocialState {
     TResult? Function(List<User> users)? followingUsers,
     TResult? Function()? userFollowed,
     TResult? Function()? userUnfollowed,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return userUnfollowed?.call();
   }
@@ -647,7 +647,7 @@ class _$_UserUnfollowedSocialState extends _UserUnfollowedSocialState {
     TResult Function(List<User> users)? followingUsers,
     TResult Function()? userFollowed,
     TResult Function()? userUnfollowed,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (userUnfollowed != null) {
@@ -664,7 +664,7 @@ class _$_UserUnfollowedSocialState extends _UserUnfollowedSocialState {
     required TResult Function(_FollowingUsersSocialState value) followingUsers,
     required TResult Function(_UserFollowedSocialState value) userFollowed,
     required TResult Function(_UserUnfollowedSocialState value) userUnfollowed,
-    required TResult Function(_ErrorSocialState value) error,
+    required TResult Function(_ErrorSocialState value) failure,
   }) {
     return userUnfollowed(this);
   }
@@ -677,7 +677,7 @@ class _$_UserUnfollowedSocialState extends _UserUnfollowedSocialState {
     TResult? Function(_FollowingUsersSocialState value)? followingUsers,
     TResult? Function(_UserFollowedSocialState value)? userFollowed,
     TResult? Function(_UserUnfollowedSocialState value)? userUnfollowed,
-    TResult? Function(_ErrorSocialState value)? error,
+    TResult? Function(_ErrorSocialState value)? failure,
   }) {
     return userUnfollowed?.call(this);
   }
@@ -690,7 +690,7 @@ class _$_UserUnfollowedSocialState extends _UserUnfollowedSocialState {
     TResult Function(_FollowingUsersSocialState value)? followingUsers,
     TResult Function(_UserFollowedSocialState value)? userFollowed,
     TResult Function(_UserUnfollowedSocialState value)? userUnfollowed,
-    TResult Function(_ErrorSocialState value)? error,
+    TResult Function(_ErrorSocialState value)? failure,
     required TResult orElse(),
   }) {
     if (userUnfollowed != null) {
@@ -758,9 +758,9 @@ class _$_ErrorSocialState extends _ErrorSocialState {
     required TResult Function(List<User> users) followingUsers,
     required TResult Function() userFollowed,
     required TResult Function() userUnfollowed,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
-    return error(this.error);
+    return failure(error);
   }
 
   @override
@@ -771,9 +771,9 @@ class _$_ErrorSocialState extends _ErrorSocialState {
     TResult? Function(List<User> users)? followingUsers,
     TResult? Function()? userFollowed,
     TResult? Function()? userUnfollowed,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
-    return error?.call(this.error);
+    return failure?.call(error);
   }
 
   @override
@@ -784,11 +784,11 @@ class _$_ErrorSocialState extends _ErrorSocialState {
     TResult Function(List<User> users)? followingUsers,
     TResult Function()? userFollowed,
     TResult Function()? userUnfollowed,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
-    if (error != null) {
-      return error(this.error);
+    if (failure != null) {
+      return failure(error);
     }
     return orElse();
   }
@@ -801,9 +801,9 @@ class _$_ErrorSocialState extends _ErrorSocialState {
     required TResult Function(_FollowingUsersSocialState value) followingUsers,
     required TResult Function(_UserFollowedSocialState value) userFollowed,
     required TResult Function(_UserUnfollowedSocialState value) userUnfollowed,
-    required TResult Function(_ErrorSocialState value) error,
+    required TResult Function(_ErrorSocialState value) failure,
   }) {
-    return error(this);
+    return failure(this);
   }
 
   @override
@@ -814,9 +814,9 @@ class _$_ErrorSocialState extends _ErrorSocialState {
     TResult? Function(_FollowingUsersSocialState value)? followingUsers,
     TResult? Function(_UserFollowedSocialState value)? userFollowed,
     TResult? Function(_UserUnfollowedSocialState value)? userUnfollowed,
-    TResult? Function(_ErrorSocialState value)? error,
+    TResult? Function(_ErrorSocialState value)? failure,
   }) {
-    return error?.call(this);
+    return failure?.call(this);
   }
 
   @override
@@ -827,11 +827,11 @@ class _$_ErrorSocialState extends _ErrorSocialState {
     TResult Function(_FollowingUsersSocialState value)? followingUsers,
     TResult Function(_UserFollowedSocialState value)? userFollowed,
     TResult Function(_UserUnfollowedSocialState value)? userUnfollowed,
-    TResult Function(_ErrorSocialState value)? error,
+    TResult Function(_ErrorSocialState value)? failure,
     required TResult orElse(),
   }) {
-    if (error != null) {
-      return error(this);
+    if (failure != null) {
+      return failure(this);
     }
     return orElse();
   }

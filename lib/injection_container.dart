@@ -9,9 +9,12 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/li
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/team_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_game_stream_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import 'features/clean_chess/data/repositories/lichess/lichess_tv_repository.dart';
@@ -23,7 +26,59 @@ Future<void> init() async {
   // Generics
   sl.registerLazySingleton<LichessTokenProvider>(() => LichessTokenProvider());
 
-  // We're done with the TDD, let's just inject this and make an ez test
+  sl.registerLazySingleton<AuthCubit>(
+    () => AuthCubit(
+      oauth: sl<LichessOAuth>(),
+      gainAccessToken: sl<LichessGainAccessToken>(),
+      revokeToken: sl<LichessRevokeToken>(),
+      tokenProvider: sl<LichessTokenProvider>(),
+    ),
+  );
+  sl.registerLazySingleton<AccountCubit>(
+    () => AccountCubit(
+      getMyProfile: sl<GetMyProfile>(),
+      getMyEmail: sl<GetMyEmail>(),
+      getKidModeStatus: sl<GetMyKidModeStatus>(),
+      setKidModeStatus: sl<SetMyKidModeStatus>(),
+      getMyPreferences: sl<GetMyPreferences>(),
+    ),
+  );
+  sl.registerLazySingleton<SocialCubit>(
+    () => SocialCubit(
+      followUser: sl<FollowUser>(),
+      unfollowUser: sl<UnfollowUser>(),
+      getFollowingUsers: sl<GetFollowingUsers>(),
+    ),
+  );
+  sl.registerLazySingleton<TeamCubit>(
+    () => TeamCubit(
+      acceptJoinRequest: sl<AcceptJoinRequest>(),
+      declineJoinRequest: sl<DeclineJoinRequest>(),
+      getTeamById: sl<GetTeamById>(),
+      getTeamJoinRequests: sl<GetTeamJoinRequests>(),
+      getTeamMembers: sl<GetTeamMembers>(),
+      getTeamsByUser: sl<GetTeamsByUser>(),
+      kickMemberFromTeam: sl<KickMemberFromTeam>(),
+      joinTeam: sl<JoinTeam>(),
+      leaveTeam: sl<LeaveTeam>(),
+      messageAllMembers: sl<MessageAllMembers>(),
+      searchTeamByName: sl<SearchTeamByName>(),
+      searchPopularTeams: sl<GetPopularTeams>(),
+    ),
+  );
+  sl.registerLazySingleton<UserCubit>(
+    () => UserCubit(
+      getChessVariantLeaderboard: sl<GetChessVariantLeaderboard>(),
+      getLiveStreamers: sl<GetLiveStreamers>(),
+      getManyByIds: sl<GetManyByIds>(),
+      getPublicData: sl<GetPublicData>(),
+      getRatingHistory: sl<GetRatingHistory>(),
+      getRealtimeStatus: sl<GetRealtimeStatus>(),
+      getTop10Players: sl<GetTop10Players>(),
+      getUsernamesByTerm: sl<SearchUsernamesByTerm>(),
+      searchUsersByTerm: sl<SearchUserByTerm>(),
+    ),
+  );
 
   // Register usecases
   sl.registerLazySingleton(() => LichessOAuth(sl<LichessOAuthRepository>()));
@@ -170,57 +225,10 @@ Future<void> init() async {
     () => LichessTvDataSource(sl<LichessTokenProvider>()),
   );
 
-  // Register bloc
-  sl.registerLazySingleton(
-    () => ServerBloc(
-      tokenProvider: sl<LichessTokenProvider>(),
-      revokeToken: sl<LichessRevokeToken>(),
-      gainAccessToken: sl<LichessGainAccessToken>(),
-      getMyProfile: sl<GetMyProfile>(),
-      getMyEmail: sl<GetMyEmail>(),
-      getMyKidModeStatus: sl<GetMyKidModeStatus>(),
-      setMyKidModeStatus: sl<SetMyKidModeStatus>(),
-      getMyPreferences: sl<GetMyPreferences>(),
-      getTeamsByUser: sl<GetTeamsByUser>(),
-      getTeamById: sl<GetTeamById>(),
-      getTeamMembers: sl<GetTeamMembers>(),
-      getTeamJoinRequests: sl<GetTeamJoinRequests>(),
-      acceptJoinRequest: sl<AcceptJoinRequest>(),
-      declineJoinRequest: sl<DeclineJoinRequest>(),
-      kickMemberFromTeam: sl<KickMemberFromTeam>(),
-      joinTeam: sl<JoinTeam>(),
-      leaveTeam: sl<LeaveTeam>(),
-      messageAllMembers: sl<MessageAllMembers>(),
-      searchTeamByName: sl<SearchTeamByName>(),
-      searchPopularTeams: sl<GetPopularTeams>(),
-      searchUsersByTerm: sl<SearchUserByTerm>(),
-      getUsernamesByTerm: sl<SearchUsernamesByTerm>(),
-      getRealtimeStatus: sl<GetRealtimeStatus>(),
-      getTop10Players: sl<GetTop10Players>(),
-      getChessVariantLeaderboard: sl<GetChessVariantLeaderboard>(),
-      getPublicData: sl<GetPublicData>(),
-      getRatingHistory: sl<GetRatingHistory>(),
-      getManyByIds: sl<GetManyByIds>(),
-      getLiveStreamers: sl<GetLiveStreamers>(),
-      getFollowingUsers: sl<GetFollowingUsers>(),
-      followUser: sl<FollowUser>(),
-      unfollowUser: sl<UnfollowUser>(),
-      getCurrentTvGames: sl<GetCurrentTvGames>(),
-    ),
-  );
-
   // Standalone Blocs...
   sl.registerLazySingleton<TvGameStreamCubit>(
     () => TvGameStreamCubit(tvRepository: sl<TvRepository>()),
   );
-  sl.registerSingleton<AuthCubit>(
-    AuthCubit(
-      gainAccessToken: sl<LichessGainAccessToken>(),
-      oauth: sl<LichessOAuth>(),
-      revokeToken: sl<LichessRevokeToken>(),
-      tokenProvider: sl<LichessTokenProvider>(),
-    ),
-  );
+
   await sl<AuthCubit>().loadInitialState();
-  // assert(sl<AuthCubit>().state.status.isDefined);
 }

@@ -1,8 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/event/account_event.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/event/event.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/profile_screen.dart';
 import 'package:cleanchess/injection_container.dart';
@@ -11,8 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 import 'package:skeletons/skeletons.dart';
 
-import '../bloc/server_bloc.dart';
-import '../bloc/server_state.dart';
 class HomepageAppbar extends StatefulWidget {
   const HomepageAppbar({super.key});
 
@@ -25,12 +22,15 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ServerBloc, ServerState>(
+    return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is LichessTokenRevoked) {
-          Navigator.popUntil(context, (route) => route.isFirst);
-          Navigator.pushReplacementNamed(context, Navigation.loginScreen);
-        }
+        state.maybeMap(
+          loggedOut: (_) {
+            Navigator.popUntil(context, (route) => route.isFirst);
+            Navigator.pushReplacementNamed(context, Navigation.loginScreen);
+          },
+          orElse: () {},
+        );
       },
       child: Container(
         width: double.maxFinite,
@@ -69,22 +69,36 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
   }
 
   Widget _accountName(BuildContext context) =>
-      BlocConsumer<ServerBloc, ServerState>(
+      BlocConsumer<AccountCubit, AccountState>(
         listener: (context, state) {
-          if (state is LichessUserFetched) {
-            user = state.user;
-          }
+          state.maybeMap(
+            profile: (value) {
+              user = value.user;
+            },
+            orElse: () {},
+          );
         },
-        buildWhen: (previous, current) => current is LichessUserFetched,
+        buildWhen: (previous, current) => current.maybeMap(
+          profile: (_) => true,
+          orElse: () => false,
+        ),
         builder: (context, state) {
-          if (state is LichessInitial) {
-            BlocProvider.of<ServerBloc>(context).add(const GetMyProfileEvent());
+          final firstTry = state.maybeMap(
+            initial: (_) => true,
+            orElse: () => false,
+          );
+          if (firstTry) {
+            sl<AccountCubit>().getMyProfile();
           }
           return ConstrainedBox(
             constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * 0.28),
             child: Skeleton(
-              isLoading: state is LichessInitial || state is LichessLoading,
+              isLoading: state.maybeMap(
+                initial: (_) => true,
+                loading: (_) => true,
+                orElse: () => false,
+              ),
               skeleton: Container(
                 width: MediaQuery.of(context).size.width * 0.28,
                 height: 40,

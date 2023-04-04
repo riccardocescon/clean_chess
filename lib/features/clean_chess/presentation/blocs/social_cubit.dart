@@ -20,14 +20,14 @@ abstract class SocialState with _$SocialState, EquatableMixin {
 
   const factory SocialState.userUnfollowed() = _UserUnfollowedSocialState;
 
-  const factory SocialState.error(Failure error) = _ErrorSocialState;
+  const factory SocialState.failure(Failure error) = _ErrorSocialState;
 
   const SocialState._();
 
   @override
   List<Object?> get props {
     return maybeWhen(
-      error: (error) => [error],
+      failure: (error) => [error],
       orElse: () => [],
     );
   }

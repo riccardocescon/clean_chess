@@ -13,25 +13,25 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'auth_cubit.freezed.dart';
 
 @freezed
-class AuthState with _$AuthState, EquatableMixin {
-  factory AuthState.initial() = _InitialAuthStats;
+abstract class AuthState with _$AuthState, EquatableMixin {
+  const factory AuthState.initial() = _InitialAuthStats;
 
-  factory AuthState.logged() = _LoggedAuthStats;
+  const factory AuthState.logged() = _LoggedAuthStats;
 
-  factory AuthState.notLogged() = _NotLoggedAuthStats;
+  const factory AuthState.notLogged() = _NotLoggedAuthStats;
 
-  factory AuthState.loading() = _LoadingAuthStats;
+  const factory AuthState.loading() = _LoadingAuthStats;
 
-  factory AuthState.loggedOut() = _LoggedOutAuthStats;
+  const factory AuthState.loggedOut() = _LoggedOutAuthStats;
 
-  factory AuthState.error(Failure error) = _ErrorAuthStats;
+  const factory AuthState.failure(Failure error) = _ErrorAuthStats;
 
   const AuthState._();
 
   @override
   List<Object?> get props {
     return maybeWhen(
-      error: (error) => [error],
+      failure: (error) => [error],
       orElse: () => [],
     );
   }
@@ -39,24 +39,29 @@ class AuthState with _$AuthState, EquatableMixin {
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit({
-    required this.tokenProvider,
-    required this.gainAccessToken,
-    required this.oauth,
-    required this.revokeToken,
-  }) : super(AuthState.initial());
+    required LichessTokenProvider tokenProvider,
+    required LichessGainAccessToken gainAccessToken,
+    required LichessOAuth oauth,
+    required LichessRevokeToken revokeToken,
+  }) : super(const _InitialAuthStats()) {
+    _tokenProvider = tokenProvider;
+    _gainAccessToken = gainAccessToken;
+    _oauth = oauth;
+    _revokeToken = revokeToken;
+  }
 
-  final LichessTokenProvider tokenProvider;
-  final LichessGainAccessToken gainAccessToken;
-  final LichessOAuth oauth;
-  final LichessRevokeToken revokeToken;
+  late final LichessTokenProvider _tokenProvider;
+  late final LichessGainAccessToken _gainAccessToken;
+  late final LichessOAuth _oauth;
+  late final LichessRevokeToken _revokeToken;
 
   Future<void> loadInitialState() async {
-    final result = await tokenProvider.getClient();
+    final result = await _tokenProvider.getClient();
 
     if (result.isRight()) {
-      emit(_LoggedAuthStats());
+      emit(const _LoggedAuthStats());
     } else {
-      emit(_NotLoggedAuthStats());
+      emit(const _NotLoggedAuthStats());
     }
   }
 
@@ -65,21 +70,21 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> revoke() async {
-    emit(_LoadingAuthStats());
-    final result = await revokeToken.call(tokenProvider.accessToken);
+    emit(const _LoadingAuthStats());
+    final result = await _revokeToken.call(_tokenProvider.accessToken);
 
     if (result.isLeft()) {
       emit(_ErrorAuthStats(result.left));
       return;
     }
 
-    await tokenProvider.revokeToken();
-    emit(_LoggedOutAuthStats());
+    await _tokenProvider.revokeToken();
+    emit(const _LoggedOutAuthStats());
   }
 
   Future<void> _startAuthFlow() async {
     // emit(const AuthState(status: AuthStatus.loading));
-    emit(_LoadingAuthStats());
+    emit(const _LoadingAuthStats());
 
     // Generate an authorization URL that asks for the oauth2 permission
     const clientId = 'cleanchess';
@@ -98,7 +103,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     try {
       // Perform the authorization request
-      final data = await oauth.call(
+      final data = await _oauth.call(
         LichessOAuthParams(
           grant: grant,
           stateVerifier: stateVerifier,
@@ -107,26 +112,26 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       if (data.isLeft()) {
-        return emit(_NotLoggedAuthStats());
+        return emit(_ErrorAuthStats(data.left));
       }
 
       // Extract the authorization parameters from the response
       final OAuthParams params = data.right;
 
       // Exchange the authorization code for an access token
-      final accessToken = await gainAccessToken.call(
+      final accessToken = await _gainAccessToken.call(
         LichessGainAccessTokenParams(grant: grant, parameters: params),
       );
 
       if (accessToken.isLeft()) {
-        return emit(_NotLoggedAuthStats());
+        return emit(_ErrorAuthStats(accessToken.left));
       }
 
       // Save the access token
-      await tokenProvider.saveAccessToken(accessToken.right);
+      await _tokenProvider.saveAccessToken(accessToken.right);
 
       // return emit(const AuthState(status: AuthStatus.logged));
-      return emit(_LoggedAuthStats());
+      return emit(const _LoggedAuthStats());
     } catch (e) {
       return emit(_ErrorAuthStats(UnexpectedFailure(e.toString())));
     }

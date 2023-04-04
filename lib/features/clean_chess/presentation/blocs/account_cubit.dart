@@ -25,14 +25,14 @@ abstract class AccountState with _$AccountState, EquatableMixin {
   const factory AccountState.myPreferences(UserPreferences preferences) =
       _MyPreferencesAccountState;
 
-  const factory AccountState.error(Failure error) = _ErrorAccountState;
+  const factory AccountState.failure(Failure error) = _ErrorAccountState;
 
   const AccountState._();
 
   @override
   List<Object?> get props {
     return maybeWhen(
-      error: (error) => [error],
+      failure: (error) => [error],
       orElse: () => [],
     );
   }
@@ -72,7 +72,7 @@ class AccountCubit extends Cubit<AccountState> {
     emit(const _LoadingAccountState());
     final result = await _getMyEmail();
     result.fold(
-      (failure) => emit(AccountState.error(failure)),
+      (failure) => emit(AccountState.failure(failure)),
       (email) => emit(_MyEmailAccountState(email)),
     );
   }
@@ -81,7 +81,7 @@ class AccountCubit extends Cubit<AccountState> {
     emit(const _LoadingAccountState());
     final result = await _getKidModeStatus();
     result.fold(
-      (failure) => emit(AccountState.error(failure)),
+      (failure) => emit(AccountState.failure(failure)),
       (kidModeStatus) => emit(_KidModeStatusAccountState(kidModeStatus)),
     );
   }
@@ -90,7 +90,7 @@ class AccountCubit extends Cubit<AccountState> {
     emit(const _LoadingAccountState());
     final result = await _setKidModeStatus(kidModeStatus);
     result.fold(
-      (failure) => emit(AccountState.error(failure)),
+      (failure) => emit(AccountState.failure(failure)),
       (_) => emit(const _KidModeStatusSetAccountState()),
     );
   }
@@ -99,7 +99,7 @@ class AccountCubit extends Cubit<AccountState> {
     emit(const _LoadingAccountState());
     final result = await _getMyPreferences();
     result.fold(
-      (failure) => emit(AccountState.error(failure)),
+      (failure) => emit(AccountState.failure(failure)),
       (preferences) => emit(_MyPreferencesAccountState(preferences)),
     );
   }

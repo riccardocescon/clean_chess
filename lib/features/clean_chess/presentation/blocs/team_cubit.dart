@@ -40,14 +40,14 @@ abstract class TeamState with _$TeamState, EquatableMixin {
 
   const factory TeamState.popularTeams(PageOf<Team> teams) = _PopularTeams;
 
-  const factory TeamState.error(Failure error) = _ErrorTeamStats;
+  const factory TeamState.failure(Failure error) = _ErrorTeamStats;
 
   const TeamState._();
 
   @override
   List<Object?> get props {
     return maybeWhen(
-      error: (error) => [error],
+      failure: (error) => [error],
       orElse: () => [],
     );
   }
@@ -256,7 +256,7 @@ class TeamCubit extends Cubit<TeamState> {
     );
   }
 
-  Future<void> searchPopularTeams({
+  Future<void> getPopularTeams({
     required int page,
   }) async {
     emit(const _LoadingTeamStats());

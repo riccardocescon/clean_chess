@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     _authCubitListener = sl<AuthCubit>().stream.listen((state) {
       state.maybeMap(
-        error: (state) => showSnackbarSuccess(context, state.error.message),
+        failure: (state) => showSnackbarSuccess(context, state.error.message),
         orElse: () {},
       );
     });

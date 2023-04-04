@@ -32,7 +32,7 @@ mixin _$TeamState {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -51,7 +51,7 @@ mixin _$TeamState {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -70,7 +70,7 @@ mixin _$TeamState {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -90,7 +90,7 @@ mixin _$TeamState {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -109,7 +109,7 @@ mixin _$TeamState {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -128,7 +128,7 @@ mixin _$TeamState {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -189,7 +189,7 @@ class _$_InitialTeamStats extends _InitialTeamStats {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return initial();
   }
@@ -211,7 +211,7 @@ class _$_InitialTeamStats extends _InitialTeamStats {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return initial?.call();
   }
@@ -233,7 +233,7 @@ class _$_InitialTeamStats extends _InitialTeamStats {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -259,7 +259,7 @@ class _$_InitialTeamStats extends _InitialTeamStats {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
     return initial(this);
   }
@@ -281,7 +281,7 @@ class _$_InitialTeamStats extends _InitialTeamStats {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
     return initial?.call(this);
   }
@@ -303,7 +303,7 @@ class _$_InitialTeamStats extends _InitialTeamStats {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -356,7 +356,7 @@ class _$_LoadingTeamStats extends _LoadingTeamStats {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return loading();
   }
@@ -378,7 +378,7 @@ class _$_LoadingTeamStats extends _LoadingTeamStats {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return loading?.call();
   }
@@ -400,7 +400,7 @@ class _$_LoadingTeamStats extends _LoadingTeamStats {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -426,7 +426,7 @@ class _$_LoadingTeamStats extends _LoadingTeamStats {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
     return loading(this);
   }
@@ -448,7 +448,7 @@ class _$_LoadingTeamStats extends _LoadingTeamStats {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
     return loading?.call(this);
   }
@@ -470,7 +470,7 @@ class _$_LoadingTeamStats extends _LoadingTeamStats {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -555,7 +555,7 @@ class _$_TeamsByUserIdTeamStats extends _TeamsByUserIdTeamStats {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return teamsByUserId(teams);
   }
@@ -577,7 +577,7 @@ class _$_TeamsByUserIdTeamStats extends _TeamsByUserIdTeamStats {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return teamsByUserId?.call(teams);
   }
@@ -599,7 +599,7 @@ class _$_TeamsByUserIdTeamStats extends _TeamsByUserIdTeamStats {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (teamsByUserId != null) {
@@ -625,7 +625,7 @@ class _$_TeamsByUserIdTeamStats extends _TeamsByUserIdTeamStats {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
     return teamsByUserId(this);
   }
@@ -647,7 +647,7 @@ class _$_TeamsByUserIdTeamStats extends _TeamsByUserIdTeamStats {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
     return teamsByUserId?.call(this);
   }
@@ -669,7 +669,7 @@ class _$_TeamsByUserIdTeamStats extends _TeamsByUserIdTeamStats {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
     if (teamsByUserId != null) {
@@ -763,7 +763,7 @@ class _$_TeamByIdTeamStats extends _TeamByIdTeamStats {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return teamById(team);
   }
@@ -785,7 +785,7 @@ class _$_TeamByIdTeamStats extends _TeamByIdTeamStats {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return teamById?.call(team);
   }
@@ -807,7 +807,7 @@ class _$_TeamByIdTeamStats extends _TeamByIdTeamStats {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (teamById != null) {
@@ -833,7 +833,7 @@ class _$_TeamByIdTeamStats extends _TeamByIdTeamStats {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
     return teamById(this);
   }
@@ -855,7 +855,7 @@ class _$_TeamByIdTeamStats extends _TeamByIdTeamStats {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
     return teamById?.call(this);
   }
@@ -877,7 +877,7 @@ class _$_TeamByIdTeamStats extends _TeamByIdTeamStats {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
     if (teamById != null) {
@@ -966,7 +966,7 @@ class _$_TeamMembers extends _TeamMembers {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return teamMembers(this.teamMembers);
   }
@@ -988,7 +988,7 @@ class _$_TeamMembers extends _TeamMembers {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return teamMembers?.call(this.teamMembers);
   }
@@ -1010,7 +1010,7 @@ class _$_TeamMembers extends _TeamMembers {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (teamMembers != null) {
@@ -1036,7 +1036,7 @@ class _$_TeamMembers extends _TeamMembers {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
     return teamMembers(this);
   }
@@ -1058,7 +1058,7 @@ class _$_TeamMembers extends _TeamMembers {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
     return teamMembers?.call(this);
   }
@@ -1080,7 +1080,7 @@ class _$_TeamMembers extends _TeamMembers {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
     if (teamMembers != null) {
@@ -1169,7 +1169,7 @@ class _$_JoinRequests extends _JoinRequests {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return joinRequests(this.joinRequests);
   }
@@ -1191,7 +1191,7 @@ class _$_JoinRequests extends _JoinRequests {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return joinRequests?.call(this.joinRequests);
   }
@@ -1213,7 +1213,7 @@ class _$_JoinRequests extends _JoinRequests {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (joinRequests != null) {
@@ -1239,7 +1239,7 @@ class _$_JoinRequests extends _JoinRequests {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
     return joinRequests(this);
   }
@@ -1261,7 +1261,7 @@ class _$_JoinRequests extends _JoinRequests {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
     return joinRequests?.call(this);
   }
@@ -1283,7 +1283,7 @@ class _$_JoinRequests extends _JoinRequests {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
     if (joinRequests != null) {
@@ -1342,7 +1342,7 @@ class _$_JoinRequestAccepted extends _JoinRequestAccepted {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return joinRequestAccepted();
   }
@@ -1364,7 +1364,7 @@ class _$_JoinRequestAccepted extends _JoinRequestAccepted {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return joinRequestAccepted?.call();
   }
@@ -1386,7 +1386,7 @@ class _$_JoinRequestAccepted extends _JoinRequestAccepted {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (joinRequestAccepted != null) {
@@ -1412,7 +1412,7 @@ class _$_JoinRequestAccepted extends _JoinRequestAccepted {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
     return joinRequestAccepted(this);
   }
@@ -1434,7 +1434,7 @@ class _$_JoinRequestAccepted extends _JoinRequestAccepted {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
     return joinRequestAccepted?.call(this);
   }
@@ -1456,7 +1456,7 @@ class _$_JoinRequestAccepted extends _JoinRequestAccepted {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
     if (joinRequestAccepted != null) {
@@ -1509,7 +1509,7 @@ class _$_JoinRequestRejected extends _JoinRequestRejected {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return joinRequestRejected();
   }
@@ -1531,7 +1531,7 @@ class _$_JoinRequestRejected extends _JoinRequestRejected {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return joinRequestRejected?.call();
   }
@@ -1553,7 +1553,7 @@ class _$_JoinRequestRejected extends _JoinRequestRejected {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (joinRequestRejected != null) {
@@ -1579,7 +1579,7 @@ class _$_JoinRequestRejected extends _JoinRequestRejected {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
     return joinRequestRejected(this);
   }
@@ -1601,7 +1601,7 @@ class _$_JoinRequestRejected extends _JoinRequestRejected {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
     return joinRequestRejected?.call(this);
   }
@@ -1623,7 +1623,7 @@ class _$_JoinRequestRejected extends _JoinRequestRejected {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
     if (joinRequestRejected != null) {
@@ -1676,7 +1676,7 @@ class _$_MemberKicked extends _MemberKicked {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return memberKicked();
   }
@@ -1698,7 +1698,7 @@ class _$_MemberKicked extends _MemberKicked {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return memberKicked?.call();
   }
@@ -1720,7 +1720,7 @@ class _$_MemberKicked extends _MemberKicked {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (memberKicked != null) {
@@ -1746,7 +1746,7 @@ class _$_MemberKicked extends _MemberKicked {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
     return memberKicked(this);
   }
@@ -1768,7 +1768,7 @@ class _$_MemberKicked extends _MemberKicked {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
     return memberKicked?.call(this);
   }
@@ -1790,7 +1790,7 @@ class _$_MemberKicked extends _MemberKicked {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
     if (memberKicked != null) {
@@ -1843,7 +1843,7 @@ class _$_JoinedTeam extends _JoinedTeam {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return joinedTeam();
   }
@@ -1865,7 +1865,7 @@ class _$_JoinedTeam extends _JoinedTeam {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return joinedTeam?.call();
   }
@@ -1887,7 +1887,7 @@ class _$_JoinedTeam extends _JoinedTeam {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (joinedTeam != null) {
@@ -1913,7 +1913,7 @@ class _$_JoinedTeam extends _JoinedTeam {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
     return joinedTeam(this);
   }
@@ -1935,7 +1935,7 @@ class _$_JoinedTeam extends _JoinedTeam {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
     return joinedTeam?.call(this);
   }
@@ -1957,7 +1957,7 @@ class _$_JoinedTeam extends _JoinedTeam {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
     if (joinedTeam != null) {
@@ -2010,7 +2010,7 @@ class _$_LeftTeam extends _LeftTeam {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return leftTeam();
   }
@@ -2032,7 +2032,7 @@ class _$_LeftTeam extends _LeftTeam {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return leftTeam?.call();
   }
@@ -2054,7 +2054,7 @@ class _$_LeftTeam extends _LeftTeam {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (leftTeam != null) {
@@ -2080,7 +2080,7 @@ class _$_LeftTeam extends _LeftTeam {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
     return leftTeam(this);
   }
@@ -2102,7 +2102,7 @@ class _$_LeftTeam extends _LeftTeam {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
     return leftTeam?.call(this);
   }
@@ -2124,7 +2124,7 @@ class _$_LeftTeam extends _LeftTeam {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
     if (leftTeam != null) {
@@ -2177,7 +2177,7 @@ class _$_MessagedAllMembers extends _MessagedAllMembers {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return messagedAllMembers();
   }
@@ -2199,7 +2199,7 @@ class _$_MessagedAllMembers extends _MessagedAllMembers {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return messagedAllMembers?.call();
   }
@@ -2221,7 +2221,7 @@ class _$_MessagedAllMembers extends _MessagedAllMembers {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (messagedAllMembers != null) {
@@ -2247,7 +2247,7 @@ class _$_MessagedAllMembers extends _MessagedAllMembers {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
     return messagedAllMembers(this);
   }
@@ -2269,7 +2269,7 @@ class _$_MessagedAllMembers extends _MessagedAllMembers {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
     return messagedAllMembers?.call(this);
   }
@@ -2291,7 +2291,7 @@ class _$_MessagedAllMembers extends _MessagedAllMembers {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
     if (messagedAllMembers != null) {
@@ -2379,7 +2379,7 @@ class _$_TeamSearchedByName extends _TeamSearchedByName {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return teamSearchedByName(teams);
   }
@@ -2401,7 +2401,7 @@ class _$_TeamSearchedByName extends _TeamSearchedByName {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return teamSearchedByName?.call(teams);
   }
@@ -2423,7 +2423,7 @@ class _$_TeamSearchedByName extends _TeamSearchedByName {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (teamSearchedByName != null) {
@@ -2449,7 +2449,7 @@ class _$_TeamSearchedByName extends _TeamSearchedByName {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
     return teamSearchedByName(this);
   }
@@ -2471,7 +2471,7 @@ class _$_TeamSearchedByName extends _TeamSearchedByName {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
     return teamSearchedByName?.call(this);
   }
@@ -2493,7 +2493,7 @@ class _$_TeamSearchedByName extends _TeamSearchedByName {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
     if (teamSearchedByName != null) {
@@ -2586,7 +2586,7 @@ class _$_PopularTeams extends _PopularTeams {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
     return popularTeams(teams);
   }
@@ -2608,7 +2608,7 @@ class _$_PopularTeams extends _PopularTeams {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
     return popularTeams?.call(teams);
   }
@@ -2630,7 +2630,7 @@ class _$_PopularTeams extends _PopularTeams {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
     if (popularTeams != null) {
@@ -2656,7 +2656,7 @@ class _$_PopularTeams extends _PopularTeams {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
     return popularTeams(this);
   }
@@ -2678,7 +2678,7 @@ class _$_PopularTeams extends _PopularTeams {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
     return popularTeams?.call(this);
   }
@@ -2700,7 +2700,7 @@ class _$_PopularTeams extends _PopularTeams {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
     if (popularTeams != null) {
@@ -2782,9 +2782,9 @@ class _$_ErrorTeamStats extends _ErrorTeamStats {
     required TResult Function() messagedAllMembers,
     required TResult Function(PageOf<Team> teams) teamSearchedByName,
     required TResult Function(PageOf<Team> teams) popularTeams,
-    required TResult Function(Failure error) error,
+    required TResult Function(Failure error) failure,
   }) {
-    return error(this.error);
+    return failure(error);
   }
 
   @override
@@ -2804,9 +2804,9 @@ class _$_ErrorTeamStats extends _ErrorTeamStats {
     TResult? Function()? messagedAllMembers,
     TResult? Function(PageOf<Team> teams)? teamSearchedByName,
     TResult? Function(PageOf<Team> teams)? popularTeams,
-    TResult? Function(Failure error)? error,
+    TResult? Function(Failure error)? failure,
   }) {
-    return error?.call(this.error);
+    return failure?.call(error);
   }
 
   @override
@@ -2826,11 +2826,11 @@ class _$_ErrorTeamStats extends _ErrorTeamStats {
     TResult Function()? messagedAllMembers,
     TResult Function(PageOf<Team> teams)? teamSearchedByName,
     TResult Function(PageOf<Team> teams)? popularTeams,
-    TResult Function(Failure error)? error,
+    TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
-    if (error != null) {
-      return error(this.error);
+    if (failure != null) {
+      return failure(error);
     }
     return orElse();
   }
@@ -2852,9 +2852,9 @@ class _$_ErrorTeamStats extends _ErrorTeamStats {
     required TResult Function(_MessagedAllMembers value) messagedAllMembers,
     required TResult Function(_TeamSearchedByName value) teamSearchedByName,
     required TResult Function(_PopularTeams value) popularTeams,
-    required TResult Function(_ErrorTeamStats value) error,
+    required TResult Function(_ErrorTeamStats value) failure,
   }) {
-    return error(this);
+    return failure(this);
   }
 
   @override
@@ -2874,9 +2874,9 @@ class _$_ErrorTeamStats extends _ErrorTeamStats {
     TResult? Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult? Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult? Function(_PopularTeams value)? popularTeams,
-    TResult? Function(_ErrorTeamStats value)? error,
+    TResult? Function(_ErrorTeamStats value)? failure,
   }) {
-    return error?.call(this);
+    return failure?.call(this);
   }
 
   @override
@@ -2896,11 +2896,11 @@ class _$_ErrorTeamStats extends _ErrorTeamStats {
     TResult Function(_MessagedAllMembers value)? messagedAllMembers,
     TResult Function(_TeamSearchedByName value)? teamSearchedByName,
     TResult Function(_PopularTeams value)? popularTeams,
-    TResult Function(_ErrorTeamStats value)? error,
+    TResult Function(_ErrorTeamStats value)? failure,
     required TResult orElse(),
   }) {
-    if (error != null) {
-      return error(this);
+    if (failure != null) {
+      return failure(this);
     }
     return orElse();
   }
