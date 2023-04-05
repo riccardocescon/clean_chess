@@ -1,42 +1,92 @@
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_game_stream_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard_interpreter.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/padded_items.dart';
+import 'package:cleanchess/injection_container.dart';
+import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class StreamingWidget extends StatelessWidget {
+class StreamingWidget extends StatefulWidget {
   const StreamingWidget({super.key});
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          PaddedItems(children: [
-            _streamingUserItem(
-              isWhite: false,
-              title: 'IM',
-              color: Colors.amber,
-              name: 'Riccardo Cescon',
-              elo: '2829',
-              time: '0:22',
-            ),
-          ]),
-          heigth5,
-          const AspectRatio(
-            aspectRatio: 1,
-            child: Chessboard(),
-          ),
-          heigth5,
-          PaddedItems(
-            children: [
-              _streamingUserItem(
-                isWhite: true,
-                title: 'GM',
-                color: Colors.pink,
-                name: 'Hardal',
-                elo: '3018',
+  State<StreamingWidget> createState() => _StreamingWidgetState();
+}
+
+class _StreamingWidgetState extends State<StreamingWidget> {
+  TvGameStreamCubit get _tvGameStreamBloc => sl<TvGameStreamCubit>();
+
+  @override
+  void initState() {
+    super.initState();
+    _tvGameStreamBloc.startStreaming();
+  }
+
+  @override
+  Widget build(BuildContext context) => SliverList(
+        delegate: SliverChildListDelegate(
+          [
+            PaddedItems(children: [
+              BlocBuilder<TvGameStreamCubit,
+                  AsyncSnapshot<LichessTvGameSummary>>(
+                bloc: _tvGameStreamBloc,
+                builder: (context, state) {
+                  return _streamingUserItem(
+                    isWhite: false,
+                    title: 'IM',
+                    color: Colors.amber,
+                    name: state.data?.data?.blackPlayer?.user?.name ??
+                        state.data?.data?.blackPlayer?.user?.id ??
+                        'Loading info...',
+                    elo: state.data?.data?.blackPlayer?.rating?.toString() ??
+                        'Loading...',
+                    time: '0:20',
+                  );
+                },
               ),
-            ],
-          ),
-        ],
+            ]),
+            heigth5,
+            AspectRatio(
+              aspectRatio: 1,
+              child: BlocBuilder<TvGameStreamCubit,
+                  AsyncSnapshot<LichessTvGameSummary>>(
+                bloc: _tvGameStreamBloc,
+                builder: (context, state) {
+                  final fen = state.data?.data?.fen;
+
+                  return ChessboardInterpreter(
+                    setup: fen != null ? Setup.parseFen(fen) : Setup.standard,
+                  );
+                },
+              ),
+            ),
+            heigth5,
+            PaddedItems(
+              children: [
+                BlocBuilder<TvGameStreamCubit,
+                    AsyncSnapshot<LichessTvGameSummary>>(
+                  bloc: _tvGameStreamBloc,
+                  builder: (context, state) {
+                    return _streamingUserItem(
+                      isWhite: true,
+                      title: 'GM',
+                      color: Colors.pink,
+                      name: state.data?.data?.whitePlayer?.user?.name ??
+                          state.data?.data?.whitePlayer?.user?.id ??
+                          'Loading info...',
+                      elo: state.data?.data?.whitePlayer?.rating?.toString() ??
+                          'Loading...',
+                      time: '0:20',
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       );
 
   Widget _streamingUserItem({
@@ -56,7 +106,7 @@ class StreamingWidget extends StatelessWidget {
           Text(
             name,
             style: const TextStyle(
-              fontSize: 18,
+              fontSize: 14,
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
@@ -65,8 +115,8 @@ class StreamingWidget extends StatelessWidget {
           Text(
             elo,
             style: TextStyle(
-              fontSize: 16,
-              color: Colors.white.withAlpha(50),
+              fontSize: 14,
+              color: Colors.white.withOpacity(0.5),
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -76,7 +126,7 @@ class StreamingWidget extends StatelessWidget {
             Text(
               time,
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 14,
                 color: Colors.pink,
                 fontWeight: FontWeight.bold,
               ),

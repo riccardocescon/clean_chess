@@ -1,68 +1,72 @@
 import 'package:cleanchess/core/clean_chess/presentation/widgets/homepage_mode_items.dart'
     as homepage_mode_items;
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_appbar.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_widget.dart';
+import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class Homepage extends StatelessWidget {
+User? user;
+
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
 
   @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  @override
+  void initState() {
+    super.initState();
+
+    sl<AccountCubit>().getMyProfile();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // Fetch user profile data
     return SafeArea(
       child: Scaffold(
-        body: _customScrollView(
+        body: CustomScrollView(
           slivers: [
-            const HomepageAppbar(),
+            SliverPadding(
+              padding: const EdgeInsets.all(
+                k4dp,
+              ),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  const HomepageAppbar(),
+                ]),
+              ),
+            ),
             _modesList(),
-            _onlineInfo(),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  // _buildSlider(),
-                  _sortedLivePuzzle(completed: false),
+                  heigth20,
+                  _dailyPuzzleSection(completed: false),
+                  heigth20,
+                  _liveStreamingText(),
+                  heigth10,
                 ],
               ),
             ),
+            const StreamingWidget(),
           ],
         ),
       ),
     );
   }
 
-  Widget _sortedLivePuzzle({required bool completed}) {
-    return Column(
-      children: completed
-          ? [
-              heigth20,
-              _liveStreamingText(),
-              heigth10,
-              const StreamingWidget(),
-              heigth20,
-              _dailyPuzzleSection(completed: true),
-            ]
-          : [
-              heigth20,
-              _dailyPuzzleSection(completed: false),
-              heigth20,
-              _liveStreamingText(),
-              heigth10,
-              const StreamingWidget(),
-            ],
-    );
-  }
-
-  Widget _customScrollView({required List<Widget> slivers}) => CustomScrollView(
-        slivers: slivers,
-      );
-
   Widget _modesList() => SliverList(
         delegate: SliverChildBuilderDelegate(
-          (context, index) => homepage_mode_items.playModes[index],
-          childCount: homepage_mode_items.playModes.length,
+          (context, index) => homepage_mode_items.preReleaseModes[index],
+          childCount: homepage_mode_items.preReleaseModes.length,
         ),
       );
 
@@ -87,19 +91,20 @@ class Homepage extends StatelessWidget {
             ],
           ),
           heigth10,
-          AspectRatio(
+          const AspectRatio(
             aspectRatio: 1,
-            child: Stack(
-              children: [
-                const Chessboard(),
-                Visibility(
-                  visible: completed,
-                  child: Container(
-                    color: Colors.grey.withAlpha(50),
-                  ),
-                ),
-              ],
-            ),
+            child: Chessboard(),
+            // child: Stack(
+            //   children: [
+            //     const Chessboard(),
+            //     Visibility(
+            //       visible: completed,
+            //       child: Container(
+            //         color: Colors.grey.withAlpha(50),
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ),
         ],
       );

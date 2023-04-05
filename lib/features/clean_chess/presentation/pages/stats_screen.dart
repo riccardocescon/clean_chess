@@ -78,6 +78,8 @@ class StatsPage extends StatelessWidget {
     );
   }
 
+//#endregion
+
 //#region Chart widgets
 
   Widget topTitleWidgets(BuildContext context) {
@@ -239,11 +241,13 @@ class StatsPage extends StatelessWidget {
               size: 10,
             ),
           ),
-          Text("$numberOfGames ${gamemode[index]} Games",
-              style: TextStyle(
-                fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
-                fontWeight: FontWeight.w500,
-              )),
+          Text(
+            "$numberOfGames ${gamemode[index]} Games",
+            style: TextStyle(
+              fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ],
       ),
     );

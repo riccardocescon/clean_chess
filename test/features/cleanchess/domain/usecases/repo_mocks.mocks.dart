@@ -6,6 +6,7 @@
 import 'dart:async' as _i5;
 
 import 'package:cleanchess/core/errors/failure.dart' as _i6;
+import 'package:cleanchess/core/utilities/empty.dart' as _i8;
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_oauth_data_source.dart'
     as _i2;
 import 'package:dartz/dartz.dart' as _i3;
@@ -147,4 +148,30 @@ class MockMLichessOAuthRepository extends _i1.Mock
           ),
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, String>>);
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, _i8.Empty>> revokeToken(
+          String? accessToken) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #revokeToken,
+          [accessToken],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i8.Empty>>.value(
+            _FakeEither_1<_i6.Failure, _i8.Empty>(
+          this,
+          Invocation.method(
+            #revokeToken,
+            [accessToken],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i6.Failure, _i8.Empty>>.value(
+                _FakeEither_1<_i6.Failure, _i8.Empty>(
+          this,
+          Invocation.method(
+            #revokeToken,
+            [accessToken],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, _i8.Empty>>);
 }

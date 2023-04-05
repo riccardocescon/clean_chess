@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/utilities/debug.dart';
 import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_team_data_source.dart';
@@ -15,6 +16,11 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
   @override
   Future<Either<Failure, List<Team>>> getTeamsByUser(String userId) async {
     try {
+      logDebug(
+        'Getting Teams by userId...',
+        tag: 'Team',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -30,6 +36,11 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
   @override
   Future<Either<Failure, Team>> getTeamById(String teamId) async {
     try {
+      logDebug(
+        'Getting Team by teamId...',
+        tag: 'Team',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -49,6 +60,11 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
     int maxMembers,
   ) async {
     try {
+      logDebug(
+        'Getting Team Members by teamId...',
+        tag: 'Team',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -70,6 +86,11 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
     String teamId,
   ) async {
     try {
+      logDebug(
+        'Getting Join Requests by teamId...',
+        tag: 'Team',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -91,6 +112,11 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
     String userId,
   ) async {
     try {
+      logDebug(
+        'Accepting Join Request by teamId...',
+        tag: 'Team',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -115,6 +141,11 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
     String userId,
   ) async {
     try {
+      logDebug(
+        'Declining Join Request by teamId...',
+        tag: 'Team',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -139,6 +170,11 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
     String userId,
   ) async {
     try {
+      logDebug(
+        'Kicking User from Team by teamId...',
+        tag: 'Team',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -165,6 +201,11 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
     String? password,
   ) async {
     try {
+      logDebug(
+        'Joining Team by teamId...',
+        tag: 'Team',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -185,6 +226,11 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
   @override
   Future<Either<Failure, Empty>> leaveTeam(String teamId) async {
     try {
+      logDebug(
+        'Leaving Team by teamId...',
+        tag: 'Team',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -204,6 +250,11 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
     String message,
   ) async {
     try {
+      logDebug(
+        'Sending Message to all members of a team...',
+        tag: 'Team',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -224,6 +275,11 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
   Future<Either<Failure, PageOf<Team>>> searchTeamByName(
       String name, int page) async {
     try {
+      logDebug(
+        'Searching Team by name...',
+        tag: 'Team',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -240,6 +296,11 @@ class LichessTeamDataSource implements RemoteTeamDataSource {
   @override
   Future<Either<Failure, PageOf<Team>>> getPopularTeams(int page) async {
     try {
+      logDebug(
+        'Getting Popular Teams...',
+        tag: 'Team',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 

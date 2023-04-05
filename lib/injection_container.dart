@@ -1,13 +1,28 @@
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_datasource.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_puzzle_data_source.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_tv_data_source.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_puzzle_repository.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_repositories.dart';
+import 'package:cleanchess/features/clean_chess/domain/repositories/tv_repository.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_revoke_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/puzzle_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/team_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_game_stream_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/puzzle/puzzle.dart';
 import 'package:get_it/get_it.dart';
+
+import 'features/clean_chess/data/repositories/lichess/lichess_tv_repository.dart';
+import 'features/clean_chess/domain/usecases/tv/get_current_tv_games.dart';
 
 final sl = GetIt.instance;
 
@@ -15,46 +30,72 @@ Future<void> init() async {
   // Generics
   sl.registerLazySingleton<LichessTokenProvider>(() => LichessTokenProvider());
 
-  // Register bloc
-  sl.registerLazySingleton(
-    () => ServerBloc(
-      tokenProvider: sl<LichessTokenProvider>(),
+  sl.registerLazySingleton<AuthCubit>(
+    () => AuthCubit(
       oauth: sl<LichessOAuth>(),
       gainAccessToken: sl<LichessGainAccessToken>(),
+      revokeToken: sl<LichessRevokeToken>(),
+      tokenProvider: sl<LichessTokenProvider>(),
+    ),
+  );
+  sl.registerLazySingleton<AccountCubit>(
+    () => AccountCubit(
       getMyProfile: sl<GetMyProfile>(),
       getMyEmail: sl<GetMyEmail>(),
-      getMyKidModeStatus: sl<GetMyKidModeStatus>(),
-      setMyKidModeStatus: sl<SetMyKidModeStatus>(),
+      getKidModeStatus: sl<GetMyKidModeStatus>(),
+      setKidModeStatus: sl<SetMyKidModeStatus>(),
       getMyPreferences: sl<GetMyPreferences>(),
-      getTeamsByUser: sl<GetTeamsByUser>(),
-      getTeamById: sl<GetTeamById>(),
-      getTeamMembers: sl<GetTeamMembers>(),
-      getTeamJoinRequests: sl<GetTeamJoinRequests>(),
+    ),
+  );
+  sl.registerLazySingleton<SocialCubit>(
+    () => SocialCubit(
+      followUser: sl<FollowUser>(),
+      unfollowUser: sl<UnfollowUser>(),
+      getFollowingUsers: sl<GetFollowingUsers>(),
+    ),
+  );
+  sl.registerLazySingleton<TeamCubit>(
+    () => TeamCubit(
       acceptJoinRequest: sl<AcceptJoinRequest>(),
       declineJoinRequest: sl<DeclineJoinRequest>(),
+      getTeamById: sl<GetTeamById>(),
+      getTeamJoinRequests: sl<GetTeamJoinRequests>(),
+      getTeamMembers: sl<GetTeamMembers>(),
+      getTeamsByUser: sl<GetTeamsByUser>(),
       kickMemberFromTeam: sl<KickMemberFromTeam>(),
       joinTeam: sl<JoinTeam>(),
       leaveTeam: sl<LeaveTeam>(),
       messageAllMembers: sl<MessageAllMembers>(),
       searchTeamByName: sl<SearchTeamByName>(),
       searchPopularTeams: sl<GetPopularTeams>(),
-      searchUsersByTerm: sl<SearchUserByTerm>(),
-      getUsernamesByTerm: sl<SearchUsernamesByTerm>(),
-      getRealtimeStatus: sl<GetRealtimeStatus>(),
-      getTop10Players: sl<GetTop10Players>(),
+    ),
+  );
+  sl.registerLazySingleton<UserCubit>(
+    () => UserCubit(
       getChessVariantLeaderboard: sl<GetChessVariantLeaderboard>(),
+      getLiveStreamers: sl<GetLiveStreamers>(),
+      getManyByIds: sl<GetManyByIds>(),
       getPublicData: sl<GetPublicData>(),
       getRatingHistory: sl<GetRatingHistory>(),
-      getManyByIds: sl<GetManyByIds>(),
-      getLiveStreamers: sl<GetLiveStreamers>(),
-      getFollowingUsers: sl<GetFollowingUsers>(),
-      followUser: sl<FollowUser>(),
-      unfollowUser: sl<UnfollowUser>(),
+      getRealtimeStatus: sl<GetRealtimeStatus>(),
+      getTop10Players: sl<GetTop10Players>(),
+      getUsernamesByTerm: sl<SearchUsernamesByTerm>(),
+      searchUsersByTerm: sl<SearchUserByTerm>(),
+    ),
+  );
+  sl.registerLazySingleton<PuzzleCubit>(
+    () => PuzzleCubit(
+      getDailyPuzzle: sl<GetDailyPuzzle>(),
+      getPuzzleById: sl<GetPuzzleById>(),
+      getPuzzleActivity: sl<GetPuzzleActivity>(),
+      getPuzzleDashboard: sl<GetPuzzleDashboard>(),
     ),
   );
 
   // Register usecases
   sl.registerLazySingleton(() => LichessOAuth(sl<LichessOAuthRepository>()));
+  sl.registerLazySingleton(
+      () => LichessRevokeToken(sl<LichessOAuthRepository>()));
   sl.registerLazySingleton(
     () => LichessGainAccessToken(sl<LichessOAuthRepository>()),
   );
@@ -140,6 +181,22 @@ Future<void> init() async {
   sl.registerLazySingleton(
     () => UnfollowUser(sl<LichessSocialRepository>()),
   );
+  sl.registerLazySingleton<TvRepository>(
+    () => LichessTvRepository(
+      sl<LichessTvDataSource>(),
+    ),
+  );
+  sl.registerLazySingleton<GetCurrentTvGames>(
+    () => GetCurrentTvGames(sl<TvRepository>()),
+  );
+  sl.registerLazySingleton(() => GetDailyPuzzle(sl<LichessPuzzleRepository>()));
+  sl.registerLazySingleton(() => GetPuzzleById(sl<LichessPuzzleRepository>()));
+  sl.registerLazySingleton(
+    () => GetPuzzleActivity(sl<LichessPuzzleRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetPuzzleDashboard(sl<LichessPuzzleRepository>()),
+  );
 
   // Register repositories
   sl.registerLazySingleton<LichessOAuthRepository>(
@@ -167,6 +224,11 @@ Future<void> init() async {
       socialDataSource: sl<LichessSocialDataSource>(),
     ),
   );
+  sl.registerLazySingleton<LichessPuzzleRepository>(
+    () => LichessPuzzleRepository(
+      sl<LichessPuzzleDataSource>(),
+    ),
+  );
 
   // Register data sources
   sl.registerLazySingleton<LichessOAuthDataSource>(
@@ -184,4 +246,17 @@ Future<void> init() async {
   sl.registerLazySingleton<LichessSocialDataSource>(
     () => LichessSocialDataSource(sl<LichessTokenProvider>()),
   );
+  sl.registerLazySingleton<LichessTvDataSource>(
+    () => LichessTvDataSource(sl<LichessTokenProvider>()),
+  );
+  sl.registerLazySingleton<LichessPuzzleDataSource>(
+    () => LichessPuzzleDataSource(sl<LichessTokenProvider>()),
+  );
+
+  // Standalone Blocs...
+  sl.registerLazySingleton<TvGameStreamCubit>(
+    () => TvGameStreamCubit(tvRepository: sl<TvRepository>()),
+  );
+
+  await sl<AuthCubit>().loadInitialState();
 }
