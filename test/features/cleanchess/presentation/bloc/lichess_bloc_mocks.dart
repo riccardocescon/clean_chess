@@ -1,6 +1,7 @@
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_revoke_token.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/puzzle/puzzle.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/tv/get_current_tv_games.dart';
@@ -75,6 +76,14 @@ class MUnfollowUser extends Mock implements UnfollowUser {}
 
 class MGetCurrentTvGames extends Mock implements GetCurrentTvGames {}
 
+class MGetDailyPuzzle extends Mock implements GetDailyPuzzle {}
+
+class MGetPuzzleById extends Mock implements GetPuzzleById {}
+
+class MGetPuzzleActivity extends Mock implements GetPuzzleActivity {}
+
+class MGetPuzzleDashboard extends Mock implements GetPuzzleDashboard {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessRevokeToken>(),
@@ -109,5 +118,9 @@ class MGetCurrentTvGames extends Mock implements GetCurrentTvGames {}
   MockSpec<MFollowUser>(),
   MockSpec<MUnfollowUser>(),
   MockSpec<MGetCurrentTvGames>(),
+  MockSpec<MGetDailyPuzzle>(),
+  MockSpec<MGetPuzzleById>(),
+  MockSpec<MGetPuzzleActivity>(),
+  MockSpec<MGetPuzzleDashboard>(),
 ])
 void main() {}

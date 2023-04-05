@@ -12,14 +12,6 @@ class LichessTvRepository extends TvRepository {
   @override
   Future<Either<Failure, List<LichessTvGameBasicInfo>>>
       getCurrentTvGames() async {
-    // Here a good thing we can do is to check if the internet connection is present
-    // but we will do this in future, so we just skip that check and go to the datasource call
-
-    // makes sense, then ok, usecase i will link to the user actor, basically, everything going up-to-down -> usecase validates
-
-    // yes you guessed it right!
-    // no, remember: the usecase takes the request and it forward that, but when it will
-    // get the response it will analyze that and validate and make the model
     return await _lichessTvDataSource.getCurrentTvGames();
   }
 

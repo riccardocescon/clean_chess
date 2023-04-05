@@ -1,6 +1,8 @@
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_datasource.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_puzzle_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_tv_data_source.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_puzzle_repository.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_repositories.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/tv_repository.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
@@ -11,10 +13,12 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/puzzle_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/team_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_game_stream_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/puzzle/puzzle.dart';
 import 'package:get_it/get_it.dart';
 
 import 'features/clean_chess/data/repositories/lichess/lichess_tv_repository.dart';
@@ -77,6 +81,14 @@ Future<void> init() async {
       getTop10Players: sl<GetTop10Players>(),
       getUsernamesByTerm: sl<SearchUsernamesByTerm>(),
       searchUsersByTerm: sl<SearchUserByTerm>(),
+    ),
+  );
+  sl.registerLazySingleton<PuzzleCubit>(
+    () => PuzzleCubit(
+      getDailyPuzzle: sl<GetDailyPuzzle>(),
+      getPuzzleById: sl<GetPuzzleById>(),
+      getPuzzleActivity: sl<GetPuzzleActivity>(),
+      getPuzzleDashboard: sl<GetPuzzleDashboard>(),
     ),
   );
 
@@ -177,6 +189,14 @@ Future<void> init() async {
   sl.registerLazySingleton<GetCurrentTvGames>(
     () => GetCurrentTvGames(sl<TvRepository>()),
   );
+  sl.registerLazySingleton(() => GetDailyPuzzle(sl<LichessPuzzleRepository>()));
+  sl.registerLazySingleton(() => GetPuzzleById(sl<LichessPuzzleRepository>()));
+  sl.registerLazySingleton(
+    () => GetPuzzleActivity(sl<LichessPuzzleRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => GetPuzzleDashboard(sl<LichessPuzzleRepository>()),
+  );
 
   // Register repositories
   sl.registerLazySingleton<LichessOAuthRepository>(
@@ -204,6 +224,11 @@ Future<void> init() async {
       socialDataSource: sl<LichessSocialDataSource>(),
     ),
   );
+  sl.registerLazySingleton<LichessPuzzleRepository>(
+    () => LichessPuzzleRepository(
+      sl<LichessPuzzleDataSource>(),
+    ),
+  );
 
   // Register data sources
   sl.registerLazySingleton<LichessOAuthDataSource>(
@@ -223,6 +248,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<LichessTvDataSource>(
     () => LichessTvDataSource(sl<LichessTokenProvider>()),
+  );
+  sl.registerLazySingleton<LichessPuzzleDataSource>(
+    () => LichessPuzzleDataSource(sl<LichessTokenProvider>()),
   );
 
   // Standalone Blocs...
