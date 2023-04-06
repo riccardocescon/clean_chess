@@ -1,11 +1,14 @@
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_datasource.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_game_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_puzzle_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_tv_data_source.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_game_repository.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_puzzle_repository.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_repositories.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/tv_repository.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/game/game.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_revoke_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/socials/socials.dart';
@@ -13,6 +16,7 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/game_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/puzzle_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/team_cubit.dart';
@@ -89,6 +93,12 @@ Future<void> init() async {
       getPuzzleById: sl<GetPuzzleById>(),
       getPuzzleActivity: sl<GetPuzzleActivity>(),
       getPuzzleDashboard: sl<GetPuzzleDashboard>(),
+    ),
+  );
+  sl.registerLazySingleton<GameCubit>(
+    () => GameCubit(
+      exportGame: sl<ExportGame>(),
+      exportGamesOfUser: sl<ExportGamesOfUser>(),
     ),
   );
 
@@ -197,6 +207,10 @@ Future<void> init() async {
   sl.registerLazySingleton(
     () => GetPuzzleDashboard(sl<LichessPuzzleRepository>()),
   );
+  sl.registerLazySingleton(() => ExportGame(sl<LichessGameRepository>()));
+  sl.registerLazySingleton(
+    () => ExportGamesOfUser(sl<LichessGameRepository>()),
+  );
 
   // Register repositories
   sl.registerLazySingleton<LichessOAuthRepository>(
@@ -229,6 +243,11 @@ Future<void> init() async {
       sl<LichessPuzzleDataSource>(),
     ),
   );
+  sl.registerLazySingleton<LichessGameRepository>(
+    () => LichessGameRepository(
+      sl<LichessGameDataSource>(),
+    ),
+  );
 
   // Register data sources
   sl.registerLazySingleton<LichessOAuthDataSource>(
@@ -251,6 +270,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<LichessPuzzleDataSource>(
     () => LichessPuzzleDataSource(sl<LichessTokenProvider>()),
+  );
+  sl.registerLazySingleton<LichessGameDataSource>(
+    () => LichessGameDataSource(sl<LichessTokenProvider>()),
   );
 
   // Standalone Blocs...

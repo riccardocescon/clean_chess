@@ -109,7 +109,7 @@ class LichessOAuthDataSource implements RemoteOAuthDataSource {
       );
     } on PlatformException catch (e) {
       if (e.code == 'CANCELLED') {
-        return Left(LichessOAuthCancelled());
+        return const Left(LichessOAuthCancelled());
       }
       return Left(
         LichessOAuthFailure('Failred to Revoke Lichess Token: ${e.toString()}'),

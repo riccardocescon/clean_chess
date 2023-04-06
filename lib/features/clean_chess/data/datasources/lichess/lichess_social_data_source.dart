@@ -24,6 +24,7 @@ class LichessSocialDataSource implements RemoteSocialDataSource {
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
       final client = maybeClient.right;
+
       final response = await client.social.getFollowing();
 
       return Right(response);
