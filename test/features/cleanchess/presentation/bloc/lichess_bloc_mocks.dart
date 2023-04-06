@@ -1,4 +1,5 @@
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/game/game.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_revoke_token.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/puzzle/puzzle.dart';
@@ -84,6 +85,10 @@ class MGetPuzzleActivity extends Mock implements GetPuzzleActivity {}
 
 class MGetPuzzleDashboard extends Mock implements GetPuzzleDashboard {}
 
+class MExportGame extends Mock implements ExportGame {}
+
+class MExportGamesOfUser extends Mock implements ExportGamesOfUser {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessRevokeToken>(),
@@ -122,5 +127,7 @@ class MGetPuzzleDashboard extends Mock implements GetPuzzleDashboard {}
   MockSpec<MGetPuzzleById>(),
   MockSpec<MGetPuzzleActivity>(),
   MockSpec<MGetPuzzleDashboard>(),
+  MockSpec<MExportGame>(),
+  MockSpec<MExportGamesOfUser>(),
 ])
 void main() {}
