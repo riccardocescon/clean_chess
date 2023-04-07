@@ -4,12 +4,11 @@ import 'package:cleanchess/features/clean_chess/domain/repositories/social_repos
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class GetFollowingUsers extends UseCase<List<User>, NoParams> {
+class GetFollowingUsers extends UseCaseNoArgs<List<User>> {
   final SocialRepository repository;
 
   GetFollowingUsers(this.repository);
 
   @override
-  Future<Either<Failure, List<User>>> call(NoParams params) =>
-      repository.getFollowingUsers();
+  Future<Either<Failure, List<User>>> call() => repository.getFollowingUsers();
 }

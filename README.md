@@ -25,7 +25,7 @@ Contributions are always welcome!
 
 See `contributing.md` for ways to get started.
 
-If you're interested on contributin with us, feel free to join on our Discord: https://discord.gg/eZVEKTNG
+If you're interested on contributin with us, feel free to join on our Discord: https://discord.gg/wtn4VxNBGB
 
 
 ## Feedback
