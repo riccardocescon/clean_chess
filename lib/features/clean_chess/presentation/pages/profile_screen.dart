@@ -1,3 +1,4 @@
+import 'package:cleanchess/core/presentation/bloc/utilities/cubit_helper.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/stats_screen.dart';
@@ -46,17 +47,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Text("Send Message"),
   ];
 
-  void _requestRealTimeStatus(BuildContext context) {
-    sl<UserCubit>().getRealtimeStatus(userIds: [widget.user.id!]);
-  }
-
-  void _requestFollowingUsers(BuildContext context) {
-    sl<SocialCubit>().getFollowingUsers();
+  @override
+  void initState() {
+    sl<CubitHelper>().loadProfile(widget.user.id!);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    _requestRealTimeStatus(context);
+    // _requestRealTimeStatus(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
@@ -171,7 +170,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           state.maybeMap(
             realtimeStatus: (value) {
               _realTimeUserStatus = value.realtimeStatus.first;
-              _requestFollowingUsers(context);
             },
             orElse: () {},
           );
