@@ -1,5 +1,9 @@
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
-import 'package:cleanchess/features/clean_chess/presentation/bloc/server_bloc.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/team_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/login_screen.dart';
 import 'package:cleanchess/injection_container.dart';
@@ -17,7 +21,9 @@ void main() async {
 }
 
 class Root extends StatefulWidget {
-  const Root({super.key});
+  const Root({
+    super.key,
+  });
 
   @override
   State<Root> createState() => _RootState();
@@ -34,32 +40,54 @@ class _RootState extends State<Root> {
           statusBarColor: theme.scaffoldBackgroundColor,
           systemNavigationBarColor: theme.scaffoldBackgroundColor,
         ),
-        child: MaterialApp(
-          theme: theme,
-          debugShowCheckedModeBanner: false,
-          initialRoute: Navigation.homepage,
-          // initialRoute: Navigation.loginScreen, For testing purposes.
-          onGenerateRoute: (settings) {
-            switch (settings.name) {
-              case Navigation.loginScreen:
-                return PageRouteBuilder(
-                  settings: settings,
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      const LoginScreen(),
+        child: BlocBuilder<AuthCubit, AuthState>(
+          bloc: sl<AuthCubit>(),
+          builder: (context, state) {
+            final isLogged = state.maybeMap(
+              logged: (_) => true,
+              orElse: () => false,
+            );
+
+            return MaterialApp(
+              key: isLogged
+                  ? Key(AuthState.logged.toString())
+                  : Key(AuthState.notLogged.toString()),
+              theme: theme,
+              debugShowCheckedModeBanner: false,
+              initialRoute: Navigation.homepage,
+              builder: (context, child) {
+                return ScrollConfiguration(
+                  behavior: const ScrollBehavior().copyWith(
+                    physics: const ClampingScrollPhysics(),
+                  ),
+                  child: child!,
                 );
-              case Navigation.homepage:
-                return PageRouteBuilder(
-                  settings: settings,
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      const Homepage(),
-                );
-              default:
-                return PageRouteBuilder(
-                  settings: settings,
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      const LoginScreen(),
-                );
-            }
+              },
+              onGenerateRoute: (settings) {
+                if (!isLogged) {
+                  return PageRouteBuilder(
+                    settings: settings,
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const LoginScreen(),
+                  );
+                }
+
+                switch (settings.name) {
+                  case Navigation.homepage:
+                    return PageRouteBuilder(
+                      settings: settings,
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const Homepage(),
+                    );
+                  default:
+                    return PageRouteBuilder(
+                      settings: settings,
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const LoginScreen(),
+                    );
+                }
+              },
+            );
           },
         ),
       ),
@@ -84,7 +112,11 @@ class _GlobalProviderState extends State<GlobalProvider> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<ServerBloc>(create: (context) => sl<ServerBloc>()),
+        BlocProvider<AuthCubit>(create: (context) => sl<AuthCubit>()),
+        BlocProvider<AccountCubit>(create: (context) => sl<AccountCubit>()),
+        BlocProvider<UserCubit>(create: (context) => sl<UserCubit>()),
+        BlocProvider<TeamCubit>(create: (context) => sl<TeamCubit>()),
+        BlocProvider<SocialCubit>(create: (context) => sl<SocialCubit>()),
       ],
       child: widget.child,
     );

@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/utilities/debug.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_social_data_source.dart';
 import 'package:dartz/dartz.dart';
@@ -14,10 +15,16 @@ class LichessSocialDataSource implements RemoteSocialDataSource {
   @override
   Future<Either<Failure, List<User>>> getFollowingUsers() async {
     try {
+      logDebug(
+        'Getting following users...',
+        tag: 'Social',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
       final client = maybeClient.right;
+
       final response = await client.social.getFollowing();
 
       return Right(response);
@@ -30,6 +37,11 @@ class LichessSocialDataSource implements RemoteSocialDataSource {
   @override
   Future<Either<Failure, bool>> followUser(String username) async {
     try {
+      logDebug(
+        'Following user...',
+        tag: 'Social',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -46,6 +58,11 @@ class LichessSocialDataSource implements RemoteSocialDataSource {
   @override
   Future<Either<Failure, bool>> unfollowUser(String username) async {
     try {
+      logDebug(
+        'Unfollowing user...',
+        tag: 'Social',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 

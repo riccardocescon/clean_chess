@@ -4,12 +4,11 @@ import 'package:cleanchess/features/clean_chess/data/repositories/lichess/liches
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class GetMyProfile extends UseCase<User, NoParams> {
+class GetMyProfile extends UseCaseNoArgs<User> {
   final LichessAccountRepository repository;
 
-  GetMyProfile(this.repository);
+  const GetMyProfile(this.repository);
 
   @override
-  Future<Either<Failure, User>> call(NoParams params) async =>
-      repository.getUserProfile();
+  Future<Either<Failure, User>> call() async => repository.getUserProfile();
 }

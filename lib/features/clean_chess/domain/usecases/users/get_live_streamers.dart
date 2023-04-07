@@ -4,13 +4,13 @@ import 'package:cleanchess/features/clean_chess/domain/repositories/user_reposit
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class GetLiveStreamers extends UseCase<List<User>, NoParams> {
+class GetLiveStreamers extends UseCaseNoArgs<List<User>> {
   final UserRepository repository;
 
   GetLiveStreamers(this.repository);
 
   @override
-  Future<Either<Failure, List<User>>> call(NoParams params) async {
+  Future<Either<Failure, List<User>>> call() async {
     return await repository.getLiveStreamers();
   }
 }

@@ -1,50 +1,9 @@
 import 'package:flutter/material.dart';
-
-List<Widget> modeItems = [
-  statsCard(
-    gameMode: "Bullet",
-    elo: "1322",
-    icon: Icons.speed,
-    statsCardColor: const Color.fromARGB(223, 214, 25, 88),
-  ),
-  statsCard(
-    gameMode: "Blitz",
-    elo: "2114",
-    icon: Icons.flash_on,
-    statsCardColor: const Color.fromARGB(223, 138, 249, 54),
-  ),
-  statsCard(
-    gameMode: "Rapid",
-    elo: "954",
-    icon: Icons.timer,
-    statsCardColor: const Color.fromARGB(223, 21, 173, 255),
-  ),
-  statsCard(
-    gameMode: "Classical",
-    elo: "771",
-    icon: Icons.house,
-    statsCardColor: const Color.fromARGB(223, 214, 25, 88),
-  ),
-  statsCard(
-    gameMode: "Daily",
-    elo: "2731",
-    icon: Icons.sunny,
-    statsCardColor: const Color.fromARGB(223, 138, 249, 54),
-  ),
-  statsCard(
-    gameMode: "Puzzles",
-    elo: "1533",
-    icon: Icons.lightbulb,
-    statsCardColor: const Color.fromARGB(223, 21, 173, 255),
-  ),
-];
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 //Stats card for stats
 Widget statsCard({
-  required String gameMode,
-  required String elo,
-  required IconData icon,
-  required Color statsCardColor,
+  required PerfMode mode,
 }) {
   return Column(
     children: [
@@ -56,7 +15,7 @@ Widget statsCard({
             width: 125,
             height: 160,
             child: Container(
-              color: statsCardColor.withOpacity(0.5),
+              color: mode.color.withOpacity(0.5),
               child: Column(
                 children: [
                   Padding(
@@ -66,22 +25,28 @@ Widget statsCard({
                       width: 75,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: statsCardColor,
+                        color: mode.color,
                       ),
                       child: Icon(
-                        icon,
+                        mode.icon,
                         size: 60,
                         color: Colors.black,
                       ),
                     ),
                   ),
-                  Text(gameMode,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w500)),
                   Text(
-                    elo,
+                    mode.gameMode.name,
                     style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.w500),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    mode.ratingString,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -91,4 +56,56 @@ Widget statsCard({
       ),
     ],
   );
+}
+
+extension PerfModeUtils on PerfMode {
+  String get ratingString => perf.rating?.toString() ?? "{None}";
+
+  Color get color {
+    final colors = {
+      GameMode.bullet: const Color.fromARGB(223, 214, 25, 88),
+      GameMode.blitz: const Color.fromARGB(223, 138, 249, 54),
+      GameMode.rapid: const Color.fromARGB(223, 21, 173, 255),
+      GameMode.classical: const Color.fromARGB(223, 214, 25, 88),
+      GameMode.daily: const Color.fromARGB(223, 138, 249, 54),
+      GameMode.puzzle: const Color.fromARGB(223, 21, 173, 255),
+    };
+
+    return colors[gameMode] ?? Colors.black;
+  }
+
+  IconData get icon {
+    final icons = {
+      GameMode.bullet: Icons.speed,
+      GameMode.blitz: Icons.flash_on,
+      GameMode.rapid: Icons.timer,
+      GameMode.classical: Icons.house,
+      GameMode.daily: Icons.sunny,
+      GameMode.puzzle: Icons.lightbulb,
+    };
+
+    return icons[gameMode] ?? Icons.error;
+  }
+}
+
+// This enum will be implemented into LichessClient
+enum GameMode {
+  bullet('Bullet'),
+  blitz('Blitz'),
+  rapid('Rapid'),
+  classical('Classical'),
+  daily('Daily'),
+  puzzle('Puzzle');
+
+  const GameMode(this.name);
+
+  final String name;
+}
+
+// This class will be implemented into LichessClient
+class PerfMode {
+  final Perf perf;
+  final GameMode gameMode;
+
+  PerfMode(this.perf, this.gameMode);
 }

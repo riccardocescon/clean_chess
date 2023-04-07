@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/utilities/debug.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_user_data_source.dart';
 import 'package:dartz/dartz.dart';
@@ -19,6 +20,11 @@ class LichessUserDataSource implements RemoteUserDataSource {
     bool friend,
   ) async {
     try {
+      logDebug(
+        'Searching users by term...',
+        tag: 'User',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -43,6 +49,11 @@ class LichessUserDataSource implements RemoteUserDataSource {
     bool friend,
   ) async {
     try {
+      logDebug(
+        'Searching names by term...',
+        tag: 'User',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -65,6 +76,11 @@ class LichessUserDataSource implements RemoteUserDataSource {
     bool withGameIds,
   ) async {
     try {
+      logDebug(
+        'Getting realtime status...',
+        tag: 'User',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -84,6 +100,11 @@ class LichessUserDataSource implements RemoteUserDataSource {
   @override
   Future<Either<Failure, Map<String, List<User>>>> getTop10Players() async {
     try {
+      logDebug(
+        'Getting top 10 players...',
+        tag: 'User',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -106,6 +127,11 @@ class LichessUserDataSource implements RemoteUserDataSource {
     int nb,
   ) async {
     try {
+      logDebug(
+        'Getting leaderboard for $perfType...',
+        tag: 'User',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -131,6 +157,11 @@ class LichessUserDataSource implements RemoteUserDataSource {
     bool trophies = false,
   }) async {
     try {
+      logDebug(
+        'Getting public data for $username...',
+        tag: 'User',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -155,6 +186,11 @@ class LichessUserDataSource implements RemoteUserDataSource {
     String username,
   ) async {
     try {
+      logDebug(
+        'Getting rating history for $username...',
+        tag: 'User',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -178,6 +214,11 @@ class LichessUserDataSource implements RemoteUserDataSource {
   @override
   Future<Either<Failure, List<User>>> getManyByIds(List<String> ids) async {
     try {
+      logDebug(
+        'Getting users by ids...',
+        tag: 'User',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
@@ -196,6 +237,11 @@ class LichessUserDataSource implements RemoteUserDataSource {
   @override
   Future<Either<Failure, List<User>>> getLiveStreamers() async {
     try {
+      logDebug(
+        'Getting live streamers...',
+        tag: 'User',
+        color: LogColor.lightBlue,
+      );
       final maybeClient = await _tokenProvider.getClient();
       if (maybeClient.isLeft()) return Left(maybeClient.left);
 
