@@ -2,7 +2,6 @@ import 'package:cleanchess/core/presentation/bloc/utilities/cubit_helper.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/game_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
-import 'package:cleanchess/features/clean_chess/presentation/pages/settings_screen.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/stats_screen.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/loading_skeleton.dart';
@@ -48,6 +47,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Text("Block"),
     Text("Send Message"),
   ];
+
+  int _index = 0;
 
   @override
   void initState() {
@@ -565,21 +566,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
           selectedGameMode: mode,
           onNextMode: () {
             sl<GameCubit>().stopExportingGames();
-            if (index == _supportedStats.length - 1) {
-              index = -1;
+            if (_index == _supportedStats.length - 1) {
+              _index = -1;
             }
             Navigator.pop(context);
-            index++;
-            navigateToStatsPage(context, _supportedStats[index]);
+            _index++;
+            navigateToStatsPage(context, _supportedStats[_index]);
           },
           onPreviousMode: () {
             sl<GameCubit>().stopExportingGames();
-            if (index == 0) {
-              index = _supportedStats.length;
+            if (_index == 0) {
+              _index = _supportedStats.length;
             }
             Navigator.pop(context);
-            index--;
-            navigateToStatsPage(context, _supportedStats[index]);
+            _index--;
+            navigateToStatsPage(context, _supportedStats[_index]);
           },
         ),
       ),

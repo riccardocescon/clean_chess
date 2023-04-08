@@ -201,10 +201,13 @@ class GamesCard extends StatelessWidget {
             ),
           ],
         ),
-        const Padding(
-          padding: EdgeInsets.only(top: 40, right: 10),
+        Padding(
+          padding: const EdgeInsets.only(top: 40, right: 10),
           child: Icon(
-            Icons.handshake,
+            //TODO: recognize result: draw, win, loss
+            result == lichess.LichessGameStatus.draw.raw
+                ? Icons.handshake
+                : Icons.military_tech,
             size: 60,
           ),
         ),
