@@ -46,8 +46,17 @@ class Display extends StatelessWidget {
             currentValue: "Normal", //optional
           ),
           _settingSwitcher(
+            settingName: "Magnified dragged pieces",
+            settingIcon: Icons.search,
+            value: true,
+          ),
+          _settingSwitcher(
             settingName: "Board highlights",
             value: false,
+          ),
+          _settingSwitcher(
+            settingName: "Move list while playing",
+            value: true,
           ),
           _settingSwitcher(
             settingName: "Piece destinations",
@@ -74,6 +83,11 @@ class Display extends StatelessWidget {
             settingIcon: Icons.remove_red_eye,
             value: true,
           ),
+          _settingSwitcher(
+            settingName: "Blindfold chess",
+            value: true,
+          ),
+          // board screen side (left, right)
         ],
       ),
       appBar: _appbar(context, "Display"),
