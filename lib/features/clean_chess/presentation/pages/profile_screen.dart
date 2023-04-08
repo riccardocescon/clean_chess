@@ -472,31 +472,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final wonGames = widget.user.count?.win ?? 0;
     final drawnGames = widget.user.count?.draw ?? 0;
     final lostGames = widget.user.count?.loss ?? 0;
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 30, right: 70),
-          child: Text("Time played: $timeplayed hours"),
-        ),
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: "${wonGames}W",
-                style: const TextStyle(color: Colors.green),
-              ),
-              TextSpan(
-                text: " / ${drawnGames}D / ",
-                style: const TextStyle(color: Colors.grey),
-              ),
-              TextSpan(
-                text: "${lostGames}L",
-                style: const TextStyle(color: Colors.red),
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("Time played: $timeplayed hours"),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "${wonGames}W",
+                  style: const TextStyle(color: Colors.green),
+                ),
+                TextSpan(
+                  text: " / ${drawnGames}D / ",
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                TextSpan(
+                  text: "${lostGames}L",
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
