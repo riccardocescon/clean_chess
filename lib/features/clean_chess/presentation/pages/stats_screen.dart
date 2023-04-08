@@ -59,7 +59,10 @@ class StatsPage extends StatelessWidget {
       shadowColor: Colors.transparent,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios),
-        onPressed: () => Navigator.of(context).pop(),
+        onPressed: () {
+          sl<GameCubit>().stopExportingGames();
+          Navigator.of(context).pop();
+        },
       ),
     );
   }

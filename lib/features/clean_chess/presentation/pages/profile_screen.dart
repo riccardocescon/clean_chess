@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/presentation/bloc/utilities/cubit_helper.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/game_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/settings_screen.dart';
@@ -562,6 +563,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           numberOfGames: 1,
           selectedGameMode: mode,
           onNextMode: () {
+            sl<GameCubit>().stopExportingGames();
             if (index == _supportedStats.length - 1) {
               index = -1;
             }
@@ -570,6 +572,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             navigateToStatsPage(context, _supportedStats[index]);
           },
           onPreviousMode: () {
+            sl<GameCubit>().stopExportingGames();
             if (index == 0) {
               index = _supportedStats.length;
             }
