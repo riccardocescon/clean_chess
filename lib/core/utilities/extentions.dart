@@ -83,3 +83,18 @@ extension PerfModeUtils on PerfMode {
 extension DateTimeUtils on DateTime {
   String get monthName => DateFormat('MMMM').format(this);
 }
+
+extension StringUtils on String {
+  String get capitalize => '${this[0].toUpperCase()}${substring(1)}';
+
+  // Useful for finding all the occurences of hardcoded Strings in order
+  // to add translations when needed. Make sure to use this when
+  // writing hardcoded Strings that needs to be translated.
+  String get hardcoded => this;
+
+  String replaceLast({required String from, required String to}) {
+    final lastIndex = lastIndexOf(from);
+    if (lastIndex == -1) return this;
+    return replaceRange(lastIndex, lastIndex + from.length, to);
+  }
+}
