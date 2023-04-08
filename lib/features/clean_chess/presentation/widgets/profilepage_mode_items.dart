@@ -1,3 +1,4 @@
+import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:flutter/material.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
@@ -56,36 +57,6 @@ Widget statsCard({
       ),
     ],
   );
-}
-
-extension PerfModeUtils on PerfMode {
-  String get ratingString => perf.rating?.toString() ?? "{None}";
-
-  Color get color {
-    final colors = {
-      GameMode.bullet: const Color.fromARGB(223, 214, 25, 88),
-      GameMode.blitz: const Color.fromARGB(223, 138, 249, 54),
-      GameMode.rapid: const Color.fromARGB(223, 21, 173, 255),
-      GameMode.classical: const Color.fromARGB(223, 214, 25, 88),
-      GameMode.daily: const Color.fromARGB(223, 138, 249, 54),
-      GameMode.puzzle: const Color.fromARGB(223, 21, 173, 255),
-    };
-
-    return colors[gameMode] ?? Colors.black;
-  }
-
-  IconData get icon {
-    final icons = {
-      GameMode.bullet: Icons.speed,
-      GameMode.blitz: Icons.flash_on,
-      GameMode.rapid: Icons.timer,
-      GameMode.classical: Icons.house,
-      GameMode.daily: Icons.sunny,
-      GameMode.puzzle: Icons.lightbulb,
-    };
-
-    return icons[gameMode] ?? Icons.error;
-  }
 }
 
 // This enum will be implemented into LichessClient

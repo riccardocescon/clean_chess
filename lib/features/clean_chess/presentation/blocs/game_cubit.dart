@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/utilities/debug.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/game/export_game.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/game/export_games_of_user.dart';
@@ -138,7 +139,9 @@ class GameCubit extends Cubit<GameState> {
     }
 
     await for (final currentGame in result.right) {
+      logDebug('Exported game: ${currentGame.id}', color: LogColor.lightBlue);
       emit(_GameExportedGameState(currentGame));
     }
+    logDebug('Finished exporting games', color: LogColor.lightBlue);
   }
 }

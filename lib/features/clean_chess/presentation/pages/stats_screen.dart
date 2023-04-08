@@ -1,33 +1,49 @@
+import 'package:cleanchess/core/presentation/bloc/utilities/cubit_helper.dart';
+import 'package:cleanchess/core/utilities/extentions.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/game_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chart.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/profilepage_mode_items.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/stats_game_card.dart';
+import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart' as lichess;
 
-int index = 0;
+late PerfMode _selectedGameMode;
+late lichess.RatingHistory _ratingHistory;
 
 @override
 class StatsPage extends StatelessWidget {
-  final List<String> gamemode = const [
-    "Bullet",
-    "Blitz",
-    "Rapid",
-    "Classical",
-    "Daily",
-    "Puzzles",
-  ];
-
   final backgroundColor = const Color.fromARGB(225, 17, 17, 17);
 
   final int numberOfGames;
 
-  //
+  final List<lichess.LichessGame> _games = [];
 
-  const StatsPage({
+  final void Function() onNextMode;
+
+  final void Function() onPreviousMode;
+
+  StatsPage({
     super.key,
     required this.numberOfGames,
-  });
+    required PerfMode selectedGameMode,
+    required this.onNextMode,
+    required this.onPreviousMode,
+  }) {
+    _selectedGameMode = selectedGameMode;
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (user?.username != null) {
+      sl<CubitHelper>().loadModeStats(
+        username: user!.username!,
+        mode: _selectedGameMode.perfType,
+      );
+    }
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
@@ -51,17 +67,54 @@ class StatsPage extends StatelessWidget {
   Widget _body(BuildContext context) {
     return Scaffold(
       body: DefaultTextStyle(
-          style: const TextStyle(
-            color: Colors.white,
-          ),
-          child: SizedBox(
-            child: ListView(
-              children: [
-                _chart(context),
-                _gamesPlayed(context),
+        style: const TextStyle(
+          color: Colors.white,
+        ),
+        child: BlocConsumer<GameCubit, GameState>(
+          listener: (context, state) {
+            state.maybeMap(
+              gameExported: (value) => _games.add(value.game),
+              orElse: () {},
+            );
+          },
+          builder: (context, state) {
+            return CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      _chart(context),
+                      _gamesPlayedText(context),
+                    ],
+                  ),
+                ),
+                BlocConsumer<GameCubit, GameState>(
+                  listener: (context, state) {
+                    state.maybeMap(
+                      gameExported: (value) => _games.add(value.game),
+                      orElse: () {},
+                    );
+                  },
+                  builder: (context, state) {
+                    return SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return SizedBox(
+                            width: 400,
+                            height: 200,
+                            child: GamesCard(game: _games[index]),
+                          );
+                        },
+                        childCount: _games.length,
+                      ),
+                    );
+                  },
+                ),
               ],
-            ),
-          )),
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -71,8 +124,36 @@ class StatsPage extends StatelessWidget {
       child: Column(
         children: [
           topTitleWidgets(context),
-          const SizedBox(height: 150, child: Chart()),
-          bottomTitleWidgets(context),
+          SizedBox(
+            height: 250,
+            child: BlocConsumer<UserCubit, UserState>(
+              listener: (context, state) {
+                state.maybeMap(
+                  ratingHistory: (value) {
+                    _ratingHistory = value.ratings.firstWhere(
+                      (element) =>
+                          element.name?.toLowerCase() ==
+                          _selectedGameMode.perfType.name.toLowerCase(),
+                    );
+                  },
+                  orElse: () {},
+                );
+              },
+              builder: (context, state) {
+                return state.maybeMap(
+                  ratingHistory: (value) {
+                    return Chart(
+                      mode: _selectedGameMode.gameMode,
+                      history: _ratingHistory,
+                    );
+                  },
+                  orElse: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -90,48 +171,41 @@ class StatsPage extends StatelessWidget {
           children: [
             IconButton(
               icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                if (index > 0) {
-                  index--;
-                } else {
-                  index = 5;
-                }
-              },
+              onPressed: onPreviousMode,
             ),
-            Text(gamemode[index],
-                style: TextStyle(
-                  fontSize:
-                      Theme.of(context).textTheme.headlineMedium?.fontSize,
-                  fontWeight: FontWeight.bold,
-                )),
+            Text(
+              _selectedGameMode.gameMode.name,
+              style: TextStyle(
+                fontSize: Theme.of(context).textTheme.headlineMedium?.fontSize,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             IconButton(
               icon: const Icon(Icons.arrow_forward_ios),
-              onPressed: () {
-                if (index < 5) {
-                  index++;
-                } else {
-                  index = 0;
-                }
-              },
+              onPressed: onNextMode,
             ),
           ],
         ),
         Column(
           children: [
-            Text("$elo",
-                style: TextStyle(
-                    fontSize:
-                        Theme.of(context).textTheme.headlineSmall?.fontSize,
-                    fontWeight: FontWeight.bold)),
+            Text(
+              "$elo",
+              style: TextStyle(
+                fontSize: Theme.of(context).textTheme.headlineSmall?.fontSize,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("$resultElo",
-                    style: TextStyle(
-                        fontSize:
-                            Theme.of(context).textTheme.labelLarge?.fontSize,
-                        color: Colors.green)),
-                const Icon(Icons.arrow_drop_up, color: Colors.green),
+                Text(
+                  "$resultElo",
+                  style: TextStyle(
+                    fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+                    color: _selectedGameMode.color,
+                  ),
+                ),
+                Icon(Icons.arrow_drop_up, color: _selectedGameMode.color),
               ],
             ), //TODO color
           ],
@@ -140,91 +214,16 @@ class StatsPage extends StatelessWidget {
     );
   }
 
-  Widget bottomTitleWidgets(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "21 April",
-            style: TextStyle(
-                fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize),
-          ),
-          Text(
-            "21 May",
-            style: TextStyle(
-                fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize),
-          ), //TODO date
-        ],
-      ),
-    );
-  }
-
   Widget _gamesPlayed(BuildContext context) {
-    return Column(
-      children: [
-        _gamesPlayedText(context),
-        ListBody(
-          children: const [
-            //FIXME
-
-            SizedBox(
-              width: 400,
-              height: 180,
-              child: GamesCard(
-                gainedElo: 4,
-                gainedEloOpponent: -6,
-                gameDate: "Yesterday at 22:05",
-                gameMode: "Standart",
-                gameTime: "2 + 1",
-                openingName: "Scandavian Defense",
-                opponentRating: 1324,
-                opponentname: "alexrintt",
-                rating: 1233,
-                result: "White timed out, black is victorious",
-                username: "hardal",
-              ),
-            ),
-
-            SizedBox(
-              width: 400,
-              height: 180,
-              child: GamesCard(
-                gainedElo: 6,
-                gainedEloOpponent: -8,
-                gameDate: "Last Wednesday at 15:42",
-                gameMode: "Standart",
-                gameTime: "1 + 0",
-                openingName: "Tennison Gambit",
-                opponentRating: 1225,
-                opponentname: "riccardocescon",
-                rating: 1211,
-                result: "Black timed out, white is victorious",
-                username: "hardal",
-              ),
-            ),
-
-            SizedBox(
-              width: 400,
-              height: 180,
-              child: GamesCard(
-                gainedElo: 4,
-                gainedEloOpponent: -2,
-                gameDate: "29/02/2023",
-                gameMode: "Anti-Chess",
-                gameTime: "1 + 1",
-                openingName: "Queen's Gambit",
-                opponentRating: 1324,
-                opponentname: "chesslover31",
-                rating: 1188,
-                result: "Draw by repetition",
-                username: "hardal",
-              ),
-            ),
-          ],
-        ),
-      ], //Test
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        return SizedBox(
+          width: 400,
+          height: 200,
+          child: GamesCard(game: _games[index]),
+        );
+      },
+      itemCount: _games.length,
     );
   }
 
@@ -242,7 +241,7 @@ class StatsPage extends StatelessWidget {
             ),
           ),
           Text(
-            "$numberOfGames ${gamemode[index]} Games",
+            "$numberOfGames ${_selectedGameMode.gameMode.name} Games",
             style: TextStyle(
               fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
               fontWeight: FontWeight.w500,

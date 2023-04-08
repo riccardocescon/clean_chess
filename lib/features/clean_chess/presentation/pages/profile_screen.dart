@@ -1,6 +1,7 @@
 import 'package:cleanchess/core/presentation/bloc/utilities/cubit_helper.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/settings_screen.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/stats_screen.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/loading_skeleton.dart';
@@ -421,12 +422,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      // child: modeItems[index],
                       child: statsCard(
                         mode: _supportedStats[index],
                       ),
                       onTap: () {
-                        navigateToStatsPage(context);
+                        navigateToStatsPage(context, _supportedStats[index]);
                       },
                     );
                   },
@@ -554,12 +554,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void popupMenuButtonPressed() {}
 
 //Navigates to stats page
-  void navigateToStatsPage(BuildContext context) {
+  void navigateToStatsPage(BuildContext context, PerfMode mode) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const StatsPage(
+        builder: (context) => StatsPage(
           numberOfGames: 1,
+          selectedGameMode: mode,
+          onNextMode: () {
+            if (index == _supportedStats.length - 1) {
+              index = -1;
+            }
+            Navigator.pop(context);
+            index++;
+            navigateToStatsPage(context, _supportedStats[index]);
+          },
+          onPreviousMode: () {
+            if (index == 0) {
+              index = _supportedStats.length;
+            }
+            Navigator.pop(context);
+            index--;
+            navigateToStatsPage(context, _supportedStats[index]);
+          },
         ),
       ),
     );

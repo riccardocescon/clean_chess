@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart' as lichess;
 
 import 'chessboard.dart';
 
@@ -9,40 +10,41 @@ bool isStarred = true;
 class GamesCard extends StatelessWidget {
   const GamesCard({
     super.key,
-    required this.openingName,
-    required this.gameTime,
-    required this.gameDate,
-    required this.username,
-    required this.opponentname,
-    required this.rating,
-    required this.opponentRating,
-    required this.gainedElo,
-    required this.gainedEloOpponent,
-    required this.result,
-    required this.gameMode,
+    required this.game,
   });
 
-  final String openingName; // = "The Sicilian Defense"
+  final lichess.LichessGame game;
 
-  final String gameTime; // = "10 + 0"
+  String get openingName =>
+      game.opening?.name ?? 'Not Found'; // = "The Sicilian Defense"
 
-  final String gameDate; // = "yesterday at 13:06"
+  String get gameTime => game.clock == null
+      ? 'Not Found'
+      : "${game.clock!.initial!} + ${game.clock!.increment}"; // = "10 + 0"
 
-  final String gameMode; // = "Standart"
+  //FIXME
+  String get gameDate => DateTime.fromMillisecondsSinceEpoch(
+        game.createdAt,
+      ).day.toString(); // = "yesterday at 13:06"
 
-  final String result; // = "White time out, black is victorious."
+  String get gameMode => game.perf.name; // = "Standart"
 
-  final String username;
+  String get result =>
+      game.status.name; // = "White time out, black is victorious."
 
-  final String opponentname;
+  String get username =>
+      game.players.white!.user?.name?.replaceAll('-', ' ') ?? 'Not Found';
 
-  final int rating;
+  String get opponentname =>
+      game.players.black!.user?.name?.replaceAll('-', ' ') ?? 'Not Found';
 
-  final int opponentRating;
+  int get rating => game.players.white!.rating ?? 0;
 
-  final int gainedElo;
+  int get opponentRating => game.players.black!.rating ?? 0;
 
-  final int gainedEloOpponent;
+  int get gainedElo => game.players.white!.ratingDiff ?? 0;
+
+  int get gainedEloOpponent => game.players.black!.ratingDiff ?? 0;
 
   @override
   Widget build(BuildContext context) {
@@ -63,12 +65,17 @@ class GamesCard extends StatelessWidget {
               color: const Color.fromARGB(225, 23, 23, 23)),
           child: DefaultTextStyle(
             style: const TextStyle(color: Colors.white),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
               children: [
-                _boardAndOpening(context),
-                _gameInfo(context),
-                _starShareResult(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _board(context),
+                    _gameInfo(context),
+                    _starShareResult(),
+                  ],
+                ),
+                _opening(context),
               ],
             ),
           ),
@@ -77,29 +84,29 @@ class GamesCard extends StatelessWidget {
     );
   }
 
-  Widget _boardAndOpening(BuildContext context) {
+  Widget _board(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.only(left: 25),
+      child: SizedBox(
+        height: 120,
+        width: 120,
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: Chessboard(),
+        ),
+      ),
+    );
+  }
+
+  Widget _opening(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 25),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 120,
-            width: 120,
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: Chessboard(),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Text(
-              openingName,
-              style: TextStyle(
-                  fontSize: Theme.of(context).textTheme.bodySmall?.fontSize),
-            ),
-          ),
-        ],
+      padding: const EdgeInsets.only(top: 10),
+      child: Text(
+        openingName,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
+        ),
       ),
     );
   }
@@ -119,7 +126,10 @@ class GamesCard extends StatelessWidget {
                     fontSize: Theme.of(context).textTheme.bodySmall?.fontSize)),
             Padding(
               padding: const EdgeInsets.only(top: 40),
-              child: Text("$username  $opponentname"),
+              child: Text(
+                "$username - $opponentname",
+                textAlign: TextAlign.center,
+              ),
             ),
             _userAndOpponent(context),
             Padding(
