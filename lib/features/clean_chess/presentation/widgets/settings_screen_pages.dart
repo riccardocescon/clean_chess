@@ -1,3 +1,4 @@
+// import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -7,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 // D = Dropdown
 // B = Button with Hypertext
 
-//  Board highlights S
+// Board highlights S
 // Piece destinations S
 // Board coordinates S
 // Move list while playing S
@@ -36,9 +37,44 @@ class Display extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: DefaultTextStyle(
-        style: universalTextStyle,
-        child: const Text("Hello!"),
+      body: Column(
+        children: [
+          _settingDropdown(
+            settingName: "Pice animation",
+            settingIcon: Icons.animation,
+            items: [ "None", "Slow", "Normal", "Fast"],
+            currentValue: "Normal", //optional
+          ),
+          _settingSwitcher(
+            settingName: "Board highlights",
+            value: false,
+          ),
+          _settingSwitcher(
+            settingName: "Piece destinations",
+            settingIcon: Icons.arrow_forward,
+            value: true,
+          ),
+          _settingSwitcher(
+            settingName: "Board coordinates",
+            settingIcon: Icons.grid_on,
+            value: true,
+          ),
+          _settingSwitcher(
+            settingName: "Move list while playing",
+            settingIcon: Icons.list,
+            value: false,
+          ),
+          _settingDropdown(
+            settingName: "Move notation",
+            settingIcon: Icons.format_list_numbered,
+            items: ["Chess pieces", "Letters"],
+          ),
+          _settingSwitcher(
+            settingName: "Zen mode",
+            settingIcon: Icons.remove_red_eye,
+            value: true,
+          ),
+        ],
       ),
       appBar: _appbar(context, "Display"),
     );
@@ -158,6 +194,101 @@ Widget _settingButton(
             Text(settingName),
           ],
         ),
+      ),
+    ),
+  );
+}
+
+
+Widget _settingSwitcher(
+    {required String settingName,
+    required bool value,
+    IconData settingIcon = Icons.settings,
+    }) {
+  return DefaultTextStyle(
+    style: universalTextStyle,
+    child: Container(
+      color: const Color.fromARGB(225, 19, 19, 19),
+      width: 400,
+      height: 50,
+      child: Row(
+        children: [
+          settingIcon != Icons.settings
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(settingIcon),
+                )
+              : const SizedBox(width: 40),
+          Text(settingName),
+          const Spacer(),
+          StatefulBuilder(builder: (context, setState) => 
+          Switch(
+            activeTrackColor: Colors.pink,
+            inactiveTrackColor: Colors.transparent,
+            thumbColor: MaterialStateProperty.all(Colors.white),
+            value: value,
+            // if we want the thumb to have the same size between active and inactive this is the only solution i found
+            thumbIcon: MaterialStateProperty.all(
+              Icon(
+                value ? Icons.check : Icons.close,
+                color: Colors.white,
+              ),
+            ),
+            onChanged: (bool newValue) {
+              setState(() {
+                value = newValue;
+              });
+            },
+          ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _settingDropdown(
+    {required String settingName,
+    required IconData settingIcon,
+    required List<String> items,
+    String currentValue = ""}) {
+  String value = items[0];
+  return DefaultTextStyle(
+    style: universalTextStyle,
+    child: Container(
+      color: const Color.fromARGB(225, 19, 19, 19),
+      width: 400,
+      height: 50,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(settingIcon),
+          ),
+          Text(settingName),
+          const Spacer(),
+          StatefulBuilder(builder: (context, setState) => 
+            DropdownButton<String>(
+              value: value,
+              icon: const Icon(Icons.arrow_forward_ios),
+              iconSize: 24,
+              elevation: 16,
+              style: const TextStyle(color: Colors.white),
+              underline: Container(height: 0),
+              onChanged: (String? newValue) {
+                setState(() {
+                  value = newValue!;
+                });
+              },
+              items: items.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            )
+          )
+        ],
       ),
     ),
   );
