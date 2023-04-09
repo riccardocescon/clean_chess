@@ -8,7 +8,6 @@ import 'package:cleanchess/features/clean_chess/presentation/pages/profile_scree
 import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lichess_client_dio/lichess_client_dio.dart';
 import 'package:skeletons/skeletons.dart';
 
 class HomepageAppbar extends StatefulWidget {

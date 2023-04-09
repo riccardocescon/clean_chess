@@ -1,19 +1,20 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/puzzle_dashboard_page.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/mode_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 // Modes available in the pre-release.
-List<Widget> get preReleaseModes => [
+List<Widget> preReleaseModes(BuildContext context) => [
       _quickMatchItem,
-      _puzzleItem,
+      _puzzleItem(context),
       _computerItem,
     ];
 
-List<Widget> get playModes => [
+List<Widget> playModes(BuildContext context) => [
       _quickMatchItem,
-      _puzzleItem,
+      _puzzleItem(context),
       _computerItem,
       _friendsItem,
       _tournamentItem,
@@ -76,7 +77,7 @@ Widget get _quickMatchItem => ModeItem(
       ],
     );
 
-Widget get _puzzleItem => ModeItem(
+Widget _puzzleItem(BuildContext context) => ModeItem(
       title: 'Puzzle',
       subtitle: 'Train chess by solving puzzles',
       icon: Image.asset(
@@ -90,6 +91,14 @@ Widget get _puzzleItem => ModeItem(
           '1000',
         ),
       ],
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const PuzzleDashboardPage(),
+          ),
+        );
+      },
     );
 
 Widget get _computerItem => ModeItem(

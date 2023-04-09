@@ -2,7 +2,6 @@ import 'package:cleanchess/core/clean_chess/presentation/widgets/homepage_mode_i
     as homepage_mode_items;
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
-import 'package:cleanchess/features/clean_chess/presentation/pages/puzzle_dashboard_page.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_appbar.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_widget.dart';
@@ -66,8 +65,9 @@ class _HomepageState extends State<Homepage> {
 
   Widget _modesList() => SliverList(
         delegate: SliverChildBuilderDelegate(
-          (context, index) => homepage_mode_items.preReleaseModes[index],
-          childCount: homepage_mode_items.preReleaseModes.length,
+          (context, index) =>
+              homepage_mode_items.preReleaseModes(context)[index],
+          childCount: homepage_mode_items.preReleaseModes(context).length,
         ),
       );
 
@@ -75,28 +75,18 @@ class _HomepageState extends State<Homepage> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CircleAvatar(
+            children: const [
+              CircleAvatar(
                 backgroundColor: Colors.lightBlue,
                 radius: 5,
               ),
               width10,
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const PuzzleDashboardPage(),
-                    ),
-                  );
-                },
-                child: const Text(
-                  'Puzzle of the day',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+              Text(
+                'Puzzle of the day',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
