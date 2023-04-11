@@ -141,6 +141,108 @@ class Clock extends StatelessWidget {
   }
 }
 
+class Behavior extends StatelessWidget {
+  const Behavior({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: DefaultTextStyle(
+        style: universalTextStyle,
+        child: Column(
+          children: [
+            _settingButtons(
+              settingName: "Move type",
+              settingIcon: Icons.input,
+              items: ["Click", "Drag", "Either"],
+            ),
+            _settingSwitcher(
+              settingName: "Premoves",
+              settingIcon: Icons.zoom_out_map,
+              value: true
+            ),
+            _settingButtons(
+              settingName: "Takebacks",
+              settingIcon: Icons.threesixty,
+              items: ["Never", "Always", "Casual only"],
+            ),
+            _settingButtons(
+              settingName: "Promote to queen",
+              items: ["Never", "Always", "When premoving"],
+            ),
+            _settingButtons(
+              settingName: "Draw on threefold",
+              items: ["Never", "Always", "< 30 seconds"],
+            ),
+            _settingSwitcher(
+              settingName: "Confirm resignation and draw offers",
+              value: true
+            ),
+            _settingButtons(
+              settingName: "To castle move king",
+              items: ["Two squares", "Onto rook"],
+            ),
+            _settingSwitcher(
+              settingName: "Input moves with keyboard",
+              settingIcon: Icons.keyboard,
+              value: true
+            ),
+            _settingSwitcher(
+              settingName: "Snap arrows to valid moves",
+              settingIcon: Icons.arrow_outward,
+              value: true
+            ),
+            _settingSwitcher(
+              settingName: "Say \"Good game\" upon defeat or draw",
+              settingIcon: Icons.sentiment_satisfied,
+              value: true
+            ),
+          ],
+        )
+      ),
+      appBar: _appbar(context, "Behavior"),
+    );
+  }
+}
+
+class Language extends StatelessWidget {
+  const Language({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: DefaultTextStyle(
+        style: universalTextStyle,
+        child: Column(
+          children: [
+            _settingButtons(
+              settingName: "Language",
+              settingIcon: Icons.flag,
+              items: ["English", "Italian", "Spanish", "Turkish"]
+            ),
+          ],
+        )
+      ),
+      appBar: _appbar(context, "Language"),
+    );
+  }
+}
+
+class Themes extends StatelessWidget {
+  const Themes({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: DefaultTextStyle(
+        style: universalTextStyle,
+        child: const Text("Themes"),
+      ),
+      appBar: _appbar(context, "Theme"),
+    );
+  }
+}
+
 class Sound extends StatelessWidget {
   const Sound({super.key});
 
@@ -149,9 +251,70 @@ class Sound extends StatelessWidget {
     return Scaffold(
       body: DefaultTextStyle(
         style: universalTextStyle,
-        child: const Text("Hello!"),
+        child: Column(
+          children: [
+            _settingSwitcher(
+              settingName: "Notifications",
+              settingIcon: Icons.notifications,
+              value: true,
+            ),
+            _settingSwitcher(
+              settingName: "Vibrate on game events",
+              settingIcon: Icons.vibration,
+              value: true,
+            ),
+            _settingSwitcher(
+              settingName: "Toggle sound",
+              settingIcon: Icons.volume_up,
+              value: true,
+            ),
+          ],
+        )
       ),
       appBar: _appbar(context, "Sound"),
+    );
+  }
+}
+
+class Privacy extends StatelessWidget {
+  const Privacy({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: DefaultTextStyle(
+        style: universalTextStyle,
+        child: Column(
+          children: [
+            _settingSwitcher(
+              settingName: "Let others follow you",
+              settingIcon: Icons.person,
+              value: true,
+            ),
+            _settingButtons(
+              settingName: "Let others challenge you",
+              settingIcon: Icons.shield,
+              items: ["Never", "Always", "Friends", "Registered", "Rating is ± 300"]
+            ),
+            _settingButtons(
+              settingName: "Let others message you",
+              settingIcon: Icons.message,
+              items: ["Always", "Friends", "Only existing conversations"]
+            ),
+            _settingButtons(
+              settingName: "Let others invite to study",
+              settingIcon: Icons.shield,
+              items: ["Never", "Always", "Friends"]
+            ),
+            _settingButtons(
+              settingName: "Share chess insights",
+              settingIcon: Icons.bar_chart,
+              items: ["No one", "Friends", "Everyone"]
+            ),
+          ],
+        )
+      ),
+      appBar: _appbar(context, "Privacy"),
     );
   }
 }
