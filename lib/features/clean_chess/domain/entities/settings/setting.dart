@@ -1,4 +1,4 @@
-import 'package:cleanchess/features/clean_chess/data/models/settings/display_settings_model.dart';
+import 'package:cleanchess/core/utilities/mixins/nameable.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract class Setting {

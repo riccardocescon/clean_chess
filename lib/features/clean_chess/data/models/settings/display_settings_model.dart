@@ -1,3 +1,4 @@
+import 'package:cleanchess/core/utilities/mixins/nameable.dart';
 import 'package:cleanchess/features/clean_chess/domain/entities/settings/setting.dart';
 import 'package:flutter/material.dart';
 
@@ -209,8 +210,4 @@ enum BoardOrientation with Namable {
 
   @override
   String get name => _name;
-}
-
-mixin Namable {
-  String get name;
 }

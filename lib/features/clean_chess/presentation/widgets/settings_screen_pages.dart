@@ -5,6 +5,7 @@ import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cleanchess/core/utilities/mixins/nameable.dart';
 
 //TODO: fetch those data with APIs
 final UserSettingsModel _userSettingsModel = UserSettingsModel.test();
