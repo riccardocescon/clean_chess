@@ -118,8 +118,7 @@ class Clock extends StatelessWidget {
           _settingButtons(
             settingName: "Tenths of seconds",
             settingIcon: Icons.timer,
-            // items: ["On", "Off", "< 10 seconds"],
-            items: ["On", "Off"],
+            items: ["On", "Off", "< 10 seconds"],
           ),
           _settingSwitcher(
             settingName: "Progress bar",
@@ -133,8 +132,7 @@ class Clock extends StatelessWidget {
           _settingButtons(
             settingName: "Give more time",
             settingIcon: Icons.fast_forward,
-            // items: ["On", "Off", "Casual only"],
-            items: ["On", "Off"],
+            items: ["On", "Off", "Casual only"],
           ),
         ],
       ),
@@ -302,51 +300,59 @@ Widget _settingButtons(
 ) {
   return DefaultTextStyle(
     style: universalTextStyle,
-    child: Container(
-      color: const Color.fromARGB(225, 19, 19, 19),
-      width: 400,
-      height: 50,
-      child: Row(
-        children: [
-          settingIcon != Icons.settings
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(settingIcon),
-                )
-              : const SizedBox(width: 40),
-          Text(settingName),
-          const Spacer(),
-          StatefulBuilder(builder: (context, setState) => 
-            Row(
-              children: items.map((e) => 
-                Padding(
-                  padding: const EdgeInsets.only(left: 12),
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        currentValue = items.indexOf(e);
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: currentValue == items.indexOf(e) ? Colors.transparent : Colors.grey.shade800, width: 2),
-                        borderRadius: BorderRadius.circular(8),
-                        color: currentValue == items.indexOf(e) ? Colors.pink : Colors.transparent
-                      ),
-                      child: SizedBox(
-                        width: 80,
-                        height: 30,
-                        child: Center(
-                          child: Text(e),
+    child: Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: SizedBox(
+        width: 400,
+        // height: 50,
+        child: Row(
+          children: [
+            settingIcon != Icons.settings
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(settingIcon),
+                  )
+                : const SizedBox(width: 40),
+            Text(settingName),
+            const Spacer(),
+            StatefulBuilder(builder: (context, setState) => 
+              SizedBox(
+                width: 200,
+                child: Wrap(
+                  alignment: WrapAlignment.spaceAround,
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: items.map((e) => 
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            currentValue = items.indexOf(e);
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: currentValue == items.indexOf(e) ? Colors.transparent : Colors.grey.shade800, width: 2),
+                            borderRadius: BorderRadius.circular(8),
+                            color: currentValue == items.indexOf(e) ? Colors.pink : Colors.transparent
+                          ),
+                          child: SizedBox(
+                            width: items.indexOf(e) == (items.length -1) && items.length % 2 == 1 ? 190 : 80,
+                            height: 30,
+                            child: Center(
+                              child: Text(e),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                )
-              ).toList(),
+                    )
+                  ).toList(),
+                ),
+              )
             )
-          )
-        ],
+          ],
+        ),
       ),
     ),
   );
