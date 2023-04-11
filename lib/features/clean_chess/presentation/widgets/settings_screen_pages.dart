@@ -497,7 +497,7 @@ Widget _settingButtons({
                 : const SizedBox(width: 40),
             Text(settingName),
             const Spacer(),
-            _aniamtedButton(items, currentValue),
+            _animatedButton(items, currentValue),
           ],
         ),
       ),
@@ -505,7 +505,7 @@ Widget _settingButtons({
   );
 }
 
-Widget _aniamtedButton(
+Widget _animatedButton(
   List<String> items,
   int currentValue,
 ) {
