@@ -473,11 +473,12 @@ Widget _settingSwitcher({
   );
 }
 
-Widget _settingButtons(
-    {required String settingName,
-    required List<String> items,
-    IconData settingIcon = Icons.settings,
-    int currentValue = 0}) {
+Widget _settingButtons({
+  required String settingName,
+  required List<String> items,
+  IconData settingIcon = Icons.settings,
+  int currentValue = 0,
+}) {
   return DefaultTextStyle(
     style: universalTextStyle,
     child: Padding(
@@ -511,7 +512,9 @@ Widget _settingButtons(
                                         currentValue = items.indexOf(e);
                                       });
                                     },
-                                    child: Container(
+                                    child: AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 200),
                                       decoration: BoxDecoration(
                                           border: Border.all(
                                               color: currentValue ==
