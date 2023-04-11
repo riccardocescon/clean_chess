@@ -1,4 +1,5 @@
 // import 'package:dartz/dartz.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -70,13 +71,11 @@ class Display extends StatelessWidget {
           ),
           _settingSwitcher(
             settingName: "Move list while playing",
-            settingIcon: Icons.list,
             value: false,
           ),
-          _settingDropdown(
+          _settingButtons(
             settingName: "Move notation",
-            settingIcon: Icons.format_list_numbered,
-            items: ["Chess pieces", "Letters"],
+            items: ["Pieces", "Letters"],
           ),
           _settingSwitcher(
             settingName: "Zen mode",
@@ -87,7 +86,14 @@ class Display extends StatelessWidget {
             settingName: "Blindfold chess",
             value: true,
           ),
-          // board screen side (left, right)
+          _settingButtons(
+            settingName: "Board screen side",
+            items: ["Left", "Right"]
+          ),
+          _settingButtons(
+            settingName: "Board orientation",
+            items: ["White on bottom", "Black on bottom"]
+          ),
         ],
       ),
       appBar: _appbar(context, "Display"),
@@ -235,25 +241,25 @@ Widget _settingSwitcher(
               : const SizedBox(width: 40),
           Text(settingName),
           const Spacer(),
-          StatefulBuilder(builder: (context, setState) => 
-          Switch(
-            activeTrackColor: Colors.pink,
-            inactiveTrackColor: Colors.transparent,
-            thumbColor: MaterialStateProperty.all(Colors.white),
-            value: value,
-            // if we want the thumb to have the same size between active and inactive this is the only solution i found
-            thumbIcon: MaterialStateProperty.all(
-              Icon(
-                value ? Icons.check : Icons.close,
-                color: Colors.white,
+          //best border i could do
+          Container(
+            padding: const EdgeInsets.all(0),
+            decoration: BoxDecoration(
+              border:  Border.all(color: Colors.grey.shade800, width: 2),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: StatefulBuilder(builder: (context, setState) => 
+              CupertinoSwitch(
+                activeColor: Colors.pink,
+                trackColor: Colors.black,
+                value: value,
+                onChanged: (bool newValue) {
+                  setState(() {
+                    value = newValue;
+                  });
+                },
               ),
             ),
-            onChanged: (bool newValue) {
-              setState(() {
-                value = newValue;
-              });
-            },
-          ),
           )
         ],
       ),
@@ -300,6 +306,62 @@ Widget _settingDropdown(
                   child: Text(value),
                 );
               }).toList(),
+            )
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _settingButtons(
+  {required String settingName,
+  required List<String> items,
+  IconData settingIcon = Icons.settings,
+  int currentValue = 0}
+) {
+  return DefaultTextStyle(
+    style: universalTextStyle,
+    child: Container(
+      color: const Color.fromARGB(225, 19, 19, 19),
+      width: 400,
+      height: 50,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(settingIcon),
+          ),
+          Text(settingName),
+          const Spacer(),
+          StatefulBuilder(builder: (context, setState) => 
+            Row(
+              children: items.map((e) => 
+                Padding(
+                  padding: const EdgeInsets.only(left: 12),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        currentValue = items.indexOf(e);
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: currentValue == items.indexOf(e) ? Colors.transparent : Colors.grey.shade800, width: 2),
+                        borderRadius: BorderRadius.circular(8),
+                        color: currentValue == items.indexOf(e) ? Colors.pink : Colors.transparent
+                      ),
+                      child: SizedBox(
+                        width: 80,
+                        height: 30,
+                        child: Center(
+                          child: Text(e),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ).toList(),
             )
           )
         ],
