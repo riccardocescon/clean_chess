@@ -1,4 +1,5 @@
 // import 'package:dartz/dartz.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -40,11 +41,12 @@ class Display extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          _settingDropdown(
+          _settingPage(
             settingName: "Pice animation",
             settingIcon: Icons.animation,
-            items: [ "None", "Slow", "Normal", "Fast"],
-            currentValue: "Normal", //optional
+            context: context,
+            // page: const PieceAnimation(),
+            page: const Homepage(),
           ),
           _settingSwitcher(
             settingName: "Magnified dragged pieces",
@@ -107,9 +109,34 @@ class Clock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: DefaultTextStyle(
-        style: universalTextStyle,
-        child: const Text("Hello!"),
+      body: Column(
+        children: [
+          _settingButtons(
+            settingName: "Clock position",
+            items: ["Top", "Bottom"],
+          ),
+          _settingButtons(
+            settingName: "Tenths of seconds",
+            settingIcon: Icons.timer,
+            // items: ["On", "Off", "< 10 seconds"],
+            items: ["On", "Off"],
+          ),
+          _settingSwitcher(
+            settingName: "Progress bar",
+            value: true,
+          ),
+          _settingSwitcher(
+            settingName: "Sound when time gets critical",
+            settingIcon: Icons.notifications_active,
+            value: true,
+          ),
+          _settingButtons(
+            settingName: "Give more time",
+            settingIcon: Icons.fast_forward,
+            // items: ["On", "Off", "Casual only"],
+            items: ["On", "Off"],
+          ),
+        ],
       ),
       appBar: _appbar(context, "Clock"),
     );
@@ -267,53 +294,6 @@ Widget _settingSwitcher(
   );
 }
 
-Widget _settingDropdown(
-    {required String settingName,
-    required IconData settingIcon,
-    required List<String> items,
-    String currentValue = ""}) {
-  String value = items[0];
-  return DefaultTextStyle(
-    style: universalTextStyle,
-    child: Container(
-      color: const Color.fromARGB(225, 19, 19, 19),
-      width: 400,
-      height: 50,
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(settingIcon),
-          ),
-          Text(settingName),
-          const Spacer(),
-          StatefulBuilder(builder: (context, setState) => 
-            DropdownButton<String>(
-              value: value,
-              icon: const Icon(Icons.arrow_forward_ios),
-              iconSize: 24,
-              elevation: 16,
-              style: const TextStyle(color: Colors.white),
-              underline: Container(height: 0),
-              onChanged: (String? newValue) {
-                setState(() {
-                  value = newValue!;
-                });
-              },
-              items: items.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            )
-          )
-        ],
-      ),
-    ),
-  );
-}
-
 Widget _settingButtons(
   {required String settingName,
   required List<String> items,
@@ -328,10 +308,12 @@ Widget _settingButtons(
       height: 50,
       child: Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(settingIcon),
-          ),
+          settingIcon != Icons.settings
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(settingIcon),
+                )
+              : const SizedBox(width: 40),
           Text(settingName),
           const Spacer(),
           StatefulBuilder(builder: (context, setState) => 
@@ -365,6 +347,40 @@ Widget _settingButtons(
             )
           )
         ],
+      ),
+    ),
+  );
+}
+
+Widget _settingPage (
+  {required String settingName,
+  required Widget page,
+  required context,
+  IconData settingIcon = Icons.settings,
+  }) {
+  return DefaultTextStyle(
+    style: universalTextStyle,
+    child: InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
+      child: SizedBox(
+        width: 400,
+        height: 50,
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(settingIcon),
+            ),
+            Text(settingName),
+            const Spacer(),
+            const Icon(Icons.arrow_forward_ios),
+          ],
+        ),
       ),
     ),
   );
