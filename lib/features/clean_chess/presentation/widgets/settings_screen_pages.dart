@@ -496,59 +496,64 @@ Widget _settingButtons({
                 : const SizedBox(width: 40),
             Text(settingName),
             const Spacer(),
-            StatefulBuilder(
-                builder: (context, setState) => SizedBox(
-                      width: 200,
-                      child: Wrap(
-                        alignment: WrapAlignment.spaceAround,
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: items
-                            .map((e) => Padding(
-                                  padding: const EdgeInsets.only(left: 12),
-                                  child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        currentValue = items.indexOf(e);
-                                      });
-                                    },
-                                    child: AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 200),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: currentValue ==
-                                                      items.indexOf(e)
-                                                  ? Colors.transparent
-                                                  : Colors.grey.shade800,
-                                              width: 2),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          color:
-                                              currentValue == items.indexOf(e)
-                                                  ? Colors.pink
-                                                  : Colors.transparent),
-                                      child: SizedBox(
-                                        width: items.indexOf(e) ==
-                                                    (items.length - 1) &&
-                                                items.length % 2 == 1
-                                            ? 190
-                                            : 80,
-                                        height: 30,
-                                        child: Center(
-                                          child: Text(e),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ))
-                            .toList(),
-                      ),
-                    ))
+            _aniamtedButton(items, currentValue),
           ],
         ),
       ),
     ),
+  );
+}
+
+Widget _aniamtedButton(
+  List<String> items,
+  int currentValue,
+) {
+  return StatefulBuilder(
+    builder: (context, setState) {
+      return SizedBox(
+        width: 200,
+        child: Wrap(
+          alignment: WrapAlignment.spaceAround,
+          spacing: 8,
+          runSpacing: 8,
+          children: items
+              .map((e) => Padding(
+                    padding: const EdgeInsets.only(left: 12),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          currentValue = items.indexOf(e);
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: currentValue == items.indexOf(e)
+                                    ? Colors.transparent
+                                    : Colors.grey.shade800,
+                                width: 2),
+                            borderRadius: BorderRadius.circular(8),
+                            color: currentValue == items.indexOf(e)
+                                ? Colors.pink
+                                : Colors.transparent),
+                        child: SizedBox(
+                          width: items.indexOf(e) == (items.length - 1) &&
+                                  items.length % 2 == 1
+                              ? 190
+                              : 80,
+                          height: 30,
+                          child: Center(
+                            child: Text(e),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ))
+              .toList(),
+        ),
+      );
+    },
   );
 }
 
