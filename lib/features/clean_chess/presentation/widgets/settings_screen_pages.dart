@@ -1,69 +1,76 @@
-// import 'package:dartz/dartz.dart';
+import 'package:cleanchess/features/clean_chess/data/models/settings/settings.dart';
+import 'package:cleanchess/features/clean_chess/data/models/user_settings_model.dart';
+import 'package:cleanchess/features/clean_chess/domain/entities/settings/setting.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-// display
-bool magnifiedDraggedPieces = true;
-bool boardHighlights = true;
-bool moveListWhilePlaying = true;
-bool pieceDestinations = true;
-bool boardCoordinates = true;
-int  moveNotation = 0; // 0 = pieces, 1 = letters
-bool zenMode = true;
-bool blindfoldChess = true;
-int  boardScreenSide = 0; // 0 = left, 1 = right
-int  boardOrientation = 0; // 0 = white on bottom, 1 = black on bottom
+//TODO: fetch those data with APIs
+final UserSettingsModel _userSettingsModel = UserSettingsModel.test();
 
 // clock
-int  clockPosition = 0; // 0 = top, 1 = bottom
-int  tenthsOfSeconds = 0; // 0 = on, 1 = off, 2 = < 10 seconds
-bool progressbar = true;
-bool soundWhenTimeGetsCritical = true;
-int  giveMoreTime = 0; // 0 = on, 1 = off, 2 = casual only
+int _clockPosition = 0; // 0 = top, 1 = bottom
+int _tenthsOfSeconds = 0; // 0 = on, 1 = off, 2 = < 10 seconds
+bool _progressbar = true;
+bool _soundWhenTimeGetsCritical = true;
+int _giveMoreTime = 0; // 0 = on, 1 = off, 2 = casual only
 
 // behavior
-int  moveType = 0; // 0 = tap, 1 = drag, 2 + either
-bool premove = true;
-int  takebacks = 0; // 0 = never, 1 = always, 2 = casual only
-int  promoteToQueen = 0; // 0 = never, 1 = always, 2 = when premoving
-int  drawOnThreefoldRepetition = 0; // 0 = never, 1 = always, 2 = < 30 seconds
-bool confirmResignation = true;
-int  castlingMode = 0; // 0 = two squares, 1 = onto rook
-bool keyboardInput = false;
-bool snapArrows = true;
-bool goodGameAfterDefeat = true;
+int _moveType = 0; // 0 = tap, 1 = drag, 2 + either
+bool _premove = true;
+int _takebacks = 0; // 0 = never, 1 = always, 2 = casual only
+int _promoteToQueen = 0; // 0 = never, 1 = always, 2 = when premoving
+int _drawOnThreefoldRepetition = 0; // 0 = never, 1 = always, 2 = < 30 seconds
+bool _confirmResignation = true;
+int _castlingMode = 0; // 0 = two squares, 1 = onto rook
+bool _keyboardInput = false;
+bool _snapArrows = true;
+bool _goodGameAfterDefeat = true;
 
 // language
 // maybe this should be changed to a string
-int  language = 0; // 0 = english, 1 = italian
+int _language = 0; // 0 = english, 1 = italian
 
 // themes
 
-
 // sound
-bool notifications = true;
-bool vibrate = true;
-bool sound = true;
+bool _notifications = true;
+bool _vibrate = true;
+bool _sound = true;
 
 // privacy
-bool follow = true;
-int  challenge = 0; 
-int  message = 0;
-int  study = 0;
-int  chessInsights = 0;
+bool _follow = true;
+int _challenge = 0;
+int _message = 0;
+int _study = 0;
+int _chessInsights = 0;
 
 final Uri _url = Uri.parse('https://github.com/riccardocescon/clean_chess');
 
 class Display extends StatelessWidget {
   const Display({super.key});
 
+  DisplaySettingsModel get display => _userSettingsModel.displaySettingsModel;
+
+  ClockSettingsModel get clock => _userSettingsModel.clockSettingsModel;
+
+  BehaviorSettingsModel get behavior =>
+      _userSettingsModel.behaviorSettingsModel;
+
+  LanguageSettingsModel get language =>
+      _userSettingsModel.languageSettingsModel;
+
+  SoundSettingsModel get sound => _userSettingsModel.soundSettingsModel;
+
+  PrivacySettingsModel get privacy => _userSettingsModel.privacySettingsModel;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
+          // If used more than once, consider building a PageSwtting class
           _settingPage(
             settingName: "Pice animation",
             settingIcon: Icons.animation,
@@ -71,53 +78,28 @@ class Display extends StatelessWidget {
             // page: const PieceAnimation(),
             page: const Homepage(),
           ),
-          _settingSwitcher(
-            settingName: "Magnified dragged pieces",
-            settingIcon: Icons.search,
-            value: magnifiedDraggedPieces,
-          ),
-          _settingSwitcher(
-            settingName: "Board highlights",
-            value: boardHighlights,
-          ),
-          _settingSwitcher(
-            settingName: "Move list while playing",
-            value: moveListWhilePlaying,
-          ),
-          _settingSwitcher(
-            settingName: "Piece destinations",
-            settingIcon: Icons.arrow_forward,
-            value: pieceDestinations,
-          ),
-          _settingSwitcher(
-            settingName: "Board coordinates",
-            settingIcon: Icons.grid_on,
-            value: boardCoordinates,
-          ),
-          _settingButtons(
-            settingName: "Move notation",
-            items: ["Pieces", "Letters"],
-            currentValue: moveNotation,
-          ),
-          _settingSwitcher(
-            settingName: "Zen mode",
-            settingIcon: Icons.remove_red_eye,
-            value: zenMode,
-          ),
-          _settingSwitcher(
-            settingName: "Blindfold chess",
-            value: blindfoldChess,
-          ),
-          _settingButtons(
-            settingName: "Board screen side",
-            items: ["Left", "Right"],
-            currentValue: boardScreenSide,
-          ),
-          _settingButtons(
-            settingName: "Board orientation",
-            items: ["White on bottom", "Black on bottom"],
-            currentValue: boardOrientation,
-          ),
+
+          // Convert all display settings into widgets and add them to this column
+          ...display.values.map<Widget>((e) {
+            if (e is SwitchSetting) {
+              return _settingSwitcher(
+                settingName: e.name,
+                settingIcon: e.icon,
+                value: e.value,
+              );
+            } else if (e is ButtonsSetting) {
+              return _settingButtons(
+                settingName: e.name,
+                items: e.options.map((e) => e.name).toList(),
+                currentValue: e.valueIndex,
+              );
+            } else {
+              throw Exception("Unknown setting type: $e");
+            }
+          }).toList()
+
+          // ...clock.values.map<Widget>((e) { ...
+          // same for others
         ],
       ),
       appBar: _appbar(context, "Display"),
@@ -136,13 +118,13 @@ class Clock extends StatelessWidget {
           _settingButtons(
             settingName: "Clock position",
             items: ["Top", "Bottom"],
-            currentValue: clockPosition,
+            currentValue: _clockPosition,
           ),
           _settingButtons(
             settingName: "Tenths of seconds",
             settingIcon: Icons.timer,
             items: ["On", "Off", "< 10 seconds"],
-            currentValue: tenthsOfSeconds,
+            currentValue: _tenthsOfSeconds,
           ),
           _settingSwitcher(
             settingName: "Progress bar",
@@ -151,13 +133,13 @@ class Clock extends StatelessWidget {
           _settingSwitcher(
             settingName: "Sound when time gets critical",
             settingIcon: Icons.notifications_active,
-            value: soundWhenTimeGetsCritical,
+            value: _soundWhenTimeGetsCritical,
           ),
           _settingButtons(
             settingName: "Give more time",
             settingIcon: Icons.fast_forward,
             items: ["On", "Off", "Casual only"],
-            currentValue: giveMoreTime,
+            currentValue: _giveMoreTime,
           ),
         ],
       ),
@@ -173,63 +155,62 @@ class Behavior extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTextStyle(
-        style: universalTextStyle,
-        child: Column(
-          children: [
-            _settingButtons(
-              settingName: "Move type",
-              settingIcon: Icons.input,
-              items: ["Click", "Drag", "Either"],
-              currentValue: moveType,
-            ),
-            _settingSwitcher(
-              settingName: "Premoves",
-              settingIcon: Icons.zoom_out_map,
-              value: premove,
-            ),
-            _settingButtons(
-              settingName: "Takebacks",
-              settingIcon: Icons.threesixty,
-              items: ["Never", "Always", "Casual only"],
-              currentValue: takebacks,
-            ),
-            _settingButtons(
-              settingName: "Promote to queen",
-              items: ["Never", "Always", "When premoving"],
-              currentValue: promoteToQueen,
-            ),
-            _settingButtons(
-              settingName: "Draw on threefold",
-              items: ["Never", "Always", "< 30 seconds"],
-              currentValue: drawOnThreefoldRepetition,
-            ),
-            _settingSwitcher(
-              settingName: "Confirm resignation and draw offers",
-              value: confirmResignation,
-            ),
-            _settingButtons(
-              settingName: "To castle move king",
-              items: ["Two squares", "Onto rook"],
-              currentValue: castlingMode,
-            ),
-            _settingSwitcher(
-              settingName: "Input moves with keyboard",
-              settingIcon: Icons.keyboard,
-              value: keyboardInput,
-            ),
-            _settingSwitcher(
-              settingName: "Snap arrows to valid moves",
-              settingIcon: Icons.arrow_outward,
-              value: snapArrows,
-            ),
-            _settingSwitcher(
-              settingName: "Say \"Good game\" upon defeat or draw",
-              settingIcon: Icons.sentiment_satisfied,
-              value: goodGameAfterDefeat,
-            ),
-          ],
-        )
-      ),
+          style: universalTextStyle,
+          child: Column(
+            children: [
+              _settingButtons(
+                settingName: "Move type",
+                settingIcon: Icons.input,
+                items: ["Click", "Drag", "Either"],
+                currentValue: _moveType,
+              ),
+              _settingSwitcher(
+                settingName: "Premoves",
+                settingIcon: Icons.zoom_out_map,
+                value: _premove,
+              ),
+              _settingButtons(
+                settingName: "Takebacks",
+                settingIcon: Icons.threesixty,
+                items: ["Never", "Always", "Casual only"],
+                currentValue: _takebacks,
+              ),
+              _settingButtons(
+                settingName: "Promote to queen",
+                items: ["Never", "Always", "When premoving"],
+                currentValue: _promoteToQueen,
+              ),
+              _settingButtons(
+                settingName: "Draw on threefold",
+                items: ["Never", "Always", "< 30 seconds"],
+                currentValue: _drawOnThreefoldRepetition,
+              ),
+              _settingSwitcher(
+                settingName: "Confirm resignation and draw offers",
+                value: _confirmResignation,
+              ),
+              _settingButtons(
+                settingName: "To castle move king",
+                items: ["Two squares", "Onto rook"],
+                currentValue: _castlingMode,
+              ),
+              _settingSwitcher(
+                settingName: "Input moves with keyboard",
+                settingIcon: Icons.keyboard,
+                value: _keyboardInput,
+              ),
+              _settingSwitcher(
+                settingName: "Snap arrows to valid moves",
+                settingIcon: Icons.arrow_outward,
+                value: _snapArrows,
+              ),
+              _settingSwitcher(
+                settingName: "Say \"Good game\" upon defeat or draw",
+                settingIcon: Icons.sentiment_satisfied,
+                value: _goodGameAfterDefeat,
+              ),
+            ],
+          )),
       appBar: _appbar(context, "Behavior"),
     );
   }
@@ -242,18 +223,17 @@ class Language extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTextStyle(
-        style: universalTextStyle,
-        child: Column(
-          children: [
-            _settingButtons(
-              settingName: "Language",
-              settingIcon: Icons.flag,
-              items: ["English", "Italian", "Spanish", "Turkish"],
-              currentValue: language,
-            ),
-          ],
-        )
-      ),
+          style: universalTextStyle,
+          child: Column(
+            children: [
+              _settingButtons(
+                settingName: "Language",
+                settingIcon: Icons.flag,
+                items: ["English", "Italian", "Spanish", "Turkish"],
+                currentValue: _language,
+              ),
+            ],
+          )),
       appBar: _appbar(context, "Language"),
     );
   }
@@ -281,27 +261,26 @@ class Sound extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTextStyle(
-        style: universalTextStyle,
-        child: Column(
-          children: [
-            _settingSwitcher(
-              settingName: "Notifications",
-              settingIcon: Icons.notifications,
-              value: notifications,
-            ),
-            _settingSwitcher(
-              settingName: "Vibrate on game events",
-              settingIcon: Icons.vibration,
-              value: vibrate,
-            ),
-            _settingSwitcher(
-              settingName: "Toggle sound",
-              settingIcon: Icons.volume_up,
-              value: sound,
-            ),
-          ],
-        )
-      ),
+          style: universalTextStyle,
+          child: Column(
+            children: [
+              _settingSwitcher(
+                settingName: "Notifications",
+                settingIcon: Icons.notifications,
+                value: _notifications,
+              ),
+              _settingSwitcher(
+                settingName: "Vibrate on game events",
+                settingIcon: Icons.vibration,
+                value: _vibrate,
+              ),
+              _settingSwitcher(
+                settingName: "Toggle sound",
+                settingIcon: Icons.volume_up,
+                value: _sound,
+              ),
+            ],
+          )),
       appBar: _appbar(context, "Sound"),
     );
   }
@@ -314,41 +293,46 @@ class Privacy extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTextStyle(
-        style: universalTextStyle,
-        child: Column(
-          children: [
-            _settingSwitcher(
-              settingName: "Let others follow you",
-              settingIcon: Icons.person,
-              value: follow,
-            ),
-            _settingButtons(
-              settingName: "Let others challenge you",
-              settingIcon: Icons.shield,
-              items: ["Never", "Always", "Friends", "Registered", "Rating is ± 300"],
-              currentValue: challenge,
-            ),
-            _settingButtons(
-              settingName: "Let others message you",
-              settingIcon: Icons.message,
-              items: ["Always", "Friends", "Only existing conversations"],
-              currentValue: message,
-            ),
-            _settingButtons(
-              settingName: "Let others invite to study",
-              settingIcon: Icons.shield,
-              items: ["Never", "Always", "Friends"],
-              currentValue: study,
-            ),
-            _settingButtons(
-              settingName: "Share chess insights",
-              settingIcon: Icons.bar_chart,
-              items: ["No one", "Friends", "Everyone"],
-              currentValue: chessInsights,
-            ),
-          ],
-        )
-      ),
+          style: universalTextStyle,
+          child: Column(
+            children: [
+              _settingSwitcher(
+                settingName: "Let others follow you",
+                settingIcon: Icons.person,
+                value: _follow,
+              ),
+              _settingButtons(
+                settingName: "Let others challenge you",
+                settingIcon: Icons.shield,
+                items: [
+                  "Never",
+                  "Always",
+                  "Friends",
+                  "Registered",
+                  "Rating is ± 300"
+                ],
+                currentValue: _challenge,
+              ),
+              _settingButtons(
+                settingName: "Let others message you",
+                settingIcon: Icons.message,
+                items: ["Always", "Friends", "Only existing conversations"],
+                currentValue: _message,
+              ),
+              _settingButtons(
+                settingName: "Let others invite to study",
+                settingIcon: Icons.shield,
+                items: ["Never", "Always", "Friends"],
+                currentValue: _study,
+              ),
+              _settingButtons(
+                settingName: "Share chess insights",
+                settingIcon: Icons.bar_chart,
+                items: ["No one", "Friends", "Everyone"],
+                currentValue: _chessInsights,
+              ),
+            ],
+          )),
       appBar: _appbar(context, "Privacy"),
     );
   }
@@ -442,12 +426,11 @@ Widget _settingButton(
   );
 }
 
-
-Widget _settingSwitcher(
-    {required String settingName,
-    required bool value,
-    IconData settingIcon = Icons.settings,
-    }) {
+Widget _settingSwitcher({
+  required String settingName,
+  required bool value,
+  IconData settingIcon = Icons.settings,
+}) {
   return DefaultTextStyle(
     style: universalTextStyle,
     child: Container(
@@ -468,11 +451,11 @@ Widget _settingSwitcher(
           Container(
             padding: const EdgeInsets.all(0),
             decoration: BoxDecoration(
-              border:  Border.all(color: Colors.grey.shade800, width: 2),
+              border: Border.all(color: Colors.grey.shade800, width: 2),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: StatefulBuilder(builder: (context, setState) => 
-              CupertinoSwitch(
+            child: StatefulBuilder(
+              builder: (context, setState) => CupertinoSwitch(
                 activeColor: Colors.pink,
                 trackColor: Colors.black,
                 value: value,
@@ -491,11 +474,10 @@ Widget _settingSwitcher(
 }
 
 Widget _settingButtons(
-  {required String settingName,
-  required List<String> items,
-  IconData settingIcon = Icons.settings,
-  int currentValue = 0}
-) {
+    {required String settingName,
+    required List<String> items,
+    IconData settingIcon = Icons.settings,
+    int currentValue = 0}) {
   return DefaultTextStyle(
     style: universalTextStyle,
     child: Padding(
@@ -513,42 +495,53 @@ Widget _settingButtons(
                 : const SizedBox(width: 40),
             Text(settingName),
             const Spacer(),
-            StatefulBuilder(builder: (context, setState) => 
-              SizedBox(
-                width: 200,
-                child: Wrap(
-                  alignment: WrapAlignment.spaceAround,
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: items.map((e) => 
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12),
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            currentValue = items.indexOf(e);
-                          });
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: currentValue == items.indexOf(e) ? Colors.transparent : Colors.grey.shade800, width: 2),
-                            borderRadius: BorderRadius.circular(8),
-                            color: currentValue == items.indexOf(e) ? Colors.pink : Colors.transparent
-                          ),
-                          child: SizedBox(
-                            width: items.indexOf(e) == (items.length -1) && items.length % 2 == 1 ? 190 : 80,
-                            height: 30,
-                            child: Center(
-                              child: Text(e),
-                            ),
-                          ),
-                        ),
+            StatefulBuilder(
+                builder: (context, setState) => SizedBox(
+                      width: 200,
+                      child: Wrap(
+                        alignment: WrapAlignment.spaceAround,
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: items
+                            .map((e) => Padding(
+                                  padding: const EdgeInsets.only(left: 12),
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        currentValue = items.indexOf(e);
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: currentValue ==
+                                                      items.indexOf(e)
+                                                  ? Colors.transparent
+                                                  : Colors.grey.shade800,
+                                              width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color:
+                                              currentValue == items.indexOf(e)
+                                                  ? Colors.pink
+                                                  : Colors.transparent),
+                                      child: SizedBox(
+                                        width: items.indexOf(e) ==
+                                                    (items.length - 1) &&
+                                                items.length % 2 == 1
+                                            ? 190
+                                            : 80,
+                                        height: 30,
+                                        child: Center(
+                                          child: Text(e),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
                       ),
-                    )
-                  ).toList(),
-                ),
-              )
-            )
+                    ))
           ],
         ),
       ),
@@ -556,12 +549,12 @@ Widget _settingButtons(
   );
 }
 
-Widget _settingPage (
-  {required String settingName,
+Widget _settingPage({
+  required String settingName,
   required Widget page,
   required context,
   IconData settingIcon = Icons.settings,
-  }) {
+}) {
   return DefaultTextStyle(
     style: universalTextStyle,
     child: InkWell(
