@@ -142,7 +142,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Padding(
           padding: const EdgeInsets.only(top: 37.5),
           child: Image(
-            image: const AssetImage("assets/icons/flags/italy_flag.png"),
+                        // thanks to https://github.com/lipis/flag-icons
+            image: AssetImage("assets/icons/flags/${widget.user.profile?.country?.toLowerCase() ?? "xx"}.png"),
             height: kIconsHeigth,
           ),
         ),
