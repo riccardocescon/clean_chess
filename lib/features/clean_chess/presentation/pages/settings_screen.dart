@@ -1,8 +1,6 @@
 import 'package:cleanchess/features/clean_chess/presentation/widgets/settings_screen_pages.dart';
 import 'package:flutter/material.dart';
 
-int index = 0;
-
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 

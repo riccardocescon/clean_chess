@@ -1,6 +1,8 @@
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/game_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/puzzle_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/team_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
@@ -117,6 +119,8 @@ class _GlobalProviderState extends State<GlobalProvider> {
         BlocProvider<UserCubit>(create: (context) => sl<UserCubit>()),
         BlocProvider<TeamCubit>(create: (context) => sl<TeamCubit>()),
         BlocProvider<SocialCubit>(create: (context) => sl<SocialCubit>()),
+        BlocProvider<GameCubit>(create: (context) => sl<GameCubit>()),
+        BlocProvider<PuzzleCubit>(create: (context) => sl<PuzzleCubit>()),
       ],
       child: widget.child,
     );

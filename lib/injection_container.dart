@@ -1,3 +1,4 @@
+import 'package:cleanchess/core/presentation/bloc/utilities/cubit_helper.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_datasource.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_game_data_source.dart';
@@ -33,6 +34,7 @@ final sl = GetIt.instance;
 Future<void> init() async {
   // Generics
   sl.registerLazySingleton<LichessTokenProvider>(() => LichessTokenProvider());
+  sl.registerLazySingleton<CubitHelper>(() => CubitHelper());
 
   sl.registerLazySingleton<AuthCubit>(
     () => AuthCubit(

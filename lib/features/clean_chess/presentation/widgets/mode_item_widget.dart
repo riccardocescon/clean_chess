@@ -8,6 +8,7 @@ class ModeItem extends StatelessWidget {
     required this.icon,
     required this.color,
     this.stats,
+    this.onTap,
   });
 
   final String title;
@@ -15,11 +16,12 @@ class ModeItem extends StatelessWidget {
   final List<Widget>? stats;
   final Color color;
   final Widget icon;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
+      onTap: onTap,
       leading: _modeIcon,
       title: _title(title),
       subtitle: _subtitle(subtitle),

@@ -82,7 +82,7 @@ class LichessPuzzleDataSource implements RemotePuzzleDataSource {
   }) async {
     try {
       logDebug(
-        'Getting puzzle activity by user...',
+        'Getting puzzle dashboard by user...',
         tag: 'Puzzle',
         color: LogColor.lightBlue,
       );

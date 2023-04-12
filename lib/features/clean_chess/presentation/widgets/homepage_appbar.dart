@@ -3,11 +3,11 @@ import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/profile_screen.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lichess_client_dio/lichess_client_dio.dart';
 import 'package:skeletons/skeletons.dart';
 
 class HomepageAppbar extends StatefulWidget {
@@ -18,8 +18,6 @@ class HomepageAppbar extends StatefulWidget {
 }
 
 class _HomepageAppbarState extends State<HomepageAppbar> {
-  User? user;
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
