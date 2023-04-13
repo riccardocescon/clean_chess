@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/puzzle_dashboard_page.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/puzzle_page.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/mode_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -95,7 +96,7 @@ Widget _puzzleItem(BuildContext context) => ModeItem(
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const PuzzleDashboardPage(),
+            builder: (context) => const PuzzlePage(),
           ),
         );
       },
