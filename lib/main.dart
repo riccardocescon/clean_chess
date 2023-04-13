@@ -8,6 +8,7 @@ import 'package:cleanchess/features/clean_chess/presentation/blocs/team_cubit.da
 import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/login_screen.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/match_page.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
