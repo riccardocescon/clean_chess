@@ -17,7 +17,7 @@ class PuzzleTopStats extends StatelessWidget {
   });
 
   final PuzzleModel Function() onGetPuzzle;
-  final bool Function() isPuzzleCompleted;
+  final bool Function(String uci) isPuzzleCompleted;
   final double topStatsHeigth;
   final double topStatsPadding;
   final Color textColor;
@@ -29,7 +29,7 @@ class PuzzleTopStats extends StatelessWidget {
         builder: (context, state) {
       return state.maybeMap(
         pieceMoved: (value) {
-          if (isPuzzleCompleted()) {
+          if (isPuzzleCompleted(value.move.uci)) {
             return _topPuzzleStats(context);
           } else {
             return _topStats();

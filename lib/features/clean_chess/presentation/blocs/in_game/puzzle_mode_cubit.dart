@@ -43,8 +43,9 @@ class PuzzleModelCubit extends Cubit<PuzzleModeState> {
     const path = 'assets/puzzles/lichess_db_puzzle.csv';
     final value = await rootBundle.loadString(path);
     final res = const CsvToListConverter().convert(value);
-    final puzzle = PuzzleModel.fromDB(res[Random().nextInt(res.length)]);
-    // final puzzle = PuzzleModel.fromDB(res.first);
+    // final puzzle = PuzzleModel.fromDB(res[Random().nextInt(res.length)]);
+    final puzzle =
+        PuzzleModel.fromDB(res.firstWhere((element) => element[0] == '05UW6'));
     emit(_Puzzle(puzzle));
   }
 

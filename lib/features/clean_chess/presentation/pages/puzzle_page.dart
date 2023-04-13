@@ -35,7 +35,8 @@ class _PuzzlePageState extends State<PuzzlePage> {
   final double _bottomBarCompletedHeigth = 100;
 
   PuzzleModel? _puzzle;
-  bool get _puzzleCompleted => _puzzle!.moves.length < 2;
+  bool _puzzleCompleted(String lastMove) =>
+      _puzzle!.moves.length == 1 && lastMove == _puzzle!.moves.first;
   late ChessboardController _controller;
   int _retries = 0;
 
@@ -65,7 +66,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
         ),
         PuzzleTopStats(
           onGetPuzzle: () => _puzzle!,
-          isPuzzleCompleted: () => _puzzleCompleted,
+          isPuzzleCompleted: (uci) => _puzzleCompleted(uci),
         ),
         Expanded(
           child: Center(
@@ -78,7 +79,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
         BlocBuilder<PuzzleModelCubit, PuzzleModeState>(
           builder: (context, state) {
             return state.maybeWhen(
-              pieceMoved: (move) => _bottomBar(_puzzleCompleted),
+              pieceMoved: (move) => _bottomBar(_puzzleCompleted(move.uci)),
               orElse: () => _bottomBar(false),
             );
           },
@@ -236,7 +237,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
         barType: value.side == Side.black ? TopBarType.white : TopBarType.black,
       ),
       pieceMoved: (value) {
-        if (_puzzleCompleted) {
+        if (_puzzleCompleted(value.move.uci)) {
           return PuzzleMessageBar(
             barType: _retries == 0
                 ? TopBarType.solvedWithoutHints
@@ -280,8 +281,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
       },
       // Callback for the user move
       pieceMoved: (move) async {
-        if (_puzzleCompleted) return;
-
+        if (_puzzleCompleted(move.uci)) return;
         // validate the move
         if (move.uci == _puzzle!.moves.first) {
           // Right move: bot will peroform the next move
@@ -308,8 +308,8 @@ class _PuzzlePageState extends State<PuzzlePage> {
           setup: Setup.parseFen(_puzzle!.fen),
         );
       },
-      pieceMoved: (_) {
-        if (_puzzleCompleted) {
+      pieceMoved: (move) {
+        if (_puzzleCompleted(move.uci)) {
           _controller.setInteractable(false);
         }
       },
