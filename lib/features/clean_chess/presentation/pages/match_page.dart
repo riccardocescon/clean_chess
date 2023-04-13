@@ -69,10 +69,7 @@ class _MatchPageState extends State<MatchPage> {
               _userData(widget.black, !_whiteTurn),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: _boardUsersPadding),
-                child: const AspectRatio(
-                  aspectRatio: 1,
-                  child: ChessboardInterpreter(),
-                ),
+                child: const ChessboardInterpreter(),
               ),
               _userData(widget.white, _whiteTurn),
             ],

@@ -44,11 +44,14 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
   }
 
   @override
-  Widget build(BuildContext context) => Chessboard(
-        onCellTap: _onCellTap,
-        selectedSquares: _selectedSquares,
-        selectedSquare: _selectedSquare,
-        pieces: _chessKit.pieces,
+  Widget build(BuildContext context) => AspectRatio(
+        aspectRatio: 1,
+        child: Chessboard(
+          onCellTap: _onCellTap,
+          selectedSquares: _selectedSquares,
+          selectedSquare: _selectedSquare,
+          pieces: _chessKit.pieces,
+        ),
       );
 
   /// Callback for when a cell is tapped.

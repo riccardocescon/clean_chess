@@ -49,19 +49,15 @@ class _StreamingWidgetState extends State<StreamingWidget> {
               ),
             ]),
             heigth5,
-            AspectRatio(
-              aspectRatio: 1,
-              child: BlocBuilder<TvGameStreamCubit,
-                  AsyncSnapshot<LichessTvGameSummary>>(
-                bloc: _tvGameStreamBloc,
-                builder: (context, state) {
-                  final fen = state.data?.data?.fen;
+            BlocBuilder<TvGameStreamCubit, AsyncSnapshot<LichessTvGameSummary>>(
+              bloc: _tvGameStreamBloc,
+              builder: (context, state) {
+                final fen = state.data?.data?.fen;
 
-                  return ChessboardInterpreter(
-                    setup: fen != null ? Setup.parseFen(fen) : Setup.standard,
-                  );
-                },
-              ),
+                return ChessboardInterpreter(
+                  setup: fen != null ? Setup.parseFen(fen) : Setup.standard,
+                );
+              },
             ),
             heigth5,
             PaddedItems(
