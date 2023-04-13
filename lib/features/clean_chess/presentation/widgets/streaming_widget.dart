@@ -55,7 +55,9 @@ class _StreamingWidgetState extends State<StreamingWidget> {
                 final fen = state.data?.data?.fen;
 
                 return ChessboardInterpreter(
-                  setup: fen != null ? Setup.parseFen(fen) : Setup.standard,
+                  controller: ChessboardController(
+                    setup: fen != null ? Setup.parseFen(fen) : Setup.standard,
+                  ),
                 );
               },
             ),

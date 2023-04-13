@@ -18,6 +18,7 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart
 import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/game_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/in_game/puzzle_mode_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/puzzle_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/team_cubit.dart';
@@ -35,6 +36,7 @@ Future<void> init() async {
   // Generics
   sl.registerLazySingleton<LichessTokenProvider>(() => LichessTokenProvider());
   sl.registerLazySingleton<CubitHelper>(() => CubitHelper());
+  sl.registerLazySingleton<PuzzleModelCubit>(() => PuzzleModelCubit());
 
   sl.registerLazySingleton<AuthCubit>(
     () => AuthCubit(

@@ -24,6 +24,9 @@ class ChessKit {
   /// Getter for the current turn
   Side get turn => _chess.turn;
 
+  /// Getter for the current FEN
+  String get fen => _chess.fen;
+
   bool get isCheckmate => _chess.isCheckmate;
   bool get isStalemate => _chess.isStalemate;
   bool get isInsufficientMaterial => _chess.isInsufficientMaterial;

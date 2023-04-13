@@ -1,14 +1,15 @@
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
+import 'package:cleanchess/features/clean_chess/data/models/puzzle_model.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/game_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/in_game/puzzle_mode_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/puzzle_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/team_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/login_screen.dart';
-import 'package:cleanchess/features/clean_chess/presentation/pages/match_page.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -122,6 +123,8 @@ class _GlobalProviderState extends State<GlobalProvider> {
         BlocProvider<SocialCubit>(create: (context) => sl<SocialCubit>()),
         BlocProvider<GameCubit>(create: (context) => sl<GameCubit>()),
         BlocProvider<PuzzleCubit>(create: (context) => sl<PuzzleCubit>()),
+        BlocProvider<PuzzleModelCubit>(
+            create: (context) => sl<PuzzleModelCubit>()),
       ],
       child: widget.child,
     );

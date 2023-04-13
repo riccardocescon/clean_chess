@@ -2,10 +2,19 @@ import 'dart:math';
 
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
+import 'package:cleanchess/features/clean_chess/data/models/puzzle_model.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/in_game/puzzle_mode_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard_interpreter.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/puzzle_mode/puzzle_bottom_graph.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/puzzle_mode/puzzle_top_stats.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/titled_app_bar.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:cleanchess/injection_container.dart';
+import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletons/skeletons.dart';
+
+import '../widgets/puzzle_mode/puzzle_message_bar.dart';
 
 class PuzzlePage extends StatefulWidget {
   const PuzzlePage({super.key});
@@ -15,21 +24,29 @@ class PuzzlePage extends StatefulWidget {
 }
 
 class _PuzzlePageState extends State<PuzzlePage> {
-  List<String> _moves = [];
-
   //Colors
   final Color _bottomNavBarBgColor = Colors.grey.shade900;
+  final Color _winColor = Colors.green;
+  final Color _barColor = Colors.white;
+  final Color _loseColor = Colors.red;
 
   // Sizes
-  final double _topBarHeight = 60;
   final double _bottomBarHeigth = 50;
   final double _bottomBarCompletedHeigth = 100;
-  final double _topStatsHeigth = 50;
-  final double _topStatsPadding = 10;
+
+  PuzzleModel? _puzzle;
+  bool get _puzzleCompleted => _puzzle!.moves.length < 2;
+  late ChessboardController _controller;
+  int _retries = 0;
+
+  @override
+  void initState() {
+    sl<PuzzleModelCubit>().getRandomPuzzle();
+    super.initState();
+  }
 
   // Times
-  final Duration _bottomBarAnimation = const Duration(milliseconds: 300);
-
+  final Duration _bottomBarAnimation = const Duration(milliseconds: 500);
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
@@ -42,106 +59,44 @@ class _PuzzlePageState extends State<PuzzlePage> {
   Widget _body() {
     return Column(
       children: [
-        _topBar(_TopBarType.white),
-        _topStats(),
-        const Expanded(
+        BlocConsumer<PuzzleModelCubit, PuzzleModeState>(
+          listener: _topBarListener,
+          builder: _topBarBuilder,
+        ),
+        PuzzleTopStats(
+          onGetPuzzle: () => _puzzle!,
+          isPuzzleCompleted: () => _puzzleCompleted,
+        ),
+        Expanded(
           child: Center(
-            child: ChessboardInterpreter(),
+            child: BlocConsumer<PuzzleModelCubit, PuzzleModeState>(
+              listener: _chessboardListener,
+              builder: _chessboardBuilder,
+            ),
           ),
         ),
-        _bottomBar(false),
+        BlocBuilder<PuzzleModelCubit, PuzzleModeState>(
+          builder: (context, state) {
+            return state.maybeWhen(
+              pieceMoved: (move) => _bottomBar(_puzzleCompleted),
+              orElse: () => _bottomBar(false),
+            );
+          },
+        ),
       ],
     );
   }
 
-  Widget _topBar(_TopBarType barType) {
-    final messages = {
-      _TopBarType.white: 'White to play',
-      _TopBarType.black: 'Black to play',
-      _TopBarType.rightMove: 'Right move, keep going!',
-      _TopBarType.wrongMove: 'Wrong move, try again!',
-      _TopBarType.solvedWithoutHints: 'Solved without hints!',
-      _TopBarType.solvedWithHints: 'Solved with hints!',
-      _TopBarType.solvedInMultipleTries: 'Solved in multiple tries!',
-    };
-    final message = messages[barType]!;
-
-    const noIcon = Icons.abc;
-    final icons = {
-      _TopBarType.solvedWithoutHints: Icons.check_rounded,
-      _TopBarType.solvedWithHints: Icons.horizontal_rule_rounded,
-      _TopBarType.solvedInMultipleTries: Icons.close_rounded,
-      _TopBarType.white: noIcon,
-      _TopBarType.black: noIcon,
-    };
-
-    final icon = icons[barType];
-
-    return Container(
-      height: _topBarHeight,
-      color: barType.primaryColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (icon != null)
-            Container(
-              width: Theme.of(context).textTheme.bodyMedium!.fontSize,
-              height: Theme.of(context).textTheme.bodyMedium!.fontSize,
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                border: Border.all(
-                  color: barType.secondaryColor,
-                ),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              alignment: Alignment.center,
-              child: icon == noIcon
-                  ? null
-                  : Icon(
-                      icon,
-                      color: barType.secondaryColor,
-                      size: Theme.of(context).textTheme.bodySmall!.fontSize,
-                    ),
-            ),
-          width10,
-          Text(
-            message,
-            style: TextStyle(
-              color: barType.secondaryColor,
-              fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _topStats() {
-    return Container(
-      height: _topStatsHeigth,
-      padding: EdgeInsets.symmetric(horizontal: _topStatsPadding),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Your Rating\n1500'.hardcoded,
-            textAlign: TextAlign.center,
-          ),
-          Row(
-            children: const [
-              Icon(Icons.access_alarms_rounded),
-              width5,
-              Text('3:12', style: TextStyle(fontWeight: FontWeight.bold)),
-            ],
-          ),
-        ],
-      ),
+  Widget _chessInterpreter() {
+    return ChessboardInterpreter(
+      controller: _controller,
     );
   }
 
   Widget _bottomBar(bool puzzleCompleted) {
     return AnimatedContainer(
       duration: _bottomBarAnimation,
+      curve: Curves.easeInOut,
       height: puzzleCompleted ? _bottomBarCompletedHeigth : _bottomBarHeigth,
       color: _bottomNavBarBgColor,
       child: Center(
@@ -198,24 +153,24 @@ class _PuzzlePageState extends State<PuzzlePage> {
           Align(
             alignment: Alignment.topRight,
             child: RichText(
-              text: const TextSpan(
+              text: TextSpan(
                 children: [
                   TextSpan(
                     text: '4w',
                     style: TextStyle(
-                      color: _topBarGreenColor,
+                      color: _winColor,
                     ),
                   ),
                   TextSpan(
                     text: ' / ',
                     style: TextStyle(
-                      color: _topBarWhiteColor,
+                      color: _barColor,
                     ),
                   ),
                   TextSpan(
                     text: '3l',
                     style: TextStyle(
-                      color: _topBarRedColor,
+                      color: _loseColor,
                     ),
                   )
                 ],
@@ -232,90 +187,10 @@ class _PuzzlePageState extends State<PuzzlePage> {
     const double maxElo = 2000;
     final List<int> puzzlePlayed =
         List.generate(12, (index) => Random().nextInt(200) + 1600);
-    return LineChart(
-      LineChartData(
-        minY: minElo,
-        maxY: maxElo,
-        minX: 0,
-        maxX: 20,
-        titlesData: FlTitlesData(
-          bottomTitles: AxisTitles(
-            axisNameSize: 0,
-          ),
-          topTitles: AxisTitles(
-            axisNameSize: 0,
-          ),
-          rightTitles: AxisTitles(
-            axisNameSize: 0,
-          ),
-        ),
-        gridData: FlGridData(
-          drawVerticalLine: false,
-          drawHorizontalLine: true,
-          getDrawingHorizontalLine: (value) {
-            return FlLine(
-              color: Colors.red,
-              strokeWidth: 1,
-            );
-          },
-        ),
-        borderData: FlBorderData(
-          show: true,
-          border: const Border.symmetric(
-            horizontal: BorderSide(color: _topBarGrayColor),
-          ),
-        ),
-        extraLinesData: ExtraLinesData(
-          horizontalLines: [
-            ...List.generate(
-              5,
-              (index) => HorizontalLine(
-                y: minElo + (maxElo - minElo) / 5 * index,
-                color: _topBarGrayColor,
-                strokeWidth: 1,
-              ),
-            ),
-          ],
-        ),
-        lineBarsData: [
-          LineChartBarData(
-            isCurved: true,
-            barWidth: 2,
-            color: Colors.green,
-            belowBarData: BarAreaData(
-              show: true,
-              color: Colors.green.withOpacity(0.2),
-            ),
-            dotData: FlDotData(
-              show: true,
-              getDotPainter: (p0, p1, p2, p3) {
-                late Color color;
-                if (p0.x == 0) {
-                  color = _topBarGrayColor;
-                } else {
-                  if (puzzlePlayed[p0.x.toInt()] >
-                      puzzlePlayed[p0.x.toInt() - 1]) {
-                    color = _topBarGreenColor;
-                  } else {
-                    color = _topBarRedColor;
-                  }
-                }
-                return FlDotCirclePainter(
-                  radius: 3,
-                  color: color,
-                );
-              },
-            ),
-            spots: List.generate(
-              puzzlePlayed.length,
-              (index) => FlSpot(
-                index.toDouble(),
-                puzzlePlayed[index].toDouble(),
-              ),
-            ),
-          ),
-        ],
-      ),
+    return PuzzleBottomGraph(
+      minElo: minElo,
+      maxElo: maxElo,
+      ratings: puzzlePlayed,
     );
   }
 
@@ -343,31 +218,103 @@ class _PuzzlePageState extends State<PuzzlePage> {
           label: 'Forward',
         ),
       ],
+      onTap: (value) {
+        if (value == 2) {
+          _controller.previousMove();
+        } else if (value == 3) {
+          _controller.nextMove();
+        }
+      },
     );
   }
-}
 
-// Colors
-const _topBarWhiteColor = Colors.white;
-const _topBarBlackColor = Color.fromARGB(255, 33, 33, 33);
-const _topBarGreenColor = Colors.green;
-const _topBarRedColor = Colors.red;
-const _topBarGrayColor = Colors.grey;
+  //#region Builders
+  Widget _topBarBuilder(BuildContext context, PuzzleModeState state) {
+    return state.maybeMap(
+      turnOf: (value) => PuzzleMessageBar(
+        // invert the output because the first move is the bot one
+        barType: value.side == Side.black ? TopBarType.white : TopBarType.black,
+      ),
+      pieceMoved: (value) {
+        if (_puzzleCompleted) {
+          return PuzzleMessageBar(
+            barType: _retries == 0
+                ? TopBarType.solvedWithoutHints
+                : TopBarType.solvedInMultipleTries,
+          );
+        }
 
-enum _TopBarType {
-  white(_topBarWhiteColor, _topBarBlackColor),
-  black(_topBarBlackColor, _topBarWhiteColor),
-  rightMove(_topBarGreenColor, _topBarWhiteColor),
-  wrongMove(_topBarRedColor, _topBarWhiteColor),
-  solvedWithoutHints(_topBarGreenColor, _topBarWhiteColor),
-  solvedWithHints(_topBarGrayColor, _topBarWhiteColor),
-  solvedInMultipleTries(_topBarGrayColor, _topBarWhiteColor);
+        // Validate move and show the right message
+        if (value.move.uci == _puzzle!.moves.first) {
+          _puzzle!.moves.removeAt(0);
+          return const PuzzleMessageBar(barType: TopBarType.rightMove);
+        } else {
+          return const PuzzleMessageBar(barType: TopBarType.wrongMove);
+        }
+      },
+      orElse: () => const SizedBox.shrink(),
+    );
+  }
 
-  const _TopBarType(
-    this.primaryColor,
-    this.secondaryColor,
-  );
+  Widget _chessboardBuilder(BuildContext context, PuzzleModeState state) {
+    return state.maybeMap(
+      initial: (_) => SkeletonItem(
+        child: Container(),
+      ),
+      loading: (_) => SkeletonItem(
+        child: Container(),
+      ),
+      orElse: () => _chessInterpreter(),
+    );
+  }
+  //#endregion Builders
 
-  final Color primaryColor;
-  final Color secondaryColor;
+  //#region Listeners
+  void _topBarListener(BuildContext context, PuzzleModeState state) {
+    state.maybeWhen(
+      // Callback for a puzzle just loaded
+      turnOf: (_) async {
+        await Future.delayed(const Duration(seconds: 1));
+        final botMove = _puzzle!.moves.removeAt(0);
+        _controller.autoPlayMove(botMove);
+      },
+      // Callback for the user move
+      pieceMoved: (move) async {
+        if (_puzzleCompleted) return;
+
+        // validate the move
+        if (move.uci == _puzzle!.moves.first) {
+          // Right move: bot will peroform the next move
+          await Future.delayed(const Duration(seconds: 1));
+          String botMove = _puzzle!.moves.removeAt(0);
+          _controller.autoPlayMove(botMove);
+        } else {
+          // Wrong move, undo the move and retry
+          _retries++;
+          await Future.delayed(const Duration(seconds: 1));
+          _controller.undoMove();
+        }
+      },
+      orElse: () {},
+    );
+  }
+
+  void _chessboardListener(BuildContext context, PuzzleModeState state) {
+    state.maybeWhen(
+      // Callback for a puzzle just loaded
+      puzzleLoaded: (puzzle) {
+        _puzzle = puzzle;
+        _controller = ChessboardController(
+          setup: Setup.parseFen(_puzzle!.fen),
+        );
+      },
+      pieceMoved: (_) {
+        if (_puzzleCompleted) {
+          _controller.setInteractable(false);
+        }
+      },
+      orElse: () {},
+    );
+  }
+  //#endregion
 }
