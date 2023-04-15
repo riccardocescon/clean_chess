@@ -7,6 +7,7 @@ import 'dart:async' as _i11;
 
 import 'package:cleanchess/core/errors/failure.dart' as _i12;
 import 'package:cleanchess/core/utilities/empty.dart' as _i15;
+import 'package:cleanchess/core/utilities/globals.dart' as _i19;
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_oauth_repository.dart'
     as _i2;
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_repositories.dart'
@@ -21,6 +22,8 @@ import 'package:cleanchess/features/clean_chess/domain/repositories/team_reposit
     as _i5;
 import 'package:cleanchess/features/clean_chess/domain/repositories/user_repository.dart'
     as _i6;
+import 'package:cleanchess/features/clean_chess/domain/usecases/board/board.dart'
+    as _i20;
 import 'package:cleanchess/features/clean_chess/domain/usecases/game/game.dart'
     as _i18;
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart'
@@ -1853,4 +1856,72 @@ class MockMExportGamesOfUser extends _i1.Mock
         )),
       ) as _i11
           .Future<_i3.Either<_i12.Failure, _i11.Stream<_i14.LichessGame>>>);
+}
+
+/// A class which mocks [MCreateRealTimeSeek].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMCreateRealTimeSeek extends _i1.Mock
+    implements _i10.MCreateRealTimeSeek {
+  @override
+  _i11.Future<_i3.Either<_i12.Failure, _i19.Keepalive>> call(
+          _i20.CreateRealTimeSeekParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue:
+            _i11.Future<_i3.Either<_i12.Failure, _i19.Keepalive>>.value(
+                _FakeEither_1<_i12.Failure, _i19.Keepalive>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i11.Future<_i3.Either<_i12.Failure, _i19.Keepalive>>.value(
+                _FakeEither_1<_i12.Failure, _i19.Keepalive>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i11.Future<_i3.Either<_i12.Failure, _i19.Keepalive>>);
+}
+
+/// A class which mocks [MCreateCorrespondenceSeek].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMCreateCorrespondenceSeek extends _i1.Mock
+    implements _i10.MCreateCorrespondenceSeek {
+  @override
+  _i11.Future<_i3.Either<_i12.Failure, _i19.Keepalive>> call(
+          _i20.CreateCorrespondenceSeekParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue:
+            _i11.Future<_i3.Either<_i12.Failure, _i19.Keepalive>>.value(
+                _FakeEither_1<_i12.Failure, _i19.Keepalive>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i11.Future<_i3.Either<_i12.Failure, _i19.Keepalive>>.value(
+                _FakeEither_1<_i12.Failure, _i19.Keepalive>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i11.Future<_i3.Either<_i12.Failure, _i19.Keepalive>>);
 }

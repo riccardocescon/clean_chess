@@ -564,7 +564,7 @@ packages:
     source: hosted
     version: "4.8.0"
   lichess_client:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: lichess_client
       sha256: a752263dd9c13ede4d228463c96a3349a01df62366ace822d981c487b954ef25
