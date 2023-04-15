@@ -52,4 +52,7 @@ abstract class BoardRepository {
   Future<Either<Failure, Stream<LichessBoardGameEvent>>> streamGameState(
     String gameId,
   );
+
+  Future<Either<Failure, Stream<LichessBoardGameIncomingEvent>>>
+      streamIncomingEvents();
 }

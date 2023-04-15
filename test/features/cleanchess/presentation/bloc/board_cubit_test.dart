@@ -21,6 +21,7 @@ void main() async {
   late MockMResignGame mockResignGame;
   late MockMMakeMove mockMakeMove;
   late MockMStreamBoardGameState mockStreamBoardGameState;
+  late MockMStreamIncomingEvents mockStreamIncomingEvents;
 
   late BoardCubit bloc;
 
@@ -36,6 +37,7 @@ void main() async {
     mockResignGame = MockMResignGame();
     mockMakeMove = MockMMakeMove();
     mockStreamBoardGameState = MockMStreamBoardGameState();
+    mockStreamIncomingEvents = MockMStreamIncomingEvents();
     keepalive = () async {};
 
     bloc = BoardCubit(
@@ -48,6 +50,7 @@ void main() async {
       resignGame: mockResignGame,
       makeMove: mockMakeMove,
       streamBoardGameState: mockStreamBoardGameState,
+      streamIncomingEvents: mockStreamIncomingEvents,
     );
   });
 
@@ -427,25 +430,80 @@ void main() async {
           verify(mockStreamBoardGameState.call(any)).called(1);
         },
       );
+
+      blocTest<BoardCubit, BoardState>(
+        'Failure',
+        build: () {
+          when(mockStreamBoardGameState.call(any)).thenAnswer(
+            (_) async => const Left(LichessOAuthFailure('OAtuh error')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.streamGameState(gameId: ''),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.failure(LichessOAuthFailure('OAtuh error')),
+        ],
+        verify: (bloc) {
+          verify(mockStreamBoardGameState.call(any)).called(1);
+        },
+      );
     });
 
-    blocTest<BoardCubit, BoardState>(
-      'Failure',
-      build: () {
-        when(mockStreamBoardGameState.call(any)).thenAnswer(
-          (_) async => const Left(LichessOAuthFailure('OAtuh error')),
-        );
+    group('Stream Incoming Events', () {
+      blocTest<BoardCubit, BoardState>(
+        'Success',
+        build: () {
+          when(mockStreamIncomingEvents.call()).thenAnswer(
+            (_) async => Right(
+              Stream.fromIterable(
+                [
+                  const LichessGameStartEvent(
+                    game: LichessGameEventInfo(),
+                    type: LichessBoardGameIncomingEventType.challenge,
+                  ),
+                ],
+              ),
+            ),
+          );
 
-        return bloc;
-      },
-      act: (bloc) => bloc.streamGameState(gameId: ''),
-      expect: () => [
-        const BoardState.loading(),
-        const BoardState.failure(LichessOAuthFailure('OAtuh error')),
-      ],
-      verify: (bloc) {
-        verify(mockStreamBoardGameState.call(any)).called(1);
-      },
-    );
+          return bloc;
+        },
+        act: (bloc) => bloc.streamIncomingEvents(),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.incomingEvent(
+            LichessGameStartEvent(
+              game: LichessGameEventInfo(),
+              type: LichessBoardGameIncomingEventType.challenge,
+            ),
+          ),
+          const BoardState.incomingEventCompleted(),
+        ],
+        verify: (bloc) {
+          verify(mockStreamIncomingEvents.call()).called(1);
+        },
+      );
+
+      blocTest<BoardCubit, BoardState>(
+        'Failure',
+        build: () {
+          when(mockStreamIncomingEvents.call()).thenAnswer(
+            (_) async => const Left(LichessOAuthFailure('OAtuh error')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.streamIncomingEvents(),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.failure(LichessOAuthFailure('OAtuh error')),
+        ],
+        verify: (bloc) {
+          verify(mockStreamIncomingEvents.call()).called(1);
+        },
+      );
+    });
   });
 }

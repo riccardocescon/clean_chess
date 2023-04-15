@@ -102,4 +102,8 @@ class LichessBoardRepository extends BoardRepository {
     String gameId,
   ) =>
       _boardDataSource.streamBoardGameState(gameId);
+
+  @override
+  Future<Either<Failure, Stream<LichessBoardGameIncomingEvent>>>
+      streamIncomingEvents() => _boardDataSource.streamIncomingEvents();
 }

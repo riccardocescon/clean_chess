@@ -43,6 +43,12 @@ abstract class BoardState with _$BoardState, EquatableMixin {
   const factory BoardState.streamGameCompleted() =
       _StreamGameCompletedBoardState;
 
+  const factory BoardState.incomingEvent(LichessBoardGameIncomingEvent event) =
+      _IncomingEventBoardState;
+
+  const factory BoardState.incomingEventCompleted() =
+      _IncomingEventCompletedBoardState;
+
   const factory BoardState.failure(Failure error) = _ErrorBoardState;
 
   const BoardState._();
@@ -52,6 +58,7 @@ abstract class BoardState with _$BoardState, EquatableMixin {
     return maybeWhen(
       gameChatMessage: (message) => [message.text, message.user],
       streamGameState: (event) => [event.type],
+      incomingEvent: (event) => [event.type],
       failure: (error) => [error],
       orElse: () => [],
     );
@@ -68,6 +75,7 @@ class BoardCubit extends Cubit<BoardState> {
   final ResignGame _resignGame;
   final MakeMove _makeMove;
   final StreamBoardGameState _streamBoardGameState;
+  final StreamIncomingEvents _streamIncomingEvents;
 
   BoardCubit({
     required CreateRealTimeSeek createRealTimeSeek,
@@ -79,6 +87,7 @@ class BoardCubit extends Cubit<BoardState> {
     required ResignGame resignGame,
     required MakeMove makeMove,
     required StreamBoardGameState streamBoardGameState,
+    required StreamIncomingEvents streamIncomingEvents,
   })  : _createRealTimeSeek = createRealTimeSeek,
         _createCorrespondenceSeek = createCorrespondenceSeek,
         _abortGame = abortGame,
@@ -88,6 +97,7 @@ class BoardCubit extends Cubit<BoardState> {
         _resignGame = resignGame,
         _makeMove = makeMove,
         _streamBoardGameState = streamBoardGameState,
+        _streamIncomingEvents = streamIncomingEvents,
         super(const _InitialBoardState());
 
   Future<void> createRealTimeSeek({
@@ -239,5 +249,19 @@ class BoardCubit extends Cubit<BoardState> {
       emit(BoardState.streamGameState(event));
     }
     emit(const BoardState.streamGameCompleted());
+  }
+
+  Future<void> streamIncomingEvents() async {
+    emit(const _LoadingBoardState());
+    final result = await _streamIncomingEvents();
+    if (result.isLeft()) {
+      emit(BoardState.failure(result.left));
+      return;
+    }
+
+    await for (final event in result.right) {
+      emit(BoardState.incomingEvent(event));
+    }
+    emit(const BoardState.incomingEventCompleted());
   }
 }

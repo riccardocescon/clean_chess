@@ -2230,3 +2230,56 @@ class MockMStreamBoardGameState extends _i1.Mock
       ) as _i12.Future<
           _i3.Either<_i13.Failure, _i12.Stream<_i15.LichessBoardGameEvent>>>);
 }
+
+/// A class which mocks [MStreamIncomingEvents].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMStreamIncomingEvents extends _i1.Mock
+    implements _i11.MStreamIncomingEvents {
+  @override
+  _i10.BoardRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeBoardRepository_9(
+          this,
+          Invocation.getter(#repository),
+        ),
+        returnValueForMissingStub: _FakeBoardRepository_9(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i10.BoardRepository);
+  @override
+  _i12.Future<
+      _i3.Either<_i13.Failure,
+          _i12.Stream<_i15.LichessBoardGameIncomingEvent>>> call() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [],
+        ),
+        returnValue: _i12.Future<
+                _i3.Either<_i13.Failure,
+                    _i12.Stream<_i15.LichessBoardGameIncomingEvent>>>.value(
+            _FakeEither_1<_i13.Failure,
+                _i12.Stream<_i15.LichessBoardGameIncomingEvent>>(
+          this,
+          Invocation.method(
+            #call,
+            [],
+          ),
+        )),
+        returnValueForMissingStub: _i12.Future<
+                _i3.Either<_i13.Failure,
+                    _i12.Stream<_i15.LichessBoardGameIncomingEvent>>>.value(
+            _FakeEither_1<_i13.Failure,
+                _i12.Stream<_i15.LichessBoardGameIncomingEvent>>(
+          this,
+          Invocation.method(
+            #call,
+            [],
+          ),
+        )),
+      ) as _i12.Future<
+          _i3.Either<_i13.Failure,
+              _i12.Stream<_i15.LichessBoardGameIncomingEvent>>>);
+}

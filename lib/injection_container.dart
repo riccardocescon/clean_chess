@@ -118,6 +118,7 @@ Future<void> init() async {
       resignGame: sl<ResignGame>(),
       makeMove: sl<MakeMove>(),
       streamBoardGameState: sl<StreamBoardGameState>(),
+      streamIncomingEvents: sl<StreamIncomingEvents>(),
     ),
   );
 
@@ -239,6 +240,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => sl<ResignGame>());
   sl.registerLazySingleton(() => sl<MakeMove>());
   sl.registerLazySingleton(() => sl<StreamBoardGameState>());
+  sl.registerLazySingleton(() => sl<StreamIncomingEvents>());
 
   // Register repositories
   sl.registerLazySingleton<LichessOAuthRepository>(

@@ -61,4 +61,8 @@ abstract class RemoteBoardDataSource {
   Future<Either<Failure, Stream<LichessBoardGameEvent>>> streamBoardGameState(
     String gameId,
   );
+
+  /// API to stream incoming events
+  Future<Either<Failure, Stream<LichessBoardGameIncomingEvent>>>
+      streamIncomingEvents();
 }

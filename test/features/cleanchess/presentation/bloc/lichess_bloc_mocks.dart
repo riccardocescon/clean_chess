@@ -109,6 +109,8 @@ class MMakeMove extends Mock implements MakeMove {}
 
 class MStreamBoardGameState extends Mock implements StreamBoardGameState {}
 
+class MStreamIncomingEvents extends Mock implements StreamIncomingEvents {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessRevokeToken>(),
@@ -158,5 +160,6 @@ class MStreamBoardGameState extends Mock implements StreamBoardGameState {}
   MockSpec<MResignGame>(),
   MockSpec<MMakeMove>(),
   MockSpec<MStreamBoardGameState>(),
+  MockSpec<MStreamIncomingEvents>(),
 ])
 void main() {}
