@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/core/utilities/globals.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/board/board.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,12 @@ abstract class BoardState with _$BoardState, EquatableMixin {
 
   const factory BoardState.victoryClaimed() = _VictoryClaimedBoardState;
 
+  const factory BoardState.gameChatMessage(LichessGameChatMessage message) =
+      _GameChatMessageBoardState;
+
+  const factory BoardState.gameChatCompleted() =
+      _ChatMessageCompletedBoardState;
+
   const factory BoardState.failure(Failure error) = _ErrorBoardState;
 
   const BoardState._();
@@ -31,6 +38,7 @@ abstract class BoardState with _$BoardState, EquatableMixin {
   @override
   List<Object?> get props {
     return maybeWhen(
+      gameChatMessage: (message) => [message.text, message.user],
       failure: (error) => [error],
       orElse: () => [],
     );
@@ -42,16 +50,19 @@ class BoardCubit extends Cubit<BoardState> {
   final CreateCorrespondenceSeek _createCorrespondenceSeek;
   final AbortGame _abortGame;
   final ClaimVictory _claimVictory;
+  final FetchGameChat _fetchGameChat;
 
   BoardCubit({
     required CreateRealTimeSeek createRealTimeSeek,
     required CreateCorrespondenceSeek createCorrespondenceSeek,
     required AbortGame abortGame,
     required ClaimVictory claimVictory,
+    required FetchGameChat fetchGameChat,
   })  : _createRealTimeSeek = createRealTimeSeek,
         _createCorrespondenceSeek = createCorrespondenceSeek,
         _abortGame = abortGame,
         _claimVictory = claimVictory,
+        _fetchGameChat = fetchGameChat,
         super(const _InitialBoardState());
 
   Future<void> createRealTimeSeek({
@@ -128,5 +139,19 @@ class BoardCubit extends Cubit<BoardState> {
       (failure) => emit(BoardState.failure(failure)),
       (keepalive) => emit(const BoardState.victoryClaimed()),
     );
+  }
+
+  Future<void> fetchGameChat({required String gameId}) async {
+    emit(const _LoadingBoardState());
+    final result = await _fetchGameChat(gameId);
+    if (result.isLeft()) {
+      emit(BoardState.failure(result.left));
+      return;
+    }
+
+    await for (final message in result.right) {
+      emit(BoardState.gameChatMessage(message));
+    }
+    emit(const BoardState.gameChatCompleted());
   }
 }

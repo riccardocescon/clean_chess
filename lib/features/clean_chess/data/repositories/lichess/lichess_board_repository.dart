@@ -62,4 +62,10 @@ class LichessBoardRepository extends BoardRepository {
   @override
   Future<Either<Failure, Empty>> claimVictory(String gameId) =>
       _boardDataSource.claimVictory(gameId);
+
+  @override
+  Future<Either<Failure, Stream<LichessGameChatMessage>>> fetchGameChat(
+    String gameId,
+  ) =>
+      _boardDataSource.fetchGameChat(gameId);
 }

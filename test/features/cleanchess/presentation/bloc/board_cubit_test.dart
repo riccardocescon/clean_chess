@@ -16,6 +16,7 @@ void main() async {
   late MockMCreateCorrespondenceSeek mockCreateCorrespondenceSeek;
   late MockMAbortGame mockAbortGame;
   late MockMClaimVictory mockClaimVictory;
+  late MockMFetchGameChat mockFetchGameChat;
 
   late BoardCubit bloc;
 
@@ -26,6 +27,7 @@ void main() async {
     mockCreateCorrespondenceSeek = MockMCreateCorrespondenceSeek();
     mockAbortGame = MockMAbortGame();
     mockClaimVictory = MockMClaimVictory();
+    mockFetchGameChat = MockMFetchGameChat();
     keepalive = () async {};
 
     bloc = BoardCubit(
@@ -33,6 +35,7 @@ void main() async {
       createCorrespondenceSeek: mockCreateCorrespondenceSeek,
       abortGame: mockAbortGame,
       claimVictory: mockClaimVictory,
+      fetchGameChat: mockFetchGameChat,
     );
   });
 
@@ -193,6 +196,59 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockClaimVictory.call(any)).called(1);
+        },
+      );
+    });
+
+    group('Fetch Game Chat', () {
+      blocTest<BoardCubit, BoardState>(
+        'Success',
+        build: () {
+          when(mockFetchGameChat.call(any)).thenAnswer(
+            (_) async => Right(Stream<LichessGameChatMessage>.fromIterable([
+              const LichessGameChatMessage(text: 'a', user: ''),
+              const LichessGameChatMessage(text: 'b', user: ''),
+              const LichessGameChatMessage(text: 'c', user: ''),
+            ])),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.fetchGameChat(gameId: ''),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.gameChatMessage(
+            LichessGameChatMessage(text: 'a', user: ''),
+          ),
+          const BoardState.gameChatMessage(
+            LichessGameChatMessage(text: 'b', user: ''),
+          ),
+          const BoardState.gameChatMessage(
+            LichessGameChatMessage(text: 'c', user: ''),
+          ),
+          const BoardState.gameChatCompleted(),
+        ],
+        verify: (bloc) {
+          verify(mockFetchGameChat.call(any)).called(1);
+        },
+      );
+
+      blocTest<BoardCubit, BoardState>(
+        'Failure',
+        build: () {
+          when(mockFetchGameChat.call(any)).thenAnswer(
+            (_) async => const Left(LichessOAuthFailure('OAtuh error')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.fetchGameChat(gameId: ''),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.failure(LichessOAuthFailure('OAtuh error')),
+        ],
+        verify: (bloc) {
+          verify(mockFetchGameChat.call(any)).called(1);
         },
       );
     });

@@ -99,6 +99,8 @@ class MAbortGame extends Mock implements AbortGame {}
 
 class MClaimVictory extends Mock implements ClaimVictory {}
 
+class MFetchGameChat extends Mock implements FetchGameChat {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessRevokeToken>(),
@@ -143,5 +145,6 @@ class MClaimVictory extends Mock implements ClaimVictory {}
   MockSpec<MCreateCorrespondenceSeek>(),
   MockSpec<MAbortGame>(),
   MockSpec<MClaimVictory>(),
+  MockSpec<MFetchGameChat>(),
 ])
 void main() {}

@@ -34,4 +34,9 @@ abstract class RemoteBoardDataSource {
 
   /// API to claim victory
   Future<Either<Failure, Empty>> claimVictory(String gameId);
+
+  /// API to fetch game chat
+  Future<Either<Failure, Stream<LichessGameChatMessage>>> fetchGameChat(
+    String gameId,
+  );
 }
