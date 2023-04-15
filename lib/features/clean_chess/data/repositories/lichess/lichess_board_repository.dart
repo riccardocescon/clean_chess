@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/core/utilities/globals.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_board_data_source.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/board_repository.dart';
@@ -53,4 +54,8 @@ class LichessBoardRepository extends BoardRepository {
         maxRating: maxRating,
         minRating: minRating,
       );
+
+  @override
+  Future<Either<Failure, Empty>> abortGame(String gameId) =>
+      _boardDataSource.abortGame(gameId);
 }

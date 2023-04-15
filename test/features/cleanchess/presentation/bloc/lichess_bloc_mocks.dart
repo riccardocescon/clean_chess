@@ -92,6 +92,8 @@ class MExportGamesOfUser extends Mock implements ExportGamesOfUser {}
 
 class MCreateRealTimeSeek extends Mock implements CreateRealTimeSeek {}
 
+class MAbortGame extends Mock implements AbortGame {}
+
 class MCreateCorrespondenceSeek extends Mock
     implements CreateCorrespondenceSeek {}
 
@@ -137,5 +139,6 @@ class MCreateCorrespondenceSeek extends Mock
   MockSpec<MExportGamesOfUser>(),
   MockSpec<MCreateRealTimeSeek>(),
   MockSpec<MCreateCorrespondenceSeek>(),
+  MockSpec<MAbortGame>(),
 ])
 void main() {}

@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/utilities/debug.dart';
+import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/core/utilities/globals.dart';
 import 'package:cleanchess/core/errors/failure.dart';
@@ -83,6 +84,26 @@ class LichessBoardDataSource extends RemoteBoardDataSource {
       );
 
       return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Empty>> abortGame(String gameId) async {
+    try {
+      logDebug(
+        'Aborting Game...',
+        tag: 'Board',
+        color: LogColor.lightBlue,
+      );
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      await client.board.abortGame(gameId);
+
+      return const Right(Empty());
     } catch (e) {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }

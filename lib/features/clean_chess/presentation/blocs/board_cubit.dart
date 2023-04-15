@@ -16,8 +16,11 @@ abstract class BoardState with _$BoardState, EquatableMixin {
 
   const factory BoardState.realTimeSeek(Keepalive keepalive) =
       _RealTimeSeekBoardState;
+
   const factory BoardState.correspondenceSeek(Keepalive keepalive) =
       _CorrespondenceSeekBoardState;
+
+  const factory BoardState.gameAborted() = _GameAbortedBoardState;
 
   const factory BoardState.failure(Failure error) = _ErrorBoardState;
 
@@ -35,12 +38,15 @@ abstract class BoardState with _$BoardState, EquatableMixin {
 class BoardCubit extends Cubit<BoardState> {
   final CreateRealTimeSeek _createRealTimeSeek;
   final CreateCorrespondenceSeek _createCorrespondenceSeek;
+  final AbortGame _abortGame;
 
   BoardCubit({
     required CreateRealTimeSeek createRealTimeSeek,
     required CreateCorrespondenceSeek createCorrespondenceSeek,
+    required AbortGame abortGame,
   })  : _createRealTimeSeek = createRealTimeSeek,
         _createCorrespondenceSeek = createCorrespondenceSeek,
+        _abortGame = abortGame,
         super(const _InitialBoardState());
 
   Future<void> createRealTimeSeek({
@@ -98,6 +104,15 @@ class BoardCubit extends Cubit<BoardState> {
     result.fold(
       (failure) => emit(BoardState.failure(failure)),
       (keepalive) => emit(BoardState.correspondenceSeek(keepalive)),
+    );
+  }
+
+  Future<void> abortGame({required String gameId}) async {
+    emit(const _LoadingBoardState());
+    final result = await _abortGame(gameId);
+    result.fold(
+      (failure) => emit(BoardState.failure(failure)),
+      (keepalive) => emit(const BoardState.gameAborted()),
     );
   }
 }

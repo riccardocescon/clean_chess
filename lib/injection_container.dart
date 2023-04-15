@@ -111,6 +111,7 @@ Future<void> init() async {
     () => BoardCubit(
       createRealTimeSeek: sl<CreateRealTimeSeek>(),
       createCorrespondenceSeek: sl<CreateCorrespondenceSeek>(),
+      abortGame: sl<AbortGame>(),
     ),
   );
 
@@ -225,6 +226,7 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(() => sl<CreateRealTimeSeek>());
   sl.registerLazySingleton(() => sl<CreateCorrespondenceSeek>());
+  sl.registerLazySingleton(() => sl<AbortGame>());
 
   // Register repositories
   sl.registerLazySingleton<LichessOAuthRepository>(

@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/core/utilities/globals.dart';
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
@@ -25,4 +26,6 @@ abstract class BoardRepository {
     int? maxRating,
     int? minRating,
   });
+
+  Future<Either<Failure, Empty>> abortGame(String gameId);
 }

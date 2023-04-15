@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/errors/failure.dart';
+import 'package:cleanchess/core/utilities/empty.dart';
 import 'package:cleanchess/core/utilities/globals.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/board_cubit.dart';
 import 'package:dartz/dartz.dart';
@@ -13,6 +14,7 @@ void main() async {
 
   late MockMCreateRealTimeSeek mockCreateRealTimeSeek;
   late MockMCreateCorrespondenceSeek mockCreateCorrespondenceSeek;
+  late MockMAbortGame mockAbortGame;
 
   late BoardCubit bloc;
 
@@ -21,11 +23,13 @@ void main() async {
   setUp(() {
     mockCreateRealTimeSeek = MockMCreateRealTimeSeek();
     mockCreateCorrespondenceSeek = MockMCreateCorrespondenceSeek();
+    mockAbortGame = MockMAbortGame();
     keepalive = () async {};
 
     bloc = BoardCubit(
       createRealTimeSeek: mockCreateRealTimeSeek,
       createCorrespondenceSeek: mockCreateCorrespondenceSeek,
+      abortGame: mockAbortGame,
     );
   });
 
@@ -106,6 +110,46 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockCreateCorrespondenceSeek.call(any)).called(1);
+        },
+      );
+    });
+
+    group('Abort Game', () {
+      blocTest<BoardCubit, BoardState>(
+        'Success',
+        build: () {
+          when(mockAbortGame.call(any)).thenAnswer(
+            (_) async => const Right(Empty()),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.abortGame(gameId: ''),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.gameAborted(),
+        ],
+        verify: (bloc) {
+          verify(mockAbortGame.call(any)).called(1);
+        },
+      );
+
+      blocTest<BoardCubit, BoardState>(
+        'Failure',
+        build: () {
+          when(mockAbortGame.call(any)).thenAnswer(
+            (_) async => const Left(LichessOAuthFailure('OAtuh error')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.abortGame(gameId: ''),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.failure(LichessOAuthFailure('OAtuh error')),
+        ],
+        verify: (bloc) {
+          verify(mockAbortGame.call(any)).called(1);
         },
       );
     });
