@@ -19,6 +19,7 @@ void main() async {
   late MockMFetchGameChat mockFetchGameChat;
   late MockMWriteOnGameChat mockWriteOnGameChat;
   late MockMResignGame mockResignGame;
+  late MockMMakeMove mockMakeMove;
 
   late BoardCubit bloc;
 
@@ -32,6 +33,7 @@ void main() async {
     mockFetchGameChat = MockMFetchGameChat();
     mockWriteOnGameChat = MockMWriteOnGameChat();
     mockResignGame = MockMResignGame();
+    mockMakeMove = MockMMakeMove();
     keepalive = () async {};
 
     bloc = BoardCubit(
@@ -42,6 +44,7 @@ void main() async {
       fetchGameChat: mockFetchGameChat,
       writeOnGameChat: mockWriteOnGameChat,
       resignGame: mockResignGame,
+      makeMove: mockMakeMove,
     );
   });
 
@@ -343,6 +346,46 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockResignGame.call(any)).called(1);
+        },
+      );
+    });
+
+    group('Make a move', () {
+      blocTest<BoardCubit, BoardState>(
+        'Success',
+        build: () {
+          when(mockMakeMove.call(any)).thenAnswer(
+            (_) async => const Right(Empty()),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.makeMove(gameId: '', move: '', offeringDraw: false),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.moveMade(),
+        ],
+        verify: (bloc) {
+          verify(mockMakeMove.call(any)).called(1);
+        },
+      );
+
+      blocTest<BoardCubit, BoardState>(
+        'Failure',
+        build: () {
+          when(mockMakeMove.call(any)).thenAnswer(
+            (_) async => const Left(LichessOAuthFailure('OAtuh error')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.makeMove(gameId: '', move: '', offeringDraw: false),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.failure(LichessOAuthFailure('OAtuh error')),
+        ],
+        verify: (bloc) {
+          verify(mockMakeMove.call(any)).called(1);
         },
       );
     });

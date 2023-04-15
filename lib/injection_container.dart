@@ -116,6 +116,7 @@ Future<void> init() async {
       fetchGameChat: sl<FetchGameChat>(),
       writeOnGameChat: sl<WriteOnGameChat>(),
       resignGame: sl<ResignGame>(),
+      makeMove: sl<MakeMove>(),
     ),
   );
 
@@ -235,6 +236,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => sl<FetchGameChat>());
   sl.registerLazySingleton(() => sl<WriteOnGameChat>());
   sl.registerLazySingleton(() => sl<ResignGame>());
+  sl.registerLazySingleton(() => sl<MakeMove>());
 
   // Register repositories
   sl.registerLazySingleton<LichessOAuthRepository>(

@@ -105,6 +105,8 @@ class MWriteOnGameChat extends Mock implements WriteOnGameChat {}
 
 class MResignGame extends Mock implements ResignGame {}
 
+class MMakeMove extends Mock implements MakeMove {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessRevokeToken>(),
@@ -152,5 +154,6 @@ class MResignGame extends Mock implements ResignGame {}
   MockSpec<MFetchGameChat>(),
   MockSpec<MWriteOnGameChat>(),
   MockSpec<MResignGame>(),
+  MockSpec<MMakeMove>(),
 ])
 void main() {}

@@ -49,4 +49,11 @@ abstract class RemoteBoardDataSource {
 
   /// API to resign a game
   Future<Either<Failure, Empty>> resignGame(String gameId);
+
+  /// API to make a move
+  Future<Either<Failure, Empty>> makeMove({
+    required String gameId,
+    required String move,
+    bool? offeringDraw,
+  });
 }

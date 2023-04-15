@@ -84,4 +84,16 @@ class LichessBoardRepository extends BoardRepository {
   @override
   Future<Either<Failure, Empty>> resignGame(String gameId) =>
       _boardDataSource.resignGame(gameId);
+
+  @override
+  Future<Either<Failure, Empty>> makeMove({
+    required String gameId,
+    required String move,
+    bool? offeringDraw,
+  }) =>
+      _boardDataSource.makeMove(
+        gameId: gameId,
+        move: move,
+        offeringDraw: offeringDraw,
+      );
 }

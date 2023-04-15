@@ -42,4 +42,10 @@ abstract class BoardRepository {
   });
 
   Future<Either<Failure, Empty>> resignGame(String gameId);
+
+  Future<Either<Failure, Empty>> makeMove({
+    required String gameId,
+    required String move,
+    bool? offeringDraw,
+  });
 }

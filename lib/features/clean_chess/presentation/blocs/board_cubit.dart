@@ -35,6 +35,8 @@ abstract class BoardState with _$BoardState, EquatableMixin {
 
   const factory BoardState.gameResigned() = _GameResignedBoardState;
 
+  const factory BoardState.moveMade() = _MoveMadeBoardState;
+
   const factory BoardState.failure(Failure error) = _ErrorBoardState;
 
   const BoardState._();
@@ -57,6 +59,7 @@ class BoardCubit extends Cubit<BoardState> {
   final FetchGameChat _fetchGameChat;
   final WriteOnGameChat _writeOnGameChat;
   final ResignGame _resignGame;
+  final MakeMove _makeMove;
 
   BoardCubit({
     required CreateRealTimeSeek createRealTimeSeek,
@@ -66,6 +69,7 @@ class BoardCubit extends Cubit<BoardState> {
     required FetchGameChat fetchGameChat,
     required WriteOnGameChat writeOnGameChat,
     required ResignGame resignGame,
+    required MakeMove makeMove,
   })  : _createRealTimeSeek = createRealTimeSeek,
         _createCorrespondenceSeek = createCorrespondenceSeek,
         _abortGame = abortGame,
@@ -73,6 +77,7 @@ class BoardCubit extends Cubit<BoardState> {
         _fetchGameChat = fetchGameChat,
         _writeOnGameChat = writeOnGameChat,
         _resignGame = resignGame,
+        _makeMove = makeMove,
         super(const _InitialBoardState());
 
   Future<void> createRealTimeSeek({
@@ -190,6 +195,25 @@ class BoardCubit extends Cubit<BoardState> {
     result.fold(
       (failure) => emit(BoardState.failure(failure)),
       (keepalive) => emit(const BoardState.gameResigned()),
+    );
+  }
+
+  Future<void> makeMove({
+    required String gameId,
+    required String move,
+    required bool? offeringDraw,
+  }) async {
+    emit(const _LoadingBoardState());
+    final result = await _makeMove(
+      MakeMoveParams(
+        gameId: gameId,
+        move: move,
+        offeringDraw: offeringDraw,
+      ),
+    );
+    result.fold(
+      (failure) => emit(BoardState.failure(failure)),
+      (keepalive) => emit(const BoardState.moveMade()),
     );
   }
 }
