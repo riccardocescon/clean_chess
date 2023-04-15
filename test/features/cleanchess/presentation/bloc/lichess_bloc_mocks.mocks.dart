@@ -2105,3 +2105,34 @@ class MockMWriteOnGameChat extends _i1.Mock implements _i11.MWriteOnGameChat {
         )),
       ) as _i12.Future<_i3.Either<_i13.Failure, _i16.Empty>>);
 }
+
+/// A class which mocks [MResignGame].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMResignGame extends _i1.Mock implements _i11.MResignGame {
+  @override
+  _i12.Future<_i3.Either<_i13.Failure, _i16.Empty>> call(String? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i12.Future<_i3.Either<_i13.Failure, _i16.Empty>>.value(
+            _FakeEither_1<_i13.Failure, _i16.Empty>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i12.Future<_i3.Either<_i13.Failure, _i16.Empty>>.value(
+                _FakeEither_1<_i13.Failure, _i16.Empty>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i12.Future<_i3.Either<_i13.Failure, _i16.Empty>>);
+}

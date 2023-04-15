@@ -18,6 +18,7 @@ void main() async {
   late MockMClaimVictory mockClaimVictory;
   late MockMFetchGameChat mockFetchGameChat;
   late MockMWriteOnGameChat mockWriteOnGameChat;
+  late MockMResignGame mockResignGame;
 
   late BoardCubit bloc;
 
@@ -30,6 +31,7 @@ void main() async {
     mockClaimVictory = MockMClaimVictory();
     mockFetchGameChat = MockMFetchGameChat();
     mockWriteOnGameChat = MockMWriteOnGameChat();
+    mockResignGame = MockMResignGame();
     keepalive = () async {};
 
     bloc = BoardCubit(
@@ -39,6 +41,7 @@ void main() async {
       claimVictory: mockClaimVictory,
       fetchGameChat: mockFetchGameChat,
       writeOnGameChat: mockWriteOnGameChat,
+      resignGame: mockResignGame,
     );
   });
 
@@ -300,6 +303,46 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockWriteOnGameChat.call(any)).called(1);
+        },
+      );
+    });
+
+    group('Resign Game', () {
+      blocTest<BoardCubit, BoardState>(
+        'Success',
+        build: () {
+          when(mockResignGame.call(any)).thenAnswer(
+            (_) async => const Right(Empty()),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.resignGame(gameId: ''),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.gameResigned(),
+        ],
+        verify: (bloc) {
+          verify(mockResignGame.call(any)).called(1);
+        },
+      );
+
+      blocTest<BoardCubit, BoardState>(
+        'Failure',
+        build: () {
+          when(mockResignGame.call(any)).thenAnswer(
+            (_) async => const Left(LichessOAuthFailure('OAtuh error')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.resignGame(gameId: ''),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.failure(LichessOAuthFailure('OAtuh error')),
+        ],
+        verify: (bloc) {
+          verify(mockResignGame.call(any)).called(1);
         },
       );
     });

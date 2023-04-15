@@ -6,3 +6,4 @@ export 'abort_game.dart';
 export 'claim_victory.dart';
 export 'fetch_game_chat.dart';
 export 'write_on_game_chat.dart';
+export 'resign_game.dart';

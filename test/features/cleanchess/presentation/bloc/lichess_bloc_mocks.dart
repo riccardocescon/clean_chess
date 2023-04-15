@@ -103,6 +103,8 @@ class MFetchGameChat extends Mock implements FetchGameChat {}
 
 class MWriteOnGameChat extends Mock implements WriteOnGameChat {}
 
+class MResignGame extends Mock implements ResignGame {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessRevokeToken>(),
@@ -149,5 +151,6 @@ class MWriteOnGameChat extends Mock implements WriteOnGameChat {}
   MockSpec<MClaimVictory>(),
   MockSpec<MFetchGameChat>(),
   MockSpec<MWriteOnGameChat>(),
+  MockSpec<MResignGame>(),
 ])
 void main() {}

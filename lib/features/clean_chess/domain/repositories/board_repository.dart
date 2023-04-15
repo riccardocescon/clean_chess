@@ -40,4 +40,6 @@ abstract class BoardRepository {
     required LichessChatLineRoom room,
     required String text,
   });
+
+  Future<Either<Failure, Empty>> resignGame(String gameId);
 }

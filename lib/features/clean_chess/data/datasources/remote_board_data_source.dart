@@ -46,4 +46,7 @@ abstract class RemoteBoardDataSource {
     required LichessChatLineRoom room,
     required String text,
   });
+
+  /// API to resign a game
+  Future<Either<Failure, Empty>> resignGame(String gameId);
 }

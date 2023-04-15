@@ -80,4 +80,8 @@ class LichessBoardRepository extends BoardRepository {
         room: room,
         text: text,
       );
+
+  @override
+  Future<Either<Failure, Empty>> resignGame(String gameId) =>
+      _boardDataSource.resignGame(gameId);
 }

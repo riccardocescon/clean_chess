@@ -27,6 +27,7 @@ mixin _$BoardState {
     required TResult Function(LichessGameChatMessage message) gameChatMessage,
     required TResult Function() gameChatCompleted,
     required TResult Function() wroteOnGameChat,
+    required TResult Function() gameResigned,
     required TResult Function(Failure error) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -41,6 +42,7 @@ mixin _$BoardState {
     TResult? Function(LichessGameChatMessage message)? gameChatMessage,
     TResult? Function()? gameChatCompleted,
     TResult? Function()? wroteOnGameChat,
+    TResult? Function()? gameResigned,
     TResult? Function(Failure error)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -55,6 +57,7 @@ mixin _$BoardState {
     TResult Function(LichessGameChatMessage message)? gameChatMessage,
     TResult Function()? gameChatCompleted,
     TResult Function()? wroteOnGameChat,
+    TResult Function()? gameResigned,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) =>
@@ -72,6 +75,7 @@ mixin _$BoardState {
     required TResult Function(_ChatMessageCompletedBoardState value)
         gameChatCompleted,
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
+    required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_ErrorBoardState value) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -86,6 +90,7 @@ mixin _$BoardState {
     TResult? Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult? Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_ErrorBoardState value)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -100,6 +105,7 @@ mixin _$BoardState {
     TResult Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) =>
@@ -157,6 +163,7 @@ class _$_InitialBoardState extends _InitialBoardState {
     required TResult Function(LichessGameChatMessage message) gameChatMessage,
     required TResult Function() gameChatCompleted,
     required TResult Function() wroteOnGameChat,
+    required TResult Function() gameResigned,
     required TResult Function(Failure error) failure,
   }) {
     return initial();
@@ -174,6 +181,7 @@ class _$_InitialBoardState extends _InitialBoardState {
     TResult? Function(LichessGameChatMessage message)? gameChatMessage,
     TResult? Function()? gameChatCompleted,
     TResult? Function()? wroteOnGameChat,
+    TResult? Function()? gameResigned,
     TResult? Function(Failure error)? failure,
   }) {
     return initial?.call();
@@ -191,6 +199,7 @@ class _$_InitialBoardState extends _InitialBoardState {
     TResult Function(LichessGameChatMessage message)? gameChatMessage,
     TResult Function()? gameChatCompleted,
     TResult Function()? wroteOnGameChat,
+    TResult Function()? gameResigned,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -214,6 +223,7 @@ class _$_InitialBoardState extends _InitialBoardState {
     required TResult Function(_ChatMessageCompletedBoardState value)
         gameChatCompleted,
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
+    required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return initial(this);
@@ -231,6 +241,7 @@ class _$_InitialBoardState extends _InitialBoardState {
     TResult? Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult? Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return initial?.call(this);
@@ -248,6 +259,7 @@ class _$_InitialBoardState extends _InitialBoardState {
     TResult Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -296,6 +308,7 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     required TResult Function(LichessGameChatMessage message) gameChatMessage,
     required TResult Function() gameChatCompleted,
     required TResult Function() wroteOnGameChat,
+    required TResult Function() gameResigned,
     required TResult Function(Failure error) failure,
   }) {
     return loading();
@@ -313,6 +326,7 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     TResult? Function(LichessGameChatMessage message)? gameChatMessage,
     TResult? Function()? gameChatCompleted,
     TResult? Function()? wroteOnGameChat,
+    TResult? Function()? gameResigned,
     TResult? Function(Failure error)? failure,
   }) {
     return loading?.call();
@@ -330,6 +344,7 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     TResult Function(LichessGameChatMessage message)? gameChatMessage,
     TResult Function()? gameChatCompleted,
     TResult Function()? wroteOnGameChat,
+    TResult Function()? gameResigned,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -353,6 +368,7 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     required TResult Function(_ChatMessageCompletedBoardState value)
         gameChatCompleted,
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
+    required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return loading(this);
@@ -370,6 +386,7 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     TResult? Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult? Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return loading?.call(this);
@@ -387,6 +404,7 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     TResult Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -460,6 +478,7 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     required TResult Function(LichessGameChatMessage message) gameChatMessage,
     required TResult Function() gameChatCompleted,
     required TResult Function() wroteOnGameChat,
+    required TResult Function() gameResigned,
     required TResult Function(Failure error) failure,
   }) {
     return realTimeSeek(keepalive);
@@ -477,6 +496,7 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     TResult? Function(LichessGameChatMessage message)? gameChatMessage,
     TResult? Function()? gameChatCompleted,
     TResult? Function()? wroteOnGameChat,
+    TResult? Function()? gameResigned,
     TResult? Function(Failure error)? failure,
   }) {
     return realTimeSeek?.call(keepalive);
@@ -494,6 +514,7 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     TResult Function(LichessGameChatMessage message)? gameChatMessage,
     TResult Function()? gameChatCompleted,
     TResult Function()? wroteOnGameChat,
+    TResult Function()? gameResigned,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -517,6 +538,7 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     required TResult Function(_ChatMessageCompletedBoardState value)
         gameChatCompleted,
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
+    required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return realTimeSeek(this);
@@ -534,6 +556,7 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     TResult? Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult? Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return realTimeSeek?.call(this);
@@ -551,6 +574,7 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     TResult Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -632,6 +656,7 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     required TResult Function(LichessGameChatMessage message) gameChatMessage,
     required TResult Function() gameChatCompleted,
     required TResult Function() wroteOnGameChat,
+    required TResult Function() gameResigned,
     required TResult Function(Failure error) failure,
   }) {
     return correspondenceSeek(keepalive);
@@ -649,6 +674,7 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     TResult? Function(LichessGameChatMessage message)? gameChatMessage,
     TResult? Function()? gameChatCompleted,
     TResult? Function()? wroteOnGameChat,
+    TResult? Function()? gameResigned,
     TResult? Function(Failure error)? failure,
   }) {
     return correspondenceSeek?.call(keepalive);
@@ -666,6 +692,7 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     TResult Function(LichessGameChatMessage message)? gameChatMessage,
     TResult Function()? gameChatCompleted,
     TResult Function()? wroteOnGameChat,
+    TResult Function()? gameResigned,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -689,6 +716,7 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     required TResult Function(_ChatMessageCompletedBoardState value)
         gameChatCompleted,
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
+    required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return correspondenceSeek(this);
@@ -706,6 +734,7 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     TResult? Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult? Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return correspondenceSeek?.call(this);
@@ -723,6 +752,7 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     TResult Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -777,6 +807,7 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     required TResult Function(LichessGameChatMessage message) gameChatMessage,
     required TResult Function() gameChatCompleted,
     required TResult Function() wroteOnGameChat,
+    required TResult Function() gameResigned,
     required TResult Function(Failure error) failure,
   }) {
     return gameAborted();
@@ -794,6 +825,7 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     TResult? Function(LichessGameChatMessage message)? gameChatMessage,
     TResult? Function()? gameChatCompleted,
     TResult? Function()? wroteOnGameChat,
+    TResult? Function()? gameResigned,
     TResult? Function(Failure error)? failure,
   }) {
     return gameAborted?.call();
@@ -811,6 +843,7 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     TResult Function(LichessGameChatMessage message)? gameChatMessage,
     TResult Function()? gameChatCompleted,
     TResult Function()? wroteOnGameChat,
+    TResult Function()? gameResigned,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -834,6 +867,7 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     required TResult Function(_ChatMessageCompletedBoardState value)
         gameChatCompleted,
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
+    required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return gameAborted(this);
@@ -851,6 +885,7 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     TResult? Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult? Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return gameAborted?.call(this);
@@ -868,6 +903,7 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     TResult Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -917,6 +953,7 @@ class _$_VictoryClaimedBoardState extends _VictoryClaimedBoardState {
     required TResult Function(LichessGameChatMessage message) gameChatMessage,
     required TResult Function() gameChatCompleted,
     required TResult Function() wroteOnGameChat,
+    required TResult Function() gameResigned,
     required TResult Function(Failure error) failure,
   }) {
     return victoryClaimed();
@@ -934,6 +971,7 @@ class _$_VictoryClaimedBoardState extends _VictoryClaimedBoardState {
     TResult? Function(LichessGameChatMessage message)? gameChatMessage,
     TResult? Function()? gameChatCompleted,
     TResult? Function()? wroteOnGameChat,
+    TResult? Function()? gameResigned,
     TResult? Function(Failure error)? failure,
   }) {
     return victoryClaimed?.call();
@@ -951,6 +989,7 @@ class _$_VictoryClaimedBoardState extends _VictoryClaimedBoardState {
     TResult Function(LichessGameChatMessage message)? gameChatMessage,
     TResult Function()? gameChatCompleted,
     TResult Function()? wroteOnGameChat,
+    TResult Function()? gameResigned,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -974,6 +1013,7 @@ class _$_VictoryClaimedBoardState extends _VictoryClaimedBoardState {
     required TResult Function(_ChatMessageCompletedBoardState value)
         gameChatCompleted,
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
+    required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return victoryClaimed(this);
@@ -991,6 +1031,7 @@ class _$_VictoryClaimedBoardState extends _VictoryClaimedBoardState {
     TResult? Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult? Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return victoryClaimed?.call(this);
@@ -1008,6 +1049,7 @@ class _$_VictoryClaimedBoardState extends _VictoryClaimedBoardState {
     TResult Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -1093,6 +1135,7 @@ class _$_GameChatMessageBoardState extends _GameChatMessageBoardState {
     required TResult Function(LichessGameChatMessage message) gameChatMessage,
     required TResult Function() gameChatCompleted,
     required TResult Function() wroteOnGameChat,
+    required TResult Function() gameResigned,
     required TResult Function(Failure error) failure,
   }) {
     return gameChatMessage(message);
@@ -1110,6 +1153,7 @@ class _$_GameChatMessageBoardState extends _GameChatMessageBoardState {
     TResult? Function(LichessGameChatMessage message)? gameChatMessage,
     TResult? Function()? gameChatCompleted,
     TResult? Function()? wroteOnGameChat,
+    TResult? Function()? gameResigned,
     TResult? Function(Failure error)? failure,
   }) {
     return gameChatMessage?.call(message);
@@ -1127,6 +1171,7 @@ class _$_GameChatMessageBoardState extends _GameChatMessageBoardState {
     TResult Function(LichessGameChatMessage message)? gameChatMessage,
     TResult Function()? gameChatCompleted,
     TResult Function()? wroteOnGameChat,
+    TResult Function()? gameResigned,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -1150,6 +1195,7 @@ class _$_GameChatMessageBoardState extends _GameChatMessageBoardState {
     required TResult Function(_ChatMessageCompletedBoardState value)
         gameChatCompleted,
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
+    required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return gameChatMessage(this);
@@ -1167,6 +1213,7 @@ class _$_GameChatMessageBoardState extends _GameChatMessageBoardState {
     TResult? Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult? Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return gameChatMessage?.call(this);
@@ -1184,6 +1231,7 @@ class _$_GameChatMessageBoardState extends _GameChatMessageBoardState {
     TResult Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -1241,6 +1289,7 @@ class _$_ChatMessageCompletedBoardState
     required TResult Function(LichessGameChatMessage message) gameChatMessage,
     required TResult Function() gameChatCompleted,
     required TResult Function() wroteOnGameChat,
+    required TResult Function() gameResigned,
     required TResult Function(Failure error) failure,
   }) {
     return gameChatCompleted();
@@ -1258,6 +1307,7 @@ class _$_ChatMessageCompletedBoardState
     TResult? Function(LichessGameChatMessage message)? gameChatMessage,
     TResult? Function()? gameChatCompleted,
     TResult? Function()? wroteOnGameChat,
+    TResult? Function()? gameResigned,
     TResult? Function(Failure error)? failure,
   }) {
     return gameChatCompleted?.call();
@@ -1275,6 +1325,7 @@ class _$_ChatMessageCompletedBoardState
     TResult Function(LichessGameChatMessage message)? gameChatMessage,
     TResult Function()? gameChatCompleted,
     TResult Function()? wroteOnGameChat,
+    TResult Function()? gameResigned,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -1298,6 +1349,7 @@ class _$_ChatMessageCompletedBoardState
     required TResult Function(_ChatMessageCompletedBoardState value)
         gameChatCompleted,
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
+    required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return gameChatCompleted(this);
@@ -1315,6 +1367,7 @@ class _$_ChatMessageCompletedBoardState
     TResult? Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult? Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return gameChatCompleted?.call(this);
@@ -1332,6 +1385,7 @@ class _$_ChatMessageCompletedBoardState
     TResult Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -1383,6 +1437,7 @@ class _$_WroteOnGameChatBoardState extends _WroteOnGameChatBoardState {
     required TResult Function(LichessGameChatMessage message) gameChatMessage,
     required TResult Function() gameChatCompleted,
     required TResult Function() wroteOnGameChat,
+    required TResult Function() gameResigned,
     required TResult Function(Failure error) failure,
   }) {
     return wroteOnGameChat();
@@ -1400,6 +1455,7 @@ class _$_WroteOnGameChatBoardState extends _WroteOnGameChatBoardState {
     TResult? Function(LichessGameChatMessage message)? gameChatMessage,
     TResult? Function()? gameChatCompleted,
     TResult? Function()? wroteOnGameChat,
+    TResult? Function()? gameResigned,
     TResult? Function(Failure error)? failure,
   }) {
     return wroteOnGameChat?.call();
@@ -1417,6 +1473,7 @@ class _$_WroteOnGameChatBoardState extends _WroteOnGameChatBoardState {
     TResult Function(LichessGameChatMessage message)? gameChatMessage,
     TResult Function()? gameChatCompleted,
     TResult Function()? wroteOnGameChat,
+    TResult Function()? gameResigned,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -1440,6 +1497,7 @@ class _$_WroteOnGameChatBoardState extends _WroteOnGameChatBoardState {
     required TResult Function(_ChatMessageCompletedBoardState value)
         gameChatCompleted,
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
+    required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return wroteOnGameChat(this);
@@ -1457,6 +1515,7 @@ class _$_WroteOnGameChatBoardState extends _WroteOnGameChatBoardState {
     TResult? Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult? Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return wroteOnGameChat?.call(this);
@@ -1474,6 +1533,7 @@ class _$_WroteOnGameChatBoardState extends _WroteOnGameChatBoardState {
     TResult Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -1487,6 +1547,151 @@ class _$_WroteOnGameChatBoardState extends _WroteOnGameChatBoardState {
 abstract class _WroteOnGameChatBoardState extends BoardState {
   const factory _WroteOnGameChatBoardState() = _$_WroteOnGameChatBoardState;
   const _WroteOnGameChatBoardState._() : super._();
+}
+
+/// @nodoc
+abstract class _$$_GameResignedBoardStateCopyWith<$Res> {
+  factory _$$_GameResignedBoardStateCopyWith(_$_GameResignedBoardState value,
+          $Res Function(_$_GameResignedBoardState) then) =
+      __$$_GameResignedBoardStateCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_GameResignedBoardStateCopyWithImpl<$Res>
+    extends _$BoardStateCopyWithImpl<$Res, _$_GameResignedBoardState>
+    implements _$$_GameResignedBoardStateCopyWith<$Res> {
+  __$$_GameResignedBoardStateCopyWithImpl(_$_GameResignedBoardState _value,
+      $Res Function(_$_GameResignedBoardState) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_GameResignedBoardState extends _GameResignedBoardState {
+  const _$_GameResignedBoardState() : super._();
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(Keepalive keepalive) realTimeSeek,
+    required TResult Function(Keepalive keepalive) correspondenceSeek,
+    required TResult Function() gameAborted,
+    required TResult Function() victoryClaimed,
+    required TResult Function(LichessGameChatMessage message) gameChatMessage,
+    required TResult Function() gameChatCompleted,
+    required TResult Function() wroteOnGameChat,
+    required TResult Function() gameResigned,
+    required TResult Function(Failure error) failure,
+  }) {
+    return gameResigned();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Keepalive keepalive)? realTimeSeek,
+    TResult? Function(Keepalive keepalive)? correspondenceSeek,
+    TResult? Function()? gameAborted,
+    TResult? Function()? victoryClaimed,
+    TResult? Function(LichessGameChatMessage message)? gameChatMessage,
+    TResult? Function()? gameChatCompleted,
+    TResult? Function()? wroteOnGameChat,
+    TResult? Function()? gameResigned,
+    TResult? Function(Failure error)? failure,
+  }) {
+    return gameResigned?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(Keepalive keepalive)? realTimeSeek,
+    TResult Function(Keepalive keepalive)? correspondenceSeek,
+    TResult Function()? gameAborted,
+    TResult Function()? victoryClaimed,
+    TResult Function(LichessGameChatMessage message)? gameChatMessage,
+    TResult Function()? gameChatCompleted,
+    TResult Function()? wroteOnGameChat,
+    TResult Function()? gameResigned,
+    TResult Function(Failure error)? failure,
+    required TResult orElse(),
+  }) {
+    if (gameResigned != null) {
+      return gameResigned();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_InitialBoardState value) initial,
+    required TResult Function(_LoadingBoardState value) loading,
+    required TResult Function(_RealTimeSeekBoardState value) realTimeSeek,
+    required TResult Function(_CorrespondenceSeekBoardState value)
+        correspondenceSeek,
+    required TResult Function(_GameAbortedBoardState value) gameAborted,
+    required TResult Function(_VictoryClaimedBoardState value) victoryClaimed,
+    required TResult Function(_GameChatMessageBoardState value) gameChatMessage,
+    required TResult Function(_ChatMessageCompletedBoardState value)
+        gameChatCompleted,
+    required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
+    required TResult Function(_GameResignedBoardState value) gameResigned,
+    required TResult Function(_ErrorBoardState value) failure,
+  }) {
+    return gameResigned(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_InitialBoardState value)? initial,
+    TResult? Function(_LoadingBoardState value)? loading,
+    TResult? Function(_RealTimeSeekBoardState value)? realTimeSeek,
+    TResult? Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
+    TResult? Function(_GameAbortedBoardState value)? gameAborted,
+    TResult? Function(_VictoryClaimedBoardState value)? victoryClaimed,
+    TResult? Function(_GameChatMessageBoardState value)? gameChatMessage,
+    TResult? Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
+    TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult? Function(_GameResignedBoardState value)? gameResigned,
+    TResult? Function(_ErrorBoardState value)? failure,
+  }) {
+    return gameResigned?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_InitialBoardState value)? initial,
+    TResult Function(_LoadingBoardState value)? loading,
+    TResult Function(_RealTimeSeekBoardState value)? realTimeSeek,
+    TResult Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
+    TResult Function(_GameAbortedBoardState value)? gameAborted,
+    TResult Function(_VictoryClaimedBoardState value)? victoryClaimed,
+    TResult Function(_GameChatMessageBoardState value)? gameChatMessage,
+    TResult Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
+    TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult Function(_GameResignedBoardState value)? gameResigned,
+    TResult Function(_ErrorBoardState value)? failure,
+    required TResult orElse(),
+  }) {
+    if (gameResigned != null) {
+      return gameResigned(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GameResignedBoardState extends BoardState {
+  const factory _GameResignedBoardState() = _$_GameResignedBoardState;
+  const _GameResignedBoardState._() : super._();
 }
 
 /// @nodoc
@@ -1546,6 +1751,7 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     required TResult Function(LichessGameChatMessage message) gameChatMessage,
     required TResult Function() gameChatCompleted,
     required TResult Function() wroteOnGameChat,
+    required TResult Function() gameResigned,
     required TResult Function(Failure error) failure,
   }) {
     return failure(error);
@@ -1563,6 +1769,7 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     TResult? Function(LichessGameChatMessage message)? gameChatMessage,
     TResult? Function()? gameChatCompleted,
     TResult? Function()? wroteOnGameChat,
+    TResult? Function()? gameResigned,
     TResult? Function(Failure error)? failure,
   }) {
     return failure?.call(error);
@@ -1580,6 +1787,7 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     TResult Function(LichessGameChatMessage message)? gameChatMessage,
     TResult Function()? gameChatCompleted,
     TResult Function()? wroteOnGameChat,
+    TResult Function()? gameResigned,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -1603,6 +1811,7 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     required TResult Function(_ChatMessageCompletedBoardState value)
         gameChatCompleted,
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
+    required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return failure(this);
@@ -1620,6 +1829,7 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     TResult? Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult? Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return failure?.call(this);
@@ -1637,6 +1847,7 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     TResult Function(_GameChatMessageBoardState value)? gameChatMessage,
     TResult Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {

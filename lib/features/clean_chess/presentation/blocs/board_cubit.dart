@@ -33,6 +33,8 @@ abstract class BoardState with _$BoardState, EquatableMixin {
 
   const factory BoardState.wroteOnGameChat() = _WroteOnGameChatBoardState;
 
+  const factory BoardState.gameResigned() = _GameResignedBoardState;
+
   const factory BoardState.failure(Failure error) = _ErrorBoardState;
 
   const BoardState._();
@@ -54,6 +56,7 @@ class BoardCubit extends Cubit<BoardState> {
   final ClaimVictory _claimVictory;
   final FetchGameChat _fetchGameChat;
   final WriteOnGameChat _writeOnGameChat;
+  final ResignGame _resignGame;
 
   BoardCubit({
     required CreateRealTimeSeek createRealTimeSeek,
@@ -62,12 +65,14 @@ class BoardCubit extends Cubit<BoardState> {
     required ClaimVictory claimVictory,
     required FetchGameChat fetchGameChat,
     required WriteOnGameChat writeOnGameChat,
+    required ResignGame resignGame,
   })  : _createRealTimeSeek = createRealTimeSeek,
         _createCorrespondenceSeek = createCorrespondenceSeek,
         _abortGame = abortGame,
         _claimVictory = claimVictory,
         _fetchGameChat = fetchGameChat,
         _writeOnGameChat = writeOnGameChat,
+        _resignGame = resignGame,
         super(const _InitialBoardState());
 
   Future<void> createRealTimeSeek({
@@ -176,6 +181,15 @@ class BoardCubit extends Cubit<BoardState> {
     result.fold(
       (failure) => emit(BoardState.failure(failure)),
       (keepalive) => emit(const BoardState.wroteOnGameChat()),
+    );
+  }
+
+  Future<void> resignGame({required String gameId}) async {
+    emit(const _LoadingBoardState());
+    final result = await _resignGame(gameId);
+    result.fold(
+      (failure) => emit(BoardState.failure(failure)),
+      (keepalive) => emit(const BoardState.gameResigned()),
     );
   }
 }
