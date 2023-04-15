@@ -17,6 +17,7 @@ void main() async {
   late MockMAbortGame mockAbortGame;
   late MockMClaimVictory mockClaimVictory;
   late MockMFetchGameChat mockFetchGameChat;
+  late MockMWriteOnGameChat mockWriteOnGameChat;
 
   late BoardCubit bloc;
 
@@ -28,6 +29,7 @@ void main() async {
     mockAbortGame = MockMAbortGame();
     mockClaimVictory = MockMClaimVictory();
     mockFetchGameChat = MockMFetchGameChat();
+    mockWriteOnGameChat = MockMWriteOnGameChat();
     keepalive = () async {};
 
     bloc = BoardCubit(
@@ -36,6 +38,7 @@ void main() async {
       abortGame: mockAbortGame,
       claimVictory: mockClaimVictory,
       fetchGameChat: mockFetchGameChat,
+      writeOnGameChat: mockWriteOnGameChat,
     );
   });
 
@@ -249,6 +252,54 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockFetchGameChat.call(any)).called(1);
+        },
+      );
+    });
+
+    group('Send Game Chat Message', () {
+      blocTest<BoardCubit, BoardState>(
+        'Success',
+        build: () {
+          when(mockWriteOnGameChat.call(any)).thenAnswer(
+            (_) async => const Right(Empty()),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.writeOnGameChat(
+          gameId: '',
+          room: LichessChatLineRoom.player,
+          text: '',
+        ),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.wroteOnGameChat(),
+        ],
+        verify: (bloc) {
+          verify(mockWriteOnGameChat.call(any)).called(1);
+        },
+      );
+
+      blocTest<BoardCubit, BoardState>(
+        'Failure',
+        build: () {
+          when(mockWriteOnGameChat.call(any)).thenAnswer(
+            (_) async => const Left(LichessOAuthFailure('OAtuh error')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.writeOnGameChat(
+          gameId: '',
+          room: LichessChatLineRoom.player,
+          text: '',
+        ),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.failure(LichessOAuthFailure('OAtuh error')),
+        ],
+        verify: (bloc) {
+          verify(mockWriteOnGameChat.call(any)).called(1);
         },
       );
     });

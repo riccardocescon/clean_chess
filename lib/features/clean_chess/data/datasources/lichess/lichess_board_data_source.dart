@@ -150,4 +150,32 @@ class LichessBoardDataSource extends RemoteBoardDataSource {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }
   }
+
+  @override
+  Future<Either<Failure, Empty>> writeOnGameChat({
+    required String gameId,
+    required LichessChatLineRoom room,
+    required String text,
+  }) async {
+    try {
+      logDebug(
+        'Writing on Game Chat...',
+        tag: 'Board',
+        color: LogColor.lightBlue,
+      );
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      await client.board.writeInTheChat(
+        gameId: gameId,
+        room: room,
+        text: text,
+      );
+
+      return const Right(Empty());
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
 }

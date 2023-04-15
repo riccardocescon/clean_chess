@@ -31,6 +31,8 @@ abstract class BoardState with _$BoardState, EquatableMixin {
   const factory BoardState.gameChatCompleted() =
       _ChatMessageCompletedBoardState;
 
+  const factory BoardState.wroteOnGameChat() = _WroteOnGameChatBoardState;
+
   const factory BoardState.failure(Failure error) = _ErrorBoardState;
 
   const BoardState._();
@@ -51,6 +53,7 @@ class BoardCubit extends Cubit<BoardState> {
   final AbortGame _abortGame;
   final ClaimVictory _claimVictory;
   final FetchGameChat _fetchGameChat;
+  final WriteOnGameChat _writeOnGameChat;
 
   BoardCubit({
     required CreateRealTimeSeek createRealTimeSeek,
@@ -58,11 +61,13 @@ class BoardCubit extends Cubit<BoardState> {
     required AbortGame abortGame,
     required ClaimVictory claimVictory,
     required FetchGameChat fetchGameChat,
+    required WriteOnGameChat writeOnGameChat,
   })  : _createRealTimeSeek = createRealTimeSeek,
         _createCorrespondenceSeek = createCorrespondenceSeek,
         _abortGame = abortGame,
         _claimVictory = claimVictory,
         _fetchGameChat = fetchGameChat,
+        _writeOnGameChat = writeOnGameChat,
         super(const _InitialBoardState());
 
   Future<void> createRealTimeSeek({
@@ -153,5 +158,24 @@ class BoardCubit extends Cubit<BoardState> {
       emit(BoardState.gameChatMessage(message));
     }
     emit(const BoardState.gameChatCompleted());
+  }
+
+  Future<void> writeOnGameChat({
+    required String gameId,
+    required LichessChatLineRoom room,
+    required String text,
+  }) async {
+    emit(const _LoadingBoardState());
+    final result = await _writeOnGameChat(
+      WriteOnGameChatParams(
+        gameId: gameId,
+        room: room,
+        text: text,
+      ),
+    );
+    result.fold(
+      (failure) => emit(BoardState.failure(failure)),
+      (keepalive) => emit(const BoardState.wroteOnGameChat()),
+    );
   }
 }

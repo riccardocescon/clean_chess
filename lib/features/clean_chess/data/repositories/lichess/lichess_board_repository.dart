@@ -68,4 +68,16 @@ class LichessBoardRepository extends BoardRepository {
     String gameId,
   ) =>
       _boardDataSource.fetchGameChat(gameId);
+
+  @override
+  Future<Either<Failure, Empty>> writeOnGameChat({
+    required String gameId,
+    required LichessChatLineRoom room,
+    required String text,
+  }) =>
+      _boardDataSource.writeOnGameChat(
+        gameId: gameId,
+        room: room,
+        text: text,
+      );
 }

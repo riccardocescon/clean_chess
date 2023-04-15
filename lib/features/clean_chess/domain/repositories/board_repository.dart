@@ -34,4 +34,10 @@ abstract class BoardRepository {
   Future<Either<Failure, Stream<LichessGameChatMessage>>> fetchGameChat(
     String gameId,
   );
+
+  Future<Either<Failure, Empty>> writeOnGameChat({
+    required String gameId,
+    required LichessChatLineRoom room,
+    required String text,
+  });
 }

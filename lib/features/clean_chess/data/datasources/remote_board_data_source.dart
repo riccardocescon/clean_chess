@@ -39,4 +39,11 @@ abstract class RemoteBoardDataSource {
   Future<Either<Failure, Stream<LichessGameChatMessage>>> fetchGameChat(
     String gameId,
   );
+
+  /// API to write on the game chat
+  Future<Either<Failure, Empty>> writeOnGameChat({
+    required String gameId,
+    required LichessChatLineRoom room,
+    required String text,
+  });
 }
