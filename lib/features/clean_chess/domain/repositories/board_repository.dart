@@ -48,4 +48,8 @@ abstract class BoardRepository {
     required String move,
     bool? offeringDraw,
   });
+
+  Future<Either<Failure, Stream<LichessBoardGameEvent>>> streamGameState(
+    String gameId,
+  );
 }

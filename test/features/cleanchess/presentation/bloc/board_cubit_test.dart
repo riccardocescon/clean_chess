@@ -20,6 +20,7 @@ void main() async {
   late MockMWriteOnGameChat mockWriteOnGameChat;
   late MockMResignGame mockResignGame;
   late MockMMakeMove mockMakeMove;
+  late MockMStreamBoardGameState mockStreamBoardGameState;
 
   late BoardCubit bloc;
 
@@ -34,6 +35,7 @@ void main() async {
     mockWriteOnGameChat = MockMWriteOnGameChat();
     mockResignGame = MockMResignGame();
     mockMakeMove = MockMMakeMove();
+    mockStreamBoardGameState = MockMStreamBoardGameState();
     keepalive = () async {};
 
     bloc = BoardCubit(
@@ -45,6 +47,7 @@ void main() async {
       writeOnGameChat: mockWriteOnGameChat,
       resignGame: mockResignGame,
       makeMove: mockMakeMove,
+      streamBoardGameState: mockStreamBoardGameState,
     );
   });
 
@@ -389,5 +392,60 @@ void main() async {
         },
       );
     });
+
+    group('Stream Board Game State', () {
+      blocTest<BoardCubit, BoardState>(
+        'Success',
+        build: () {
+          when(mockStreamBoardGameState.call(any)).thenAnswer(
+            (_) async => Right(Stream.fromIterable([
+              const LichessChatLineEvent(
+                type: LichessBoardGameEventType.gameFull,
+                room: LichessChatLineRoom.player,
+                username: '',
+                text: '',
+              ),
+            ])),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.streamGameState(gameId: ''),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.streamGameState(
+            LichessChatLineEvent(
+              type: LichessBoardGameEventType.gameFull,
+              room: LichessChatLineRoom.player,
+              username: '',
+              text: '',
+            ),
+          ),
+          const BoardState.streamGameCompleted(),
+        ],
+        verify: (bloc) {
+          verify(mockStreamBoardGameState.call(any)).called(1);
+        },
+      );
+    });
+
+    blocTest<BoardCubit, BoardState>(
+      'Failure',
+      build: () {
+        when(mockStreamBoardGameState.call(any)).thenAnswer(
+          (_) async => const Left(LichessOAuthFailure('OAtuh error')),
+        );
+
+        return bloc;
+      },
+      act: (bloc) => bloc.streamGameState(gameId: ''),
+      expect: () => [
+        const BoardState.loading(),
+        const BoardState.failure(LichessOAuthFailure('OAtuh error')),
+      ],
+      verify: (bloc) {
+        verify(mockStreamBoardGameState.call(any)).called(1);
+      },
+    );
   });
 }

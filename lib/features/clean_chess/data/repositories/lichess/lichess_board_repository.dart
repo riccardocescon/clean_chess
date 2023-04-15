@@ -96,4 +96,10 @@ class LichessBoardRepository extends BoardRepository {
         move: move,
         offeringDraw: offeringDraw,
       );
+
+  @override
+  Future<Either<Failure, Stream<LichessBoardGameEvent>>> streamGameState(
+    String gameId,
+  ) =>
+      _boardDataSource.streamBoardGameState(gameId);
 }

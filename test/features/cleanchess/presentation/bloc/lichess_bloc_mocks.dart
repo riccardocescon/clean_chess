@@ -107,6 +107,8 @@ class MResignGame extends Mock implements ResignGame {}
 
 class MMakeMove extends Mock implements MakeMove {}
 
+class MStreamBoardGameState extends Mock implements StreamBoardGameState {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessRevokeToken>(),
@@ -155,5 +157,6 @@ class MMakeMove extends Mock implements MakeMove {}
   MockSpec<MWriteOnGameChat>(),
   MockSpec<MResignGame>(),
   MockSpec<MMakeMove>(),
+  MockSpec<MStreamBoardGameState>(),
 ])
 void main() {}

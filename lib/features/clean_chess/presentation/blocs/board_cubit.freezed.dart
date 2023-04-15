@@ -29,6 +29,8 @@ mixin _$BoardState {
     required TResult Function() wroteOnGameChat,
     required TResult Function() gameResigned,
     required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
     required TResult Function(Failure error) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -45,6 +47,8 @@ mixin _$BoardState {
     TResult? Function()? wroteOnGameChat,
     TResult? Function()? gameResigned,
     TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
     TResult? Function(Failure error)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -61,6 +65,8 @@ mixin _$BoardState {
     TResult Function()? wroteOnGameChat,
     TResult Function()? gameResigned,
     TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) =>
@@ -80,6 +86,9 @@ mixin _$BoardState {
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
     required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
     required TResult Function(_ErrorBoardState value) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -96,6 +105,9 @@ mixin _$BoardState {
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
     TResult? Function(_ErrorBoardState value)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -112,6 +124,8 @@ mixin _$BoardState {
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) =>
@@ -171,6 +185,8 @@ class _$_InitialBoardState extends _InitialBoardState {
     required TResult Function() wroteOnGameChat,
     required TResult Function() gameResigned,
     required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
     required TResult Function(Failure error) failure,
   }) {
     return initial();
@@ -190,6 +206,8 @@ class _$_InitialBoardState extends _InitialBoardState {
     TResult? Function()? wroteOnGameChat,
     TResult? Function()? gameResigned,
     TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
     TResult? Function(Failure error)? failure,
   }) {
     return initial?.call();
@@ -209,6 +227,8 @@ class _$_InitialBoardState extends _InitialBoardState {
     TResult Function()? wroteOnGameChat,
     TResult Function()? gameResigned,
     TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -234,6 +254,9 @@ class _$_InitialBoardState extends _InitialBoardState {
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
     required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return initial(this);
@@ -253,6 +276,9 @@ class _$_InitialBoardState extends _InitialBoardState {
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return initial?.call(this);
@@ -272,6 +298,8 @@ class _$_InitialBoardState extends _InitialBoardState {
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -322,6 +350,8 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     required TResult Function() wroteOnGameChat,
     required TResult Function() gameResigned,
     required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
     required TResult Function(Failure error) failure,
   }) {
     return loading();
@@ -341,6 +371,8 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     TResult? Function()? wroteOnGameChat,
     TResult? Function()? gameResigned,
     TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
     TResult? Function(Failure error)? failure,
   }) {
     return loading?.call();
@@ -360,6 +392,8 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     TResult Function()? wroteOnGameChat,
     TResult Function()? gameResigned,
     TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -385,6 +419,9 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
     required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return loading(this);
@@ -404,6 +441,9 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return loading?.call(this);
@@ -423,6 +463,8 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -498,6 +540,8 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     required TResult Function() wroteOnGameChat,
     required TResult Function() gameResigned,
     required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
     required TResult Function(Failure error) failure,
   }) {
     return realTimeSeek(keepalive);
@@ -517,6 +561,8 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     TResult? Function()? wroteOnGameChat,
     TResult? Function()? gameResigned,
     TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
     TResult? Function(Failure error)? failure,
   }) {
     return realTimeSeek?.call(keepalive);
@@ -536,6 +582,8 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     TResult Function()? wroteOnGameChat,
     TResult Function()? gameResigned,
     TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -561,6 +609,9 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
     required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return realTimeSeek(this);
@@ -580,6 +631,9 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return realTimeSeek?.call(this);
@@ -599,6 +653,8 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -682,6 +738,8 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     required TResult Function() wroteOnGameChat,
     required TResult Function() gameResigned,
     required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
     required TResult Function(Failure error) failure,
   }) {
     return correspondenceSeek(keepalive);
@@ -701,6 +759,8 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     TResult? Function()? wroteOnGameChat,
     TResult? Function()? gameResigned,
     TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
     TResult? Function(Failure error)? failure,
   }) {
     return correspondenceSeek?.call(keepalive);
@@ -720,6 +780,8 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     TResult Function()? wroteOnGameChat,
     TResult Function()? gameResigned,
     TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -745,6 +807,9 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
     required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return correspondenceSeek(this);
@@ -764,6 +829,9 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return correspondenceSeek?.call(this);
@@ -783,6 +851,8 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -839,6 +909,8 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     required TResult Function() wroteOnGameChat,
     required TResult Function() gameResigned,
     required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
     required TResult Function(Failure error) failure,
   }) {
     return gameAborted();
@@ -858,6 +930,8 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     TResult? Function()? wroteOnGameChat,
     TResult? Function()? gameResigned,
     TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
     TResult? Function(Failure error)? failure,
   }) {
     return gameAborted?.call();
@@ -877,6 +951,8 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     TResult Function()? wroteOnGameChat,
     TResult Function()? gameResigned,
     TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -902,6 +978,9 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
     required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return gameAborted(this);
@@ -921,6 +1000,9 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return gameAborted?.call(this);
@@ -940,6 +1022,8 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -991,6 +1075,8 @@ class _$_VictoryClaimedBoardState extends _VictoryClaimedBoardState {
     required TResult Function() wroteOnGameChat,
     required TResult Function() gameResigned,
     required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
     required TResult Function(Failure error) failure,
   }) {
     return victoryClaimed();
@@ -1010,6 +1096,8 @@ class _$_VictoryClaimedBoardState extends _VictoryClaimedBoardState {
     TResult? Function()? wroteOnGameChat,
     TResult? Function()? gameResigned,
     TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
     TResult? Function(Failure error)? failure,
   }) {
     return victoryClaimed?.call();
@@ -1029,6 +1117,8 @@ class _$_VictoryClaimedBoardState extends _VictoryClaimedBoardState {
     TResult Function()? wroteOnGameChat,
     TResult Function()? gameResigned,
     TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -1054,6 +1144,9 @@ class _$_VictoryClaimedBoardState extends _VictoryClaimedBoardState {
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
     required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return victoryClaimed(this);
@@ -1073,6 +1166,9 @@ class _$_VictoryClaimedBoardState extends _VictoryClaimedBoardState {
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return victoryClaimed?.call(this);
@@ -1092,6 +1188,8 @@ class _$_VictoryClaimedBoardState extends _VictoryClaimedBoardState {
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -1179,6 +1277,8 @@ class _$_GameChatMessageBoardState extends _GameChatMessageBoardState {
     required TResult Function() wroteOnGameChat,
     required TResult Function() gameResigned,
     required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
     required TResult Function(Failure error) failure,
   }) {
     return gameChatMessage(message);
@@ -1198,6 +1298,8 @@ class _$_GameChatMessageBoardState extends _GameChatMessageBoardState {
     TResult? Function()? wroteOnGameChat,
     TResult? Function()? gameResigned,
     TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
     TResult? Function(Failure error)? failure,
   }) {
     return gameChatMessage?.call(message);
@@ -1217,6 +1319,8 @@ class _$_GameChatMessageBoardState extends _GameChatMessageBoardState {
     TResult Function()? wroteOnGameChat,
     TResult Function()? gameResigned,
     TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -1242,6 +1346,9 @@ class _$_GameChatMessageBoardState extends _GameChatMessageBoardState {
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
     required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return gameChatMessage(this);
@@ -1261,6 +1368,9 @@ class _$_GameChatMessageBoardState extends _GameChatMessageBoardState {
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return gameChatMessage?.call(this);
@@ -1280,6 +1390,8 @@ class _$_GameChatMessageBoardState extends _GameChatMessageBoardState {
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -1339,6 +1451,8 @@ class _$_ChatMessageCompletedBoardState
     required TResult Function() wroteOnGameChat,
     required TResult Function() gameResigned,
     required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
     required TResult Function(Failure error) failure,
   }) {
     return gameChatCompleted();
@@ -1358,6 +1472,8 @@ class _$_ChatMessageCompletedBoardState
     TResult? Function()? wroteOnGameChat,
     TResult? Function()? gameResigned,
     TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
     TResult? Function(Failure error)? failure,
   }) {
     return gameChatCompleted?.call();
@@ -1377,6 +1493,8 @@ class _$_ChatMessageCompletedBoardState
     TResult Function()? wroteOnGameChat,
     TResult Function()? gameResigned,
     TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -1402,6 +1520,9 @@ class _$_ChatMessageCompletedBoardState
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
     required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return gameChatCompleted(this);
@@ -1421,6 +1542,9 @@ class _$_ChatMessageCompletedBoardState
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return gameChatCompleted?.call(this);
@@ -1440,6 +1564,8 @@ class _$_ChatMessageCompletedBoardState
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -1493,6 +1619,8 @@ class _$_WroteOnGameChatBoardState extends _WroteOnGameChatBoardState {
     required TResult Function() wroteOnGameChat,
     required TResult Function() gameResigned,
     required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
     required TResult Function(Failure error) failure,
   }) {
     return wroteOnGameChat();
@@ -1512,6 +1640,8 @@ class _$_WroteOnGameChatBoardState extends _WroteOnGameChatBoardState {
     TResult? Function()? wroteOnGameChat,
     TResult? Function()? gameResigned,
     TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
     TResult? Function(Failure error)? failure,
   }) {
     return wroteOnGameChat?.call();
@@ -1531,6 +1661,8 @@ class _$_WroteOnGameChatBoardState extends _WroteOnGameChatBoardState {
     TResult Function()? wroteOnGameChat,
     TResult Function()? gameResigned,
     TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -1556,6 +1688,9 @@ class _$_WroteOnGameChatBoardState extends _WroteOnGameChatBoardState {
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
     required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return wroteOnGameChat(this);
@@ -1575,6 +1710,9 @@ class _$_WroteOnGameChatBoardState extends _WroteOnGameChatBoardState {
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return wroteOnGameChat?.call(this);
@@ -1594,6 +1732,8 @@ class _$_WroteOnGameChatBoardState extends _WroteOnGameChatBoardState {
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -1644,6 +1784,8 @@ class _$_GameResignedBoardState extends _GameResignedBoardState {
     required TResult Function() wroteOnGameChat,
     required TResult Function() gameResigned,
     required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
     required TResult Function(Failure error) failure,
   }) {
     return gameResigned();
@@ -1663,6 +1805,8 @@ class _$_GameResignedBoardState extends _GameResignedBoardState {
     TResult? Function()? wroteOnGameChat,
     TResult? Function()? gameResigned,
     TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
     TResult? Function(Failure error)? failure,
   }) {
     return gameResigned?.call();
@@ -1682,6 +1826,8 @@ class _$_GameResignedBoardState extends _GameResignedBoardState {
     TResult Function()? wroteOnGameChat,
     TResult Function()? gameResigned,
     TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -1707,6 +1853,9 @@ class _$_GameResignedBoardState extends _GameResignedBoardState {
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
     required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return gameResigned(this);
@@ -1726,6 +1875,9 @@ class _$_GameResignedBoardState extends _GameResignedBoardState {
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return gameResigned?.call(this);
@@ -1745,6 +1897,8 @@ class _$_GameResignedBoardState extends _GameResignedBoardState {
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -1795,6 +1949,8 @@ class _$_MoveMadeBoardState extends _MoveMadeBoardState {
     required TResult Function() wroteOnGameChat,
     required TResult Function() gameResigned,
     required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
     required TResult Function(Failure error) failure,
   }) {
     return moveMade();
@@ -1814,6 +1970,8 @@ class _$_MoveMadeBoardState extends _MoveMadeBoardState {
     TResult? Function()? wroteOnGameChat,
     TResult? Function()? gameResigned,
     TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
     TResult? Function(Failure error)? failure,
   }) {
     return moveMade?.call();
@@ -1833,6 +1991,8 @@ class _$_MoveMadeBoardState extends _MoveMadeBoardState {
     TResult Function()? wroteOnGameChat,
     TResult Function()? gameResigned,
     TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -1858,6 +2018,9 @@ class _$_MoveMadeBoardState extends _MoveMadeBoardState {
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
     required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return moveMade(this);
@@ -1877,6 +2040,9 @@ class _$_MoveMadeBoardState extends _MoveMadeBoardState {
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return moveMade?.call(this);
@@ -1896,6 +2062,8 @@ class _$_MoveMadeBoardState extends _MoveMadeBoardState {
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -1909,6 +2077,372 @@ class _$_MoveMadeBoardState extends _MoveMadeBoardState {
 abstract class _MoveMadeBoardState extends BoardState {
   const factory _MoveMadeBoardState() = _$_MoveMadeBoardState;
   const _MoveMadeBoardState._() : super._();
+}
+
+/// @nodoc
+abstract class _$$_StreamGameStateBoardStateCopyWith<$Res> {
+  factory _$$_StreamGameStateBoardStateCopyWith(
+          _$_StreamGameStateBoardState value,
+          $Res Function(_$_StreamGameStateBoardState) then) =
+      __$$_StreamGameStateBoardStateCopyWithImpl<$Res>;
+  @useResult
+  $Res call({LichessBoardGameEvent event});
+}
+
+/// @nodoc
+class __$$_StreamGameStateBoardStateCopyWithImpl<$Res>
+    extends _$BoardStateCopyWithImpl<$Res, _$_StreamGameStateBoardState>
+    implements _$$_StreamGameStateBoardStateCopyWith<$Res> {
+  __$$_StreamGameStateBoardStateCopyWithImpl(
+      _$_StreamGameStateBoardState _value,
+      $Res Function(_$_StreamGameStateBoardState) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? event = null,
+  }) {
+    return _then(_$_StreamGameStateBoardState(
+      null == event
+          ? _value.event
+          : event // ignore: cast_nullable_to_non_nullable
+              as LichessBoardGameEvent,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_StreamGameStateBoardState extends _StreamGameStateBoardState {
+  const _$_StreamGameStateBoardState(this.event) : super._();
+
+  @override
+  final LichessBoardGameEvent event;
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_StreamGameStateBoardStateCopyWith<_$_StreamGameStateBoardState>
+      get copyWith => __$$_StreamGameStateBoardStateCopyWithImpl<
+          _$_StreamGameStateBoardState>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(Keepalive keepalive) realTimeSeek,
+    required TResult Function(Keepalive keepalive) correspondenceSeek,
+    required TResult Function() gameAborted,
+    required TResult Function() victoryClaimed,
+    required TResult Function(LichessGameChatMessage message) gameChatMessage,
+    required TResult Function() gameChatCompleted,
+    required TResult Function() wroteOnGameChat,
+    required TResult Function() gameResigned,
+    required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
+    required TResult Function(Failure error) failure,
+  }) {
+    return streamGameState(event);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Keepalive keepalive)? realTimeSeek,
+    TResult? Function(Keepalive keepalive)? correspondenceSeek,
+    TResult? Function()? gameAborted,
+    TResult? Function()? victoryClaimed,
+    TResult? Function(LichessGameChatMessage message)? gameChatMessage,
+    TResult? Function()? gameChatCompleted,
+    TResult? Function()? wroteOnGameChat,
+    TResult? Function()? gameResigned,
+    TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
+    TResult? Function(Failure error)? failure,
+  }) {
+    return streamGameState?.call(event);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(Keepalive keepalive)? realTimeSeek,
+    TResult Function(Keepalive keepalive)? correspondenceSeek,
+    TResult Function()? gameAborted,
+    TResult Function()? victoryClaimed,
+    TResult Function(LichessGameChatMessage message)? gameChatMessage,
+    TResult Function()? gameChatCompleted,
+    TResult Function()? wroteOnGameChat,
+    TResult Function()? gameResigned,
+    TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
+    TResult Function(Failure error)? failure,
+    required TResult orElse(),
+  }) {
+    if (streamGameState != null) {
+      return streamGameState(event);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_InitialBoardState value) initial,
+    required TResult Function(_LoadingBoardState value) loading,
+    required TResult Function(_RealTimeSeekBoardState value) realTimeSeek,
+    required TResult Function(_CorrespondenceSeekBoardState value)
+        correspondenceSeek,
+    required TResult Function(_GameAbortedBoardState value) gameAborted,
+    required TResult Function(_VictoryClaimedBoardState value) victoryClaimed,
+    required TResult Function(_GameChatMessageBoardState value) gameChatMessage,
+    required TResult Function(_ChatMessageCompletedBoardState value)
+        gameChatCompleted,
+    required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
+    required TResult Function(_GameResignedBoardState value) gameResigned,
+    required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
+    required TResult Function(_ErrorBoardState value) failure,
+  }) {
+    return streamGameState(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_InitialBoardState value)? initial,
+    TResult? Function(_LoadingBoardState value)? loading,
+    TResult? Function(_RealTimeSeekBoardState value)? realTimeSeek,
+    TResult? Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
+    TResult? Function(_GameAbortedBoardState value)? gameAborted,
+    TResult? Function(_VictoryClaimedBoardState value)? victoryClaimed,
+    TResult? Function(_GameChatMessageBoardState value)? gameChatMessage,
+    TResult? Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
+    TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult? Function(_GameResignedBoardState value)? gameResigned,
+    TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
+    TResult? Function(_ErrorBoardState value)? failure,
+  }) {
+    return streamGameState?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_InitialBoardState value)? initial,
+    TResult Function(_LoadingBoardState value)? loading,
+    TResult Function(_RealTimeSeekBoardState value)? realTimeSeek,
+    TResult Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
+    TResult Function(_GameAbortedBoardState value)? gameAborted,
+    TResult Function(_VictoryClaimedBoardState value)? victoryClaimed,
+    TResult Function(_GameChatMessageBoardState value)? gameChatMessage,
+    TResult Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
+    TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult Function(_GameResignedBoardState value)? gameResigned,
+    TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
+    TResult Function(_ErrorBoardState value)? failure,
+    required TResult orElse(),
+  }) {
+    if (streamGameState != null) {
+      return streamGameState(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _StreamGameStateBoardState extends BoardState {
+  const factory _StreamGameStateBoardState(final LichessBoardGameEvent event) =
+      _$_StreamGameStateBoardState;
+  const _StreamGameStateBoardState._() : super._();
+
+  LichessBoardGameEvent get event;
+  @JsonKey(ignore: true)
+  _$$_StreamGameStateBoardStateCopyWith<_$_StreamGameStateBoardState>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_StreamGameCompletedBoardStateCopyWith<$Res> {
+  factory _$$_StreamGameCompletedBoardStateCopyWith(
+          _$_StreamGameCompletedBoardState value,
+          $Res Function(_$_StreamGameCompletedBoardState) then) =
+      __$$_StreamGameCompletedBoardStateCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_StreamGameCompletedBoardStateCopyWithImpl<$Res>
+    extends _$BoardStateCopyWithImpl<$Res, _$_StreamGameCompletedBoardState>
+    implements _$$_StreamGameCompletedBoardStateCopyWith<$Res> {
+  __$$_StreamGameCompletedBoardStateCopyWithImpl(
+      _$_StreamGameCompletedBoardState _value,
+      $Res Function(_$_StreamGameCompletedBoardState) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_StreamGameCompletedBoardState extends _StreamGameCompletedBoardState {
+  const _$_StreamGameCompletedBoardState() : super._();
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(Keepalive keepalive) realTimeSeek,
+    required TResult Function(Keepalive keepalive) correspondenceSeek,
+    required TResult Function() gameAborted,
+    required TResult Function() victoryClaimed,
+    required TResult Function(LichessGameChatMessage message) gameChatMessage,
+    required TResult Function() gameChatCompleted,
+    required TResult Function() wroteOnGameChat,
+    required TResult Function() gameResigned,
+    required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
+    required TResult Function(Failure error) failure,
+  }) {
+    return streamGameCompleted();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Keepalive keepalive)? realTimeSeek,
+    TResult? Function(Keepalive keepalive)? correspondenceSeek,
+    TResult? Function()? gameAborted,
+    TResult? Function()? victoryClaimed,
+    TResult? Function(LichessGameChatMessage message)? gameChatMessage,
+    TResult? Function()? gameChatCompleted,
+    TResult? Function()? wroteOnGameChat,
+    TResult? Function()? gameResigned,
+    TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
+    TResult? Function(Failure error)? failure,
+  }) {
+    return streamGameCompleted?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(Keepalive keepalive)? realTimeSeek,
+    TResult Function(Keepalive keepalive)? correspondenceSeek,
+    TResult Function()? gameAborted,
+    TResult Function()? victoryClaimed,
+    TResult Function(LichessGameChatMessage message)? gameChatMessage,
+    TResult Function()? gameChatCompleted,
+    TResult Function()? wroteOnGameChat,
+    TResult Function()? gameResigned,
+    TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
+    TResult Function(Failure error)? failure,
+    required TResult orElse(),
+  }) {
+    if (streamGameCompleted != null) {
+      return streamGameCompleted();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_InitialBoardState value) initial,
+    required TResult Function(_LoadingBoardState value) loading,
+    required TResult Function(_RealTimeSeekBoardState value) realTimeSeek,
+    required TResult Function(_CorrespondenceSeekBoardState value)
+        correspondenceSeek,
+    required TResult Function(_GameAbortedBoardState value) gameAborted,
+    required TResult Function(_VictoryClaimedBoardState value) victoryClaimed,
+    required TResult Function(_GameChatMessageBoardState value) gameChatMessage,
+    required TResult Function(_ChatMessageCompletedBoardState value)
+        gameChatCompleted,
+    required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
+    required TResult Function(_GameResignedBoardState value) gameResigned,
+    required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
+    required TResult Function(_ErrorBoardState value) failure,
+  }) {
+    return streamGameCompleted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_InitialBoardState value)? initial,
+    TResult? Function(_LoadingBoardState value)? loading,
+    TResult? Function(_RealTimeSeekBoardState value)? realTimeSeek,
+    TResult? Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
+    TResult? Function(_GameAbortedBoardState value)? gameAborted,
+    TResult? Function(_VictoryClaimedBoardState value)? victoryClaimed,
+    TResult? Function(_GameChatMessageBoardState value)? gameChatMessage,
+    TResult? Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
+    TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult? Function(_GameResignedBoardState value)? gameResigned,
+    TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
+    TResult? Function(_ErrorBoardState value)? failure,
+  }) {
+    return streamGameCompleted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_InitialBoardState value)? initial,
+    TResult Function(_LoadingBoardState value)? loading,
+    TResult Function(_RealTimeSeekBoardState value)? realTimeSeek,
+    TResult Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
+    TResult Function(_GameAbortedBoardState value)? gameAborted,
+    TResult Function(_VictoryClaimedBoardState value)? victoryClaimed,
+    TResult Function(_GameChatMessageBoardState value)? gameChatMessage,
+    TResult Function(_ChatMessageCompletedBoardState value)? gameChatCompleted,
+    TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
+    TResult Function(_GameResignedBoardState value)? gameResigned,
+    TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
+    TResult Function(_ErrorBoardState value)? failure,
+    required TResult orElse(),
+  }) {
+    if (streamGameCompleted != null) {
+      return streamGameCompleted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _StreamGameCompletedBoardState extends BoardState {
+  const factory _StreamGameCompletedBoardState() =
+      _$_StreamGameCompletedBoardState;
+  const _StreamGameCompletedBoardState._() : super._();
 }
 
 /// @nodoc
@@ -1970,6 +2504,8 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     required TResult Function() wroteOnGameChat,
     required TResult Function() gameResigned,
     required TResult Function() moveMade,
+    required TResult Function(LichessBoardGameEvent event) streamGameState,
+    required TResult Function() streamGameCompleted,
     required TResult Function(Failure error) failure,
   }) {
     return failure(error);
@@ -1989,6 +2525,8 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     TResult? Function()? wroteOnGameChat,
     TResult? Function()? gameResigned,
     TResult? Function()? moveMade,
+    TResult? Function(LichessBoardGameEvent event)? streamGameState,
+    TResult? Function()? streamGameCompleted,
     TResult? Function(Failure error)? failure,
   }) {
     return failure?.call(error);
@@ -2008,6 +2546,8 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     TResult Function()? wroteOnGameChat,
     TResult Function()? gameResigned,
     TResult Function()? moveMade,
+    TResult Function(LichessBoardGameEvent event)? streamGameState,
+    TResult Function()? streamGameCompleted,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -2033,6 +2573,9 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     required TResult Function(_WroteOnGameChatBoardState value) wroteOnGameChat,
     required TResult Function(_GameResignedBoardState value) gameResigned,
     required TResult Function(_MoveMadeBoardState value) moveMade,
+    required TResult Function(_StreamGameStateBoardState value) streamGameState,
+    required TResult Function(_StreamGameCompletedBoardState value)
+        streamGameCompleted,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return failure(this);
@@ -2052,6 +2595,9 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     TResult? Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult? Function(_GameResignedBoardState value)? gameResigned,
     TResult? Function(_MoveMadeBoardState value)? moveMade,
+    TResult? Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult? Function(_StreamGameCompletedBoardState value)?
+        streamGameCompleted,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return failure?.call(this);
@@ -2071,6 +2617,8 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     TResult Function(_WroteOnGameChatBoardState value)? wroteOnGameChat,
     TResult Function(_GameResignedBoardState value)? gameResigned,
     TResult Function(_MoveMadeBoardState value)? moveMade,
+    TResult Function(_StreamGameStateBoardState value)? streamGameState,
+    TResult Function(_StreamGameCompletedBoardState value)? streamGameCompleted,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {

@@ -37,6 +37,12 @@ abstract class BoardState with _$BoardState, EquatableMixin {
 
   const factory BoardState.moveMade() = _MoveMadeBoardState;
 
+  const factory BoardState.streamGameState(LichessBoardGameEvent event) =
+      _StreamGameStateBoardState;
+
+  const factory BoardState.streamGameCompleted() =
+      _StreamGameCompletedBoardState;
+
   const factory BoardState.failure(Failure error) = _ErrorBoardState;
 
   const BoardState._();
@@ -45,6 +51,7 @@ abstract class BoardState with _$BoardState, EquatableMixin {
   List<Object?> get props {
     return maybeWhen(
       gameChatMessage: (message) => [message.text, message.user],
+      streamGameState: (event) => [event.type],
       failure: (error) => [error],
       orElse: () => [],
     );
@@ -60,6 +67,7 @@ class BoardCubit extends Cubit<BoardState> {
   final WriteOnGameChat _writeOnGameChat;
   final ResignGame _resignGame;
   final MakeMove _makeMove;
+  final StreamBoardGameState _streamBoardGameState;
 
   BoardCubit({
     required CreateRealTimeSeek createRealTimeSeek,
@@ -70,6 +78,7 @@ class BoardCubit extends Cubit<BoardState> {
     required WriteOnGameChat writeOnGameChat,
     required ResignGame resignGame,
     required MakeMove makeMove,
+    required StreamBoardGameState streamBoardGameState,
   })  : _createRealTimeSeek = createRealTimeSeek,
         _createCorrespondenceSeek = createCorrespondenceSeek,
         _abortGame = abortGame,
@@ -78,6 +87,7 @@ class BoardCubit extends Cubit<BoardState> {
         _writeOnGameChat = writeOnGameChat,
         _resignGame = resignGame,
         _makeMove = makeMove,
+        _streamBoardGameState = streamBoardGameState,
         super(const _InitialBoardState());
 
   Future<void> createRealTimeSeek({
@@ -215,5 +225,19 @@ class BoardCubit extends Cubit<BoardState> {
       (failure) => emit(BoardState.failure(failure)),
       (keepalive) => emit(const BoardState.moveMade()),
     );
+  }
+
+  Future<void> streamGameState({required String gameId}) async {
+    emit(const _LoadingBoardState());
+    final result = await _streamBoardGameState(gameId);
+    if (result.isLeft()) {
+      emit(BoardState.failure(result.left));
+      return;
+    }
+
+    await for (final event in result.right) {
+      emit(BoardState.streamGameState(event));
+    }
+    emit(const BoardState.streamGameCompleted());
   }
 }

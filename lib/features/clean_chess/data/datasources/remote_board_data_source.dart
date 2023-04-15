@@ -56,4 +56,9 @@ abstract class RemoteBoardDataSource {
     required String move,
     bool? offeringDraw,
   });
+
+  /// API to stream board game state
+  Future<Either<Failure, Stream<LichessBoardGameEvent>>> streamBoardGameState(
+    String gameId,
+  );
 }

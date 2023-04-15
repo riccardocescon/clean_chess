@@ -226,4 +226,26 @@ class LichessBoardDataSource extends RemoteBoardDataSource {
       return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
     }
   }
+
+  @override
+  Future<Either<Failure, Stream<LichessBoardGameEvent>>> streamBoardGameState(
+    String gameId,
+  ) async {
+    try {
+      logDebug(
+        'Streaming Board Game State...',
+        tag: 'Board',
+        color: LogColor.lightBlue,
+      );
+      final maybeClient = await _tokenProvider.getClient();
+      if (maybeClient.isLeft()) return Left(maybeClient.left);
+
+      final client = maybeClient.right;
+      final response = client.board.streamBoardGameState(gameId: gameId);
+
+      return Right(response);
+    } catch (e) {
+      return Left(LichessOAuthFailure('Lichess OAuth Failed: ${e.toString()}'));
+    }
+  }
 }

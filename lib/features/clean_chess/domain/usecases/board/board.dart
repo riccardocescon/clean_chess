@@ -8,3 +8,4 @@ export 'fetch_game_chat.dart';
 export 'write_on_game_chat.dart';
 export 'resign_game.dart';
 export 'make_move.dart';
+export 'stream_board_game_state.dart';
