@@ -31,4 +31,7 @@ abstract class RemoteBoardDataSource {
 
   /// API to Abort a Game
   Future<Either<Failure, Empty>> abortGame(String gameId);
+
+  /// API to claim victory
+  Future<Either<Failure, Empty>> claimVictory(String gameId);
 }

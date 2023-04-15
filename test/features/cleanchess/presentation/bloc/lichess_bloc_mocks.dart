@@ -92,10 +92,12 @@ class MExportGamesOfUser extends Mock implements ExportGamesOfUser {}
 
 class MCreateRealTimeSeek extends Mock implements CreateRealTimeSeek {}
 
-class MAbortGame extends Mock implements AbortGame {}
-
 class MCreateCorrespondenceSeek extends Mock
     implements CreateCorrespondenceSeek {}
+
+class MAbortGame extends Mock implements AbortGame {}
+
+class MClaimVictory extends Mock implements ClaimVictory {}
 
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
@@ -140,5 +142,6 @@ class MCreateCorrespondenceSeek extends Mock
   MockSpec<MCreateRealTimeSeek>(),
   MockSpec<MCreateCorrespondenceSeek>(),
   MockSpec<MAbortGame>(),
+  MockSpec<MClaimVictory>(),
 ])
 void main() {}

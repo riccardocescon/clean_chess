@@ -22,6 +22,8 @@ abstract class BoardState with _$BoardState, EquatableMixin {
 
   const factory BoardState.gameAborted() = _GameAbortedBoardState;
 
+  const factory BoardState.victoryClaimed() = _VictoryClaimedBoardState;
+
   const factory BoardState.failure(Failure error) = _ErrorBoardState;
 
   const BoardState._();
@@ -39,14 +41,17 @@ class BoardCubit extends Cubit<BoardState> {
   final CreateRealTimeSeek _createRealTimeSeek;
   final CreateCorrespondenceSeek _createCorrespondenceSeek;
   final AbortGame _abortGame;
+  final ClaimVictory _claimVictory;
 
   BoardCubit({
     required CreateRealTimeSeek createRealTimeSeek,
     required CreateCorrespondenceSeek createCorrespondenceSeek,
     required AbortGame abortGame,
+    required ClaimVictory claimVictory,
   })  : _createRealTimeSeek = createRealTimeSeek,
         _createCorrespondenceSeek = createCorrespondenceSeek,
         _abortGame = abortGame,
+        _claimVictory = claimVictory,
         super(const _InitialBoardState());
 
   Future<void> createRealTimeSeek({
@@ -113,6 +118,15 @@ class BoardCubit extends Cubit<BoardState> {
     result.fold(
       (failure) => emit(BoardState.failure(failure)),
       (keepalive) => emit(const BoardState.gameAborted()),
+    );
+  }
+
+  Future<void> claimVictory({required String gameId}) async {
+    emit(const _LoadingBoardState());
+    final result = await _claimVictory(gameId);
+    result.fold(
+      (failure) => emit(BoardState.failure(failure)),
+      (keepalive) => emit(const BoardState.victoryClaimed()),
     );
   }
 }

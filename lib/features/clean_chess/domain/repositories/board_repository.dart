@@ -28,4 +28,6 @@ abstract class BoardRepository {
   });
 
   Future<Either<Failure, Empty>> abortGame(String gameId);
+
+  Future<Either<Failure, Empty>> claimVictory(String gameId);
 }

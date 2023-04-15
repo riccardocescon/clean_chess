@@ -15,6 +15,7 @@ void main() async {
   late MockMCreateRealTimeSeek mockCreateRealTimeSeek;
   late MockMCreateCorrespondenceSeek mockCreateCorrespondenceSeek;
   late MockMAbortGame mockAbortGame;
+  late MockMClaimVictory mockClaimVictory;
 
   late BoardCubit bloc;
 
@@ -24,12 +25,14 @@ void main() async {
     mockCreateRealTimeSeek = MockMCreateRealTimeSeek();
     mockCreateCorrespondenceSeek = MockMCreateCorrespondenceSeek();
     mockAbortGame = MockMAbortGame();
+    mockClaimVictory = MockMClaimVictory();
     keepalive = () async {};
 
     bloc = BoardCubit(
       createRealTimeSeek: mockCreateRealTimeSeek,
       createCorrespondenceSeek: mockCreateCorrespondenceSeek,
       abortGame: mockAbortGame,
+      claimVictory: mockClaimVictory,
     );
   });
 
@@ -150,6 +153,46 @@ void main() async {
         ],
         verify: (bloc) {
           verify(mockAbortGame.call(any)).called(1);
+        },
+      );
+    });
+
+    group('Claim Victory', () {
+      blocTest<BoardCubit, BoardState>(
+        'Success',
+        build: () {
+          when(mockClaimVictory.call(any)).thenAnswer(
+            (_) async => const Right(Empty()),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.claimVictory(gameId: ''),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.victoryClaimed(),
+        ],
+        verify: (bloc) {
+          verify(mockClaimVictory.call(any)).called(1);
+        },
+      );
+
+      blocTest<BoardCubit, BoardState>(
+        'Failure',
+        build: () {
+          when(mockClaimVictory.call(any)).thenAnswer(
+            (_) async => const Left(LichessOAuthFailure('OAtuh error')),
+          );
+
+          return bloc;
+        },
+        act: (bloc) => bloc.claimVictory(gameId: ''),
+        expect: () => [
+          const BoardState.loading(),
+          const BoardState.failure(LichessOAuthFailure('OAtuh error')),
+        ],
+        verify: (bloc) {
+          verify(mockClaimVictory.call(any)).called(1);
         },
       );
     });

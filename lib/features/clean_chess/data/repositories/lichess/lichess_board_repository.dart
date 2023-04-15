@@ -58,4 +58,8 @@ class LichessBoardRepository extends BoardRepository {
   @override
   Future<Either<Failure, Empty>> abortGame(String gameId) =>
       _boardDataSource.abortGame(gameId);
+
+  @override
+  Future<Either<Failure, Empty>> claimVictory(String gameId) =>
+      _boardDataSource.claimVictory(gameId);
 }

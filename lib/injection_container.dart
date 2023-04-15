@@ -112,6 +112,7 @@ Future<void> init() async {
       createRealTimeSeek: sl<CreateRealTimeSeek>(),
       createCorrespondenceSeek: sl<CreateCorrespondenceSeek>(),
       abortGame: sl<AbortGame>(),
+      claimVictory: sl<ClaimVictory>(),
     ),
   );
 
@@ -227,6 +228,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => sl<CreateRealTimeSeek>());
   sl.registerLazySingleton(() => sl<CreateCorrespondenceSeek>());
   sl.registerLazySingleton(() => sl<AbortGame>());
+  sl.registerLazySingleton(() => sl<ClaimVictory>());
 
   // Register repositories
   sl.registerLazySingleton<LichessOAuthRepository>(

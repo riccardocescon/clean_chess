@@ -23,6 +23,7 @@ mixin _$BoardState {
     required TResult Function(Keepalive keepalive) realTimeSeek,
     required TResult Function(Keepalive keepalive) correspondenceSeek,
     required TResult Function() gameAborted,
+    required TResult Function() victoryClaimed,
     required TResult Function(Failure error) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -33,6 +34,7 @@ mixin _$BoardState {
     TResult? Function(Keepalive keepalive)? realTimeSeek,
     TResult? Function(Keepalive keepalive)? correspondenceSeek,
     TResult? Function()? gameAborted,
+    TResult? Function()? victoryClaimed,
     TResult? Function(Failure error)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +45,7 @@ mixin _$BoardState {
     TResult Function(Keepalive keepalive)? realTimeSeek,
     TResult Function(Keepalive keepalive)? correspondenceSeek,
     TResult Function()? gameAborted,
+    TResult Function()? victoryClaimed,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) =>
@@ -55,6 +58,7 @@ mixin _$BoardState {
     required TResult Function(_CorrespondenceSeekBoardState value)
         correspondenceSeek,
     required TResult Function(_GameAbortedBoardState value) gameAborted,
+    required TResult Function(_VictoryClaimedBoardState value) victoryClaimed,
     required TResult Function(_ErrorBoardState value) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -65,6 +69,7 @@ mixin _$BoardState {
     TResult? Function(_RealTimeSeekBoardState value)? realTimeSeek,
     TResult? Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
     TResult? Function(_GameAbortedBoardState value)? gameAborted,
+    TResult? Function(_VictoryClaimedBoardState value)? victoryClaimed,
     TResult? Function(_ErrorBoardState value)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -75,6 +80,7 @@ mixin _$BoardState {
     TResult Function(_RealTimeSeekBoardState value)? realTimeSeek,
     TResult Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
     TResult Function(_GameAbortedBoardState value)? gameAborted,
+    TResult Function(_VictoryClaimedBoardState value)? victoryClaimed,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) =>
@@ -128,6 +134,7 @@ class _$_InitialBoardState extends _InitialBoardState {
     required TResult Function(Keepalive keepalive) realTimeSeek,
     required TResult Function(Keepalive keepalive) correspondenceSeek,
     required TResult Function() gameAborted,
+    required TResult Function() victoryClaimed,
     required TResult Function(Failure error) failure,
   }) {
     return initial();
@@ -141,6 +148,7 @@ class _$_InitialBoardState extends _InitialBoardState {
     TResult? Function(Keepalive keepalive)? realTimeSeek,
     TResult? Function(Keepalive keepalive)? correspondenceSeek,
     TResult? Function()? gameAborted,
+    TResult? Function()? victoryClaimed,
     TResult? Function(Failure error)? failure,
   }) {
     return initial?.call();
@@ -154,6 +162,7 @@ class _$_InitialBoardState extends _InitialBoardState {
     TResult Function(Keepalive keepalive)? realTimeSeek,
     TResult Function(Keepalive keepalive)? correspondenceSeek,
     TResult Function()? gameAborted,
+    TResult Function()? victoryClaimed,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -172,6 +181,7 @@ class _$_InitialBoardState extends _InitialBoardState {
     required TResult Function(_CorrespondenceSeekBoardState value)
         correspondenceSeek,
     required TResult Function(_GameAbortedBoardState value) gameAborted,
+    required TResult Function(_VictoryClaimedBoardState value) victoryClaimed,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return initial(this);
@@ -185,6 +195,7 @@ class _$_InitialBoardState extends _InitialBoardState {
     TResult? Function(_RealTimeSeekBoardState value)? realTimeSeek,
     TResult? Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
     TResult? Function(_GameAbortedBoardState value)? gameAborted,
+    TResult? Function(_VictoryClaimedBoardState value)? victoryClaimed,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return initial?.call(this);
@@ -198,6 +209,7 @@ class _$_InitialBoardState extends _InitialBoardState {
     TResult Function(_RealTimeSeekBoardState value)? realTimeSeek,
     TResult Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
     TResult Function(_GameAbortedBoardState value)? gameAborted,
+    TResult Function(_VictoryClaimedBoardState value)? victoryClaimed,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -242,6 +254,7 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     required TResult Function(Keepalive keepalive) realTimeSeek,
     required TResult Function(Keepalive keepalive) correspondenceSeek,
     required TResult Function() gameAborted,
+    required TResult Function() victoryClaimed,
     required TResult Function(Failure error) failure,
   }) {
     return loading();
@@ -255,6 +268,7 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     TResult? Function(Keepalive keepalive)? realTimeSeek,
     TResult? Function(Keepalive keepalive)? correspondenceSeek,
     TResult? Function()? gameAborted,
+    TResult? Function()? victoryClaimed,
     TResult? Function(Failure error)? failure,
   }) {
     return loading?.call();
@@ -268,6 +282,7 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     TResult Function(Keepalive keepalive)? realTimeSeek,
     TResult Function(Keepalive keepalive)? correspondenceSeek,
     TResult Function()? gameAborted,
+    TResult Function()? victoryClaimed,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -286,6 +301,7 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     required TResult Function(_CorrespondenceSeekBoardState value)
         correspondenceSeek,
     required TResult Function(_GameAbortedBoardState value) gameAborted,
+    required TResult Function(_VictoryClaimedBoardState value) victoryClaimed,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return loading(this);
@@ -299,6 +315,7 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     TResult? Function(_RealTimeSeekBoardState value)? realTimeSeek,
     TResult? Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
     TResult? Function(_GameAbortedBoardState value)? gameAborted,
+    TResult? Function(_VictoryClaimedBoardState value)? victoryClaimed,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return loading?.call(this);
@@ -312,6 +329,7 @@ class _$_LoadingBoardState extends _LoadingBoardState {
     TResult Function(_RealTimeSeekBoardState value)? realTimeSeek,
     TResult Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
     TResult Function(_GameAbortedBoardState value)? gameAborted,
+    TResult Function(_VictoryClaimedBoardState value)? victoryClaimed,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -381,6 +399,7 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     required TResult Function(Keepalive keepalive) realTimeSeek,
     required TResult Function(Keepalive keepalive) correspondenceSeek,
     required TResult Function() gameAborted,
+    required TResult Function() victoryClaimed,
     required TResult Function(Failure error) failure,
   }) {
     return realTimeSeek(keepalive);
@@ -394,6 +413,7 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     TResult? Function(Keepalive keepalive)? realTimeSeek,
     TResult? Function(Keepalive keepalive)? correspondenceSeek,
     TResult? Function()? gameAborted,
+    TResult? Function()? victoryClaimed,
     TResult? Function(Failure error)? failure,
   }) {
     return realTimeSeek?.call(keepalive);
@@ -407,6 +427,7 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     TResult Function(Keepalive keepalive)? realTimeSeek,
     TResult Function(Keepalive keepalive)? correspondenceSeek,
     TResult Function()? gameAborted,
+    TResult Function()? victoryClaimed,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -425,6 +446,7 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     required TResult Function(_CorrespondenceSeekBoardState value)
         correspondenceSeek,
     required TResult Function(_GameAbortedBoardState value) gameAborted,
+    required TResult Function(_VictoryClaimedBoardState value) victoryClaimed,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return realTimeSeek(this);
@@ -438,6 +460,7 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     TResult? Function(_RealTimeSeekBoardState value)? realTimeSeek,
     TResult? Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
     TResult? Function(_GameAbortedBoardState value)? gameAborted,
+    TResult? Function(_VictoryClaimedBoardState value)? victoryClaimed,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return realTimeSeek?.call(this);
@@ -451,6 +474,7 @@ class _$_RealTimeSeekBoardState extends _RealTimeSeekBoardState {
     TResult Function(_RealTimeSeekBoardState value)? realTimeSeek,
     TResult Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
     TResult Function(_GameAbortedBoardState value)? gameAborted,
+    TResult Function(_VictoryClaimedBoardState value)? victoryClaimed,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -528,6 +552,7 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     required TResult Function(Keepalive keepalive) realTimeSeek,
     required TResult Function(Keepalive keepalive) correspondenceSeek,
     required TResult Function() gameAborted,
+    required TResult Function() victoryClaimed,
     required TResult Function(Failure error) failure,
   }) {
     return correspondenceSeek(keepalive);
@@ -541,6 +566,7 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     TResult? Function(Keepalive keepalive)? realTimeSeek,
     TResult? Function(Keepalive keepalive)? correspondenceSeek,
     TResult? Function()? gameAborted,
+    TResult? Function()? victoryClaimed,
     TResult? Function(Failure error)? failure,
   }) {
     return correspondenceSeek?.call(keepalive);
@@ -554,6 +580,7 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     TResult Function(Keepalive keepalive)? realTimeSeek,
     TResult Function(Keepalive keepalive)? correspondenceSeek,
     TResult Function()? gameAborted,
+    TResult Function()? victoryClaimed,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -572,6 +599,7 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     required TResult Function(_CorrespondenceSeekBoardState value)
         correspondenceSeek,
     required TResult Function(_GameAbortedBoardState value) gameAborted,
+    required TResult Function(_VictoryClaimedBoardState value) victoryClaimed,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return correspondenceSeek(this);
@@ -585,6 +613,7 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     TResult? Function(_RealTimeSeekBoardState value)? realTimeSeek,
     TResult? Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
     TResult? Function(_GameAbortedBoardState value)? gameAborted,
+    TResult? Function(_VictoryClaimedBoardState value)? victoryClaimed,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return correspondenceSeek?.call(this);
@@ -598,6 +627,7 @@ class _$_CorrespondenceSeekBoardState extends _CorrespondenceSeekBoardState {
     TResult Function(_RealTimeSeekBoardState value)? realTimeSeek,
     TResult Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
     TResult Function(_GameAbortedBoardState value)? gameAborted,
+    TResult Function(_VictoryClaimedBoardState value)? victoryClaimed,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -648,6 +678,7 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     required TResult Function(Keepalive keepalive) realTimeSeek,
     required TResult Function(Keepalive keepalive) correspondenceSeek,
     required TResult Function() gameAborted,
+    required TResult Function() victoryClaimed,
     required TResult Function(Failure error) failure,
   }) {
     return gameAborted();
@@ -661,6 +692,7 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     TResult? Function(Keepalive keepalive)? realTimeSeek,
     TResult? Function(Keepalive keepalive)? correspondenceSeek,
     TResult? Function()? gameAborted,
+    TResult? Function()? victoryClaimed,
     TResult? Function(Failure error)? failure,
   }) {
     return gameAborted?.call();
@@ -674,6 +706,7 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     TResult Function(Keepalive keepalive)? realTimeSeek,
     TResult Function(Keepalive keepalive)? correspondenceSeek,
     TResult Function()? gameAborted,
+    TResult Function()? victoryClaimed,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -692,6 +725,7 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     required TResult Function(_CorrespondenceSeekBoardState value)
         correspondenceSeek,
     required TResult Function(_GameAbortedBoardState value) gameAborted,
+    required TResult Function(_VictoryClaimedBoardState value) victoryClaimed,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return gameAborted(this);
@@ -705,6 +739,7 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     TResult? Function(_RealTimeSeekBoardState value)? realTimeSeek,
     TResult? Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
     TResult? Function(_GameAbortedBoardState value)? gameAborted,
+    TResult? Function(_VictoryClaimedBoardState value)? victoryClaimed,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return gameAborted?.call(this);
@@ -718,6 +753,7 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
     TResult Function(_RealTimeSeekBoardState value)? realTimeSeek,
     TResult Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
     TResult Function(_GameAbortedBoardState value)? gameAborted,
+    TResult Function(_VictoryClaimedBoardState value)? victoryClaimed,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
@@ -731,6 +767,127 @@ class _$_GameAbortedBoardState extends _GameAbortedBoardState {
 abstract class _GameAbortedBoardState extends BoardState {
   const factory _GameAbortedBoardState() = _$_GameAbortedBoardState;
   const _GameAbortedBoardState._() : super._();
+}
+
+/// @nodoc
+abstract class _$$_VictoryClaimedBoardStateCopyWith<$Res> {
+  factory _$$_VictoryClaimedBoardStateCopyWith(
+          _$_VictoryClaimedBoardState value,
+          $Res Function(_$_VictoryClaimedBoardState) then) =
+      __$$_VictoryClaimedBoardStateCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_VictoryClaimedBoardStateCopyWithImpl<$Res>
+    extends _$BoardStateCopyWithImpl<$Res, _$_VictoryClaimedBoardState>
+    implements _$$_VictoryClaimedBoardStateCopyWith<$Res> {
+  __$$_VictoryClaimedBoardStateCopyWithImpl(_$_VictoryClaimedBoardState _value,
+      $Res Function(_$_VictoryClaimedBoardState) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_VictoryClaimedBoardState extends _VictoryClaimedBoardState {
+  const _$_VictoryClaimedBoardState() : super._();
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(Keepalive keepalive) realTimeSeek,
+    required TResult Function(Keepalive keepalive) correspondenceSeek,
+    required TResult Function() gameAborted,
+    required TResult Function() victoryClaimed,
+    required TResult Function(Failure error) failure,
+  }) {
+    return victoryClaimed();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Keepalive keepalive)? realTimeSeek,
+    TResult? Function(Keepalive keepalive)? correspondenceSeek,
+    TResult? Function()? gameAborted,
+    TResult? Function()? victoryClaimed,
+    TResult? Function(Failure error)? failure,
+  }) {
+    return victoryClaimed?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(Keepalive keepalive)? realTimeSeek,
+    TResult Function(Keepalive keepalive)? correspondenceSeek,
+    TResult Function()? gameAborted,
+    TResult Function()? victoryClaimed,
+    TResult Function(Failure error)? failure,
+    required TResult orElse(),
+  }) {
+    if (victoryClaimed != null) {
+      return victoryClaimed();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_InitialBoardState value) initial,
+    required TResult Function(_LoadingBoardState value) loading,
+    required TResult Function(_RealTimeSeekBoardState value) realTimeSeek,
+    required TResult Function(_CorrespondenceSeekBoardState value)
+        correspondenceSeek,
+    required TResult Function(_GameAbortedBoardState value) gameAborted,
+    required TResult Function(_VictoryClaimedBoardState value) victoryClaimed,
+    required TResult Function(_ErrorBoardState value) failure,
+  }) {
+    return victoryClaimed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_InitialBoardState value)? initial,
+    TResult? Function(_LoadingBoardState value)? loading,
+    TResult? Function(_RealTimeSeekBoardState value)? realTimeSeek,
+    TResult? Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
+    TResult? Function(_GameAbortedBoardState value)? gameAborted,
+    TResult? Function(_VictoryClaimedBoardState value)? victoryClaimed,
+    TResult? Function(_ErrorBoardState value)? failure,
+  }) {
+    return victoryClaimed?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_InitialBoardState value)? initial,
+    TResult Function(_LoadingBoardState value)? loading,
+    TResult Function(_RealTimeSeekBoardState value)? realTimeSeek,
+    TResult Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
+    TResult Function(_GameAbortedBoardState value)? gameAborted,
+    TResult Function(_VictoryClaimedBoardState value)? victoryClaimed,
+    TResult Function(_ErrorBoardState value)? failure,
+    required TResult orElse(),
+  }) {
+    if (victoryClaimed != null) {
+      return victoryClaimed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _VictoryClaimedBoardState extends BoardState {
+  const factory _VictoryClaimedBoardState() = _$_VictoryClaimedBoardState;
+  const _VictoryClaimedBoardState._() : super._();
 }
 
 /// @nodoc
@@ -786,6 +943,7 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     required TResult Function(Keepalive keepalive) realTimeSeek,
     required TResult Function(Keepalive keepalive) correspondenceSeek,
     required TResult Function() gameAborted,
+    required TResult Function() victoryClaimed,
     required TResult Function(Failure error) failure,
   }) {
     return failure(error);
@@ -799,6 +957,7 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     TResult? Function(Keepalive keepalive)? realTimeSeek,
     TResult? Function(Keepalive keepalive)? correspondenceSeek,
     TResult? Function()? gameAborted,
+    TResult? Function()? victoryClaimed,
     TResult? Function(Failure error)? failure,
   }) {
     return failure?.call(error);
@@ -812,6 +971,7 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     TResult Function(Keepalive keepalive)? realTimeSeek,
     TResult Function(Keepalive keepalive)? correspondenceSeek,
     TResult Function()? gameAborted,
+    TResult Function()? victoryClaimed,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -830,6 +990,7 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     required TResult Function(_CorrespondenceSeekBoardState value)
         correspondenceSeek,
     required TResult Function(_GameAbortedBoardState value) gameAborted,
+    required TResult Function(_VictoryClaimedBoardState value) victoryClaimed,
     required TResult Function(_ErrorBoardState value) failure,
   }) {
     return failure(this);
@@ -843,6 +1004,7 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     TResult? Function(_RealTimeSeekBoardState value)? realTimeSeek,
     TResult? Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
     TResult? Function(_GameAbortedBoardState value)? gameAborted,
+    TResult? Function(_VictoryClaimedBoardState value)? victoryClaimed,
     TResult? Function(_ErrorBoardState value)? failure,
   }) {
     return failure?.call(this);
@@ -856,6 +1018,7 @@ class _$_ErrorBoardState extends _ErrorBoardState {
     TResult Function(_RealTimeSeekBoardState value)? realTimeSeek,
     TResult Function(_CorrespondenceSeekBoardState value)? correspondenceSeek,
     TResult Function(_GameAbortedBoardState value)? gameAborted,
+    TResult Function(_VictoryClaimedBoardState value)? victoryClaimed,
     TResult Function(_ErrorBoardState value)? failure,
     required TResult orElse(),
   }) {
