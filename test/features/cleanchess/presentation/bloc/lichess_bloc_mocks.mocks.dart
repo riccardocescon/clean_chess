@@ -1595,14 +1595,15 @@ class MockMGetDailyPuzzle extends _i1.Mock implements _i10.MGetDailyPuzzle {
         ),
       ) as _i8.PuzzleRepository);
   @override
-  _i11.Future<_i3.Either<_i12.Failure, _i14.Puzzle>> call() =>
+  _i11.Future<_i3.Either<_i12.Failure, _i14.LichessPuzzle>> call() =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [],
         ),
-        returnValue: _i11.Future<_i3.Either<_i12.Failure, _i14.Puzzle>>.value(
-            _FakeEither_1<_i12.Failure, _i14.Puzzle>(
+        returnValue:
+            _i11.Future<_i3.Either<_i12.Failure, _i14.LichessPuzzle>>.value(
+                _FakeEither_1<_i12.Failure, _i14.LichessPuzzle>(
           this,
           Invocation.method(
             #call,
@@ -1610,15 +1611,15 @@ class MockMGetDailyPuzzle extends _i1.Mock implements _i10.MGetDailyPuzzle {
           ),
         )),
         returnValueForMissingStub:
-            _i11.Future<_i3.Either<_i12.Failure, _i14.Puzzle>>.value(
-                _FakeEither_1<_i12.Failure, _i14.Puzzle>(
+            _i11.Future<_i3.Either<_i12.Failure, _i14.LichessPuzzle>>.value(
+                _FakeEither_1<_i12.Failure, _i14.LichessPuzzle>(
           this,
           Invocation.method(
             #call,
             [],
           ),
         )),
-      ) as _i11.Future<_i3.Either<_i12.Failure, _i14.Puzzle>>);
+      ) as _i11.Future<_i3.Either<_i12.Failure, _i14.LichessPuzzle>>);
 }
 
 /// A class which mocks [MGetPuzzleById].
@@ -1638,14 +1639,16 @@ class MockMGetPuzzleById extends _i1.Mock implements _i10.MGetPuzzleById {
         ),
       ) as _i8.PuzzleRepository);
   @override
-  _i11.Future<_i3.Either<_i12.Failure, _i14.Puzzle>> call(String? params) =>
+  _i11.Future<_i3.Either<_i12.Failure, _i14.LichessPuzzle>> call(
+          String? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i11.Future<_i3.Either<_i12.Failure, _i14.Puzzle>>.value(
-            _FakeEither_1<_i12.Failure, _i14.Puzzle>(
+        returnValue:
+            _i11.Future<_i3.Either<_i12.Failure, _i14.LichessPuzzle>>.value(
+                _FakeEither_1<_i12.Failure, _i14.LichessPuzzle>(
           this,
           Invocation.method(
             #call,
@@ -1653,15 +1656,15 @@ class MockMGetPuzzleById extends _i1.Mock implements _i10.MGetPuzzleById {
           ),
         )),
         returnValueForMissingStub:
-            _i11.Future<_i3.Either<_i12.Failure, _i14.Puzzle>>.value(
-                _FakeEither_1<_i12.Failure, _i14.Puzzle>(
+            _i11.Future<_i3.Either<_i12.Failure, _i14.LichessPuzzle>>.value(
+                _FakeEither_1<_i12.Failure, _i14.LichessPuzzle>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i11.Future<_i3.Either<_i12.Failure, _i14.Puzzle>>);
+      ) as _i11.Future<_i3.Either<_i12.Failure, _i14.LichessPuzzle>>);
 }
 
 /// A class which mocks [MGetPuzzleActivity].
@@ -1682,7 +1685,8 @@ class MockMGetPuzzleActivity extends _i1.Mock
         ),
       ) as _i8.PuzzleRepository);
   @override
-  _i11.Future<_i3.Either<_i12.Failure, _i11.Stream<_i14.PuzzleActivity>>> call(
+  _i11.Future<
+      _i3.Either<_i12.Failure, _i11.Stream<_i14.LichessPuzzleActivity>>> call(
           int? params) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1690,9 +1694,9 @@ class MockMGetPuzzleActivity extends _i1.Mock
           [params],
         ),
         returnValue: _i11.Future<
-                _i3.Either<_i12.Failure,
-                    _i11.Stream<_i14.PuzzleActivity>>>.value(
-            _FakeEither_1<_i12.Failure, _i11.Stream<_i14.PuzzleActivity>>(
+            _i3.Either<_i12.Failure,
+                _i11.Stream<_i14.LichessPuzzleActivity>>>.value(_FakeEither_1<
+            _i12.Failure, _i11.Stream<_i14.LichessPuzzleActivity>>(
           this,
           Invocation.method(
             #call,
@@ -1700,17 +1704,17 @@ class MockMGetPuzzleActivity extends _i1.Mock
           ),
         )),
         returnValueForMissingStub: _i11.Future<
-                _i3.Either<_i12.Failure,
-                    _i11.Stream<_i14.PuzzleActivity>>>.value(
-            _FakeEither_1<_i12.Failure, _i11.Stream<_i14.PuzzleActivity>>(
+            _i3.Either<_i12.Failure,
+                _i11.Stream<_i14.LichessPuzzleActivity>>>.value(_FakeEither_1<
+            _i12.Failure, _i11.Stream<_i14.LichessPuzzleActivity>>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i11
-          .Future<_i3.Either<_i12.Failure, _i11.Stream<_i14.PuzzleActivity>>>);
+      ) as _i11.Future<
+          _i3.Either<_i12.Failure, _i11.Stream<_i14.LichessPuzzleActivity>>>);
 }
 
 /// A class which mocks [MGetPuzzleDashboard].
@@ -1731,32 +1735,32 @@ class MockMGetPuzzleDashboard extends _i1.Mock
         ),
       ) as _i8.PuzzleRepository);
   @override
-  _i11.Future<_i3.Either<_i12.Failure, _i14.PuzzleDashboard>> call(
+  _i11.Future<_i3.Either<_i12.Failure, _i14.LichessPuzzleDashboard>> call(
           int? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue:
-            _i11.Future<_i3.Either<_i12.Failure, _i14.PuzzleDashboard>>.value(
-                _FakeEither_1<_i12.Failure, _i14.PuzzleDashboard>(
+        returnValue: _i11.Future<
+                _i3.Either<_i12.Failure, _i14.LichessPuzzleDashboard>>.value(
+            _FakeEither_1<_i12.Failure, _i14.LichessPuzzleDashboard>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-        returnValueForMissingStub:
-            _i11.Future<_i3.Either<_i12.Failure, _i14.PuzzleDashboard>>.value(
-                _FakeEither_1<_i12.Failure, _i14.PuzzleDashboard>(
+        returnValueForMissingStub: _i11.Future<
+                _i3.Either<_i12.Failure, _i14.LichessPuzzleDashboard>>.value(
+            _FakeEither_1<_i12.Failure, _i14.LichessPuzzleDashboard>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i11.Future<_i3.Either<_i12.Failure, _i14.PuzzleDashboard>>);
+      ) as _i11.Future<_i3.Either<_i12.Failure, _i14.LichessPuzzleDashboard>>);
 }
 
 /// A class which mocks [MExportGame].

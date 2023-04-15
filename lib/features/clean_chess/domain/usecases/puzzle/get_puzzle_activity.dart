@@ -4,13 +4,14 @@ import 'package:cleanchess/features/clean_chess/domain/repositories/puzzle_repos
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class GetPuzzleActivity extends UseCase<Stream<PuzzleActivity>, int?> {
+class GetPuzzleActivity extends UseCase<Stream<LichessPuzzleActivity>, int?> {
   final PuzzleRepository repository;
 
   GetPuzzleActivity(this.repository);
 
   @override
-  Future<Either<Failure, Stream<PuzzleActivity>>> call(int? params) async {
+  Future<Either<Failure, Stream<LichessPuzzleActivity>>> call(
+      int? params) async {
     return repository.getPuzzleActivity(max: params);
   }
 }

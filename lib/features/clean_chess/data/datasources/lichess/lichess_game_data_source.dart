@@ -65,7 +65,7 @@ class LichessGameDataSource extends RemoteGameDataSource {
     String? vs,
     bool? rated,
     List<PerfType>? perfTypes,
-    ChessColor? color,
+    LichessColor? color,
     bool? analysed,
     bool moves = true,
     bool pgnInJson = false,

@@ -48,7 +48,7 @@ class ExportGamesOfUserParams {
   String? vs;
   bool? rated;
   List<PerfType>? perfTypes;
-  ChessColor? color;
+  LichessColor? color;
   bool? analysed;
   bool moves;
   bool pgnInJson;
