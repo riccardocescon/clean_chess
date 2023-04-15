@@ -13,7 +13,7 @@ class LichessPuzzleDataSource implements RemotePuzzleDataSource {
 
   /// Api call to get the current daily Puzzle
   @override
-  Future<Either<Failure, Puzzle>> getDailyPuzzle() async {
+  Future<Either<Failure, LichessPuzzle>> getDailyPuzzle() async {
     try {
       logDebug(
         'Getting daily puzzle...',
@@ -34,7 +34,7 @@ class LichessPuzzleDataSource implements RemotePuzzleDataSource {
 
   /// Api call to get a Puzzle by its ID
   @override
-  Future<Either<Failure, Puzzle>> getPuzzleById(String id) async {
+  Future<Either<Failure, LichessPuzzle>> getPuzzleById(String id) async {
     try {
       logDebug(
         'Getting puzzle by ID...',
@@ -55,7 +55,7 @@ class LichessPuzzleDataSource implements RemotePuzzleDataSource {
 
   /// Api call to get Puzzle Activity
   @override
-  Future<Either<Failure, Stream<PuzzleActivity>>> getPuzzleActivity(
+  Future<Either<Failure, Stream<LichessPuzzleActivity>>> getPuzzleActivity(
       {int? max}) async {
     try {
       logDebug(
@@ -77,7 +77,7 @@ class LichessPuzzleDataSource implements RemotePuzzleDataSource {
 
   /// Api call to get Puzzle Activity
   @override
-  Future<Either<Failure, PuzzleDashboard>> getPuzzleDashboard({
+  Future<Either<Failure, LichessPuzzleDashboard>> getPuzzleDashboard({
     int days = 30,
   }) async {
     try {

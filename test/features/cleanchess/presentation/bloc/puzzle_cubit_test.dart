@@ -38,7 +38,7 @@ void main() async {
         'Success',
         build: () {
           when(mockGetDailyPuzzle.call()).thenAnswer(
-            (_) async => const Right(Puzzle()),
+            (_) async => const Right(LichessPuzzle()),
           );
 
           return bloc;
@@ -46,7 +46,7 @@ void main() async {
         act: (bloc) => bloc.getDailyPuzzle(),
         expect: () => [
           const PuzzleState.loading(),
-          const PuzzleState.dailyPuzzle(Puzzle()),
+          const PuzzleState.dailyPuzzle(LichessPuzzle()),
         ],
         verify: (bloc) {
           verify(mockGetDailyPuzzle.call()).called(1);
@@ -77,7 +77,7 @@ void main() async {
         'Success',
         build: () {
           when(mockGetPuzzleById.call(any)).thenAnswer(
-            (_) async => const Right(Puzzle()),
+            (_) async => const Right(LichessPuzzle()),
           );
 
           return bloc;
@@ -85,7 +85,7 @@ void main() async {
         act: (bloc) => bloc.getPuzzleById(''),
         expect: () => [
           const PuzzleState.loading(),
-          const PuzzleState.puzzleById(Puzzle()),
+          const PuzzleState.puzzleById(LichessPuzzle()),
         ],
         verify: (bloc) {
           verify(mockGetPuzzleById.call(any)).called(1);
@@ -116,10 +116,10 @@ void main() async {
         'Success',
         build: () {
           when(mockGetPuzzleActivity.call(any)).thenAnswer(
-            (_) async => Right(Stream<PuzzleActivity>.fromIterable([
-              const PuzzleActivity(id: '1'),
-              const PuzzleActivity(id: '2'),
-              const PuzzleActivity(id: '3'),
+            (_) async => Right(Stream<LichessPuzzleActivity>.fromIterable([
+              const LichessPuzzleActivity(id: '1'),
+              const LichessPuzzleActivity(id: '2'),
+              const LichessPuzzleActivity(id: '3'),
             ])),
           );
 
@@ -128,9 +128,9 @@ void main() async {
         act: (bloc) => bloc.getPuzzleActivity(),
         expect: () => [
           const PuzzleState.loading(),
-          const PuzzleState.puzzleActivity(PuzzleActivity(id: '1')),
-          const PuzzleState.puzzleActivity(PuzzleActivity(id: '2')),
-          const PuzzleState.puzzleActivity(PuzzleActivity(id: '3')),
+          const PuzzleState.puzzleActivity(LichessPuzzleActivity(id: '1')),
+          const PuzzleState.puzzleActivity(LichessPuzzleActivity(id: '2')),
+          const PuzzleState.puzzleActivity(LichessPuzzleActivity(id: '3')),
         ],
         verify: (bloc) {
           verify(mockGetPuzzleActivity.call(any)).called(1);
@@ -161,7 +161,7 @@ void main() async {
         'Success',
         build: () {
           when(mockGetPuzzleDashboard.call(any)).thenAnswer(
-            (_) async => const Right(PuzzleDashboard()),
+            (_) async => const Right(LichessPuzzleDashboard()),
           );
 
           return bloc;
@@ -169,7 +169,7 @@ void main() async {
         act: (bloc) => bloc.getPuzzleDashboard(),
         expect: () => [
           const PuzzleState.loading(),
-          const PuzzleState.puzzleDashboard(PuzzleDashboard()),
+          const PuzzleState.puzzleDashboard(LichessPuzzleDashboard()),
         ],
         verify: (bloc) {
           verify(mockGetPuzzleDashboard.call(any)).called(1);

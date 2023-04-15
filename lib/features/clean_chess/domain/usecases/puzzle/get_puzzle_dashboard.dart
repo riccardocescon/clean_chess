@@ -4,13 +4,13 @@ import 'package:cleanchess/features/clean_chess/domain/repositories/puzzle_repos
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class GetPuzzleDashboard extends UseCase<PuzzleDashboard, int?> {
+class GetPuzzleDashboard extends UseCase<LichessPuzzleDashboard, int?> {
   final PuzzleRepository repository;
 
   GetPuzzleDashboard(this.repository);
 
   @override
-  Future<Either<Failure, PuzzleDashboard>> call(int? params) async {
+  Future<Either<Failure, LichessPuzzleDashboard>> call(int? params) async {
     return repository.getPuzzleDashboard(days: params ?? 30);
   }
 }

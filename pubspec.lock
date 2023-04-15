@@ -567,18 +567,18 @@ packages:
     dependency: transitive
     description:
       name: lichess_client
-      sha256: "83b16c5387ab028af16f4283028c0e3a759e90f472e1e441b80f3a7e4aa0a36c"
+      sha256: a752263dd9c13ede4d228463c96a3349a01df62366ace822d981c487b954ef25
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.21"
+    version: "0.0.22"
   lichess_client_dio:
     dependency: "direct main"
     description:
       name: lichess_client_dio
-      sha256: e81b87a57d06aae4e8b35272c4a3a5b04d595b1f0faa110bc312f68ef8298600
+      sha256: a616ae81ce1fb879a26fff16b0872660c112fa693177a3656d4fe5351cc4d9fd
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.6"
+    version: "0.0.7"
   lints:
     dependency: transitive
     description:
@@ -651,6 +651,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0"
+  ndjson:
+    dependency: transitive
+    description:
+      name: ndjson
+      sha256: "576e2fd911c841a2226c6b726812c9f4dc7588c09e17568eadfbaa7ab0d21307"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
   nested:
     dependency: transitive
     description:
@@ -1153,5 +1161,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.2 <3.0.0"
+  dart: ">=2.19.4 <3.0.0"
   flutter: ">=3.3.0"
