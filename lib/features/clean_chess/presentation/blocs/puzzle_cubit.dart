@@ -14,14 +14,15 @@ abstract class PuzzleState with _$PuzzleState, EquatableMixin {
 
   const factory PuzzleState.loading() = _LoadingPuzzleState;
 
-  const factory PuzzleState.dailyPuzzle(Puzzle puzzle) = _DailyPuzzleState;
+  const factory PuzzleState.dailyPuzzle(LichessPuzzle puzzle) =
+      _DailyPuzzleState;
 
-  const factory PuzzleState.puzzleById(Puzzle puzzle) = _PuzzleByIdState;
+  const factory PuzzleState.puzzleById(LichessPuzzle puzzle) = _PuzzleByIdState;
 
-  const factory PuzzleState.puzzleActivity(PuzzleActivity activity) =
+  const factory PuzzleState.puzzleActivity(LichessPuzzleActivity activity) =
       _PuzzleActivityState;
 
-  const factory PuzzleState.puzzleDashboard(PuzzleDashboard dashboard) =
+  const factory PuzzleState.puzzleDashboard(LichessPuzzleDashboard dashboard) =
       _PuzzleDashboardState;
 
   const factory PuzzleState.failure(Failure error) = _ErrorPuzzleState;
@@ -82,7 +83,7 @@ class PuzzleCubit extends Cubit<PuzzleState> {
       return;
     }
 
-    await for (final PuzzleActivity current in result.right) {
+    await for (final LichessPuzzleActivity current in result.right) {
       emit(_PuzzleActivityState(current));
     }
   }

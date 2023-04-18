@@ -20,10 +20,10 @@ mixin _$PuzzleState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Puzzle puzzle) dailyPuzzle,
-    required TResult Function(Puzzle puzzle) puzzleById,
-    required TResult Function(PuzzleActivity activity) puzzleActivity,
-    required TResult Function(PuzzleDashboard dashboard) puzzleDashboard,
+    required TResult Function(LichessPuzzle puzzle) dailyPuzzle,
+    required TResult Function(LichessPuzzle puzzle) puzzleById,
+    required TResult Function(LichessPuzzleActivity activity) puzzleActivity,
+    required TResult Function(LichessPuzzleDashboard dashboard) puzzleDashboard,
     required TResult Function(Failure error) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -31,10 +31,10 @@ mixin _$PuzzleState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Puzzle puzzle)? dailyPuzzle,
-    TResult? Function(Puzzle puzzle)? puzzleById,
-    TResult? Function(PuzzleActivity activity)? puzzleActivity,
-    TResult? Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult? Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult? Function(LichessPuzzle puzzle)? puzzleById,
+    TResult? Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult? Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult? Function(Failure error)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -42,10 +42,10 @@ mixin _$PuzzleState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Puzzle puzzle)? dailyPuzzle,
-    TResult Function(Puzzle puzzle)? puzzleById,
-    TResult Function(PuzzleActivity activity)? puzzleActivity,
-    TResult Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult Function(LichessPuzzle puzzle)? puzzleById,
+    TResult Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) =>
@@ -130,10 +130,10 @@ class _$_InitialPuzzleState extends _InitialPuzzleState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Puzzle puzzle) dailyPuzzle,
-    required TResult Function(Puzzle puzzle) puzzleById,
-    required TResult Function(PuzzleActivity activity) puzzleActivity,
-    required TResult Function(PuzzleDashboard dashboard) puzzleDashboard,
+    required TResult Function(LichessPuzzle puzzle) dailyPuzzle,
+    required TResult Function(LichessPuzzle puzzle) puzzleById,
+    required TResult Function(LichessPuzzleActivity activity) puzzleActivity,
+    required TResult Function(LichessPuzzleDashboard dashboard) puzzleDashboard,
     required TResult Function(Failure error) failure,
   }) {
     return initial();
@@ -144,10 +144,10 @@ class _$_InitialPuzzleState extends _InitialPuzzleState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Puzzle puzzle)? dailyPuzzle,
-    TResult? Function(Puzzle puzzle)? puzzleById,
-    TResult? Function(PuzzleActivity activity)? puzzleActivity,
-    TResult? Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult? Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult? Function(LichessPuzzle puzzle)? puzzleById,
+    TResult? Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult? Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult? Function(Failure error)? failure,
   }) {
     return initial?.call();
@@ -158,10 +158,10 @@ class _$_InitialPuzzleState extends _InitialPuzzleState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Puzzle puzzle)? dailyPuzzle,
-    TResult Function(Puzzle puzzle)? puzzleById,
-    TResult Function(PuzzleActivity activity)? puzzleActivity,
-    TResult Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult Function(LichessPuzzle puzzle)? puzzleById,
+    TResult Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -249,10 +249,10 @@ class _$_LoadingPuzzleState extends _LoadingPuzzleState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Puzzle puzzle) dailyPuzzle,
-    required TResult Function(Puzzle puzzle) puzzleById,
-    required TResult Function(PuzzleActivity activity) puzzleActivity,
-    required TResult Function(PuzzleDashboard dashboard) puzzleDashboard,
+    required TResult Function(LichessPuzzle puzzle) dailyPuzzle,
+    required TResult Function(LichessPuzzle puzzle) puzzleById,
+    required TResult Function(LichessPuzzleActivity activity) puzzleActivity,
+    required TResult Function(LichessPuzzleDashboard dashboard) puzzleDashboard,
     required TResult Function(Failure error) failure,
   }) {
     return loading();
@@ -263,10 +263,10 @@ class _$_LoadingPuzzleState extends _LoadingPuzzleState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Puzzle puzzle)? dailyPuzzle,
-    TResult? Function(Puzzle puzzle)? puzzleById,
-    TResult? Function(PuzzleActivity activity)? puzzleActivity,
-    TResult? Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult? Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult? Function(LichessPuzzle puzzle)? puzzleById,
+    TResult? Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult? Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult? Function(Failure error)? failure,
   }) {
     return loading?.call();
@@ -277,10 +277,10 @@ class _$_LoadingPuzzleState extends _LoadingPuzzleState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Puzzle puzzle)? dailyPuzzle,
-    TResult Function(Puzzle puzzle)? puzzleById,
-    TResult Function(PuzzleActivity activity)? puzzleActivity,
-    TResult Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult Function(LichessPuzzle puzzle)? puzzleById,
+    TResult Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -348,9 +348,9 @@ abstract class _$$_DailyPuzzleStateCopyWith<$Res> {
           _$_DailyPuzzleState value, $Res Function(_$_DailyPuzzleState) then) =
       __$$_DailyPuzzleStateCopyWithImpl<$Res>;
   @useResult
-  $Res call({Puzzle puzzle});
+  $Res call({LichessPuzzle puzzle});
 
-  $PuzzleCopyWith<$Res> get puzzle;
+  $LichessPuzzleCopyWith<$Res> get puzzle;
 }
 
 /// @nodoc
@@ -370,14 +370,14 @@ class __$$_DailyPuzzleStateCopyWithImpl<$Res>
       null == puzzle
           ? _value.puzzle
           : puzzle // ignore: cast_nullable_to_non_nullable
-              as Puzzle,
+              as LichessPuzzle,
     ));
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $PuzzleCopyWith<$Res> get puzzle {
-    return $PuzzleCopyWith<$Res>(_value.puzzle, (value) {
+  $LichessPuzzleCopyWith<$Res> get puzzle {
+    return $LichessPuzzleCopyWith<$Res>(_value.puzzle, (value) {
       return _then(_value.copyWith(puzzle: value));
     });
   }
@@ -389,7 +389,7 @@ class _$_DailyPuzzleState extends _DailyPuzzleState {
   const _$_DailyPuzzleState(this.puzzle) : super._();
 
   @override
-  final Puzzle puzzle;
+  final LichessPuzzle puzzle;
 
   @JsonKey(ignore: true)
   @override
@@ -402,10 +402,10 @@ class _$_DailyPuzzleState extends _DailyPuzzleState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Puzzle puzzle) dailyPuzzle,
-    required TResult Function(Puzzle puzzle) puzzleById,
-    required TResult Function(PuzzleActivity activity) puzzleActivity,
-    required TResult Function(PuzzleDashboard dashboard) puzzleDashboard,
+    required TResult Function(LichessPuzzle puzzle) dailyPuzzle,
+    required TResult Function(LichessPuzzle puzzle) puzzleById,
+    required TResult Function(LichessPuzzleActivity activity) puzzleActivity,
+    required TResult Function(LichessPuzzleDashboard dashboard) puzzleDashboard,
     required TResult Function(Failure error) failure,
   }) {
     return dailyPuzzle(puzzle);
@@ -416,10 +416,10 @@ class _$_DailyPuzzleState extends _DailyPuzzleState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Puzzle puzzle)? dailyPuzzle,
-    TResult? Function(Puzzle puzzle)? puzzleById,
-    TResult? Function(PuzzleActivity activity)? puzzleActivity,
-    TResult? Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult? Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult? Function(LichessPuzzle puzzle)? puzzleById,
+    TResult? Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult? Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult? Function(Failure error)? failure,
   }) {
     return dailyPuzzle?.call(puzzle);
@@ -430,10 +430,10 @@ class _$_DailyPuzzleState extends _DailyPuzzleState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Puzzle puzzle)? dailyPuzzle,
-    TResult Function(Puzzle puzzle)? puzzleById,
-    TResult Function(PuzzleActivity activity)? puzzleActivity,
-    TResult Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult Function(LichessPuzzle puzzle)? puzzleById,
+    TResult Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -491,10 +491,11 @@ class _$_DailyPuzzleState extends _DailyPuzzleState {
 }
 
 abstract class _DailyPuzzleState extends PuzzleState {
-  const factory _DailyPuzzleState(final Puzzle puzzle) = _$_DailyPuzzleState;
+  const factory _DailyPuzzleState(final LichessPuzzle puzzle) =
+      _$_DailyPuzzleState;
   const _DailyPuzzleState._() : super._();
 
-  Puzzle get puzzle;
+  LichessPuzzle get puzzle;
   @JsonKey(ignore: true)
   _$$_DailyPuzzleStateCopyWith<_$_DailyPuzzleState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -506,9 +507,9 @@ abstract class _$$_PuzzleByIdStateCopyWith<$Res> {
           _$_PuzzleByIdState value, $Res Function(_$_PuzzleByIdState) then) =
       __$$_PuzzleByIdStateCopyWithImpl<$Res>;
   @useResult
-  $Res call({Puzzle puzzle});
+  $Res call({LichessPuzzle puzzle});
 
-  $PuzzleCopyWith<$Res> get puzzle;
+  $LichessPuzzleCopyWith<$Res> get puzzle;
 }
 
 /// @nodoc
@@ -528,14 +529,14 @@ class __$$_PuzzleByIdStateCopyWithImpl<$Res>
       null == puzzle
           ? _value.puzzle
           : puzzle // ignore: cast_nullable_to_non_nullable
-              as Puzzle,
+              as LichessPuzzle,
     ));
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $PuzzleCopyWith<$Res> get puzzle {
-    return $PuzzleCopyWith<$Res>(_value.puzzle, (value) {
+  $LichessPuzzleCopyWith<$Res> get puzzle {
+    return $LichessPuzzleCopyWith<$Res>(_value.puzzle, (value) {
       return _then(_value.copyWith(puzzle: value));
     });
   }
@@ -547,7 +548,7 @@ class _$_PuzzleByIdState extends _PuzzleByIdState {
   const _$_PuzzleByIdState(this.puzzle) : super._();
 
   @override
-  final Puzzle puzzle;
+  final LichessPuzzle puzzle;
 
   @JsonKey(ignore: true)
   @override
@@ -560,10 +561,10 @@ class _$_PuzzleByIdState extends _PuzzleByIdState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Puzzle puzzle) dailyPuzzle,
-    required TResult Function(Puzzle puzzle) puzzleById,
-    required TResult Function(PuzzleActivity activity) puzzleActivity,
-    required TResult Function(PuzzleDashboard dashboard) puzzleDashboard,
+    required TResult Function(LichessPuzzle puzzle) dailyPuzzle,
+    required TResult Function(LichessPuzzle puzzle) puzzleById,
+    required TResult Function(LichessPuzzleActivity activity) puzzleActivity,
+    required TResult Function(LichessPuzzleDashboard dashboard) puzzleDashboard,
     required TResult Function(Failure error) failure,
   }) {
     return puzzleById(puzzle);
@@ -574,10 +575,10 @@ class _$_PuzzleByIdState extends _PuzzleByIdState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Puzzle puzzle)? dailyPuzzle,
-    TResult? Function(Puzzle puzzle)? puzzleById,
-    TResult? Function(PuzzleActivity activity)? puzzleActivity,
-    TResult? Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult? Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult? Function(LichessPuzzle puzzle)? puzzleById,
+    TResult? Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult? Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult? Function(Failure error)? failure,
   }) {
     return puzzleById?.call(puzzle);
@@ -588,10 +589,10 @@ class _$_PuzzleByIdState extends _PuzzleByIdState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Puzzle puzzle)? dailyPuzzle,
-    TResult Function(Puzzle puzzle)? puzzleById,
-    TResult Function(PuzzleActivity activity)? puzzleActivity,
-    TResult Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult Function(LichessPuzzle puzzle)? puzzleById,
+    TResult Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -649,10 +650,11 @@ class _$_PuzzleByIdState extends _PuzzleByIdState {
 }
 
 abstract class _PuzzleByIdState extends PuzzleState {
-  const factory _PuzzleByIdState(final Puzzle puzzle) = _$_PuzzleByIdState;
+  const factory _PuzzleByIdState(final LichessPuzzle puzzle) =
+      _$_PuzzleByIdState;
   const _PuzzleByIdState._() : super._();
 
-  Puzzle get puzzle;
+  LichessPuzzle get puzzle;
   @JsonKey(ignore: true)
   _$$_PuzzleByIdStateCopyWith<_$_PuzzleByIdState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -664,9 +666,9 @@ abstract class _$$_PuzzleActivityStateCopyWith<$Res> {
           $Res Function(_$_PuzzleActivityState) then) =
       __$$_PuzzleActivityStateCopyWithImpl<$Res>;
   @useResult
-  $Res call({PuzzleActivity activity});
+  $Res call({LichessPuzzleActivity activity});
 
-  $PuzzleActivityCopyWith<$Res> get activity;
+  $LichessPuzzleActivityCopyWith<$Res> get activity;
 }
 
 /// @nodoc
@@ -686,14 +688,14 @@ class __$$_PuzzleActivityStateCopyWithImpl<$Res>
       null == activity
           ? _value.activity
           : activity // ignore: cast_nullable_to_non_nullable
-              as PuzzleActivity,
+              as LichessPuzzleActivity,
     ));
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $PuzzleActivityCopyWith<$Res> get activity {
-    return $PuzzleActivityCopyWith<$Res>(_value.activity, (value) {
+  $LichessPuzzleActivityCopyWith<$Res> get activity {
+    return $LichessPuzzleActivityCopyWith<$Res>(_value.activity, (value) {
       return _then(_value.copyWith(activity: value));
     });
   }
@@ -705,7 +707,7 @@ class _$_PuzzleActivityState extends _PuzzleActivityState {
   const _$_PuzzleActivityState(this.activity) : super._();
 
   @override
-  final PuzzleActivity activity;
+  final LichessPuzzleActivity activity;
 
   @JsonKey(ignore: true)
   @override
@@ -719,10 +721,10 @@ class _$_PuzzleActivityState extends _PuzzleActivityState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Puzzle puzzle) dailyPuzzle,
-    required TResult Function(Puzzle puzzle) puzzleById,
-    required TResult Function(PuzzleActivity activity) puzzleActivity,
-    required TResult Function(PuzzleDashboard dashboard) puzzleDashboard,
+    required TResult Function(LichessPuzzle puzzle) dailyPuzzle,
+    required TResult Function(LichessPuzzle puzzle) puzzleById,
+    required TResult Function(LichessPuzzleActivity activity) puzzleActivity,
+    required TResult Function(LichessPuzzleDashboard dashboard) puzzleDashboard,
     required TResult Function(Failure error) failure,
   }) {
     return puzzleActivity(activity);
@@ -733,10 +735,10 @@ class _$_PuzzleActivityState extends _PuzzleActivityState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Puzzle puzzle)? dailyPuzzle,
-    TResult? Function(Puzzle puzzle)? puzzleById,
-    TResult? Function(PuzzleActivity activity)? puzzleActivity,
-    TResult? Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult? Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult? Function(LichessPuzzle puzzle)? puzzleById,
+    TResult? Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult? Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult? Function(Failure error)? failure,
   }) {
     return puzzleActivity?.call(activity);
@@ -747,10 +749,10 @@ class _$_PuzzleActivityState extends _PuzzleActivityState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Puzzle puzzle)? dailyPuzzle,
-    TResult Function(Puzzle puzzle)? puzzleById,
-    TResult Function(PuzzleActivity activity)? puzzleActivity,
-    TResult Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult Function(LichessPuzzle puzzle)? puzzleById,
+    TResult Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -808,11 +810,11 @@ class _$_PuzzleActivityState extends _PuzzleActivityState {
 }
 
 abstract class _PuzzleActivityState extends PuzzleState {
-  const factory _PuzzleActivityState(final PuzzleActivity activity) =
+  const factory _PuzzleActivityState(final LichessPuzzleActivity activity) =
       _$_PuzzleActivityState;
   const _PuzzleActivityState._() : super._();
 
-  PuzzleActivity get activity;
+  LichessPuzzleActivity get activity;
   @JsonKey(ignore: true)
   _$$_PuzzleActivityStateCopyWith<_$_PuzzleActivityState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -824,9 +826,9 @@ abstract class _$$_PuzzleDashboardStateCopyWith<$Res> {
           $Res Function(_$_PuzzleDashboardState) then) =
       __$$_PuzzleDashboardStateCopyWithImpl<$Res>;
   @useResult
-  $Res call({PuzzleDashboard dashboard});
+  $Res call({LichessPuzzleDashboard dashboard});
 
-  $PuzzleDashboardCopyWith<$Res> get dashboard;
+  $LichessPuzzleDashboardCopyWith<$Res> get dashboard;
 }
 
 /// @nodoc
@@ -846,14 +848,14 @@ class __$$_PuzzleDashboardStateCopyWithImpl<$Res>
       null == dashboard
           ? _value.dashboard
           : dashboard // ignore: cast_nullable_to_non_nullable
-              as PuzzleDashboard,
+              as LichessPuzzleDashboard,
     ));
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $PuzzleDashboardCopyWith<$Res> get dashboard {
-    return $PuzzleDashboardCopyWith<$Res>(_value.dashboard, (value) {
+  $LichessPuzzleDashboardCopyWith<$Res> get dashboard {
+    return $LichessPuzzleDashboardCopyWith<$Res>(_value.dashboard, (value) {
       return _then(_value.copyWith(dashboard: value));
     });
   }
@@ -865,7 +867,7 @@ class _$_PuzzleDashboardState extends _PuzzleDashboardState {
   const _$_PuzzleDashboardState(this.dashboard) : super._();
 
   @override
-  final PuzzleDashboard dashboard;
+  final LichessPuzzleDashboard dashboard;
 
   @JsonKey(ignore: true)
   @override
@@ -879,10 +881,10 @@ class _$_PuzzleDashboardState extends _PuzzleDashboardState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Puzzle puzzle) dailyPuzzle,
-    required TResult Function(Puzzle puzzle) puzzleById,
-    required TResult Function(PuzzleActivity activity) puzzleActivity,
-    required TResult Function(PuzzleDashboard dashboard) puzzleDashboard,
+    required TResult Function(LichessPuzzle puzzle) dailyPuzzle,
+    required TResult Function(LichessPuzzle puzzle) puzzleById,
+    required TResult Function(LichessPuzzleActivity activity) puzzleActivity,
+    required TResult Function(LichessPuzzleDashboard dashboard) puzzleDashboard,
     required TResult Function(Failure error) failure,
   }) {
     return puzzleDashboard(dashboard);
@@ -893,10 +895,10 @@ class _$_PuzzleDashboardState extends _PuzzleDashboardState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Puzzle puzzle)? dailyPuzzle,
-    TResult? Function(Puzzle puzzle)? puzzleById,
-    TResult? Function(PuzzleActivity activity)? puzzleActivity,
-    TResult? Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult? Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult? Function(LichessPuzzle puzzle)? puzzleById,
+    TResult? Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult? Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult? Function(Failure error)? failure,
   }) {
     return puzzleDashboard?.call(dashboard);
@@ -907,10 +909,10 @@ class _$_PuzzleDashboardState extends _PuzzleDashboardState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Puzzle puzzle)? dailyPuzzle,
-    TResult Function(Puzzle puzzle)? puzzleById,
-    TResult Function(PuzzleActivity activity)? puzzleActivity,
-    TResult Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult Function(LichessPuzzle puzzle)? puzzleById,
+    TResult Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {
@@ -968,11 +970,11 @@ class _$_PuzzleDashboardState extends _PuzzleDashboardState {
 }
 
 abstract class _PuzzleDashboardState extends PuzzleState {
-  const factory _PuzzleDashboardState(final PuzzleDashboard dashboard) =
+  const factory _PuzzleDashboardState(final LichessPuzzleDashboard dashboard) =
       _$_PuzzleDashboardState;
   const _PuzzleDashboardState._() : super._();
 
-  PuzzleDashboard get dashboard;
+  LichessPuzzleDashboard get dashboard;
   @JsonKey(ignore: true)
   _$$_PuzzleDashboardStateCopyWith<_$_PuzzleDashboardState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1028,10 +1030,10 @@ class _$_ErrorPuzzleState extends _ErrorPuzzleState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Puzzle puzzle) dailyPuzzle,
-    required TResult Function(Puzzle puzzle) puzzleById,
-    required TResult Function(PuzzleActivity activity) puzzleActivity,
-    required TResult Function(PuzzleDashboard dashboard) puzzleDashboard,
+    required TResult Function(LichessPuzzle puzzle) dailyPuzzle,
+    required TResult Function(LichessPuzzle puzzle) puzzleById,
+    required TResult Function(LichessPuzzleActivity activity) puzzleActivity,
+    required TResult Function(LichessPuzzleDashboard dashboard) puzzleDashboard,
     required TResult Function(Failure error) failure,
   }) {
     return failure(error);
@@ -1042,10 +1044,10 @@ class _$_ErrorPuzzleState extends _ErrorPuzzleState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Puzzle puzzle)? dailyPuzzle,
-    TResult? Function(Puzzle puzzle)? puzzleById,
-    TResult? Function(PuzzleActivity activity)? puzzleActivity,
-    TResult? Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult? Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult? Function(LichessPuzzle puzzle)? puzzleById,
+    TResult? Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult? Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult? Function(Failure error)? failure,
   }) {
     return failure?.call(error);
@@ -1056,10 +1058,10 @@ class _$_ErrorPuzzleState extends _ErrorPuzzleState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Puzzle puzzle)? dailyPuzzle,
-    TResult Function(Puzzle puzzle)? puzzleById,
-    TResult Function(PuzzleActivity activity)? puzzleActivity,
-    TResult Function(PuzzleDashboard dashboard)? puzzleDashboard,
+    TResult Function(LichessPuzzle puzzle)? dailyPuzzle,
+    TResult Function(LichessPuzzle puzzle)? puzzleById,
+    TResult Function(LichessPuzzleActivity activity)? puzzleActivity,
+    TResult Function(LichessPuzzleDashboard dashboard)? puzzleDashboard,
     TResult Function(Failure error)? failure,
     required TResult orElse(),
   }) {

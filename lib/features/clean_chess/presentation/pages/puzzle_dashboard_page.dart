@@ -43,7 +43,7 @@ class PuzzleDashboardPage extends StatelessWidget {
     sl<PuzzleCubit>().getPuzzleDashboard();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Puzzle'),
+        title: const Text('LichessPuzzle'),
       ),
       body: _body(context),
     );
@@ -124,7 +124,7 @@ class PuzzleDashboardPage extends StatelessWidget {
     );
   }
 
-  List<RadarDataSet> showingDataSets(lichess.PuzzleDashboard dashboard) {
+  List<RadarDataSet> showingDataSets(lichess.LichessPuzzleDashboard dashboard) {
     return rawDataSets(dashboard).asMap().entries.map((entry) {
       final index = entry.key;
       final rawDataSet = entry.value;
@@ -143,7 +143,7 @@ class PuzzleDashboardPage extends StatelessWidget {
     }).toList();
   }
 
-  List<RawDataSet> rawDataSets(lichess.PuzzleDashboard dashboard) {
+  List<RawDataSet> rawDataSets(lichess.LichessPuzzleDashboard dashboard) {
     return [
       // This Ghost RawDataSet is used to show the background of the chart
       // This is a Workaround for the fl_chart library
@@ -158,7 +158,7 @@ class PuzzleDashboardPage extends StatelessWidget {
         ],
       ),
       RawDataSet(
-        title: 'Puzzle',
+        title: 'LichessPuzzle',
         color: Colors.pink,
         values: _sortedPuzzleRatings(dashboard),
       ),
@@ -238,7 +238,7 @@ class PuzzleDashboardPage extends StatelessWidget {
 
   int _getRating(
     _SupportedPuzzleStats stat,
-    lichess.PuzzleDashboard dashboard,
+    lichess.LichessPuzzleDashboard dashboard,
   ) {
     final refStat = dashboard.themes?[stat.lichessApiName];
     if (refStat == null) {
@@ -248,7 +248,7 @@ class PuzzleDashboardPage extends StatelessWidget {
     return refStat.results?.puzzleRatingAvg ?? 0;
   }
 
-  List<double> _sortedPuzzleRatings(lichess.PuzzleDashboard dashboard) {
+  List<double> _sortedPuzzleRatings(lichess.LichessPuzzleDashboard dashboard) {
     List<double> ratings = [];
 
     for (final currentStat in _stats) {
