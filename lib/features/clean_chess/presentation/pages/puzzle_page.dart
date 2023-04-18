@@ -5,6 +5,7 @@ import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/features/clean_chess/data/models/puzzle_model.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/in_game/puzzle_mode_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard_interpreter.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/dialogs/pawn_promotion_dialog.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/puzzle_mode/puzzle_bottom_graph.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/puzzle_mode/puzzle_top_stats.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/titled_app_bar.dart';
@@ -91,6 +92,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
   Widget _chessInterpreter() {
     return ChessboardInterpreter(
       controller: _controller,
+      onPromotion: (turn) => showPromotionDialog(context, turn),
     );
   }
 

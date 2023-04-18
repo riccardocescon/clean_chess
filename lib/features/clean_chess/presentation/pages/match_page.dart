@@ -1,5 +1,9 @@
+import 'package:cleanchess/core/utilities/assets.dart' as assets;
+import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard_interpreter.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/dialogs/pawn_promotion_dialog.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/titled_app_bar.dart';
+import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart' as lichess;
 
@@ -71,6 +75,7 @@ class _MatchPageState extends State<MatchPage> {
                 padding: EdgeInsets.symmetric(vertical: _boardUsersPadding),
                 child: ChessboardInterpreter(
                   controller: ChessboardController(),
+                  onPromotion: (turn) => showPromotionDialog(context, turn),
                 ),
               ),
               _userData(widget.white, _whiteTurn),

@@ -76,4 +76,21 @@ class ChessKit {
 
     return legalMoves;
   }
+
+  /// Checks if the move is a promotion
+  bool isPromotion(NormalMove move) {
+    // Assert that the move is a normal move
+    if (move.uci.length != 4) return false;
+
+    // Assert that the move is a pawn move
+    final piece = _chess.board.pieceAt(move.from);
+    if (piece != Piece.whitePawn && piece != Piece.blackPawn) return false;
+
+    // Assert that the pawn has reached the backrank
+    if (SquareSet.backrankOf(Side.white).squares.contains(move.to)) return true;
+    if (SquareSet.backrankOf(Side.black).squares.contains(move.to)) return true;
+
+    // If none of the above conditions are met, it's not a promotion
+    return false;
+  }
 }

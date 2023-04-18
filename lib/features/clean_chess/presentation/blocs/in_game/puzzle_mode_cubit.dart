@@ -45,7 +45,7 @@ class PuzzleModelCubit extends Cubit<PuzzleModeState> {
     final res = const CsvToListConverter().convert(value);
     // final puzzle = PuzzleModel.fromDB(res[Random().nextInt(res.length)]);
     final puzzle =
-        PuzzleModel.fromDB(res.firstWhere((element) => element[0] == '05UW6'));
+        PuzzleModel.fromDB(res.firstWhere((element) => element[0] == '00LRq'));
     emit(_Puzzle(puzzle));
   }
 

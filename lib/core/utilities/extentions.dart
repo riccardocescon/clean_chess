@@ -1,4 +1,5 @@
 import 'package:cleanchess/features/clean_chess/presentation/widgets/profilepage_mode_items.dart';
+import 'package:dartchess/dartchess.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -97,4 +98,9 @@ extension StringUtils on String {
     if (lastIndex == -1) return this;
     return replaceRange(lastIndex, lastIndex + from.length, to);
   }
+}
+
+extension SideUtil on Side {
+  bool get isWhite => this == Side.white;
+  bool get isBlack => this == Side.black;
 }

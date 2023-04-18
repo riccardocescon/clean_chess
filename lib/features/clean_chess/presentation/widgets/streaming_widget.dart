@@ -58,6 +58,8 @@ class _StreamingWidgetState extends State<StreamingWidget> {
                   controller: ChessboardController(
                     setup: fen != null ? Setup.parseFen(fen) : Setup.standard,
                   ),
+                  //FIXME: Replace Role.queen with the promotion choosen on the [fen]
+                  onPromotion: (_) => Future.value(Role.queen),
                 );
               },
             ),

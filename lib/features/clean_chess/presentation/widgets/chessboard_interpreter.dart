@@ -12,9 +12,11 @@ class ChessboardInterpreter extends StatefulWidget {
   const ChessboardInterpreter({
     super.key,
     required this.controller,
+    required this.onPromotion,
   });
 
   final ChessboardController controller;
+  final Future<Role> Function(Side) onPromotion;
 
   @override
   State<ChessboardInterpreter> createState() => _ChessboardInterpreterState();
@@ -78,7 +80,7 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
   /// Callback for when a cell is tapped.
   /// Handles the logic for selecting and moving pieces
   /// and shows an error message if the move is invalid
-  void _onCellTap(Square cell) {
+  void _onCellTap(Square cell) async {
     // Assert it is interactable
     if (!_controller._interactable) return;
 
@@ -119,8 +121,12 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
       }
       return;
     }
+    //Verify if selecyedSquare! and cell are a pawn promotion
     NormalMove move = NormalMove(from: _selectedSquare!, to: cell);
-    // final uci = "${}${}";
+    if (_chessKit.isPromotion(move)) {
+      Role role = await widget.onPromotion(_chessKit.turn);
+      move = NormalMove(from: _selectedSquare!, to: cell, promotion: role);
+    }
     _handleMove(move);
 
     _resetSelection();
