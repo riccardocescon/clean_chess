@@ -52,7 +52,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       body: _body(),
-      title: 'Puzzle',
+      title: 'LichessPuzzle',
       bottomNavigationBar: _bottomNavigationBar(),
     );
   }

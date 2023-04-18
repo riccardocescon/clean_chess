@@ -79,7 +79,7 @@ Widget get _quickMatchItem => ModeItem(
     );
 
 Widget _puzzleItem(BuildContext context) => ModeItem(
-      title: 'Puzzle',
+      title: 'LichessPuzzle',
       subtitle: 'Train chess by solving puzzles',
       icon: Image.asset(
         'assets/icons/Chessboard.png',

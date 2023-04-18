@@ -39,18 +39,18 @@ class LichessOAuth implements UseCase<OAuthParams, LichessOAuthParams> {
         final state = parameters['state'];
 
         if (state != params.stateVerifier) {
-          return Left(LichessOAuthFailure('State Mismatch'));
+          return const Left(LichessOAuthFailure('State Mismatch'));
         }
 
         if (code == null) {
-          return Left(LichessOAuthFailure('Code is null'));
+          return const Left(LichessOAuthFailure('Code is null'));
         }
 
         return Right(parameters);
 
       // Failure cases
       case 'access_denied':
-        return Left(LichessOAuthFailure('Access Denied'));
+        return const Left(LichessOAuthFailure('Access Denied'));
 
       // Add here more cases for other errors if needed
 

@@ -30,8 +30,8 @@ void main() async {
     lichessGameSample = const LichessGame(
       id: '',
       rated: false,
-      variant: LichessVariant.standard,
-      speed: ChessSpeed.classical,
+      variant: LichessVariantKey.standard,
+      speed: LichessSpeed.classical,
       perf: PerfType.classical,
       createdAt: 0,
       lastMoveAt: 0,

@@ -75,7 +75,7 @@ class PuzzleTopStats extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Puzzle #${puzzle.puzzleId}'.hardcoded,
+                  'LichessPuzzle #${puzzle.puzzleId}'.hardcoded,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
