@@ -38,7 +38,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
   PuzzleModel? _puzzle;
   bool _puzzleCompleted(String lastMove) =>
       _puzzle!.moves.length == 1 && lastMove == _puzzle!.moves.first;
-  late ChessboardController _controller;
+  final ChessboardController _controller = PuzzleController();
   int _retries = 0;
 
   @override
@@ -222,7 +222,12 @@ class _PuzzlePageState extends State<PuzzlePage> {
         ),
       ],
       onTap: (value) {
-        if (value == 2) {
+        if (value == 0) {
+          setState(() {
+            _retries = 0;
+            sl<PuzzleModelCubit>().getRandomPuzzle();
+          });
+        } else if (value == 2) {
           _controller.previousMove();
         } else if (value == 3) {
           _controller.nextMove();
@@ -306,9 +311,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
       // Callback for a puzzle just loaded
       puzzleLoaded: (puzzle) {
         _puzzle = puzzle;
-        _controller = ChessboardController(
-          setup: Setup.parseFen(_puzzle!.fen),
-        );
+        _controller.loadFen(puzzle.fen);
       },
       pieceMoved: (move) {
         if (_puzzleCompleted(move.uci)) {

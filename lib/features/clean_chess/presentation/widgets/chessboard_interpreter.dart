@@ -26,23 +26,8 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
   ChessboardController get _controller => widget.controller;
   ChessKit get _chessKit => _controller._chessKit;
 
-  //#region UI variables
-  /// The currently selected square
-  Square? _selectedSquare;
-
-  /// The currently selected piece
-  Piece? _selectedPiece;
-
-  /// The squares that are legal moves for the [_selectedPiece]
-  final List<Square> _selectedSquares = [];
-  //#endregion
-
   @override
   void initState() {
-    sl<PuzzleModelCubit>().turnOf(_chessKit.turn);
-    widget.controller._moves.add(
-      Tuple2(_chessKit.fen, const NormalMove(from: -1, to: -1)),
-    );
     widget.controller.addListener(_onControllerEvent);
     super.initState();
   }
@@ -70,8 +55,8 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
       aspectRatio: 1,
       child: Chessboard(
         onCellTap: _onCellTap,
-        selectedSquares: _selectedSquares,
-        selectedSquare: _selectedSquare,
+        selectedSquares: _controller._selectedSquares,
+        selectedSquare: _controller._selectedSquare,
         pieces: _chessKit.pieces,
       ),
     );
@@ -97,24 +82,24 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
     }
 
     // Handle first tap
-    if (_selectedSquare == null) {
+    if (_controller._selectedSquare == null) {
       _handleFirstTap(cell);
       return;
     }
 
     // Handle deselection if the same square is tapped twice
-    if (_selectedSquare == cell) {
+    if (_controller._selectedSquare == cell) {
       _resetSelection();
       return;
     }
 
     // Handle second tap
-    assert(_selectedPiece != null);
+    assert(_controller._selectedPiece != null);
 
     // Assert that the cell is a legal move
-    if (!_selectedSquares.contains(cell)) {
+    if (!_controller._selectedSquares.contains(cell)) {
       // If tapped another piece of the same team, select it
-      if (_hasSameTeamPiece(cell, _selectedPiece!.color)) {
+      if (_hasSameTeamPiece(cell, _controller._selectedPiece!.color)) {
         _resetSelection();
         _handleFirstTap(cell);
         return;
@@ -122,10 +107,11 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
       return;
     }
     //Verify if selecyedSquare! and cell are a pawn promotion
-    NormalMove move = NormalMove(from: _selectedSquare!, to: cell);
+    NormalMove move = NormalMove(from: _controller._selectedSquare!, to: cell);
     if (_chessKit.isPromotion(move)) {
       Role role = await widget.onPromotion(_chessKit.turn);
-      move = NormalMove(from: _selectedSquare!, to: cell, promotion: role);
+      move = NormalMove(
+          from: _controller._selectedSquare!, to: cell, promotion: role);
     }
     _handleMove(move);
 
@@ -152,12 +138,12 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
     }
 
     // Select the piece
-    _selectedPiece = piece;
-    _selectedSquare = cell;
+    _controller._selectedPiece = piece;
+    _controller._selectedSquare = cell;
 
     // Get the legal moves for the piece
-    _selectedSquares.clear();
-    _selectedSquares.addAll(_chessKit.getLegalMoves(cell));
+    _controller._selectedSquares.clear();
+    _controller._selectedSquares.addAll(_chessKit.getLegalMoves(cell));
 
     setState(() {});
   }
@@ -203,26 +189,33 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
 
   /// Resets all selected squares and pieces
   void _resetSelection() {
-    _selectedSquare = null;
-    _selectedPiece = null;
-    _selectedSquares.clear();
+    _controller._selectedSquare = null;
+    _controller._selectedPiece = null;
+    _controller._selectedSquares.clear();
     setState(() {});
   }
 
   //#endregion
 }
 
-class ChessboardController extends ChangeNotifier {
+abstract class ChessboardController extends ChangeNotifier {
   /// Chesskit instance for this Widget
   /// It will handle all the logic for the game
   late ChessKit _chessKit;
-  final Setup setup;
+  late Setup setup;
 
   bool _interactable = true;
 
-  ChessboardController({this.setup = Setup.standard}) {
-    _chessKit = ChessKit(setup);
-  }
+  //#region UI variables
+  /// The currently selected square
+  Square? _selectedSquare;
+
+  /// The currently selected piece
+  Piece? _selectedPiece;
+
+  /// The squares that are legal moves for the [_selectedPiece]
+  final List<Square> _selectedSquares = [];
+  //#endregion
 
   final List<Tuple2<String, Move>> _moves = [];
   int _pCurrentMove = 0;
@@ -284,6 +277,48 @@ class ChessboardController extends ChangeNotifier {
 
   void setInteractable(bool value) {
     _interactable = value;
+    notifyListeners();
+  }
+
+  void loadFen(String fen) {
+    _reset();
+    _chessKit = ChessKit(Setup.parseFen(fen));
+    sl<PuzzleModelCubit>().turnOf(_chessKit.turn);
+    notifyListeners();
+  }
+
+  void _reset() {
+    _chessKit = ChessKit(setup);
+    _moves.clear();
+    _pCurrentMove = 0;
+    _selectedPiece = null;
+    _selectedSquare = null;
+    _selectedSquares.clear();
+    notifyListeners();
+  }
+}
+
+class BaseController extends ChessboardController {
+  BaseController({Setup setup = Setup.standard}) {
+    _chessKit = ChessKit(setup);
+    this.setup = setup;
+  }
+}
+
+class PuzzleController extends ChessboardController {
+  PuzzleController({Setup setup = Setup.standard}) {
+    _chessKit = ChessKit(setup);
+    this.setup = setup;
+  }
+
+  @override
+  void loadFen(String fen) {
+    _reset();
+    _chessKit = ChessKit(Setup.parseFen(fen));
+    sl<PuzzleModelCubit>().turnOf(_chessKit.turn);
+    _moves.add(
+      Tuple2(_chessKit.fen, const NormalMove(from: -1, to: -1)),
+    );
     notifyListeners();
   }
 }

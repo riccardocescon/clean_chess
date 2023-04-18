@@ -74,7 +74,7 @@ class _MatchPageState extends State<MatchPage> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: _boardUsersPadding),
                 child: ChessboardInterpreter(
-                  controller: ChessboardController(),
+                  controller: BaseController(),
                   onPromotion: (turn) => showPromotionDialog(context, turn),
                 ),
               ),
