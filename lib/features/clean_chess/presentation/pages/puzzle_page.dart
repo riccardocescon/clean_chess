@@ -42,6 +42,8 @@ class _PuzzlePageState extends State<PuzzlePage> {
   int _hintCount = 0;
   _HintMove _hintMove = _HintMove.highlight;
 
+  List<_PuzzleStreakData> _streak = [];
+
   @override
   void initState() {
     sl<PuzzleModelCubit>().getRandomPuzzle();
@@ -173,14 +175,14 @@ class _PuzzlePageState extends State<PuzzlePage> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          const Text('Solved 6 puzzles in a Row'),
+          Text('Solved ${_streak.length} puzzles in a Row'),
           Align(
             alignment: Alignment.topRight,
             child: RichText(
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: '4w',
+                    text: '${_streak.where((element) => element.win).length}w',
                     style: TextStyle(
                       color: _winColor,
                     ),
@@ -192,7 +194,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
                     ),
                   ),
                   TextSpan(
-                    text: '3l',
+                    text: '${_streak.where((element) => !element.win).length}l',
                     style: TextStyle(
                       color: _loseColor,
                     ),
@@ -207,10 +209,12 @@ class _PuzzlePageState extends State<PuzzlePage> {
   }
 
   Widget _bottomBarChart() {
-    const double minElo = 1500;
-    const double maxElo = 2000;
+    final sorted = _streak.toList();
+    sorted.sort((a, b) => a.elo < b.elo ? 1 : -1);
+    double minElo = sorted.isEmpty ? 0 : sorted.last.elo;
+    double maxElo = sorted.isEmpty ? 0 : sorted.first.elo;
     final List<int> puzzlePlayed =
-        List.generate(12, (index) => Random().nextInt(200) + 1600);
+        List.generate(_streak.length, (index) => _streak[index].elo.toInt());
     return PuzzleBottomGraph(
       minElo: minElo,
       maxElo: maxElo,
@@ -339,6 +343,10 @@ class _PuzzlePageState extends State<PuzzlePage> {
       pieceMoved: (move) {
         if (_puzzleCompleted(move.uci)) {
           _controller.setInteractable(false);
+          _streak.add(
+            _PuzzleStreakData(
+                _puzzle!.rating.toDouble(), _retries == 0 && _hintCount < 2),
+          );
         }
       },
       orElse: () {},
@@ -354,4 +362,11 @@ enum _HintMove {
   const _HintMove(this.message);
 
   final String message;
+}
+
+class _PuzzleStreakData {
+  final double elo;
+  final bool win;
+
+  _PuzzleStreakData(this.elo, this.win);
 }

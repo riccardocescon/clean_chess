@@ -9,7 +9,7 @@ class PuzzleBottomGraph extends StatelessWidget {
     required this.ratings,
     this.backgroundColor = const Color.fromARGB(255, 33, 33, 33),
     this.positiveColor = Colors.green,
-    this.negativeColor = Colors.red,
+    this.negativeColor = Colors.pink,
     this.linesColor = Colors.grey,
   });
 
