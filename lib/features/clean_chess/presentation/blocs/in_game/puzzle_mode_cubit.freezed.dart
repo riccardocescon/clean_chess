@@ -22,7 +22,7 @@ mixin _$PuzzleModeState {
     required TResult Function() loading,
     required TResult Function(Side side) turnOf,
     required TResult Function(PuzzleModel puzzle) puzzleLoaded,
-    required TResult Function(NormalMove move) pieceMoved,
+    required TResult Function(Move move) pieceMoved,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -31,7 +31,7 @@ mixin _$PuzzleModeState {
     TResult? Function()? loading,
     TResult? Function(Side side)? turnOf,
     TResult? Function(PuzzleModel puzzle)? puzzleLoaded,
-    TResult? Function(NormalMove move)? pieceMoved,
+    TResult? Function(Move move)? pieceMoved,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -40,7 +40,7 @@ mixin _$PuzzleModeState {
     TResult Function()? loading,
     TResult Function(Side side)? turnOf,
     TResult Function(PuzzleModel puzzle)? puzzleLoaded,
-    TResult Function(NormalMove move)? pieceMoved,
+    TResult Function(Move move)? pieceMoved,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -119,7 +119,7 @@ class _$_Initial extends _Initial {
     required TResult Function() loading,
     required TResult Function(Side side) turnOf,
     required TResult Function(PuzzleModel puzzle) puzzleLoaded,
-    required TResult Function(NormalMove move) pieceMoved,
+    required TResult Function(Move move) pieceMoved,
   }) {
     return initial();
   }
@@ -131,7 +131,7 @@ class _$_Initial extends _Initial {
     TResult? Function()? loading,
     TResult? Function(Side side)? turnOf,
     TResult? Function(PuzzleModel puzzle)? puzzleLoaded,
-    TResult? Function(NormalMove move)? pieceMoved,
+    TResult? Function(Move move)? pieceMoved,
   }) {
     return initial?.call();
   }
@@ -143,7 +143,7 @@ class _$_Initial extends _Initial {
     TResult Function()? loading,
     TResult Function(Side side)? turnOf,
     TResult Function(PuzzleModel puzzle)? puzzleLoaded,
-    TResult Function(NormalMove move)? pieceMoved,
+    TResult Function(Move move)? pieceMoved,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -225,7 +225,7 @@ class _$_Loading extends _Loading {
     required TResult Function() loading,
     required TResult Function(Side side) turnOf,
     required TResult Function(PuzzleModel puzzle) puzzleLoaded,
-    required TResult Function(NormalMove move) pieceMoved,
+    required TResult Function(Move move) pieceMoved,
   }) {
     return loading();
   }
@@ -237,7 +237,7 @@ class _$_Loading extends _Loading {
     TResult? Function()? loading,
     TResult? Function(Side side)? turnOf,
     TResult? Function(PuzzleModel puzzle)? puzzleLoaded,
-    TResult? Function(NormalMove move)? pieceMoved,
+    TResult? Function(Move move)? pieceMoved,
   }) {
     return loading?.call();
   }
@@ -249,7 +249,7 @@ class _$_Loading extends _Loading {
     TResult Function()? loading,
     TResult Function(Side side)? turnOf,
     TResult Function(PuzzleModel puzzle)? puzzleLoaded,
-    TResult Function(NormalMove move)? pieceMoved,
+    TResult Function(Move move)? pieceMoved,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -354,7 +354,7 @@ class _$_TurnOf extends _TurnOf {
     required TResult Function() loading,
     required TResult Function(Side side) turnOf,
     required TResult Function(PuzzleModel puzzle) puzzleLoaded,
-    required TResult Function(NormalMove move) pieceMoved,
+    required TResult Function(Move move) pieceMoved,
   }) {
     return turnOf(side);
   }
@@ -366,7 +366,7 @@ class _$_TurnOf extends _TurnOf {
     TResult? Function()? loading,
     TResult? Function(Side side)? turnOf,
     TResult? Function(PuzzleModel puzzle)? puzzleLoaded,
-    TResult? Function(NormalMove move)? pieceMoved,
+    TResult? Function(Move move)? pieceMoved,
   }) {
     return turnOf?.call(side);
   }
@@ -378,7 +378,7 @@ class _$_TurnOf extends _TurnOf {
     TResult Function()? loading,
     TResult Function(Side side)? turnOf,
     TResult Function(PuzzleModel puzzle)? puzzleLoaded,
-    TResult Function(NormalMove move)? pieceMoved,
+    TResult Function(Move move)? pieceMoved,
     required TResult orElse(),
   }) {
     if (turnOf != null) {
@@ -488,7 +488,7 @@ class _$_Puzzle extends _Puzzle {
     required TResult Function() loading,
     required TResult Function(Side side) turnOf,
     required TResult Function(PuzzleModel puzzle) puzzleLoaded,
-    required TResult Function(NormalMove move) pieceMoved,
+    required TResult Function(Move move) pieceMoved,
   }) {
     return puzzleLoaded(puzzle);
   }
@@ -500,7 +500,7 @@ class _$_Puzzle extends _Puzzle {
     TResult? Function()? loading,
     TResult? Function(Side side)? turnOf,
     TResult? Function(PuzzleModel puzzle)? puzzleLoaded,
-    TResult? Function(NormalMove move)? pieceMoved,
+    TResult? Function(Move move)? pieceMoved,
   }) {
     return puzzleLoaded?.call(puzzle);
   }
@@ -512,7 +512,7 @@ class _$_Puzzle extends _Puzzle {
     TResult Function()? loading,
     TResult Function(Side side)? turnOf,
     TResult Function(PuzzleModel puzzle)? puzzleLoaded,
-    TResult Function(NormalMove move)? pieceMoved,
+    TResult Function(Move move)? pieceMoved,
     required TResult orElse(),
   }) {
     if (puzzleLoaded != null) {
@@ -578,7 +578,7 @@ abstract class _$$_PieceMovedCopyWith<$Res> {
           _$_PieceMoved value, $Res Function(_$_PieceMoved) then) =
       __$$_PieceMovedCopyWithImpl<$Res>;
   @useResult
-  $Res call({NormalMove move});
+  $Res call({Move move});
 }
 
 /// @nodoc
@@ -598,7 +598,7 @@ class __$$_PieceMovedCopyWithImpl<$Res>
       null == move
           ? _value.move
           : move // ignore: cast_nullable_to_non_nullable
-              as NormalMove,
+              as Move,
     ));
   }
 }
@@ -609,7 +609,7 @@ class _$_PieceMoved extends _PieceMoved {
   const _$_PieceMoved(this.move) : super._();
 
   @override
-  final NormalMove move;
+  final Move move;
 
   @JsonKey(ignore: true)
   @override
@@ -624,7 +624,7 @@ class _$_PieceMoved extends _PieceMoved {
     required TResult Function() loading,
     required TResult Function(Side side) turnOf,
     required TResult Function(PuzzleModel puzzle) puzzleLoaded,
-    required TResult Function(NormalMove move) pieceMoved,
+    required TResult Function(Move move) pieceMoved,
   }) {
     return pieceMoved(move);
   }
@@ -636,7 +636,7 @@ class _$_PieceMoved extends _PieceMoved {
     TResult? Function()? loading,
     TResult? Function(Side side)? turnOf,
     TResult? Function(PuzzleModel puzzle)? puzzleLoaded,
-    TResult? Function(NormalMove move)? pieceMoved,
+    TResult? Function(Move move)? pieceMoved,
   }) {
     return pieceMoved?.call(move);
   }
@@ -648,7 +648,7 @@ class _$_PieceMoved extends _PieceMoved {
     TResult Function()? loading,
     TResult Function(Side side)? turnOf,
     TResult Function(PuzzleModel puzzle)? puzzleLoaded,
-    TResult Function(NormalMove move)? pieceMoved,
+    TResult Function(Move move)? pieceMoved,
     required TResult orElse(),
   }) {
     if (pieceMoved != null) {
@@ -699,10 +699,10 @@ class _$_PieceMoved extends _PieceMoved {
 }
 
 abstract class _PieceMoved extends PuzzleModeState {
-  const factory _PieceMoved(final NormalMove move) = _$_PieceMoved;
+  const factory _PieceMoved(final Move move) = _$_PieceMoved;
   const _PieceMoved._() : super._();
 
-  NormalMove get move;
+  Move get move;
   @JsonKey(ignore: true)
   _$$_PieceMovedCopyWith<_$_PieceMoved> get copyWith =>
       throw _privateConstructorUsedError;

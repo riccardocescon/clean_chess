@@ -16,7 +16,7 @@ class PuzzleModeState with _$PuzzleModeState, EquatableMixin {
   const factory PuzzleModeState.loading() = _Loading;
   const factory PuzzleModeState.turnOf(Side side) = _TurnOf;
   const factory PuzzleModeState.puzzleLoaded(PuzzleModel puzzle) = _Puzzle;
-  const factory PuzzleModeState.pieceMoved(NormalMove move) = _PieceMoved;
+  const factory PuzzleModeState.pieceMoved(Move move) = _PieceMoved;
 
   const PuzzleModeState._();
 
@@ -47,7 +47,7 @@ class PuzzleModelCubit extends Cubit<PuzzleModeState> {
     emit(_Puzzle(puzzle));
   }
 
-  void pieceMoved(NormalMove move) {
+  void pieceMoved(Move move) {
     emit(_PieceMoved(move));
   }
 }

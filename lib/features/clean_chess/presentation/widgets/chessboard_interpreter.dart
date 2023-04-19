@@ -37,6 +37,12 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
       final fen =
           widget.controller._moves[widget.controller._pCurrentMove].item1;
       widget.controller._chessKit = ChessKit(Setup.parseFen(fen));
+      if (_controller is PuzzleController) {
+        if ((_controller as PuzzleController)._simulateTap != null) {
+          _onCellTap((_controller as PuzzleController)._simulateTap!);
+          (_controller as PuzzleController)._simulateTap = null;
+        }
+      }
     });
   }
 
@@ -242,9 +248,7 @@ abstract class ChessboardController extends ChangeNotifier {
   }
 
   bool autoPlayMove(String uci) {
-    final sourceMove = _coordToIndex(uci.substring(0, 2));
-    final targetMove = _coordToIndex(uci.substring(2, 4));
-    final move = NormalMove(from: sourceMove, to: targetMove);
+    final move = Move.fromUci(uci)!;
     final res = _chessKit.move(move.uci);
     if (res.isLeft()) {
       logDebug(res.left.message, color: LogColor.red);
@@ -293,6 +297,7 @@ abstract class ChessboardController extends ChangeNotifier {
     _pCurrentMove = 0;
     _selectedPiece = null;
     _selectedSquare = null;
+    _interactable = true;
     _selectedSquares.clear();
     notifyListeners();
   }
@@ -320,5 +325,32 @@ class PuzzleController extends ChessboardController {
       Tuple2(_chessKit.fen, const NormalMove(from: -1, to: -1)),
     );
     notifyListeners();
+  }
+
+  Square? _simulateTap;
+  void highLightHintCell(String uci) {
+    final move = Move.fromUci(uci)!;
+    if (move is NormalMove) {
+      _simulateTap = move.from;
+    } else if (move is DropMove) {
+      //TODO: How to handle this?
+      // cannot make move.to -1 row because it may be promoted while eating diagonally
+      logDebug(
+        'Drop move Not supported yet!',
+        color: LogColor.pink,
+        tag: 'PuzzleController',
+      );
+      return;
+    }
+    notifyListeners();
+  }
+
+  void forceUserMove(String uci) {
+    autoPlayMove(uci);
+    _selectedPiece = null;
+    _selectedSquare = null;
+    _selectedSquares.clear();
+    final move = Move.fromUci(uci)!;
+    sl<PuzzleModelCubit>().pieceMoved(move);
   }
 }
