@@ -1,4 +1,5 @@
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/board/board.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/game/game.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_revoke_token.dart';
@@ -89,6 +90,27 @@ class MExportGame extends Mock implements ExportGame {}
 
 class MExportGamesOfUser extends Mock implements ExportGamesOfUser {}
 
+class MCreateRealTimeSeek extends Mock implements CreateRealTimeSeek {}
+
+class MCreateCorrespondenceSeek extends Mock
+    implements CreateCorrespondenceSeek {}
+
+class MAbortGame extends Mock implements AbortGame {}
+
+class MClaimVictory extends Mock implements ClaimVictory {}
+
+class MFetchGameChat extends Mock implements FetchGameChat {}
+
+class MWriteOnGameChat extends Mock implements WriteOnGameChat {}
+
+class MResignGame extends Mock implements ResignGame {}
+
+class MMakeMove extends Mock implements MakeMove {}
+
+class MStreamBoardGameState extends Mock implements StreamBoardGameState {}
+
+class MStreamIncomingEvents extends Mock implements StreamIncomingEvents {}
+
 @GenerateNiceMocks([
   MockSpec<MLichessOAuth>(),
   MockSpec<MLichessRevokeToken>(),
@@ -129,5 +151,15 @@ class MExportGamesOfUser extends Mock implements ExportGamesOfUser {}
   MockSpec<MGetPuzzleDashboard>(),
   MockSpec<MExportGame>(),
   MockSpec<MExportGamesOfUser>(),
+  MockSpec<MCreateRealTimeSeek>(),
+  MockSpec<MCreateCorrespondenceSeek>(),
+  MockSpec<MAbortGame>(),
+  MockSpec<MClaimVictory>(),
+  MockSpec<MFetchGameChat>(),
+  MockSpec<MWriteOnGameChat>(),
+  MockSpec<MResignGame>(),
+  MockSpec<MMakeMove>(),
+  MockSpec<MStreamBoardGameState>(),
+  MockSpec<MStreamIncomingEvents>(),
 ])
 void main() {}

@@ -1,3 +1,5 @@
+import 'package:cleanchess/core/presentation/bloc/utilities/cubit_helper.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/game_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/stats_screen.dart';
@@ -47,17 +49,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Text("Send Message"),
   ];
 
-  void _requestRealTimeStatus(BuildContext context) {
-    sl<UserCubit>().getRealtimeStatus(userIds: [widget.user.id!]);
-  }
+  int _index = 0;
 
-  void _requestFollowingUsers(BuildContext context) {
-    sl<SocialCubit>().getFollowingUsers();
+  @override
+  void initState() {
+    sl<CubitHelper>().loadProfile(widget.user.id!);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    _requestRealTimeStatus(context);
+    // _requestRealTimeStatus(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
@@ -171,7 +173,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           state.maybeMap(
             realtimeStatus: (value) {
               _realTimeUserStatus = value.realtimeStatus.first;
-              _requestFollowingUsers(context);
             },
             orElse: () {},
           );
@@ -423,12 +424,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      // child: modeItems[index],
                       child: statsCard(
                         mode: _supportedStats[index],
                       ),
                       onTap: () {
-                        navigateToStatsPage(context);
+                        navigateToStatsPage(context, _supportedStats[index]);
                       },
                     );
                   },
@@ -473,31 +473,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final wonGames = widget.user.count?.win ?? 0;
     final drawnGames = widget.user.count?.draw ?? 0;
     final lostGames = widget.user.count?.loss ?? 0;
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 30, right: 70),
-          child: Text("Time played: $timeplayed hours"),
-        ),
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: "${wonGames}W",
-                style: const TextStyle(color: Colors.green),
-              ),
-              TextSpan(
-                text: " / ${drawnGames}D / ",
-                style: const TextStyle(color: Colors.grey),
-              ),
-              TextSpan(
-                text: "${lostGames}L",
-                style: const TextStyle(color: Colors.red),
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("Time played: $timeplayed hours"),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "${wonGames}W",
+                  style: const TextStyle(color: Colors.green),
+                ),
+                TextSpan(
+                  text: " / ${drawnGames}D / ",
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                TextSpan(
+                  text: "${lostGames}L",
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -556,12 +557,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void popupMenuButtonPressed() {}
 
 //Navigates to stats page
-  void navigateToStatsPage(BuildContext context) {
+  void navigateToStatsPage(BuildContext context, PerfMode mode) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const StatsPage(
+        builder: (context) => StatsPage(
           numberOfGames: 1,
+          selectedGameMode: mode,
+          onNextMode: () {
+            sl<GameCubit>().stopExportingGames();
+            if (_index == _supportedStats.length - 1) {
+              _index = -1;
+            }
+            Navigator.pop(context);
+            _index++;
+            navigateToStatsPage(context, _supportedStats[_index]);
+          },
+          onPreviousMode: () {
+            sl<GameCubit>().stopExportingGames();
+            if (_index == 0) {
+              _index = _supportedStats.length;
+            }
+            Navigator.pop(context);
+            _index--;
+            navigateToStatsPage(context, _supportedStats[_index]);
+          },
         ),
       ),
     );

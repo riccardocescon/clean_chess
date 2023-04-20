@@ -4,14 +4,16 @@ import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 abstract class PuzzleRepository {
   /// Get the current daily Puzzle
-  Future<Either<Failure, Puzzle>> getDailyPuzzle();
+  Future<Either<Failure, LichessPuzzle>> getDailyPuzzle();
 
   /// Get a Puzzle by its ID
-  Future<Either<Failure, Puzzle>> getPuzzleById(String id);
+  Future<Either<Failure, LichessPuzzle>> getPuzzleById(String id);
 
   /// Get Puzzle Activity
-  Future<Either<Failure, Stream<PuzzleActivity>>> getPuzzleActivity({int? max});
+  Future<Either<Failure, Stream<LichessPuzzleActivity>>> getPuzzleActivity(
+      {int? max});
 
   /// Get Puzzle Dashboard
-  Future<Either<Failure, PuzzleDashboard>> getPuzzleDashboard({int days = 30});
+  Future<Either<Failure, LichessPuzzleDashboard>> getPuzzleDashboard(
+      {int days = 30});
 }
