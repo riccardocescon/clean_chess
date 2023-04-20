@@ -9,6 +9,7 @@ import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/profilepage_mode_items.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart' as lichess;
 
@@ -143,10 +144,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 37.5),
-          child: Image(
-            image: const AssetImage("assets/icons/flags/italy_flag.png"),
-            height: kIconsHeigth,
-          ),
+          child: 
+            // thanks to https://github.com/lipis/flag-icons
+            SvgPicture.asset("assets/icons/flags/${widget.user.profile?.country?.toLowerCase() ?? "xx"}.svg", height: kIconsHeigth)
         ),
       ],
     );
