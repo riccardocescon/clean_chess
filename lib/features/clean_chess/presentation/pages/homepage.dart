@@ -117,7 +117,7 @@ class _HomepageState extends State<Homepage> {
                   );
                 },
                 child: const Text(
-                  'LichessPuzzle of the day',
+                  'Puzzle of the day',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
