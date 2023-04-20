@@ -2,6 +2,7 @@ import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/features/clean_chess/data/models/puzzle_model.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/board_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/game_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/in_game/puzzle_mode_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/puzzle_cubit.dart';
@@ -125,6 +126,7 @@ class _GlobalProviderState extends State<GlobalProvider> {
         BlocProvider<PuzzleCubit>(create: (context) => sl<PuzzleCubit>()),
         BlocProvider<PuzzleModelCubit>(
             create: (context) => sl<PuzzleModelCubit>()),
+        BlocProvider<BoardCubit>(create: (context) => sl<BoardCubit>()),
       ],
       child: widget.child,
     );

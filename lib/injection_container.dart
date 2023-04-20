@@ -1,14 +1,17 @@
 import 'package:cleanchess/core/presentation/bloc/utilities/cubit_helper.dart';
 import 'package:cleanchess/core/utilities/mixins/access_token_provider.dart';
+import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_board_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_datasource.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_game_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_puzzle_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_tv_data_source.dart';
+import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_board_repository.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_game_repository.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_puzzle_repository.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_repositories.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/tv_repository.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/account/account.dart';
+import 'package:cleanchess/features/clean_chess/domain/usecases/board/board.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/game/game.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_oauth_lib.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/oauth/lichess/lichess_revoke_token.dart';
@@ -17,6 +20,7 @@ import 'package:cleanchess/features/clean_chess/domain/usecases/teams/teams.dart
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/board_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/game_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/in_game/puzzle_mode_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/puzzle_cubit.dart';
@@ -103,6 +107,20 @@ Future<void> init() async {
     () => GameCubit(
       exportGame: sl<ExportGame>(),
       exportGamesOfUser: sl<ExportGamesOfUser>(),
+    ),
+  );
+  sl.registerLazySingleton<BoardCubit>(
+    () => BoardCubit(
+      createRealTimeSeek: sl<CreateRealTimeSeek>(),
+      createCorrespondenceSeek: sl<CreateCorrespondenceSeek>(),
+      abortGame: sl<AbortGame>(),
+      claimVictory: sl<ClaimVictory>(),
+      fetchGameChat: sl<FetchGameChat>(),
+      writeOnGameChat: sl<WriteOnGameChat>(),
+      resignGame: sl<ResignGame>(),
+      makeMove: sl<MakeMove>(),
+      streamBoardGameState: sl<StreamBoardGameState>(),
+      streamIncomingEvents: sl<StreamIncomingEvents>(),
     ),
   );
 
@@ -215,6 +233,16 @@ Future<void> init() async {
   sl.registerLazySingleton(
     () => ExportGamesOfUser(sl<LichessGameRepository>()),
   );
+  sl.registerLazySingleton(() => sl<CreateRealTimeSeek>());
+  sl.registerLazySingleton(() => sl<CreateCorrespondenceSeek>());
+  sl.registerLazySingleton(() => sl<AbortGame>());
+  sl.registerLazySingleton(() => sl<ClaimVictory>());
+  sl.registerLazySingleton(() => sl<FetchGameChat>());
+  sl.registerLazySingleton(() => sl<WriteOnGameChat>());
+  sl.registerLazySingleton(() => sl<ResignGame>());
+  sl.registerLazySingleton(() => sl<MakeMove>());
+  sl.registerLazySingleton(() => sl<StreamBoardGameState>());
+  sl.registerLazySingleton(() => sl<StreamIncomingEvents>());
 
   // Register repositories
   sl.registerLazySingleton<LichessOAuthRepository>(
@@ -252,6 +280,11 @@ Future<void> init() async {
       sl<LichessGameDataSource>(),
     ),
   );
+  sl.registerLazySingleton<LichessBoardRepository>(
+    () => LichessBoardRepository(
+      sl<LichessBoardDataSource>(),
+    ),
+  );
 
   // Register data sources
   sl.registerLazySingleton<LichessOAuthDataSource>(
@@ -277,6 +310,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<LichessGameDataSource>(
     () => LichessGameDataSource(sl<LichessTokenProvider>()),
+  );
+  sl.registerLazySingleton<LichessBoardDataSource>(
+    () => LichessBoardDataSource(sl<LichessTokenProvider>()),
   );
 
   // Standalone Blocs...
