@@ -66,7 +66,7 @@ enum GameMode {
   rapid('Rapid'),
   classical('Classical'),
   daily('Daily'),
-  puzzle('LichessPuzzle');
+  puzzle('Puzzle');
 
   const GameMode(this.name);
 

@@ -1,12 +1,13 @@
-import 'dart:math';
-
+import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/data/models/puzzle_model.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/in_game/puzzle_mode_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard_interpreter.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/dialogs/pawn_promotion_dialog.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/puzzle_mode/puzzle_bottom_graph.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/puzzle_mode/puzzle_top_stats.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/timer_widget.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/titled_app_bar.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:dartchess/dartchess.dart';
@@ -17,7 +18,9 @@ import 'package:skeletons/skeletons.dart';
 import '../widgets/puzzle_mode/puzzle_message_bar.dart';
 
 class PuzzlePage extends StatefulWidget {
-  const PuzzlePage({super.key});
+  const PuzzlePage({super.key, required this.userId});
+
+  final String userId;
 
   @override
   State<PuzzlePage> createState() => _PuzzlePageState();
@@ -38,14 +41,18 @@ class _PuzzlePageState extends State<PuzzlePage> {
   bool _puzzleCompleted(String lastMove) =>
       _puzzle!.moves.length == 1 && lastMove == _puzzle!.moves.first;
   final PuzzleController _controller = PuzzleController();
+  final TimerController _timerController = TimerController();
   int _retries = 0;
   int _hintCount = 0;
   _HintMove _hintMove = _HintMove.highlight;
 
-  List<_PuzzleStreakData> _streak = [];
+  final List<_PuzzleStreakData> _streak = [];
 
   @override
   void initState() {
+    // Able to call 2 events at the same time
+    // because [PuzzleModelCubit] is a Local Cubit, no web calls
+    _requestPuzzleRating();
     sl<PuzzleModelCubit>().getRandomPuzzle();
     super.initState();
   }
@@ -68,9 +75,13 @@ class _PuzzlePageState extends State<PuzzlePage> {
           listener: _topBarListener,
           builder: _topBarBuilder,
         ),
-        PuzzleTopStats(
-          onGetPuzzle: () => _puzzle!,
-          isPuzzleCompleted: (uci) => _puzzleCompleted(uci),
+        BlocProvider.value(
+          value: BlocProvider.of<UserCubit>(context),
+          child: PuzzleTopStats(
+            onGetPuzzle: () => _puzzle!,
+            isPuzzleCompleted: (uci) => _puzzleCompleted(uci),
+            timerController: _timerController,
+          ),
         ),
         Expanded(
           child: Center(
@@ -250,8 +261,18 @@ class _PuzzlePageState extends State<PuzzlePage> {
         if (value == 0) {
           setState(() {
             _retries = 0;
+            _hintCount = 0;
             sl<PuzzleModelCubit>().getRandomPuzzle();
           });
+        } else if (value == 1) {
+          //TODO: get puzzle info from api based on id, maybe on init state
+          // and share the link for this puzzle. DO NOT SHARE the game, that is
+          // on the watch game at the end. Web API are needed!
+          showSnackbar(
+            context: context,
+            message: 'Coming soon...',
+            backgroundColor: Colors.amber.shade700,
+          );
         } else if (value == 2) {
           _controller.previousMove();
         } else if (value == 3) {
@@ -259,6 +280,10 @@ class _PuzzlePageState extends State<PuzzlePage> {
         }
       },
     );
+  }
+
+  void _requestPuzzleRating() {
+    sl<UserCubit>().getPublicData(userId: widget.userId);
   }
 
   //#region Builders
@@ -308,10 +333,14 @@ class _PuzzlePageState extends State<PuzzlePage> {
   void _topBarListener(BuildContext context, PuzzleModeState state) {
     state.maybeWhen(
       // Callback for a puzzle just loaded
-      turnOf: (_) async {
+      turnOf: (side) async {
+        final userSide = side.opposite;
+        _controller.setBoardSide(userSide);
+
         await Future.delayed(const Duration(seconds: 1));
         final botMove = _puzzle!.moves.removeAt(0);
         _controller.autoPlayMove(botMove);
+        _timerController.restart();
       },
       // Callback for the user move
       pieceMoved: (move) async {
@@ -342,6 +371,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
       },
       pieceMoved: (move) {
         if (_puzzleCompleted(move.uci)) {
+          _timerController.stop();
           _controller.setInteractable(false);
           _streak.add(
             _PuzzleStreakData(

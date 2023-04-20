@@ -32,7 +32,14 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    widget.controller.removeListener(_onControllerEvent);
+    super.dispose();
+  }
+
   void _onControllerEvent() {
+    if (widget.controller._moves.isEmpty) return;
     setState(() {
       final fen =
           widget.controller._moves[widget.controller._pCurrentMove].item1;
@@ -64,6 +71,7 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
         selectedSquares: _controller._selectedSquares,
         selectedSquare: _controller._selectedSquare,
         pieces: _chessKit.pieces,
+        boardSide: _controller._boardSide,
       ),
     );
   }
@@ -212,6 +220,8 @@ abstract class ChessboardController extends ChangeNotifier {
 
   bool _interactable = true;
 
+  Side _boardSide = Side.white;
+
   //#region UI variables
   /// The currently selected square
   Square? _selectedSquare;
@@ -225,6 +235,12 @@ abstract class ChessboardController extends ChangeNotifier {
 
   final List<Tuple2<String, Move>> _moves = [];
   int _pCurrentMove = 0;
+
+  ChessboardController({required this.setup, Side? boardSide}) {
+    _chessKit = ChessKit(setup);
+    if (boardSide != null) _boardSide = boardSide;
+  }
+
   void previousMove() {
     if (_pCurrentMove > 0) {
       _pCurrentMove--;
@@ -301,20 +317,26 @@ abstract class ChessboardController extends ChangeNotifier {
     _selectedSquares.clear();
     notifyListeners();
   }
+
+  void flipBoard() {
+    _boardSide = _boardSide == Side.white ? Side.black : Side.white;
+    notifyListeners();
+  }
+
+  void setBoardSide(Side side) {
+    _boardSide = side;
+    notifyListeners();
+  }
 }
 
 class BaseController extends ChessboardController {
-  BaseController({Setup setup = Setup.standard}) {
-    _chessKit = ChessKit(setup);
-    this.setup = setup;
-  }
+  BaseController({Setup setup = Setup.standard, Side boardSide = Side.white})
+      : super(setup: setup, boardSide: boardSide);
 }
 
 class PuzzleController extends ChessboardController {
-  PuzzleController({Setup setup = Setup.standard}) {
-    _chessKit = ChessKit(setup);
-    this.setup = setup;
-  }
+  PuzzleController({Setup setup = Setup.standard, Side boardSide = Side.white})
+      : super(setup: setup, boardSide: boardSide);
 
   @override
   void loadFen(String fen) {

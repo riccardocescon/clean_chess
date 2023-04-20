@@ -11,6 +11,7 @@ class Chessboard extends StatelessWidget {
     this.selectedSquares = const [],
     this.selectedSquare,
     this.pieces = const [],
+    this.boardSide = Side.white,
   });
 
   /// Callback for when a cell is tapped.
@@ -30,34 +31,50 @@ class Chessboard extends StatelessWidget {
   /// Getter for the splash color
   Color get _splashColor => _tappable ? Colors.pink : Colors.transparent;
 
-  @override
-  Widget build(BuildContext context) => _flipBoard(
-        child: GridView.builder(
-          itemCount: 64,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 8,
-          ),
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          itemBuilder: (_, index) => _cell(index),
-        ),
-      );
+  final Side boardSide;
 
-  Widget _cell(int index) => _flipBoard(
-        child: MaterialButton(
-          onPressed: () => _tappable ? onCellTap?.call(index) : null,
-          elevation: 0,
-          padding: EdgeInsets.zero,
-          splashColor: _splashColor,
-          color: _getColor(index),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.zero),
-          ),
-          child: pieces.any((element) => element.item1 == index)
-              ? _piece(index)
-              : null,
+  @override
+  Widget build(BuildContext context) {
+    final board = _flipBoard(
+      child: GridView.builder(
+        itemCount: 64,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 8,
         ),
-      );
+        physics: const NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.zero,
+        itemBuilder: (_, index) => _cell(index),
+      ),
+    );
+    if (boardSide == Side.white) {
+      return board;
+    }
+
+    return Transform.rotate(
+      angle: math.pi,
+      child: board,
+    );
+  }
+
+  Widget _cell(int index) {
+    final cell = MaterialButton(
+      onPressed: () => _tappable ? onCellTap?.call(index) : null,
+      elevation: 0,
+      padding: EdgeInsets.zero,
+      splashColor: _splashColor,
+      color: _getColor(index),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.zero),
+      ),
+      child: pieces.any((element) => element.item1 == index)
+          ? _piece(index)
+          : null,
+    );
+    if (boardSide == Side.white) {
+      return _flipBoard(child: cell);
+    }
+    return cell;
+  }
 
   /// Flips the board vertically
   ///

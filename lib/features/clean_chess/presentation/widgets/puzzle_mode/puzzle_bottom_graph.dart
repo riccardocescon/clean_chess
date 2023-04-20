@@ -62,43 +62,45 @@ class PuzzleBottomGraph extends StatelessWidget {
             ),
           ],
         ),
-        lineBarsData: [
-          LineChartBarData(
-            isCurved: true,
-            barWidth: 2,
-            color: Colors.green,
-            belowBarData: BarAreaData(
-              show: true,
-              color: Colors.green.withOpacity(0.2),
-            ),
-            dotData: FlDotData(
-              show: true,
-              getDotPainter: (p0, p1, p2, p3) {
-                late Color color;
-                if (p0.x == 0) {
-                  color = backgroundColor;
-                } else {
-                  if (ratings[p0.x.toInt()] > ratings[p0.x.toInt() - 1]) {
-                    color = positiveColor;
-                  } else {
-                    color = negativeColor;
-                  }
-                }
-                return FlDotCirclePainter(
-                  radius: 3,
-                  color: color,
-                );
-              },
-            ),
-            spots: List.generate(
-              ratings.length,
-              (index) => FlSpot(
-                index.toDouble(),
-                ratings[index].toDouble(),
-              ),
-            ),
-          ),
-        ],
+        lineBarsData: ratings.isEmpty
+            ? []
+            : [
+                LineChartBarData(
+                  isCurved: true,
+                  barWidth: 2,
+                  color: Colors.green,
+                  belowBarData: BarAreaData(
+                    show: true,
+                    color: Colors.green.withOpacity(0.2),
+                  ),
+                  dotData: FlDotData(
+                    show: true,
+                    getDotPainter: (p0, p1, p2, p3) {
+                      late Color color;
+                      if (p0.x == 0) {
+                        color = backgroundColor;
+                      } else {
+                        if (ratings[p0.x.toInt()] > ratings[p0.x.toInt() - 1]) {
+                          color = positiveColor;
+                        } else {
+                          color = negativeColor;
+                        }
+                      }
+                      return FlDotCirclePainter(
+                        radius: 3,
+                        color: color,
+                      );
+                    },
+                  ),
+                  spots: List.generate(
+                    ratings.length,
+                    (index) => FlSpot(
+                      index.toDouble(),
+                      ratings[index].toDouble(),
+                    ),
+                  ),
+                ),
+              ],
       ),
     );
   }

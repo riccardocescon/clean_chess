@@ -1,13 +1,19 @@
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/core/utilities/debug.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/features/clean_chess/data/models/puzzle_model.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/in_game/puzzle_mode_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/timer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../blocs/user_cubit.dart';
 
 class PuzzleTopStats extends StatelessWidget {
   const PuzzleTopStats({
     super.key,
+    required this.timerController,
     required this.onGetPuzzle,
     required this.isPuzzleCompleted,
     this.topStatsHeigth = 50,
@@ -16,6 +22,7 @@ class PuzzleTopStats extends StatelessWidget {
     this.linkColor = Colors.blue,
   });
 
+  final TimerController timerController;
   final PuzzleModel Function() onGetPuzzle;
   final bool Function(String uci) isPuzzleCompleted;
   final double topStatsHeigth;
@@ -47,15 +54,15 @@ class PuzzleTopStats extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'Your Rating\n1500'.hardcoded,
-            textAlign: TextAlign.center,
-          ),
+          _updatedRatingText(),
           Row(
-            children: const [
-              Icon(Icons.access_alarms_rounded),
+            children: [
+              const Icon(Icons.access_alarms_rounded),
               width5,
-              Text('3:12', style: TextStyle(fontWeight: FontWeight.bold)),
+              TimerWidget(
+                timerController: timerController,
+                textStyle: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ],
           ),
         ],
@@ -103,7 +110,9 @@ class PuzzleTopStats extends StatelessWidget {
                 heigth5,
                 GestureDetector(
                   onTap: () {
-                    // TODO: open url on _puzzle!.gameUrl
+                    logDebug('Watch this match');
+                    final url = Uri.parse(puzzle.gameUrl);
+                    launchUrl(url);
                   },
                   child: Text(
                     'Watch this match'.hardcoded,
@@ -121,28 +130,44 @@ class PuzzleTopStats extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  'Your Rating\n1500'.hardcoded,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                Icon(
-                  Icons.arrow_drop_up_rounded,
-                  color: textColor,
-                ),
-                Text(
-                  '10'.hardcoded,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                _updatedRatingText(),
+
+                //TODO: Enable puzzle rating deviation when
+                // ranking puzzle will be implemented
+                // Icon(
+                //   Icons.arrow_drop_up_rounded,
+                //   color: textColor,
+                // ),
+                // Text(
+                //   '10'.hardcoded,
+                //   style: TextStyle(
+                //     fontWeight: FontWeight.bold,
+                //     color: textColor,
+                //   ),
+                //   textAlign: TextAlign.center,
+                // ),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _updatedRatingText() {
+    return BlocBuilder<UserCubit, UserState>(
+      builder: (context, state) {
+        return state.maybeMap(
+          publicData: (value) {
+            return Text(
+              'Your Rating\n${value.user.perfs?.puzzle?.rating ?? "0"}'
+                  .hardcoded,
+              textAlign: TextAlign.center,
+            );
+          },
+          orElse: () => const CircularProgressIndicator(strokeWidth: 1),
+        );
+      },
     );
   }
 }
