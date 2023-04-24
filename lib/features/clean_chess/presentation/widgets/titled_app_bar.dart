@@ -7,12 +7,14 @@ class BaseScaffold extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.bottomNavigationBar,
+    this.onPop,
   });
 
   final Widget body;
   final String title;
   final String? subtitle;
   final BottomNavigationBar? bottomNavigationBar;
+  final Future<void> Function()? onPop;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,10 @@ class BaseScaffold extends StatelessWidget {
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () async {
+              await onPop?.call();
+              if (context.mounted) Navigator.of(context).pop();
+            },
             iconSize: Theme.of(context).textTheme.titleLarge!.fontSize,
           ),
         ),

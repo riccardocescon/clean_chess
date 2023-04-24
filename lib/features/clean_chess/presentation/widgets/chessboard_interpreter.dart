@@ -3,6 +3,7 @@ import 'package:cleanchess/core/utilities/debug.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/features/chesskit/chesskit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/in_game/puzzle_mode_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:dartchess/dartchess.dart';
@@ -13,10 +14,12 @@ class ChessboardInterpreter extends StatefulWidget {
     super.key,
     required this.controller,
     required this.onPromotion,
+    required this.pieceAnimation,
   });
 
   final ChessboardController controller;
   final Future<Role> Function(Side) onPromotion;
+  final PieceAnimation pieceAnimation;
 
   @override
   State<ChessboardInterpreter> createState() => _ChessboardInterpreterState();
@@ -72,6 +75,7 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
         selectedSquare: _controller._selectedSquare,
         pieces: _chessKit.pieces,
         boardSide: _controller._boardSide,
+        pieceAnimation: widget.pieceAnimation,
       ),
     );
   }
@@ -84,8 +88,12 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
     if (!_controller._interactable) return;
 
     // Assert that the game is not in replay mode
-    if (_controller._moves.isNotEmpty &&
-        _controller._pCurrentMove != _controller._moves.length - 1) {
+    //
+    // For Puzzle Mode, there is 1 bonus move on the list
+    // that is the autoPlayed bot move, so we need to subtract 1
+    final pointinLastMove = _controller._pCurrentMove ==
+        _controller._moves.length - (_controller is PuzzleController ? 1 : 0);
+    if (_controller._moves.isNotEmpty && !pointinLastMove) {
       showSnackbar(
         context: context,
         message: 'Cannot move in replay mode',

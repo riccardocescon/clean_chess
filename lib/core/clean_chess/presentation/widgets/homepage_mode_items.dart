@@ -1,22 +1,31 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/puzzle_page.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/mode_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 // Modes available in the pre-release.
 List<Widget> preReleaseModes(
-        BuildContext context, String Function() onUserId) =>
+  BuildContext context,
+  String Function() onUserId,
+  PieceAnimation Function() onGetPieceAnimation,
+) =>
     [
       _quickMatchItem,
-      _puzzleItem(context, onUserId),
+      _puzzleItem(context, onUserId, onGetPieceAnimation),
       _computerItem,
     ];
 
-List<Widget> playModes(BuildContext context, String Function() onUserId) => [
+List<Widget> playModes(
+  BuildContext context,
+  String Function() onUserId,
+  PieceAnimation Function() onGetPieceAnimation,
+) =>
+    [
       _quickMatchItem,
-      _puzzleItem(context, onUserId),
+      _puzzleItem(context, onUserId, onGetPieceAnimation),
       _computerItem,
       _friendsItem,
       _tournamentItem,
@@ -79,7 +88,11 @@ Widget get _quickMatchItem => ModeItem(
       ],
     );
 
-Widget _puzzleItem(BuildContext context, String Function() onUserId) =>
+Widget _puzzleItem(
+  BuildContext context,
+  String Function() onUserId,
+  PieceAnimation Function() onGetPieceAnimation,
+) =>
     ModeItem(
       title: 'Puzzle',
       subtitle: 'Train chess by solving puzzles',
@@ -98,7 +111,10 @@ Widget _puzzleItem(BuildContext context, String Function() onUserId) =>
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PuzzlePage(userId: onUserId()),
+            builder: (context) => PuzzlePage(
+              userId: onUserId(),
+              pieceAnimation: onGetPieceAnimation(),
+            ),
           ),
         );
       },

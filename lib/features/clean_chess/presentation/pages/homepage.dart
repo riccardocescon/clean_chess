@@ -3,6 +3,7 @@ import 'package:cleanchess/core/clean_chess/presentation/widgets/homepage_mode_i
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/match_page.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_appbar.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_widget.dart';
@@ -10,6 +11,8 @@ import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart' as lichess;
+import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
+    as secure_storage_helper;
 
 lichess.User? user;
 
@@ -21,9 +24,21 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  PieceAnimation pieceAnimation = PieceAnimation.none;
+
+  void _loadSettings() {
+    secure_storage_helper.getAnimationType().then((value) {
+      setState(() {
+        pieceAnimation = value;
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+
+    _loadSettings();
 
     sl<AccountCubit>().getMyProfile();
   }
@@ -41,7 +56,9 @@ class _HomepageState extends State<Homepage> {
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
-                  const HomepageAppbar(),
+                  HomepageAppbar(
+                    onSettingsApplied: _loadSettings,
+                  ),
                 ]),
               ),
             ),
@@ -57,22 +74,31 @@ class _HomepageState extends State<Homepage> {
                 ],
               ),
             ),
-            const StreamingWidget(),
+            StreamingWidget(pieceAnimation: pieceAnimation),
           ],
         ),
       ),
     );
   }
 
-  Widget _modesList() => SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) => homepage_mode_items.preReleaseModes(
-              context, () => user?.id ?? '')[index],
-          childCount: homepage_mode_items
-              .preReleaseModes(context, () => user?.id ?? '')
-              .length,
-        ),
-      );
+  Widget _modesList() {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) => homepage_mode_items.preReleaseModes(
+          context,
+          () => user?.id ?? '',
+          () => pieceAnimation,
+        )[index],
+        childCount: homepage_mode_items
+            .preReleaseModes(
+              context,
+              () => user?.id ?? '',
+              () => pieceAnimation,
+            )
+            .length,
+      ),
+    );
+  }
 
   Widget _dailyPuzzleSection({required bool completed}) => Column(
         children: [
@@ -91,9 +117,9 @@ class _HomepageState extends State<Homepage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return const MatchPage(
+                        return MatchPage(
                           gameMode: '3+0 Blitz Rated',
-                          white: lichess.User(
+                          white: const lichess.User(
                             username: 'RiccardoCescon',
                             title: lichess.Title.lm,
                             perfs: lichess.Perfs(
@@ -102,7 +128,7 @@ class _HomepageState extends State<Homepage> {
                               ),
                             ),
                           ),
-                          black: lichess.User(
+                          black: const lichess.User(
                             username: 'Hardal',
                             title: lichess.Title.gm,
                             perfs: lichess.Perfs(
@@ -111,6 +137,7 @@ class _HomepageState extends State<Homepage> {
                               ),
                             ),
                           ),
+                          pieceAnimation: pieceAnimation,
                         );
                       },
                     ),

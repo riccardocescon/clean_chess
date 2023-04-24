@@ -1,9 +1,7 @@
-import 'package:cleanchess/core/utilities/assets.dart' as assets;
-import 'package:cleanchess/core/utilities/extentions.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard_interpreter.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/dialogs/pawn_promotion_dialog.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/titled_app_bar.dart';
-import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart' as lichess;
 
@@ -13,11 +11,13 @@ class MatchPage extends StatefulWidget {
     required this.gameMode,
     required this.white,
     required this.black,
+    required this.pieceAnimation,
   });
 
   final String gameMode;
   final lichess.User white;
   final lichess.User black;
+  final PieceAnimation pieceAnimation;
 
   @override
   State<MatchPage> createState() => _MatchPageState();
@@ -76,6 +76,7 @@ class _MatchPageState extends State<MatchPage> {
                 child: ChessboardInterpreter(
                   controller: BaseController(),
                   onPromotion: (turn) => showPromotionDialog(context, turn),
+                  pieceAnimation: widget.pieceAnimation,
                 ),
               ),
               _userData(widget.white, _whiteTurn),
