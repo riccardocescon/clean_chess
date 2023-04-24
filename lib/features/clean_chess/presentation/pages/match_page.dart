@@ -1,3 +1,4 @@
+import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard_interpreter.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/dialogs/pawn_promotion_dialog.dart';
@@ -12,12 +13,14 @@ class MatchPage extends StatefulWidget {
     required this.white,
     required this.black,
     required this.pieceAnimation,
+    required this.boardTheme,
   });
 
   final String gameMode;
   final lichess.User white;
   final lichess.User black;
   final PieceAnimation pieceAnimation;
+  final BoardTheme boardTheme;
 
   @override
   State<MatchPage> createState() => _MatchPageState();
@@ -77,6 +80,7 @@ class _MatchPageState extends State<MatchPage> {
                   controller: BaseController(),
                   onPromotion: (turn) => showPromotionDialog(context, turn),
                   pieceAnimation: widget.pieceAnimation,
+                  boardTheme: widget.boardTheme,
                 ),
               ),
               _userData(widget.white, _whiteTurn),

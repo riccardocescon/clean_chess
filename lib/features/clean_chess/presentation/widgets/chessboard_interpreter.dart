@@ -1,5 +1,6 @@
 import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
 import 'package:cleanchess/core/utilities/debug.dart';
+import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/features/chesskit/chesskit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/in_game/puzzle_mode_cubit.dart';
@@ -15,11 +16,13 @@ class ChessboardInterpreter extends StatefulWidget {
     required this.controller,
     required this.onPromotion,
     required this.pieceAnimation,
+    required this.boardTheme,
   });
 
   final ChessboardController controller;
   final Future<Role> Function(Side) onPromotion;
   final PieceAnimation pieceAnimation;
+  final BoardTheme boardTheme;
 
   @override
   State<ChessboardInterpreter> createState() => _ChessboardInterpreterState();
@@ -76,6 +79,7 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
         pieces: _chessKit.pieces,
         boardSide: _controller._boardSide,
         pieceAnimation: widget.pieceAnimation,
+        boardTheme: widget.boardTheme,
       ),
     );
   }
