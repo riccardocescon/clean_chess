@@ -1,5 +1,6 @@
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
-import 'package:cleanchess/core/utilities/assets.dart' as assets;
+import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/board_piece.dart';
 import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -66,9 +67,12 @@ class Chessboard extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.zero),
       ),
-      child: pieces.any((element) => element.item1 == index)
-          ? _piece(index)
-          : null,
+      child: AnimatedBoardPiece(
+        onGetPiece: () => _getPiece(index),
+        duration: const Duration(milliseconds: 500),
+        scale: 8,
+        pieceAnim: PieceAnimation.ghost,
+      ),
     );
     if (boardSide == Side.white) {
       return _flipBoard(child: cell);
@@ -84,19 +88,20 @@ class Chessboard extends StatelessWidget {
   /// and the ChessKit library uses the bottom left corner as the origin.
   /// So by flipping the board, the board is drawn from the bottom left
   /// And by re-flipping each cell, we get the correct orientation.
-  Widget _flipBoard({required Widget child}) => Transform(
-        alignment: Alignment.center,
-        transform: Matrix4.rotationX(math.pi),
-        child: child,
-      );
-
-  /// Returns the correct piece image for the given piece
-  Widget _piece(Square square) {
-    final piece = pieces.firstWhere((element) => element.item1 == square).item2;
-    return Image.asset(
-      assets.getPiecePath(piece),
-      scale: 8,
+  Widget _flipBoard({required Widget child}) {
+    return Transform(
+      alignment: Alignment.center,
+      transform: Matrix4.rotationX(math.pi),
+      child: child,
     );
+  }
+
+  /// Returns the piece at the given index
+  Piece? _getPiece(int index) {
+    if (pieces.any((element) => element.item1 == index)) {
+      return pieces.firstWhere((element) => element.item1 == index).item2;
+    }
+    return null;
   }
 
   /// Returns the correct color for the given cell

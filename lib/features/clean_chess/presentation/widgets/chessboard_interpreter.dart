@@ -84,8 +84,12 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
     if (!_controller._interactable) return;
 
     // Assert that the game is not in replay mode
-    if (_controller._moves.isNotEmpty &&
-        _controller._pCurrentMove != _controller._moves.length - 1) {
+    //
+    // For Puzzle Mode, there is 1 bonus move on the list
+    // that is the autoPlayed bot move, so we need to subtract 1
+    final pointinLastMove = _controller._pCurrentMove ==
+        _controller._moves.length - (_controller is PuzzleController ? 1 : 0);
+    if (_controller._moves.isNotEmpty && !pointinLastMove) {
       showSnackbar(
         context: context,
         message: 'Cannot move in replay mode',
