@@ -1,6 +1,5 @@
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
-import 'package:cleanchess/features/clean_chess/presentation/widgets/board_piece.dart';
 import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -13,6 +12,7 @@ class Chessboard extends StatelessWidget {
     this.selectedSquare,
     this.pieces = const [],
     this.boardSide = Side.white,
+    this.pieceAnimation = PieceAnimation.none,
   });
 
   /// Callback for when a cell is tapped.
@@ -33,6 +33,8 @@ class Chessboard extends StatelessWidget {
   Color get _splashColor => _tappable ? Colors.pink : Colors.transparent;
 
   final Side boardSide;
+
+  final PieceAnimation pieceAnimation;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,7 @@ class Chessboard extends StatelessWidget {
         onGetPiece: () => _getPiece(index),
         duration: const Duration(milliseconds: 500),
         scale: 8,
-        pieceAnim: PieceAnimation.ghost,
+        pieceAnim: pieceAnimation,
       ),
     );
     if (boardSide == Side.white) {

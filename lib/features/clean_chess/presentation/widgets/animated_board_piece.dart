@@ -1,3 +1,4 @@
+import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/glitch.dart';
 import 'package:dartchess/dartchess.dart';
@@ -58,6 +59,16 @@ enum PieceAnimation {
 }
 
 extension PieceAnimationBuilder on PieceAnimation {
+  String get name {
+    final names = {
+      PieceAnimation.none: 'None'.hardcoded,
+      PieceAnimation.scale: 'Scale'.hardcoded,
+      PieceAnimation.ghost: 'Ghost'.hardcoded,
+      PieceAnimation.glitch: 'Glitch'.hardcoded,
+    };
+    return names[this]!;
+  }
+
   Widget builder(Animation<double> animation, Widget child) {
     switch (this) {
       case PieceAnimation.none:

@@ -3,6 +3,7 @@ import 'package:cleanchess/core/utilities/debug.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/features/chesskit/chesskit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/in_game/puzzle_mode_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:dartchess/dartchess.dart';
@@ -13,10 +14,12 @@ class ChessboardInterpreter extends StatefulWidget {
     super.key,
     required this.controller,
     required this.onPromotion,
+    required this.pieceAnimation,
   });
 
   final ChessboardController controller;
   final Future<Role> Function(Side) onPromotion;
+  final PieceAnimation pieceAnimation;
 
   @override
   State<ChessboardInterpreter> createState() => _ChessboardInterpreterState();
@@ -72,6 +75,7 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
         selectedSquare: _controller._selectedSquare,
         pieces: _chessKit.pieces,
         boardSide: _controller._boardSide,
+        pieceAnimation: widget.pieceAnimation,
       ),
     );
   }
