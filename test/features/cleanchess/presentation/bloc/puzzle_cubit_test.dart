@@ -32,8 +32,8 @@ void main() async {
     );
   });
 
-  group('Puzzle', () {
-    group('Get Daily Puzzle', () {
+  group('LichessPuzzle', () {
+    group('Get Daily LichessPuzzle', () {
       blocTest<PuzzleCubit, PuzzleState>(
         'Success',
         build: () {
@@ -72,7 +72,7 @@ void main() async {
       );
     });
 
-    group('Get Puzzle By Id', () {
+    group('Get LichessPuzzle By Id', () {
       blocTest<PuzzleCubit, PuzzleState>(
         'Success',
         build: () {
@@ -111,7 +111,7 @@ void main() async {
       );
     });
 
-    group('Get Puzzle Activity', () {
+    group('Get LichessPuzzle Activity', () {
       blocTest<PuzzleCubit, PuzzleState>(
         'Success',
         build: () {
@@ -156,7 +156,7 @@ void main() async {
       );
     });
 
-    group('Get Puzzle Dashboard', () {
+    group('Get LichessPuzzle Dashboard', () {
       blocTest<PuzzleCubit, PuzzleState>(
         'Success',
         build: () {

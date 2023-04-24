@@ -43,7 +43,7 @@ class PuzzleDashboardPage extends StatelessWidget {
     sl<PuzzleCubit>().getPuzzleDashboard();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Puzzle'),
+        title: const Text('LichessPuzzle'),
       ),
       body: _body(context),
     );
@@ -158,7 +158,7 @@ class PuzzleDashboardPage extends StatelessWidget {
         ],
       ),
       RawDataSet(
-        title: 'Puzzle',
+        title: 'LichessPuzzle',
         color: Colors.pink,
         values: _sortedPuzzleRatings(dashboard),
       ),

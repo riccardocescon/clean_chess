@@ -11,13 +11,13 @@ class LichessPuzzleDataSource implements RemotePuzzleDataSource {
 
   const LichessPuzzleDataSource(this._tokenProvider);
 
-  /// Api call to get the current daily Puzzle
+  /// Api call to get the current daily LichessPuzzle
   @override
   Future<Either<Failure, LichessPuzzle>> getDailyPuzzle() async {
     try {
       logDebug(
         'Getting daily puzzle...',
-        tag: 'Puzzle',
+        tag: 'LichessPuzzle',
         color: LogColor.lightBlue,
       );
       final maybeClient = await _tokenProvider.getClient();
@@ -32,13 +32,13 @@ class LichessPuzzleDataSource implements RemotePuzzleDataSource {
     }
   }
 
-  /// Api call to get a Puzzle by its ID
+  /// Api call to get a LichessPuzzle by its ID
   @override
   Future<Either<Failure, LichessPuzzle>> getPuzzleById(String id) async {
     try {
       logDebug(
         'Getting puzzle by ID...',
-        tag: 'Puzzle',
+        tag: 'LichessPuzzle',
         color: LogColor.lightBlue,
       );
       final maybeClient = await _tokenProvider.getClient();
@@ -53,14 +53,14 @@ class LichessPuzzleDataSource implements RemotePuzzleDataSource {
     }
   }
 
-  /// Api call to get Puzzle Activity
+  /// Api call to get LichessPuzzle Activity
   @override
   Future<Either<Failure, Stream<LichessPuzzleActivity>>> getPuzzleActivity(
       {int? max}) async {
     try {
       logDebug(
         'Getting puzzle activity...',
-        tag: 'Puzzle',
+        tag: 'LichessPuzzle',
         color: LogColor.lightBlue,
       );
       final maybeClient = await _tokenProvider.getClient();
@@ -75,7 +75,7 @@ class LichessPuzzleDataSource implements RemotePuzzleDataSource {
     }
   }
 
-  /// Api call to get Puzzle Activity
+  /// Api call to get LichessPuzzle Activity
   @override
   Future<Either<Failure, LichessPuzzleDashboard>> getPuzzleDashboard({
     int days = 30,
@@ -83,7 +83,7 @@ class LichessPuzzleDataSource implements RemotePuzzleDataSource {
     try {
       logDebug(
         'Getting puzzle dashboard by user...',
-        tag: 'Puzzle',
+        tag: 'LichessPuzzle',
         color: LogColor.lightBlue,
       );
       final maybeClient = await _tokenProvider.getClient();

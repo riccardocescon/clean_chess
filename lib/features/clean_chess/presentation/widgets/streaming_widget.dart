@@ -49,19 +49,19 @@ class _StreamingWidgetState extends State<StreamingWidget> {
               ),
             ]),
             heigth5,
-            AspectRatio(
-              aspectRatio: 1,
-              child: BlocBuilder<TvGameStreamCubit,
-                  AsyncSnapshot<LichessTvGameSummary>>(
-                bloc: _tvGameStreamBloc,
-                builder: (context, state) {
-                  final fen = state.data?.data?.fen;
+            BlocBuilder<TvGameStreamCubit, AsyncSnapshot<LichessTvGameSummary>>(
+              bloc: _tvGameStreamBloc,
+              builder: (context, state) {
+                final fen = state.data?.data?.fen;
 
-                  return ChessboardInterpreter(
+                return ChessboardInterpreter(
+                  controller: BaseController(
                     setup: fen != null ? Setup.parseFen(fen) : Setup.standard,
-                  );
-                },
-              ),
+                  ),
+                  //FIXME: Replace Role.queen with the promotion choosen on the [fen]
+                  onPromotion: (_) => Future.value(Role.queen),
+                );
+              },
             ),
             heigth5,
             PaddedItems(

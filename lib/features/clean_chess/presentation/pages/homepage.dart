@@ -1,4 +1,3 @@
-import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/core/clean_chess/presentation/widgets/homepage_mode_items.dart'
     as homepage_mode_items;
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
@@ -67,9 +66,11 @@ class _HomepageState extends State<Homepage> {
 
   Widget _modesList() => SliverList(
         delegate: SliverChildBuilderDelegate(
-          (context, index) =>
-              homepage_mode_items.preReleaseModes(context)[index],
-          childCount: homepage_mode_items.preReleaseModes(context).length,
+          (context, index) => homepage_mode_items.preReleaseModes(
+              context, () => user?.id ?? '')[index],
+          childCount: homepage_mode_items
+              .preReleaseModes(context, () => user?.id ?? '')
+              .length,
         ),
       );
 
