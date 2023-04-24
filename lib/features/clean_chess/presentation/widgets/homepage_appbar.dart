@@ -5,7 +5,7 @@ import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/profile_screen.dart';
-import 'package:cleanchess/features/clean_chess/presentation/widgets/settings/settings_table_pick_page.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/settings/settings_pick_board_theme_page.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,13 +53,16 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
                   onPressed: () async {
                     final animation =
                         await secure_storage_helper.getAnimationType();
+                    final boardTheme =
+                        await secure_storage_helper.getBoardTheme();
                     if (mounted) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return SettingsTablePickPage(
-                              currentPieceAnimation: animation,
+                            return SettingsPickBoardThemePage(
+                              currentBoardTheme: boardTheme,
+                              // currentPieceAnimation: animation,
                             );
                           },
                         ),

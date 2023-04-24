@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
     as secure_storage_helper;
 
-class SettingsTablePickPage extends StatefulWidget {
-  const SettingsTablePickPage({
+class SettingsPickPagePieceAnimationPage extends StatefulWidget {
+  const SettingsPickPagePieceAnimationPage({
     super.key,
     required this.currentPieceAnimation,
   });
@@ -18,10 +18,12 @@ class SettingsTablePickPage extends StatefulWidget {
   final PieceAnimation currentPieceAnimation;
 
   @override
-  State<SettingsTablePickPage> createState() => _SettingsTablePickPageState();
+  State<SettingsPickPagePieceAnimationPage> createState() =>
+      _SettingsPickPagePieceAnimationPageState();
 }
 
-class _SettingsTablePickPageState extends State<SettingsTablePickPage> {
+class _SettingsPickPagePieceAnimationPageState
+    extends State<SettingsPickPagePieceAnimationPage> {
   double get _boardSize => MediaQuery.of(context).size.width * 0.3;
   final double _piecePadding = 4;
   final double _selectorPadding = 10;
@@ -68,6 +70,7 @@ class _SettingsTablePickPageState extends State<SettingsTablePickPage> {
   Widget _body() {
     return GridView.count(
       crossAxisCount: 2,
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         for (final anim in PieceAnimation.values) _boardType(anim),
       ],
