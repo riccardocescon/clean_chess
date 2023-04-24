@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/puzzle_page.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/mode_item_widget.dart';
@@ -11,10 +12,16 @@ List<Widget> preReleaseModes(
   BuildContext context,
   String Function() onUserId,
   PieceAnimation Function() onGetPieceAnimation,
+  BoardTheme Function() onGetBoardTheme,
 ) =>
     [
       _quickMatchItem,
-      _puzzleItem(context, onUserId, onGetPieceAnimation),
+      _puzzleItem(
+        context,
+        onUserId,
+        onGetPieceAnimation,
+        onGetBoardTheme,
+      ),
       _computerItem,
     ];
 
@@ -22,10 +29,16 @@ List<Widget> playModes(
   BuildContext context,
   String Function() onUserId,
   PieceAnimation Function() onGetPieceAnimation,
+  BoardTheme Function() onGetBoardTheme,
 ) =>
     [
       _quickMatchItem,
-      _puzzleItem(context, onUserId, onGetPieceAnimation),
+      _puzzleItem(
+        context,
+        onUserId,
+        onGetPieceAnimation,
+        onGetBoardTheme,
+      ),
       _computerItem,
       _friendsItem,
       _tournamentItem,
@@ -92,6 +105,7 @@ Widget _puzzleItem(
   BuildContext context,
   String Function() onUserId,
   PieceAnimation Function() onGetPieceAnimation,
+  BoardTheme Function() onGetBoardTheme,
 ) =>
     ModeItem(
       title: 'Puzzle',
@@ -114,6 +128,7 @@ Widget _puzzleItem(
             builder: (context) => PuzzlePage(
               userId: onUserId(),
               pieceAnimation: onGetPieceAnimation(),
+              boardTheme: onGetBoardTheme(),
             ),
           ),
         );

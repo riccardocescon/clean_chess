@@ -1,4 +1,5 @@
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class Chessboard extends StatelessWidget {
     this.pieces = const [],
     this.boardSide = Side.white,
     this.pieceAnimation = PieceAnimation.none,
+    this.boardTheme = BoardTheme.brown,
   });
 
   /// Callback for when a cell is tapped.
@@ -35,6 +37,8 @@ class Chessboard extends StatelessWidget {
   final Side boardSide;
 
   final PieceAnimation pieceAnimation;
+
+  final BoardTheme boardTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +118,10 @@ class Chessboard extends StatelessWidget {
     if (index == selectedSquare) {
       return Colors.pink;
     }
-    return getCellColor(index);
+    return getCellColor(
+      index,
+      whiteColor: boardTheme.lightColor,
+      blackColor: boardTheme.darkColor,
+    );
   }
 }

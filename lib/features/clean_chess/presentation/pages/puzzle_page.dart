@@ -1,5 +1,6 @@
 import 'package:cleanchess/core/clean_chess/utilities/snackbar.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/features/clean_chess/data/models/puzzle_model.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/in_game/puzzle_mode_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
@@ -23,10 +24,12 @@ class PuzzlePage extends StatefulWidget {
     super.key,
     required this.userId,
     required this.pieceAnimation,
+    required this.boardTheme,
   });
 
   final String userId;
   final PieceAnimation pieceAnimation;
+  final BoardTheme boardTheme;
 
   @override
   State<PuzzlePage> createState() => _PuzzlePageState();
@@ -114,6 +117,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
       controller: _controller,
       onPromotion: (turn) => showPromotionDialog(context, turn),
       pieceAnimation: widget.pieceAnimation,
+      boardTheme: widget.boardTheme,
     );
   }
 
