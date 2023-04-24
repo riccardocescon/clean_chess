@@ -47,10 +47,14 @@ class AnimatedBoardPiece extends StatelessWidget {
 }
 
 enum PieceAnimation {
-  none,
-  scale,
-  ghost,
-  glitch,
+  none(0),
+  scale(1),
+  ghost(2),
+  glitch(3);
+
+  const PieceAnimation(this.id);
+
+  final int id;
 }
 
 extension PieceAnimationBuilder on PieceAnimation {
