@@ -30,13 +30,13 @@ List<Piece> get blackPromotionPieces => [
 String getPiecePath(Piece piece) {
   final paths = {
     Piece.whitePawn: 'assets/pieces/flat/wP.png',
-    Piece.whiteKnight: 'assets/pieces/flat/wK.png',
+    Piece.whiteKnight: 'assets/pieces/flat/wN.png',
     Piece.whiteBishop: 'assets/pieces/flat/wB.png',
     Piece.whiteRook: 'assets/pieces/flat/wR.png',
     Piece.whiteQueen: 'assets/pieces/flat/wQ.png',
     Piece.whiteKing: 'assets/pieces/flat/wK.png',
     Piece.blackPawn: 'assets/pieces/flat/bP.png',
-    Piece.blackKnight: 'assets/pieces/flat/bK.png',
+    Piece.blackKnight: 'assets/pieces/flat/bN.png',
     Piece.blackBishop: 'assets/pieces/flat/bB.png',
     Piece.blackRook: 'assets/pieces/flat/bR.png',
     Piece.blackQueen: 'assets/pieces/flat/bQ.png',
