@@ -5,7 +5,7 @@ enum PieceTheme {
   cardinal('Cardinal', 'assets/pieces/cardinal/'),
   cburnett('Cburnett', 'assets/pieces/cburnett/'),
   celtic('Celtic', 'assets/pieces/celtic/'),
-  chess7('Chess7', 'assets/pieces/chess7'),
+  chess7('Chess7', 'assets/pieces/chess7/'),
   chessnut('Chessnut', 'assets/pieces/chessnut/'),
   companion('Companion', 'assets/pieces/companion/'),
   disguised('Disguised', 'assets/pieces/disguised/'),
