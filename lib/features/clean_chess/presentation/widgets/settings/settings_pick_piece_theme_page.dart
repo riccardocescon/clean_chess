@@ -6,6 +6,7 @@ import 'package:cleanchess/features/clean_chess/presentation/widgets/settings/se
 import 'package:flutter/material.dart';
 import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
     as secure_storage_helper;
+import 'package:flutter_svg/svg.dart';
 
 class SettingsPickPieceThemePage extends StatelessWidget {
   const SettingsPickPieceThemePage({
@@ -34,34 +35,35 @@ class SettingsPickPieceThemePage extends StatelessWidget {
           blackColor: boardTheme.darkColor,
         ),
         child: index == 0
-            ? Image.asset(
+            ? SvgPicture.asset(
                 '${item.location}bR.svg',
               )
             : index == 1
-                ? Image.asset('${item.location}bN.svg')
+                ? SvgPicture.asset('${item.location}bN.svg')
                 : index == 2
-                    ? Image.asset('${item.location}bB.svg')
+                    ? SvgPicture.asset('${item.location}bB.svg')
                     : index == 3
-                        ? Image.asset('${item.location}bQ.svg')
+                        ? SvgPicture.asset('${item.location}bQ.svg')
                         : index == 4
-                            ? Image.asset('${item.location}bK.svg')
+                            ? SvgPicture.asset('${item.location}bK.svg')
                             : index < 10
-                                ? Image.asset('${item.location}bP.svg')
+                                ? SvgPicture.asset('${item.location}bP.svg')
                                 : index > 14 && index < 20
-                                    ? Image.asset('${item.location}wP.svg')
+                                    ? SvgPicture.asset('${item.location}wP.svg')
                                     : index == 20
-                                        ? Image.asset('${item.location}wR.svg')
+                                        ? SvgPicture.asset(
+                                            '${item.location}wR.svg')
                                         : index == 21
-                                            ? Image.asset(
+                                            ? SvgPicture.asset(
                                                 '${item.location}wN.svg')
                                             : index == 22
-                                                ? Image.asset(
+                                                ? SvgPicture.asset(
                                                     '${item.location}wB.svg')
                                                 : index == 23
-                                                    ? Image.asset(
+                                                    ? SvgPicture.asset(
                                                         '${item.location}wQ.svg')
                                                     : index == 24
-                                                        ? Image.asset(
+                                                        ? SvgPicture.asset(
                                                             '${item.location}wK.svg')
                                                         : null,
       ),
