@@ -1,4 +1,6 @@
+import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/game_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/puzzle_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
 import 'package:cleanchess/injection_container.dart';
@@ -22,5 +24,10 @@ class CubitHelper {
       perfTypes: [mode],
       opening: true,
     );
+  }
+
+  Future<void> loadHomepage() async {
+    await sl<AccountCubit>().getMyProfile();
+    await sl<PuzzleCubit>().getDailyPuzzle();
   }
 }

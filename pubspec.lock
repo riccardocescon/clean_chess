@@ -153,6 +153,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
+  chess:
+    dependency: "direct main"
+    description:
+      name: chess
+      sha256: b34d4f36122524d0fe1eb10ff641c85c54581f27282227e17da8badbc317e111
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.0"
   cli_util:
     dependency: transitive
     description:
@@ -246,9 +254,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: main
-      resolved-ref: "8ba91719920bf08a39973c6222ad0bf2faa82cf4"
-      url: "https://github.com/lichess-org/dartchess"
+      ref: master
+      resolved-ref: "368f42e90bf750821c02d5a1a90601c53bf2aed2"
+      url: "https://github.com/alexrintt/chesskit"
     source: git
     version: "0.1.0"
   dartz:

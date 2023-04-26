@@ -1,15 +1,20 @@
 import 'package:cleanchess/core/clean_chess/presentation/widgets/homepage_mode_items.dart'
     as homepage_mode_items;
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/core/presentation/bloc/utilities/cubit_helper.dart';
 import 'package:cleanchess/core/utilities/enum_themes.dart';
-import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
+import 'package:cleanchess/core/utilities/parser.dart' as parser;
+import 'package:cleanchess/features/clean_chess/presentation/blocs/puzzle_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/match_page.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard_interpreter.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_appbar.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_widget.dart';
 import 'package:cleanchess/injection_container.dart';
+import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart' as lichess;
 import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
@@ -48,7 +53,7 @@ class _HomepageState extends State<Homepage> {
 
     _loadSettings();
 
-    sl<AccountCubit>().getMyProfile();
+    sl<CubitHelper>().loadHomepage();
   }
 
   @override
@@ -173,8 +178,26 @@ class _HomepageState extends State<Homepage> {
         AspectRatio(
           aspectRatio: 1,
 
-          child: Chessboard(
-            boardTheme: boardTheme,
+          child: BlocBuilder<PuzzleCubit, PuzzleState>(
+            builder: (context, state) {
+              return state.maybeMap(
+                dailyPuzzle: (value) {
+                  final pgn = value.puzzle.game!.pgn!;
+                  final fen = parser.pgnToFen(pgn);
+                  return ChessboardInterpreter(
+                    controller: PuzzleController(setup: Setup.parseFen(fen)),
+                    boardTheme: boardTheme,
+                    pieceAnimation: pieceAnimation,
+                    onPromotion: (_) async => Role.queen,
+                  );
+                },
+                orElse: () {
+                  return Chessboard(
+                    boardTheme: boardTheme,
+                  );
+                },
+              );
+            },
           ),
           // child: Stack(
           //   children: [
