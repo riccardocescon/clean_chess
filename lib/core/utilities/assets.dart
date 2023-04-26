@@ -29,18 +29,18 @@ List<Piece> get blackPromotionPieces => [
 /// Converts a [Piece] to the correct image path
 String getPiecePath(Piece piece) {
   final paths = {
-    Piece.whitePawn: 'assets/pieces/flat/white_pawn.png',
-    Piece.whiteKnight: 'assets/pieces/flat/white_knight.png',
-    Piece.whiteBishop: 'assets/pieces/flat/white_bishop.png',
-    Piece.whiteRook: 'assets/pieces/flat/white_rook.png',
-    Piece.whiteQueen: 'assets/pieces/flat/white_queen.png',
-    Piece.whiteKing: 'assets/pieces/flat/white_king.png',
-    Piece.blackPawn: 'assets/pieces/flat/black_pawn.png',
-    Piece.blackKnight: 'assets/pieces/flat/black_knight.png',
-    Piece.blackBishop: 'assets/pieces/flat/black_bishop.png',
-    Piece.blackRook: 'assets/pieces/flat/black_rook.png',
-    Piece.blackQueen: 'assets/pieces/flat/black_queen.png',
-    Piece.blackKing: 'assets/pieces/flat/black_king.png',
+    Piece.whitePawn: 'assets/pieces/flat/wP.png',
+    Piece.whiteKnight: 'assets/pieces/flat/wK.png',
+    Piece.whiteBishop: 'assets/pieces/flat/wB.png',
+    Piece.whiteRook: 'assets/pieces/flat/wR.png',
+    Piece.whiteQueen: 'assets/pieces/flat/wQ.png',
+    Piece.whiteKing: 'assets/pieces/flat/wK.png',
+    Piece.blackPawn: 'assets/pieces/flat/bP.png',
+    Piece.blackKnight: 'assets/pieces/flat/bK.png',
+    Piece.blackBishop: 'assets/pieces/flat/bB.png',
+    Piece.blackRook: 'assets/pieces/flat/bR.png',
+    Piece.blackQueen: 'assets/pieces/flat/bQ.png',
+    Piece.blackKing: 'assets/pieces/flat/bK.png',
   };
 
   return paths[piece]!;
