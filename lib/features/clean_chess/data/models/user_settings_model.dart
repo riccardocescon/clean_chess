@@ -59,13 +59,13 @@ class UserSettingsModel {
       giveMoreTime: GiveMoreTime.on,
     );
     _behaviorSettingsModel = BehaviorSettingsModel(
-      moveType: 1,
+      moveType: MoveType.drag,
       premove: true,
-      takebacks: 1,
-      promoteToQueen: 1,
-      drawOnThreefoldRepetition: 1,
+      takebacks: Takebacks.always,
+      promoteToQueen: PromoteToQueen.whenPremove,
+      drawOnThreefoldRepetition: DrawOnThreefoldRepetition.always,
       confirmResignation: true,
-      castlingMode: 1,
+      castlingMode: CastlingMode.either,
       keyboardInput: true,
       snapArrows: true,
       goodGameAfterDefeat: true,

@@ -54,8 +54,6 @@ class Display extends StatelessWidget {
 
   DisplaySettingsModel get display => _userSettingsModel.displaySettingsModel;
 
-  ClockSettingsModel get clock => _userSettingsModel.clockSettingsModel;
-
   BehaviorSettingsModel get behavior =>
       _userSettingsModel.behaviorSettingsModel;
 
@@ -147,6 +145,9 @@ class Clock extends StatelessWidget {
 class Behavior extends StatelessWidget {
   const Behavior({super.key});
 
+  BehaviorSettingsModel get behavior =>
+      _userSettingsModel.behaviorSettingsModel;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,57 +155,24 @@ class Behavior extends StatelessWidget {
           style: universalTextStyle,
           child: Column(
             children: [
-              _settingButtons(
-                settingName: "Move type",
-                settingIcon: Icons.input,
-                items: ["Click", "Drag", "Either"],
-                currentValue: _moveType,
-              ),
-              _settingSwitcher(
-                settingName: "Premoves",
-                settingIcon: Icons.zoom_out_map,
-                value: _premove,
-              ),
-              _settingButtons(
-                settingName: "Takebacks",
-                settingIcon: Icons.threesixty,
-                items: ["Never", "Always", "Casual only"],
-                currentValue: _takebacks,
-              ),
-              _settingButtons(
-                settingName: "Promote to queen",
-                items: ["Never", "Always", "When premoving"],
-                currentValue: _promoteToQueen,
-              ),
-              _settingButtons(
-                settingName: "Draw on threefold",
-                items: ["Never", "Always", "< 30 seconds"],
-                currentValue: _drawOnThreefoldRepetition,
-              ),
-              _settingSwitcher(
-                settingName: "Confirm resignation and draw offers",
-                value: _confirmResignation,
-              ),
-              _settingButtons(
-                settingName: "To castle move king",
-                items: ["Two squares", "Onto rook"],
-                currentValue: _castlingMode,
-              ),
-              _settingSwitcher(
-                settingName: "Input moves with keyboard",
-                settingIcon: Icons.keyboard,
-                value: _keyboardInput,
-              ),
-              _settingSwitcher(
-                settingName: "Snap arrows to valid moves",
-                settingIcon: Icons.arrow_outward,
-                value: _snapArrows,
-              ),
-              _settingSwitcher(
-                settingName: "Say \"Good game\" upon defeat or draw",
-                settingIcon: Icons.sentiment_satisfied,
-                value: _goodGameAfterDefeat,
-              ),
+              ...behavior.values.map<Widget>((e) {
+                if (e is SwitchSetting) {
+                  return _settingSwitcher(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    value: e.value,
+                  );
+                } else if (e is ButtonsSetting) {
+                  return _settingButtons(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    items: e.options.map((e) => e.name).toList(),
+                    currentValue: e.valueIndex,
+                  );
+                } else {
+                  throw Exception("Unknown setting type: $e");
+                }
+              }).toList()
             ],
           )),
       appBar: _appbar(context, "Behavior"),
