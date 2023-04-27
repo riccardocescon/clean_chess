@@ -31,8 +31,8 @@ class PuzzleModeState with _$PuzzleModeState, EquatableMixin {
   }
 }
 
-class PuzzleModelCubit extends Cubit<PuzzleModeState> {
-  PuzzleModelCubit() : super(const _Initial());
+class PuzzleModeCubit extends Cubit<PuzzleModeState> {
+  PuzzleModeCubit() : super(const _Initial());
 
   void turnOf(Side side) {
     emit(_TurnOf(side));

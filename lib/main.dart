@@ -124,8 +124,8 @@ class _GlobalProviderState extends State<GlobalProvider> {
         BlocProvider<SocialCubit>(create: (context) => sl<SocialCubit>()),
         BlocProvider<GameCubit>(create: (context) => sl<GameCubit>()),
         BlocProvider<PuzzleCubit>(create: (context) => sl<PuzzleCubit>()),
-        BlocProvider<PuzzleModelCubit>(
-            create: (context) => sl<PuzzleModelCubit>()),
+        BlocProvider<PuzzleModeCubit>(
+            create: (context) => sl<PuzzleModeCubit>()),
         BlocProvider<BoardCubit>(create: (context) => sl<BoardCubit>()),
       ],
       child: widget.child,

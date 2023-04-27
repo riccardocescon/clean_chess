@@ -18,7 +18,7 @@ class Chessboard extends StatelessWidget {
   });
 
   /// Callback for when a cell is tapped.
-  final Function(Square)? onCellTap;
+  final void Function(Square)? onCellTap;
 
   /// List of squares that should be highlighted
   final List<Square> selectedSquares;

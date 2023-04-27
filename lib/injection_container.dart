@@ -40,7 +40,7 @@ Future<void> init() async {
   // Generics
   sl.registerLazySingleton<LichessTokenProvider>(() => LichessTokenProvider());
   sl.registerLazySingleton<CubitHelper>(() => CubitHelper());
-  sl.registerLazySingleton<PuzzleModelCubit>(() => PuzzleModelCubit());
+  sl.registerLazySingleton<PuzzleModeCubit>(() => PuzzleModeCubit());
 
   sl.registerLazySingleton<AuthCubit>(
     () => AuthCubit(

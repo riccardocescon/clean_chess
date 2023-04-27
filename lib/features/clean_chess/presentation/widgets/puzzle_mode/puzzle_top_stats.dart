@@ -32,7 +32,7 @@ class PuzzleTopStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PuzzleModelCubit, PuzzleModeState>(
+    return BlocBuilder<PuzzleModeCubit, PuzzleModeState>(
         builder: (context, state) {
       return state.maybeMap(
         pieceMoved: (value) {

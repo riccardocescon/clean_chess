@@ -6,6 +6,7 @@ import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/core/utilities/parser.dart' as parser;
 import 'package:cleanchess/features/clean_chess/presentation/blocs/puzzle_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/match_page.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/daily_puzzle_page.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard_interpreter.dart';
@@ -177,18 +178,45 @@ class _HomepageState extends State<Homepage> {
         heigth10,
         AspectRatio(
           aspectRatio: 1,
-
           child: BlocBuilder<PuzzleCubit, PuzzleState>(
             builder: (context, state) {
               return state.maybeMap(
                 dailyPuzzle: (value) {
                   final pgn = value.puzzle.game!.pgn!;
-                  final fen = parser.pgnToFen(pgn);
-                  return ChessboardInterpreter(
-                    controller: PuzzleController(setup: Setup.parseFen(fen)),
-                    boardTheme: boardTheme,
-                    pieceAnimation: pieceAnimation,
-                    onPromotion: (_) async => Role.queen,
+                  final parsedPgn = parser.parsePGN(pgn);
+                  final fen = parsedPgn.item1;
+                  final side = parsedPgn.item2;
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return DailyPuzzlePage(
+                              puzzle: value.puzzle,
+                              pieceAnimation: pieceAnimation,
+                              boardTheme: boardTheme,
+                              userId: user?.id ?? '',
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    child: AbsorbPointer(
+                      child: Hero(
+                        tag: 'chessboard',
+                        child: ChessboardInterpreter(
+                          controller: PuzzleController(
+                            setup: Setup.parseFen(fen),
+                            interactable: false,
+                            boardSide: side,
+                          ),
+                          boardTheme: boardTheme,
+                          pieceAnimation: pieceAnimation,
+                          onPromotion: (_) async => Role.queen,
+                        ),
+                      ),
+                    ),
                   );
                 },
                 orElse: () {
@@ -199,17 +227,6 @@ class _HomepageState extends State<Homepage> {
               );
             },
           ),
-          // child: Stack(
-          //   children: [
-          //     const Chessboard(),
-          //     Visibility(
-          //       visible: completed,
-          //       child: Container(
-          //         color: Colors.grey.withAlpha(50),
-          //       ),
-          //     ),
-          //   ],
-          // ),
         ),
       ],
     );

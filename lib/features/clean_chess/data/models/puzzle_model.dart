@@ -1,3 +1,6 @@
+import 'package:cleanchess/core/utilities/parser.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
+
 class PuzzleModel {
   late final String puzzleId;
   late final String fen;
@@ -21,5 +24,20 @@ class PuzzleModel {
     themes = data[7];
     gameUrl = data[8];
     openingTags = data[9];
+  }
+
+  PuzzleModel.fromLichessPuzzle(LichessPuzzle puzzle) {
+    // TODO: for the Not Given values, you should get the puzzle by it's id
+    // for the moment it is not needed
+    puzzleId = puzzle.game?.id ?? '<Unknown>';
+    fen = parsePGN(puzzle.game!.pgn!).item1;
+    moves = puzzle.puzzle!.solution!.toList();
+    rating = puzzle.puzzle?.rating ?? 0;
+    ratingDeviation = 0; // Not given
+    popularity = 0; // Not given
+    nbPlayers = puzzle.puzzle?.plays ?? 0; // Not given
+    themes = puzzle.puzzle?.themes?.join(' ') ?? '';
+    gameUrl = ''; // Not given
+    openingTags = ''; // Not given
   }
 }
