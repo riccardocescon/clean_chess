@@ -52,11 +52,11 @@ class UserSettingsModel {
       boardOrientation: BoardOrientation.whiteOnBottom,
     );
     _clockSettingsModel = ClockSettingsModel(
-      clockPosition: 1,
-      tenthsOfSeconds: 1,
+      clockPosition: ClockPosition.bottom,
+      tenthsOfSeconds: TenthsOfSeconds.on,
       progressbar: true,
       soundWhenTimeGetsCritical: true,
-      giveMoreTime: 1,
+      giveMoreTime: GiveMoreTime.on,
     );
     _behaviorSettingsModel = BehaviorSettingsModel(
       moveType: 1,

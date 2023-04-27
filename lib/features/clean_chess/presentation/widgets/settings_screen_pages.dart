@@ -91,6 +91,7 @@ class Display extends StatelessWidget {
             } else if (e is ButtonsSetting) {
               return _settingButtons(
                 settingName: e.name,
+                settingIcon: e.icon,
                 items: e.options.map((e) => e.name).toList(),
                 currentValue: e.valueIndex,
               );
@@ -111,37 +112,31 @@ class Display extends StatelessWidget {
 class Clock extends StatelessWidget {
   const Clock({super.key});
 
+  ClockSettingsModel get clock => _userSettingsModel.clockSettingsModel;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          _settingButtons(
-            settingName: "Clock position",
-            items: ["Top", "Bottom"],
-            currentValue: _clockPosition,
-          ),
-          _settingButtons(
-            settingName: "Tenths of seconds",
-            settingIcon: Icons.timer,
-            items: ["On", "Off", "< 10 seconds"],
-            currentValue: _tenthsOfSeconds,
-          ),
-          _settingSwitcher(
-            settingName: "Progress bar",
-            value: true,
-          ),
-          _settingSwitcher(
-            settingName: "Sound when time gets critical",
-            settingIcon: Icons.notifications_active,
-            value: _soundWhenTimeGetsCritical,
-          ),
-          _settingButtons(
-            settingName: "Give more time",
-            settingIcon: Icons.fast_forward,
-            items: ["On", "Off", "Casual only"],
-            currentValue: _giveMoreTime,
-          ),
+          ...clock.values.map<Widget>((e) {
+            if (e is SwitchSetting) {
+              return _settingSwitcher(
+                settingName: e.name,
+                settingIcon: e.icon,
+                value: e.value,
+              );
+            } else if (e is ButtonsSetting) {
+              return _settingButtons(
+                settingName: e.name,
+                settingIcon: e.icon,
+                items: e.options.map((e) => e.name).toList(),
+                currentValue: e.valueIndex,
+              );
+            } else {
+              throw Exception("Unknown setting type: $e");
+            }
+          }).toList()
         ],
       ),
       appBar: _appbar(context, "Clock"),
