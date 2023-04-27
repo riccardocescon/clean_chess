@@ -54,8 +54,6 @@ class Display extends StatelessWidget {
 
   DisplaySettingsModel get display => _userSettingsModel.displaySettingsModel;
 
-  SoundSettingsModel get sound => _userSettingsModel.soundSettingsModel;
-
   PrivacySettingsModel get privacy => _userSettingsModel.privacySettingsModel;
 
   @override
@@ -230,6 +228,8 @@ class Themes extends StatelessWidget {
 class Sound extends StatelessWidget {
   const Sound({super.key});
 
+  SoundSettingsModel get sound => _userSettingsModel.soundSettingsModel;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -237,21 +237,24 @@ class Sound extends StatelessWidget {
           style: universalTextStyle,
           child: Column(
             children: [
-              _settingSwitcher(
-                settingName: "Notifications",
-                settingIcon: Icons.notifications,
-                value: _notifications,
-              ),
-              _settingSwitcher(
-                settingName: "Vibrate on game events",
-                settingIcon: Icons.vibration,
-                value: _vibrate,
-              ),
-              _settingSwitcher(
-                settingName: "Toggle sound",
-                settingIcon: Icons.volume_up,
-                value: _sound,
-              ),
+              ...sound.values.map<Widget>((e) {
+                if (e is SwitchSetting) {
+                  return _settingSwitcher(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    value: e.value,
+                  );
+                } else if (e is ButtonsSetting) {
+                  return _settingButtons(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    items: e.options.map((e) => e.name).toList(),
+                    currentValue: e.valueIndex,
+                  );
+                } else {
+                  throw Exception("Unknown setting type: $e");
+                }
+              }).toList()
             ],
           )),
       appBar: _appbar(context, "Sound"),
