@@ -77,11 +77,11 @@ class UserSettingsModel {
       vibrate: true,
     );
     _privacySettingsModel = PrivacySettingsModel(
-      challenge: 1,
-      chessInsights: 1,
+      challenge: Challenge.rating,
+      chessInsights: ChessInsights.noone,
       follow: true,
-      message: 1,
-      study: 1,
+      message: Message.always,
+      study: Study.always,
     );
   }
 }

@@ -54,8 +54,6 @@ class Display extends StatelessWidget {
 
   DisplaySettingsModel get display => _userSettingsModel.displaySettingsModel;
 
-  PrivacySettingsModel get privacy => _userSettingsModel.privacySettingsModel;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -265,6 +263,8 @@ class Sound extends StatelessWidget {
 class Privacy extends StatelessWidget {
   const Privacy({super.key});
 
+  PrivacySettingsModel get privacy => _userSettingsModel.privacySettingsModel;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -272,41 +272,24 @@ class Privacy extends StatelessWidget {
           style: universalTextStyle,
           child: Column(
             children: [
-              _settingSwitcher(
-                settingName: "Let others follow you",
-                settingIcon: Icons.person,
-                value: _follow,
-              ),
-              _settingButtons(
-                settingName: "Let others challenge you",
-                settingIcon: Icons.shield,
-                items: [
-                  "Never",
-                  "Always",
-                  "Friends",
-                  "Registered",
-                  "Rating is ± 300"
-                ],
-                currentValue: _challenge,
-              ),
-              _settingButtons(
-                settingName: "Let others message you",
-                settingIcon: Icons.message,
-                items: ["Always", "Friends", "Only existing conversations"],
-                currentValue: _message,
-              ),
-              _settingButtons(
-                settingName: "Let others invite to study",
-                settingIcon: Icons.shield,
-                items: ["Never", "Always", "Friends"],
-                currentValue: _study,
-              ),
-              _settingButtons(
-                settingName: "Share chess insights",
-                settingIcon: Icons.bar_chart,
-                items: ["No one", "Friends", "Everyone"],
-                currentValue: _chessInsights,
-              ),
+              ...privacy.values.map<Widget>((e) {
+                if (e is SwitchSetting) {
+                  return _settingSwitcher(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    value: e.value,
+                  );
+                } else if (e is ButtonsSetting) {
+                  return _settingButtons(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    items: e.options.map((e) => e.name).toList(),
+                    currentValue: e.valueIndex,
+                  );
+                } else {
+                  throw Exception("Unknown setting type: $e");
+                }
+              }).toList()
             ],
           )),
       appBar: _appbar(context, "Privacy"),
