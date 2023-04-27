@@ -54,12 +54,6 @@ class Display extends StatelessWidget {
 
   DisplaySettingsModel get display => _userSettingsModel.displaySettingsModel;
 
-  BehaviorSettingsModel get behavior =>
-      _userSettingsModel.behaviorSettingsModel;
-
-  LanguageSettingsModel get language =>
-      _userSettingsModel.languageSettingsModel;
-
   SoundSettingsModel get sound => _userSettingsModel.soundSettingsModel;
 
   PrivacySettingsModel get privacy => _userSettingsModel.privacySettingsModel;
@@ -183,6 +177,9 @@ class Behavior extends StatelessWidget {
 class Language extends StatelessWidget {
   const Language({super.key});
 
+  LanguageSettingsModel get language =>
+      _userSettingsModel.languageSettingsModel;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,12 +187,24 @@ class Language extends StatelessWidget {
           style: universalTextStyle,
           child: Column(
             children: [
-              _settingButtons(
-                settingName: "Language",
-                settingIcon: Icons.flag,
-                items: ["English", "Italian", "Spanish", "Turkish"],
-                currentValue: _language,
-              ),
+              ...language.values.map<Widget>((e) {
+                if (e is SwitchSetting) {
+                  return _settingSwitcher(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    value: e.value,
+                  );
+                } else if (e is ButtonsSetting) {
+                  return _settingButtons(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    items: e.options.map((e) => e.name).toList(),
+                    currentValue: e.valueIndex,
+                  );
+                } else {
+                  throw Exception("Unknown setting type: $e");
+                }
+              }).toList()
             ],
           )),
       appBar: _appbar(context, "Language"),

@@ -1,24 +1,47 @@
+import 'package:cleanchess/core/utilities/mixins/nameable.dart';
+import 'package:cleanchess/features/clean_chess/domain/entities/settings/setting.dart';
+import 'package:flutter/material.dart';
+
 class LanguageSettingsModel {
-  Languages _language;
+  late final _Language _language;
 
   // Getters
-  Languages get language => _language;
+  ButtonsSetting get language => _language;
+
+  List<dynamic> get values => [
+        language,
+      ];
 
   // Setters
-  set language(Languages value) => _language = value;
+  set setLanguage(Languages value) => _language.setValueByReference = value;
 
   LanguageSettingsModel({
     required Languages language,
-  }) : _language = language;
+  }) {
+    _language = _Language(value: language);
+  }
 }
 
-enum Languages {
+class _Language extends ButtonsSetting<Languages> {
+  _Language({required Languages value})
+      : super(
+          name: 'Language',
+          icon: Icons.language,
+          options: Languages.values,
+          value: value,
+        );
+}
+
+enum Languages with Namable {
   english('English'),
   italian('Italiano'),
   turkish('Türkçe'),
   spanish('Español');
 
-  const Languages(this.lang);
+  const Languages(this._name);
 
-  final String lang;
+  final String _name;
+
+  @override
+  String get name => _name;
 }
