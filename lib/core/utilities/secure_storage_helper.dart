@@ -45,3 +45,21 @@ Future<BoardTheme> getBoardTheme() async {
 
 Future<void> deleteBoardTheme() async =>
     const FlutterSecureStorage().delete(key: _boardTheme);
+
+// Daily Puzzle
+const String _dailyPuzzle = 'daily_puzzle';
+Future saveDailyPuzzle(DateTime compeltedDatetime) async =>
+    const FlutterSecureStorage().write(
+      key: _dailyPuzzle,
+      value: compeltedDatetime.toIso8601String(),
+    );
+
+Future<DateTime?> getDailyPuzzle() async {
+  String? iso8601String =
+      await const FlutterSecureStorage().read(key: _dailyPuzzle);
+  if (iso8601String == null) return null;
+  return DateTime.parse(iso8601String);
+}
+
+Future<void> deleteDailyPuzzle() async =>
+    const FlutterSecureStorage().delete(key: _dailyPuzzle);
