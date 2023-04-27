@@ -3,6 +3,7 @@ import 'package:cleanchess/core/clean_chess/presentation/widgets/homepage_mode_i
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/core/presentation/bloc/utilities/cubit_helper.dart';
 import 'package:cleanchess/core/utilities/enum_themes.dart';
+import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/core/utilities/parser.dart' as parser;
 import 'package:cleanchess/features/clean_chess/presentation/blocs/puzzle_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/match_page.dart';
@@ -33,6 +34,7 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   PieceAnimation pieceAnimation = PieceAnimation.none;
   BoardTheme boardTheme = BoardTheme.horsey;
+  bool _dailyPuzzleCompleted = false;
 
   void _loadSettings() {
     secure_storage_helper.getAnimationType().then((value) {
@@ -48,11 +50,43 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
+  void _loadDailyPuzzleState() {
+    secure_storage_helper.getDailyPuzzle().then((value) {
+      // If no puzzle is saved, then the puzzle cannot be completed
+      if (value == null) {
+        setState(() {
+          _dailyPuzzleCompleted = false;
+        });
+        return;
+      }
+
+      final midnight =
+          DateTime(value.year, value.month, value.day + 1, 0, 0, 0);
+
+      // if the saved puzzle is compelted before it's next midnight,
+      // then the puzzle is the one that's completed
+      if (value.millisecondsSinceEpoch < midnight.millisecondsSinceEpoch) {
+        setState(() {
+          _dailyPuzzleCompleted = true;
+        });
+        return;
+      }
+
+      // If the next midnight is passed, request the new puzzle
+      setState(() {
+        _dailyPuzzleCompleted = false;
+      });
+      secure_storage_helper.deleteDailyPuzzle();
+      sl<PuzzleCubit>().getDailyPuzzle();
+    });
+  }
+
   @override
   void initState() {
     super.initState();
 
     _loadSettings();
+    _loadDailyPuzzleState();
 
     sl<CubitHelper>().loadHomepage();
   }
@@ -77,25 +111,52 @@ class _HomepageState extends State<Homepage> {
               ),
             ),
             _modesList(),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  heigth20,
-                  _dailyPuzzleSection(completed: false),
-                  heigth20,
-                  _liveStreamingText(),
-                  heigth10,
-                ],
-              ),
-            ),
-            StreamingWidget(
-              pieceAnimation: pieceAnimation,
-              boardTheme: boardTheme,
-            ),
+            ..._boards(),
           ],
         ),
       ),
     );
+  }
+
+  List<Widget> _boards() {
+    List<Widget> widgets = [];
+    if (_dailyPuzzleCompleted) {
+      widgets.addAll(_streamingWidget());
+      widgets.add(_dailyPuzzleWidget());
+    } else {
+      widgets.add(_dailyPuzzleWidget());
+      widgets.addAll(_streamingWidget());
+    }
+    return widgets;
+  }
+
+  Widget _dailyPuzzleWidget() {
+    return SliverList(
+      delegate: SliverChildListDelegate(
+        [
+          heigth20,
+          _dailyPuzzleSection(completed: _dailyPuzzleCompleted),
+          heigth20,
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _streamingWidget() {
+    return [
+      SliverList(
+        delegate: SliverChildListDelegate(
+          [
+            _liveStreamingText(),
+            heigth10,
+          ],
+        ),
+      ),
+      StreamingWidget(
+        pieceAnimation: pieceAnimation,
+        boardTheme: boardTheme,
+      ),
+    ];
   }
 
   Widget _modesList() {
@@ -125,8 +186,8 @@ class _HomepageState extends State<Homepage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CircleAvatar(
-              backgroundColor: Colors.lightBlue,
+            CircleAvatar(
+              backgroundColor: completed ? Colors.grey : Colors.lightBlue,
               radius: 5,
             ),
             width10,
@@ -164,11 +225,11 @@ class _HomepageState extends State<Homepage> {
                   ),
                 );
               },
-              child: const Text(
-                'Puzzle of the day',
+              child: Text(
+                'Puzzle of the day'.hardcoded,
                 style: TextStyle(
                   fontSize: 20,
-                  color: Colors.white,
+                  color: completed ? Colors.grey.shade400 : Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -178,54 +239,64 @@ class _HomepageState extends State<Homepage> {
         heigth10,
         AspectRatio(
           aspectRatio: 1,
-          child: BlocBuilder<PuzzleCubit, PuzzleState>(
-            builder: (context, state) {
-              return state.maybeMap(
-                dailyPuzzle: (value) {
-                  final pgn = value.puzzle.game!.pgn!;
-                  final parsedPgn = parser.parsePGN(pgn);
-                  final fen = parsedPgn.item1;
-                  final side = parsedPgn.item2;
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return DailyPuzzlePage(
-                              puzzle: value.puzzle,
-                              pieceAnimation: pieceAnimation,
+          child: Stack(
+            children: [
+              BlocBuilder<PuzzleCubit, PuzzleState>(
+                builder: (context, state) {
+                  return state.maybeMap(
+                    dailyPuzzle: (value) {
+                      final pgn = value.puzzle.game!.pgn!;
+                      final parsedPgn = parser.parsePGN(pgn);
+                      final fen = parsedPgn.item1;
+                      final side = parsedPgn.item2;
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return DailyPuzzlePage(
+                                  puzzle: value.puzzle,
+                                  pieceAnimation: pieceAnimation,
+                                  boardTheme: boardTheme,
+                                  userId: user?.id ?? '',
+                                );
+                              },
+                            ),
+                          ).then((value) => _loadDailyPuzzleState());
+                        },
+                        child: AbsorbPointer(
+                          child: Hero(
+                            tag: 'chessboard',
+                            child: ChessboardInterpreter(
+                              controller: PuzzleController(
+                                setup: Setup.parseFen(fen),
+                                interactable: false,
+                                boardSide: side,
+                              ),
                               boardTheme: boardTheme,
-                              userId: user?.id ?? '',
-                            );
-                          },
+                              pieceAnimation: pieceAnimation,
+                              onPromotion: (_) async => Role.queen,
+                            ),
+                          ),
                         ),
                       );
                     },
-                    child: AbsorbPointer(
-                      child: Hero(
-                        tag: 'chessboard',
-                        child: ChessboardInterpreter(
-                          controller: PuzzleController(
-                            setup: Setup.parseFen(fen),
-                            interactable: false,
-                            boardSide: side,
-                          ),
-                          boardTheme: boardTheme,
-                          pieceAnimation: pieceAnimation,
-                          onPromotion: (_) async => Role.queen,
-                        ),
-                      ),
-                    ),
+                    orElse: () {
+                      return Chessboard(boardTheme: boardTheme);
+                    },
                   );
                 },
-                orElse: () {
-                  return Chessboard(
-                    boardTheme: boardTheme,
-                  );
-                },
-              );
-            },
+              ),
+              IgnorePointer(
+                child: Visibility(
+                  visible: completed,
+                  child: Container(
+                    color: Colors.grey.withOpacity(0.5),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

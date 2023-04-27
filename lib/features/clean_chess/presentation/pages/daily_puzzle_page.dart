@@ -15,6 +15,8 @@ import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
+import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
+    as secure_storage_helper;
 
 int _hintCount = 0;
 int _retries = 0;
@@ -220,6 +222,12 @@ class DailyPuzzlePage extends StatelessWidget {
         if (!_puzzleCompleted(move.uci)) return;
 
         _controller.setInteractable(false);
+
+        // Save the puzzle as completed
+        // This is done so we can calculate on the homepage if the
+        // puzzle of the day is already compelted (hide it) or not,
+        // or if a new puzzle is available
+        secure_storage_helper.saveDailyPuzzle(DateTime.now());
       },
       orElse: () {},
     );
