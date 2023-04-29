@@ -1,5 +1,9 @@
-import 'package:cleanchess/features/clean_chess/data/models/settings/language_settings_model.dart';
+import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/features/clean_chess/data/models/settings/settings.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
+import 'package:cleanchess/injection_container.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class UserSettingsModel {
   late final DisplaySettingsModel _displaySettingsModel;
@@ -10,7 +14,7 @@ class UserSettingsModel {
 
   late final LanguageSettingsModel _languageSettingsModel;
 
-  //TODO: themes
+  late BoardTheme _boardTheme;
 
   late final SoundSettingsModel _soundSettingsModel;
 
@@ -21,6 +25,7 @@ class UserSettingsModel {
   ClockSettingsModel get clockSettingsModel => _clockSettingsModel;
   BehaviorSettingsModel get behaviorSettingsModel => _behaviorSettingsModel;
   LanguageSettingsModel get languageSettingsModel => _languageSettingsModel;
+  BoardTheme get boardTheme => _boardTheme;
   SoundSettingsModel get soundSettingsModel => _soundSettingsModel;
   PrivacySettingsModel get privacySettingsModel => _privacySettingsModel;
 
@@ -29,17 +34,22 @@ class UserSettingsModel {
     required ClockSettingsModel clockSettingsModel,
     required BehaviorSettingsModel behaviorSettingsModel,
     required LanguageSettingsModel languageSettingsModel,
+    required BoardTheme boardTheme,
     required SoundSettingsModel soundSettingsModel,
     required PrivacySettingsModel privacySettingsModel,
   })  : _displaySettingsModel = displaySettingsModel,
         _clockSettingsModel = clockSettingsModel,
         _behaviorSettingsModel = behaviorSettingsModel,
         _languageSettingsModel = languageSettingsModel,
+        _boardTheme = boardTheme,
         _soundSettingsModel = soundSettingsModel,
         _privacySettingsModel = privacySettingsModel;
 
+  UserSettingsModel.fromAPI(UserPreferences prefs) {}
+
   UserSettingsModel.test() {
     _displaySettingsModel = DisplaySettingsModel(
+      pieceAnimation: PieceAnimation.none,
       magnifiedDraggedPieces: true,
       boardHighlights: true,
       moveListWhilePlaying: true,
@@ -70,6 +80,7 @@ class UserSettingsModel {
       snapArrows: true,
       goodGameAfterDefeat: true,
     );
+    _boardTheme = BoardTheme.blue;
     _languageSettingsModel = LanguageSettingsModel(language: Languages.english);
     _soundSettingsModel = SoundSettingsModel(
       notifications: true,

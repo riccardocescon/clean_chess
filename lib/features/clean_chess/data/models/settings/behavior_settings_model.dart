@@ -1,30 +1,31 @@
 import 'package:cleanchess/core/utilities/mixins/nameable.dart';
 import 'package:cleanchess/features/clean_chess/domain/entities/settings/setting.dart';
 import 'package:flutter/material.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class BehaviorSettingsModel {
-  late final _MoveType _moveType;
-  late final _Premove _premove;
-  late final _Takebacks _takebacks;
-  late final _PromoteToQueen _promoteToQueen;
-  late final _DrawOnThreefoldRepetition _drawOnThreefoldRepetition;
-  late final _ConfirmResignation _confirmResignation;
-  late final _CastlingMode _castlingMode;
-  late final _KeyboardInput _keyboardInput;
-  late final _SnapArrows _snapArrows;
-  late final _GoodGameAfterDefeat _goodGameAfterDefeat;
+  late final _MoveType? _moveType;
+  late final _Premove? _premove;
+  late final _Takebacks? _takebacks;
+  late final _PromoteToQueen? _promoteToQueen;
+  late final _DrawOnThreefoldRepetition? _drawOnThreefoldRepetition;
+  late final _ConfirmResignation? _confirmResignation;
+  late final _CastlingMode? _castlingMode;
+  late final _KeyboardInput? _keyboardInput;
+  late final _SnapArrows? _snapArrows;
+  late final _GoodGameAfterDefeat? _goodGameAfterDefeat;
 
   // Getters
-  ButtonsSetting get moveType => _moveType;
-  SwitchSetting get premove => _premove;
-  ButtonsSetting get takebacks => _takebacks;
-  ButtonsSetting get promoteToQueen => _promoteToQueen;
-  ButtonsSetting get drawOnThreefoldRepetition => _drawOnThreefoldRepetition;
-  SwitchSetting get confirmResignation => _confirmResignation;
-  ButtonsSetting get castlingMode => _castlingMode;
-  SwitchSetting get keyboardInput => _keyboardInput;
-  SwitchSetting get snapArrows => _snapArrows;
-  SwitchSetting get goodGameAfterDefeat => _goodGameAfterDefeat;
+  ButtonsSetting? get moveType => _moveType;
+  SwitchSetting? get premove => _premove;
+  ButtonsSetting? get takebacks => _takebacks;
+  ButtonsSetting? get promoteToQueen => _promoteToQueen;
+  ButtonsSetting? get drawOnThreefoldRepetition => _drawOnThreefoldRepetition;
+  SwitchSetting? get confirmResignation => _confirmResignation;
+  ButtonsSetting? get castlingMode => _castlingMode;
+  SwitchSetting? get keyboardInput => _keyboardInput;
+  SwitchSetting? get snapArrows => _snapArrows;
+  SwitchSetting? get goodGameAfterDefeat => _goodGameAfterDefeat;
 
   List<dynamic> get values => [
         moveType,
@@ -40,43 +41,88 @@ class BehaviorSettingsModel {
       ];
 
   // Setters
-  set setMoveType(MoveType value) => _moveType.setValueByReference = value;
-  set setPremove(bool value) => _premove.value = value;
-  set setTakebacks(Takebacks value) => _takebacks.setValueByReference = value;
+  set setMoveType(MoveType value) => _moveType?.setValueByReference = value;
+  set setPremove(bool value) => _premove?.value = value;
+  set setTakebacks(Takebacks value) => _takebacks?.setValueByReference = value;
   set setPromoteToQueen(PromoteToQueen value) =>
-      _promoteToQueen.setValueByReference = value;
+      _promoteToQueen?.setValueByReference = value;
   set setDrawOnThreefoldRepetition(DrawOnThreefoldRepetition value) =>
-      _drawOnThreefoldRepetition.setValueByReference = value;
-  set setConfirmResignation(bool value) => _confirmResignation.value = value;
+      _drawOnThreefoldRepetition?.setValueByReference = value;
+  set setConfirmResignation(bool value) => _confirmResignation?.value = value;
   set setCastlingMode(CastlingMode value) =>
-      _castlingMode.setValueByReference = value;
-  set setKeyboardInput(bool value) => _keyboardInput.value = value;
-  set setSnapArrows(bool value) => _snapArrows.value = value;
-  set setGoodGameAfterDefeat(bool value) => _goodGameAfterDefeat.value = value;
+      _castlingMode?.setValueByReference = value;
+  set setKeyboardInput(bool value) => _keyboardInput?.value = value;
+  set setSnapArrows(bool value) => _snapArrows?.value = value;
+  set setGoodGameAfterDefeat(bool value) => _goodGameAfterDefeat?.value = value;
 
   BehaviorSettingsModel({
-    required MoveType moveType,
-    required bool premove,
-    required Takebacks takebacks,
-    required PromoteToQueen promoteToQueen,
-    required DrawOnThreefoldRepetition drawOnThreefoldRepetition,
-    required bool confirmResignation,
-    required CastlingMode castlingMode,
-    required bool keyboardInput,
-    required bool snapArrows,
-    required bool goodGameAfterDefeat,
+    required MoveType? moveType,
+    required bool? premove,
+    required Takebacks? takebacks,
+    required PromoteToQueen? promoteToQueen,
+    required DrawOnThreefoldRepetition? drawOnThreefoldRepetition,
+    required bool? confirmResignation,
+    required CastlingMode? castlingMode,
+    required bool? keyboardInput,
+    required bool? snapArrows,
+    required bool? goodGameAfterDefeat,
   }) {
-    _moveType = _MoveType(value: moveType);
-    _premove = _Premove(value: premove);
-    _takebacks = _Takebacks(value: takebacks);
-    _promoteToQueen = _PromoteToQueen(value: promoteToQueen);
-    _drawOnThreefoldRepetition =
-        _DrawOnThreefoldRepetition(value: drawOnThreefoldRepetition);
-    _confirmResignation = _ConfirmResignation(value: confirmResignation);
-    _castlingMode = _CastlingMode(value: castlingMode);
-    _keyboardInput = _KeyboardInput(value: keyboardInput);
-    _snapArrows = _SnapArrows(value: snapArrows);
-    _goodGameAfterDefeat = _GoodGameAfterDefeat(value: goodGameAfterDefeat);
+    if (moveType != null) _moveType = _MoveType(value: moveType);
+    if (premove != null) _premove = _Premove(value: premove);
+    if (takebacks != null) _takebacks = _Takebacks(value: takebacks);
+    if (promoteToQueen != null) {
+      _promoteToQueen = _PromoteToQueen(value: promoteToQueen);
+    }
+    if (drawOnThreefoldRepetition != null) {
+      _drawOnThreefoldRepetition =
+          _DrawOnThreefoldRepetition(value: drawOnThreefoldRepetition);
+    }
+    if (confirmResignation != null) {
+      _confirmResignation = _ConfirmResignation(value: confirmResignation);
+    }
+    if (castlingMode != null) {
+      _castlingMode = _CastlingMode(value: castlingMode);
+    }
+    if (keyboardInput != null) {
+      _keyboardInput = _KeyboardInput(value: keyboardInput);
+    }
+    if (snapArrows != null) _snapArrows = _SnapArrows(value: snapArrows);
+    if (goodGameAfterDefeat != null) {
+      _goodGameAfterDefeat = _GoodGameAfterDefeat(value: goodGameAfterDefeat);
+    }
+  }
+
+  BehaviorSettingsModel.fromAPI(UserPreferences prefs) {
+    if (prefs.moveEvent != null) {
+      _moveType = _MoveType(
+          value: MoveType.values
+              .firstWhere((element) => element.id == prefs.moveEvent));
+    }
+    if (prefs.premove != null) {
+      _premove = _Premove(value: prefs.premove!);
+    }
+    if (prefs.takeback != null) {
+      _takebacks = _Takebacks(
+          value: Takebacks.values
+              .firstWhere((element) => element.id == prefs.takeback));
+    }
+    if (prefs.autoQueen != null) {
+      _promoteToQueen = _PromoteToQueen(
+          value: PromoteToQueen.values
+              .firstWhere((element) => element.id == prefs.autoQueen));
+    }
+    if (prefs.confirmResign != null) {
+      _confirmResignation =
+          _ConfirmResignation(value: prefs.confirmResign! == 1);
+    }
+    if (prefs.rookCastle != null) {
+      _castlingMode = _CastlingMode(
+          value: CastlingMode.values
+              .firstWhere((element) => element.id == prefs.rookCastle));
+    }
+    if (prefs.keyboardMove != null) {
+      _keyboardInput = _KeyboardInput(value: prefs.keyboardMove! == 1);
+    }
   }
 }
 
@@ -177,65 +223,70 @@ class _GoodGameAfterDefeat extends SwitchSetting {
 }
 
 enum MoveType with Namable {
-  tap('Tap'),
-  drag('Drag'),
-  either('Either');
+  tap('Tap', 0),
+  drag('Drag', 1),
+  either('Either', 2);
 
-  const MoveType(this._name);
+  const MoveType(this._name, this.id);
 
   final String _name;
+  final int id;
 
   @override
   String get name => _name;
 }
 
 enum Takebacks with Namable {
-  never('Never'),
-  always('Always'),
-  casualOnly('Casual Only');
+  never('Never', 0),
+  always('Always', 1),
+  casualOnly('Casual Only', 2);
 
-  const Takebacks(this._name);
+  const Takebacks(this._name, this.id);
 
   final String _name;
+  final int id;
 
   @override
   String get name => _name;
 }
 
 enum PromoteToQueen with Namable {
-  never('Never'),
-  always('Always'),
-  whenPremove('When Premove');
+  never('Never', 0),
+  always('Always', 1),
+  whenPremove('When Premove', 2);
 
-  const PromoteToQueen(this._name);
+  const PromoteToQueen(this._name, this.id);
 
   final String _name;
+  final int id;
 
   @override
   String get name => _name;
 }
 
 enum DrawOnThreefoldRepetition with Namable {
-  never('Never'),
-  always('Always'),
-  lessThan30Seconds('Less than 30 seconds');
+  never('Never', 0),
+  always('Always', 1),
+  lessThan30Seconds('Less than 30 seconds', 2);
 
-  const DrawOnThreefoldRepetition(this._name);
+  const DrawOnThreefoldRepetition(this._name, this.id);
 
   final String _name;
+  final int id;
 
   @override
   String get name => _name;
 }
 
 enum CastlingMode with Namable {
-  twoSquares('Two Squares'),
-  ontoRook('Onto Rook'),
-  either('Either');
+  twoSquares('Two Squares', 0),
+  ontoRook('Onto Rook', 1),
+  either('Either', 2);
 
-  const CastlingMode(this._name);
+  const CastlingMode(this._name, this.id);
 
   final String _name;
+  final int id;
 
   @override
   String get name => _name;

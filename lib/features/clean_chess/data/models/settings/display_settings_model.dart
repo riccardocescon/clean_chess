@@ -1,8 +1,13 @@
 import 'package:cleanchess/core/utilities/mixins/nameable.dart';
 import 'package:cleanchess/features/clean_chess/domain/entities/settings/setting.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:flutter/material.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
+import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
+    as secure_storage_helper;
 
 class DisplaySettingsModel {
+  late PieceAnimation _pieceAnimation;
   late final _MagnifiedDraggedPiece _magnifiedDraggedPieces;
   late final _BoardHighlights _boardHighlights;
   late final _MoveListWhilePlaying _moveListWhilePlaying;
@@ -15,6 +20,7 @@ class DisplaySettingsModel {
   late final _BoardOrientation _boardOrientation;
 
   // Getters
+  PieceAnimation get pieceAnimation => _pieceAnimation;
   SwitchSetting get magnifiedDraggedPieces => _magnifiedDraggedPieces;
   SwitchSetting get boardHighlights => _boardHighlights;
   SwitchSetting get moveListWhilePlaying => _moveListWhilePlaying;
@@ -27,6 +33,7 @@ class DisplaySettingsModel {
   ButtonsSetting get boardOrientation => _boardOrientation;
 
   List<dynamic> get values => [
+        pieceAnimation,
         magnifiedDraggedPieces,
         boardHighlights,
         moveListWhilePlaying,
@@ -40,6 +47,7 @@ class DisplaySettingsModel {
       ];
 
   // Setters
+  set setPieceAnimation(PieceAnimation value) => _pieceAnimation = value;
   set setMagnifiedDraggedPieces(bool value) =>
       _magnifiedDraggedPieces.value = value;
   set setBoardHighlights(bool value) => _boardHighlights.value = value;
@@ -57,6 +65,7 @@ class DisplaySettingsModel {
       _boardOrientation.setValueByReference = value;
 
   DisplaySettingsModel({
+    required PieceAnimation pieceAnimation,
     required bool magnifiedDraggedPieces,
     required bool boardHighlights,
     required bool moveListWhilePlaying,
@@ -68,6 +77,7 @@ class DisplaySettingsModel {
     required BoardScreenSide boardScreenSide,
     required BoardOrientation boardOrientation,
   }) {
+    _pieceAnimation = pieceAnimation;
     _magnifiedDraggedPieces =
         _MagnifiedDraggedPiece(value: magnifiedDraggedPieces);
 
@@ -80,6 +90,12 @@ class DisplaySettingsModel {
     _blindfoldChess = _BlindfoldChess(value: blindfoldChess);
     _boardScreenSide = _BoardScreenSide(value: boardScreenSide);
     _boardOrientation = _BoardOrientation(value: boardOrientation);
+  }
+
+  DisplaySettingsModel.fromAPI(UserPreferences prefs) {
+    secure_storage_helper
+        .getAnimationType()
+        .then((value) => _pieceAnimation = value);
   }
 }
 

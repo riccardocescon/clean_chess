@@ -1,12 +1,12 @@
 import 'package:cleanchess/features/clean_chess/data/models/settings/settings.dart';
 import 'package:cleanchess/features/clean_chess/data/models/user_settings_model.dart';
 import 'package:cleanchess/features/clean_chess/domain/entities/settings/setting.dart';
-import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/settings/settings_pick_piece_animation_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-//TODO: fetch those data with APIs
 final UserSettingsModel _userSettingsModel = UserSettingsModel.test();
 
 final Uri _url = Uri.parse('https://github.com/riccardocescon/clean_chess');
@@ -21,15 +21,6 @@ class Display extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          // If used more than once, consider building a PageSwtting class
-          _settingPage(
-            settingName: "Pice animation",
-            settingIcon: Icons.animation,
-            context: context,
-            // page: const PieceAnimation(),
-            page: const Homepage(),
-          ),
-
           // Convert all display settings into widgets and add them to this column
           ...display.values.map<Widget>((e) {
             if (e is SwitchSetting) {
@@ -46,12 +37,17 @@ class Display extends StatelessWidget {
                 currentValue: e.valueIndex,
               );
             } else {
-              throw Exception("Unknown setting type: $e");
+              // If used more than once, consider building a PageSwtting class
+              return _settingPage(
+                settingName: "Pice animation",
+                settingIcon: Icons.animation,
+                context: context,
+                page: const SettingsPickPagePieceAnimationPage(
+                  currentPieceAnimation: PieceAnimation.none,
+                ),
+              );
             }
           }).toList()
-
-          // ...clock.values.map<Widget>((e) { ...
-          // same for others
         ],
       ),
       appBar: _appbar(context, "Display"),
@@ -166,21 +162,6 @@ class Language extends StatelessWidget {
             ],
           )),
       appBar: _appbar(context, "Language"),
-    );
-  }
-}
-
-class Themes extends StatelessWidget {
-  const Themes({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: DefaultTextStyle(
-        style: universalTextStyle,
-        child: const Text("Themes"),
-      ),
-      appBar: _appbar(context, "Theme"),
     );
   }
 }
@@ -465,7 +446,10 @@ Widget _animatedButton(
                               : 80,
                           height: 30,
                           child: Center(
-                            child: Text(e),
+                            child: Text(
+                              e,
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ),
                       ),
