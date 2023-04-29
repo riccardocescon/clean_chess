@@ -5,47 +5,9 @@ import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:cleanchess/core/utilities/mixins/nameable.dart';
 
 //TODO: fetch those data with APIs
 final UserSettingsModel _userSettingsModel = UserSettingsModel.test();
-
-// clock
-int _clockPosition = 0; // 0 = top, 1 = bottom
-int _tenthsOfSeconds = 0; // 0 = on, 1 = off, 2 = < 10 seconds
-bool _progressbar = true;
-bool _soundWhenTimeGetsCritical = true;
-int _giveMoreTime = 0; // 0 = on, 1 = off, 2 = casual only
-
-// behavior
-int _moveType = 0; // 0 = tap, 1 = drag, 2 + either
-bool _premove = true;
-int _takebacks = 0; // 0 = never, 1 = always, 2 = casual only
-int _promoteToQueen = 0; // 0 = never, 1 = always, 2 = when premoving
-int _drawOnThreefoldRepetition = 0; // 0 = never, 1 = always, 2 = < 30 seconds
-bool _confirmResignation = true;
-int _castlingMode = 0; // 0 = two squares, 1 = onto rook
-bool _keyboardInput = false;
-bool _snapArrows = true;
-bool _goodGameAfterDefeat = true;
-
-// language
-// maybe this should be changed to a string
-int _language = 0; // 0 = english, 1 = italian
-
-// themes
-
-// sound
-bool _notifications = true;
-bool _vibrate = true;
-bool _sound = true;
-
-// privacy
-bool _follow = true;
-int _challenge = 0;
-int _message = 0;
-int _study = 0;
-int _chessInsights = 0;
 
 final Uri _url = Uri.parse('https://github.com/riccardocescon/clean_chess');
 
