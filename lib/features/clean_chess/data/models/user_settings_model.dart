@@ -50,7 +50,7 @@ class UserSettingsModel {
       _boardTheme = value;
     });
     _behaviorSettingsModel = BehaviorSettingsModel.fromAPI(prefs);
-    // _clockSettingsModel = ClockSettingsModel.fromAPI(prefs);
+    _clockSettingsModel = ClockSettingsModel.fromAPI(prefs);
     _displaySettingsModel = DisplaySettingsModel.fromAPI(prefs);
     // _languageSettingsModel = LanguageSettingsModel.fromAPI(prefs);
     // _privacySettingsModel = PrivacySettingsModel.fromAPI(prefs);
