@@ -47,36 +47,36 @@ Widget _body(BuildContext context) {
             .push(MaterialPageRoute(builder: (context) => const Clock())),
         settingIcon: Icons.access_time_outlined,
       ),
-      // _settingButton(
-      //   settingName: "Behavior",
-      //   onTap: () => Navigator.of(context)
-      //       .push(MaterialPageRoute(builder: (context) => const Display())),
-      //   settingIcon: Icons.settings_applications,
-      // ),
-      // _settingButton(
-      //   settingName: "Language",
-      //   onTap: () => Navigator.of(context)
-      //       .push(MaterialPageRoute(builder: (context) => const Display())),
-      //   settingIcon: Icons.language,
-      // ),
-      // _settingButton(
-      //   settingName: "Theme",
-      //   onTap: () => Navigator.of(context)
-      //       .push(MaterialPageRoute(builder: (context) => const Display())),
-      //   settingIcon: Icons.color_lens,
-      // ),
+      _settingButton(
+        settingName: "Behavior",
+        onTap: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const Behavior())),
+        settingIcon: Icons.settings_applications,
+      ),
+      _settingButton(
+        settingName: "Language",
+        onTap: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const Language())),
+        settingIcon: Icons.language,
+      ),
+      _settingButton(
+        settingName: "Theme",
+        onTap: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const Themes())),
+        settingIcon: Icons.color_lens,
+      ),
       _settingButton(
         settingName: "Sound",
         onTap: () => Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => const Sound())),
         settingIcon: Icons.volume_up,
       ),
-      // _settingButton(
-      //   settingName: "Privacy",
-      //   onTap: () => Navigator.of(context)
-      //       .push(MaterialPageRoute(builder: (context) => const Display())),
-      //   settingIcon: Icons.privacy_tip,
-      // ),
+      _settingButton(
+        settingName: "Privacy",
+        onTap: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const Privacy())),
+        settingIcon: Icons.privacy_tip,
+      ),
       _settingButton(
         settingName: "Contribute",
         onTap: () => Navigator.of(context)

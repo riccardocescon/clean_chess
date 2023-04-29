@@ -1,44 +1,58 @@
+import 'package:cleanchess/features/clean_chess/data/models/settings/settings.dart';
+import 'package:cleanchess/features/clean_chess/data/models/user_settings_model.dart';
+import 'package:cleanchess/features/clean_chess/domain/entities/settings/setting.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-//!
-// S = switcher
-// P = custom Page
-// D = Dropdown
-// B = Button with Hypertext
-
-//  Board highlights S
-// Piece destinations S
-// Board coordinates S
-// Move list while playing S
-// Move notation D
-// Zen mode S
-
-// Clock position D
-// Tenths of seconds D
-// Sound when time gets critical S
-// Give more time S
-
-// Notifications S
-// Vibrate on game events S
-// Toggle sound S
-
-// Report a Bug B
-// Request a Feature B
-// Contribute with us B
-// Propose a translation B
+//TODO: fetch those data with APIs
+final UserSettingsModel _userSettingsModel = UserSettingsModel.test();
 
 final Uri _url = Uri.parse('https://github.com/riccardocescon/clean_chess');
 
 class Display extends StatelessWidget {
   const Display({super.key});
 
+  DisplaySettingsModel get display => _userSettingsModel.displaySettingsModel;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: DefaultTextStyle(
-        style: universalTextStyle,
-        child: const Text("Hello!"),
+      body: Column(
+        children: [
+          // If used more than once, consider building a PageSwtting class
+          _settingPage(
+            settingName: "Pice animation",
+            settingIcon: Icons.animation,
+            context: context,
+            // page: const PieceAnimation(),
+            page: const Homepage(),
+          ),
+
+          // Convert all display settings into widgets and add them to this column
+          ...display.values.map<Widget>((e) {
+            if (e is SwitchSetting) {
+              return _settingSwitcher(
+                settingName: e.name,
+                settingIcon: e.icon,
+                value: e.value,
+              );
+            } else if (e is ButtonsSetting) {
+              return _settingButtons(
+                settingName: e.name,
+                settingIcon: e.icon,
+                items: e.options.map((e) => e.name).toList(),
+                currentValue: e.valueIndex,
+              );
+            } else {
+              throw Exception("Unknown setting type: $e");
+            }
+          }).toList()
+
+          // ...clock.values.map<Widget>((e) { ...
+          // same for others
+        ],
       ),
       appBar: _appbar(context, "Display"),
     );
@@ -48,14 +62,125 @@ class Display extends StatelessWidget {
 class Clock extends StatelessWidget {
   const Clock({super.key});
 
+  ClockSettingsModel get clock => _userSettingsModel.clockSettingsModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          ...clock.values.map<Widget>((e) {
+            if (e is SwitchSetting) {
+              return _settingSwitcher(
+                settingName: e.name,
+                settingIcon: e.icon,
+                value: e.value,
+              );
+            } else if (e is ButtonsSetting) {
+              return _settingButtons(
+                settingName: e.name,
+                settingIcon: e.icon,
+                items: e.options.map((e) => e.name).toList(),
+                currentValue: e.valueIndex,
+              );
+            } else {
+              throw Exception("Unknown setting type: $e");
+            }
+          }).toList()
+        ],
+      ),
+      appBar: _appbar(context, "Clock"),
+    );
+  }
+}
+
+class Behavior extends StatelessWidget {
+  const Behavior({super.key});
+
+  BehaviorSettingsModel get behavior =>
+      _userSettingsModel.behaviorSettingsModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: DefaultTextStyle(
+          style: universalTextStyle,
+          child: Column(
+            children: [
+              ...behavior.values.map<Widget>((e) {
+                if (e is SwitchSetting) {
+                  return _settingSwitcher(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    value: e.value,
+                  );
+                } else if (e is ButtonsSetting) {
+                  return _settingButtons(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    items: e.options.map((e) => e.name).toList(),
+                    currentValue: e.valueIndex,
+                  );
+                } else {
+                  throw Exception("Unknown setting type: $e");
+                }
+              }).toList()
+            ],
+          )),
+      appBar: _appbar(context, "Behavior"),
+    );
+  }
+}
+
+class Language extends StatelessWidget {
+  const Language({super.key});
+
+  LanguageSettingsModel get language =>
+      _userSettingsModel.languageSettingsModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: DefaultTextStyle(
+          style: universalTextStyle,
+          child: Column(
+            children: [
+              ...language.values.map<Widget>((e) {
+                if (e is SwitchSetting) {
+                  return _settingSwitcher(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    value: e.value,
+                  );
+                } else if (e is ButtonsSetting) {
+                  return _settingButtons(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    items: e.options.map((e) => e.name).toList(),
+                    currentValue: e.valueIndex,
+                  );
+                } else {
+                  throw Exception("Unknown setting type: $e");
+                }
+              }).toList()
+            ],
+          )),
+      appBar: _appbar(context, "Language"),
+    );
+  }
+}
+
+class Themes extends StatelessWidget {
+  const Themes({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTextStyle(
         style: universalTextStyle,
-        child: const Text("Hello!"),
+        child: const Text("Themes"),
       ),
-      appBar: _appbar(context, "Clock"),
+      appBar: _appbar(context, "Theme"),
     );
   }
 }
@@ -63,14 +188,73 @@ class Clock extends StatelessWidget {
 class Sound extends StatelessWidget {
   const Sound({super.key});
 
+  SoundSettingsModel get sound => _userSettingsModel.soundSettingsModel;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTextStyle(
-        style: universalTextStyle,
-        child: const Text("Hello!"),
-      ),
+          style: universalTextStyle,
+          child: Column(
+            children: [
+              ...sound.values.map<Widget>((e) {
+                if (e is SwitchSetting) {
+                  return _settingSwitcher(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    value: e.value,
+                  );
+                } else if (e is ButtonsSetting) {
+                  return _settingButtons(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    items: e.options.map((e) => e.name).toList(),
+                    currentValue: e.valueIndex,
+                  );
+                } else {
+                  throw Exception("Unknown setting type: $e");
+                }
+              }).toList()
+            ],
+          )),
       appBar: _appbar(context, "Sound"),
+    );
+  }
+}
+
+class Privacy extends StatelessWidget {
+  const Privacy({super.key});
+
+  PrivacySettingsModel get privacy => _userSettingsModel.privacySettingsModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: DefaultTextStyle(
+          style: universalTextStyle,
+          child: Column(
+            children: [
+              ...privacy.values.map<Widget>((e) {
+                if (e is SwitchSetting) {
+                  return _settingSwitcher(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    value: e.value,
+                  );
+                } else if (e is ButtonsSetting) {
+                  return _settingButtons(
+                    settingName: e.name,
+                    settingIcon: e.icon,
+                    items: e.options.map((e) => e.name).toList(),
+                    currentValue: e.valueIndex,
+                  );
+                } else {
+                  throw Exception("Unknown setting type: $e");
+                }
+              }).toList()
+            ],
+          )),
+      appBar: _appbar(context, "Privacy"),
     );
   }
 }
@@ -156,6 +340,171 @@ Widget _settingButton(
               child: Icon(settingIcon),
             ),
             Text(settingName),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _settingSwitcher({
+  required String settingName,
+  required bool value,
+  IconData settingIcon = Icons.settings,
+}) {
+  return DefaultTextStyle(
+    style: universalTextStyle,
+    child: Container(
+      color: const Color.fromARGB(225, 19, 19, 19),
+      width: 400,
+      height: 50,
+      child: Row(
+        children: [
+          settingIcon != Icons.settings
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(settingIcon),
+                )
+              : const SizedBox(width: 40),
+          Text(settingName),
+          const Spacer(),
+          //best border i could do
+          Container(
+            padding: const EdgeInsets.all(0),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey.shade800, width: 2),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: StatefulBuilder(
+              builder: (context, setState) => CupertinoSwitch(
+                activeColor: Colors.pink,
+                trackColor: Colors.black,
+                value: value,
+                onChanged: (bool newValue) {
+                  setState(() {
+                    value = newValue;
+                  });
+                },
+              ),
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _settingButtons({
+  required String settingName,
+  required List<String> items,
+  IconData settingIcon = Icons.settings,
+  int currentValue = 0,
+}) {
+  return DefaultTextStyle(
+    style: universalTextStyle,
+    child: Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: SizedBox(
+        width: 400,
+        // height: 50,
+        child: Row(
+          children: [
+            settingIcon != Icons.settings
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(settingIcon),
+                  )
+                : const SizedBox(width: 40),
+            Text(settingName),
+            const Spacer(),
+            _animatedButton(items, currentValue),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _animatedButton(
+  List<String> items,
+  int currentValue,
+) {
+  return StatefulBuilder(
+    builder: (context, setState) {
+      return SizedBox(
+        width: 200,
+        child: Wrap(
+          alignment: WrapAlignment.spaceAround,
+          spacing: 8,
+          runSpacing: 8,
+          children: items
+              .map((e) => Padding(
+                    padding: const EdgeInsets.only(left: 12),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          currentValue = items.indexOf(e);
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: currentValue == items.indexOf(e)
+                                    ? Colors.transparent
+                                    : Colors.grey.shade800,
+                                width: 2),
+                            borderRadius: BorderRadius.circular(8),
+                            color: currentValue == items.indexOf(e)
+                                ? Colors.pink
+                                : Colors.transparent),
+                        child: SizedBox(
+                          width: items.indexOf(e) == (items.length - 1) &&
+                                  items.length % 2 == 1
+                              ? 190
+                              : 80,
+                          height: 30,
+                          child: Center(
+                            child: Text(e),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ))
+              .toList(),
+        ),
+      );
+    },
+  );
+}
+
+Widget _settingPage({
+  required String settingName,
+  required Widget page,
+  required context,
+  IconData settingIcon = Icons.settings,
+}) {
+  return DefaultTextStyle(
+    style: universalTextStyle,
+    child: InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
+      child: SizedBox(
+        width: 400,
+        height: 50,
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(settingIcon),
+            ),
+            Text(settingName),
+            const Spacer(),
+            const Icon(Icons.arrow_forward_ios),
           ],
         ),
       ),
