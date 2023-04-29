@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class SoundSettingsModel {
-  late final Notifications? _notifications;
-  late final Vibrate? _vibrate;
-  late final Sound? _sound;
+  Notifications? _notifications;
+  Vibrate? _vibrate;
+  Sound? _sound;
 
   // Getters
   SwitchSetting? get notifications => _notifications;
@@ -38,6 +38,8 @@ class SoundSettingsModel {
     //   _sound = Sound(value: prefs.soundSet!);
     // }
   }
+
+  SoundSettingsModel.none();
 }
 
 class Notifications extends SwitchSetting {

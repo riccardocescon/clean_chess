@@ -5,6 +5,7 @@ import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_game_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_puzzle_data_source.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/lichess/lichess_tv_data_source.dart';
+import 'package:cleanchess/features/clean_chess/data/models/user_settings_model.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_board_repository.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_game_repository.dart';
 import 'package:cleanchess/features/clean_chess/data/repositories/lichess/lichess_puzzle_repository.dart';
@@ -41,6 +42,7 @@ Future<void> init() async {
   sl.registerLazySingleton<LichessTokenProvider>(() => LichessTokenProvider());
   sl.registerLazySingleton<CubitHelper>(() => CubitHelper());
   sl.registerLazySingleton<PuzzleModeCubit>(() => PuzzleModeCubit());
+  sl.registerLazySingleton<UserSettingsModel>(() => UserSettingsModel.none());
 
   sl.registerLazySingleton<AuthCubit>(
     () => AuthCubit(

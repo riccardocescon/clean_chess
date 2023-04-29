@@ -5,6 +5,7 @@ import 'package:cleanchess/core/presentation/bloc/utilities/cubit_helper.dart';
 import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/core/utilities/parser.dart' as parser;
+import 'package:cleanchess/features/clean_chess/data/models/user_settings_model.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/puzzle_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/match_page.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/daily_puzzle_page.dart';
@@ -32,8 +33,10 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  PieceAnimation pieceAnimation = PieceAnimation.none;
-  BoardTheme boardTheme = BoardTheme.horsey;
+  PieceAnimation pieceAnimation =
+      sl<UserSettingsModel>().displaySettingsModel.pieceAnimation ??
+          PieceAnimation.none;
+  BoardTheme boardTheme = sl<UserSettingsModel>().boardTheme;
   bool _dailyPuzzleCompleted = false;
 
   void _loadSettings() {
@@ -153,10 +156,7 @@ class _HomepageState extends State<Homepage> {
           ],
         ),
       ),
-      StreamingWidget(
-        pieceAnimation: pieceAnimation,
-        boardTheme: boardTheme,
-      ),
+      const StreamingWidget(),
     ];
   }
 
@@ -166,15 +166,11 @@ class _HomepageState extends State<Homepage> {
         (context, index) => homepage_mode_items.preReleaseModes(
           context,
           () => user?.id ?? '',
-          () => pieceAnimation,
-          () => boardTheme,
         )[index],
         childCount: homepage_mode_items
             .preReleaseModes(
               context,
               () => user?.id ?? '',
-              () => pieceAnimation,
-              () => boardTheme,
             )
             .length,
       ),
@@ -199,9 +195,9 @@ class _HomepageState extends State<Homepage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return MatchPage(
+                      return const MatchPage(
                         gameMode: '3+0 Blitz Rated',
-                        white: const lichess.User(
+                        white: lichess.User(
                           username: 'RiccardoCescon',
                           title: lichess.Title.lm,
                           perfs: lichess.Perfs(
@@ -210,7 +206,7 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
                         ),
-                        black: const lichess.User(
+                        black: lichess.User(
                           username: 'Hardal',
                           title: lichess.Title.gm,
                           perfs: lichess.Perfs(
@@ -219,8 +215,6 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
                         ),
-                        pieceAnimation: pieceAnimation,
-                        boardTheme: boardTheme,
                       );
                     },
                   ),
@@ -258,8 +252,6 @@ class _HomepageState extends State<Homepage> {
                               builder: (context) {
                                 return DailyPuzzlePage(
                                   puzzle: value.puzzle,
-                                  pieceAnimation: pieceAnimation,
-                                  boardTheme: boardTheme,
                                   userId: user?.id ?? '',
                                 );
                               },
@@ -275,8 +267,6 @@ class _HomepageState extends State<Homepage> {
                                 interactable: false,
                                 boardSide: side,
                               ),
-                              boardTheme: boardTheme,
-                              pieceAnimation: pieceAnimation,
                               onPromotion: (_) async => Role.queen,
                             ),
                           ),
@@ -284,7 +274,7 @@ class _HomepageState extends State<Homepage> {
                       );
                     },
                     orElse: () {
-                      return Chessboard(boardTheme: boardTheme);
+                      return const Chessboard();
                     },
                   );
                 },

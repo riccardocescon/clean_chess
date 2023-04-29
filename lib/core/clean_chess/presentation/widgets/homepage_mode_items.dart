@@ -11,16 +11,12 @@ import 'dart:math' as math;
 List<Widget> preReleaseModes(
   BuildContext context,
   String Function() onUserId,
-  PieceAnimation Function() onGetPieceAnimation,
-  BoardTheme Function() onGetBoardTheme,
 ) =>
     [
       _quickMatchItem,
       _puzzleItem(
         context,
         onUserId,
-        onGetPieceAnimation,
-        onGetBoardTheme,
       ),
       _computerItem,
     ];
@@ -36,8 +32,6 @@ List<Widget> playModes(
       _puzzleItem(
         context,
         onUserId,
-        onGetPieceAnimation,
-        onGetBoardTheme,
       ),
       _computerItem,
       _friendsItem,
@@ -104,8 +98,6 @@ Widget get _quickMatchItem => ModeItem(
 Widget _puzzleItem(
   BuildContext context,
   String Function() onUserId,
-  PieceAnimation Function() onGetPieceAnimation,
-  BoardTheme Function() onGetBoardTheme,
 ) =>
     ModeItem(
       title: 'Puzzle',
@@ -127,8 +119,6 @@ Widget _puzzleItem(
           MaterialPageRoute(
             builder: (context) => PuzzlePage(
               userId: onUserId(),
-              pieceAnimation: onGetPieceAnimation(),
-              boardTheme: onGetBoardTheme(),
             ),
           ),
         );

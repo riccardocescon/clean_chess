@@ -1,20 +1,19 @@
 import 'package:cleanchess/features/clean_chess/data/models/settings/settings.dart';
 import 'package:cleanchess/features/clean_chess/data/models/user_settings_model.dart';
 import 'package:cleanchess/features/clean_chess/domain/entities/settings/setting.dart';
-import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/settings/settings_pick_piece_animation_page.dart';
+import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-final UserSettingsModel _userSettingsModel = UserSettingsModel.test();
 
 final Uri _url = Uri.parse('https://github.com/riccardocescon/clean_chess');
 
 class Display extends StatelessWidget {
   const Display({super.key});
 
-  DisplaySettingsModel get display => _userSettingsModel.displaySettingsModel;
+  DisplaySettingsModel get display =>
+      sl<UserSettingsModel>().displaySettingsModel;
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +41,7 @@ class Display extends StatelessWidget {
                 settingName: "Pice animation",
                 settingIcon: Icons.animation,
                 context: context,
-                page: const SettingsPickPagePieceAnimationPage(
-                  currentPieceAnimation: PieceAnimation.none,
-                ),
+                page: const SettingsPickPagePieceAnimationPage(),
               );
             }
           }).toList()
@@ -58,7 +55,7 @@ class Display extends StatelessWidget {
 class Clock extends StatelessWidget {
   const Clock({super.key});
 
-  ClockSettingsModel get clock => _userSettingsModel.clockSettingsModel;
+  ClockSettingsModel get clock => sl<UserSettingsModel>().clockSettingsModel;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +91,7 @@ class Behavior extends StatelessWidget {
   const Behavior({super.key});
 
   BehaviorSettingsModel get behavior =>
-      _userSettingsModel.behaviorSettingsModel;
+      sl<UserSettingsModel>().behaviorSettingsModel;
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +129,7 @@ class Language extends StatelessWidget {
   const Language({super.key});
 
   LanguageSettingsModel get language =>
-      _userSettingsModel.languageSettingsModel;
+      sl<UserSettingsModel>().languageSettingsModel;
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +166,7 @@ class Language extends StatelessWidget {
 class Sound extends StatelessWidget {
   const Sound({super.key});
 
-  SoundSettingsModel get sound => _userSettingsModel.soundSettingsModel;
+  SoundSettingsModel get sound => sl<UserSettingsModel>().soundSettingsModel;
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +203,8 @@ class Sound extends StatelessWidget {
 class Privacy extends StatelessWidget {
   const Privacy({super.key});
 
-  PrivacySettingsModel get privacy => _userSettingsModel.privacySettingsModel;
+  PrivacySettingsModel get privacy =>
+      sl<UserSettingsModel>().privacySettingsModel;
 
   @override
   Widget build(BuildContext context) {

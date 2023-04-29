@@ -13,7 +13,6 @@ import 'package:cleanchess/features/clean_chess/presentation/widgets/puzzle_mode
 import 'package:cleanchess/features/clean_chess/presentation/widgets/timer_widget.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/titled_app_bar.dart';
 import 'package:cleanchess/injection_container.dart';
-import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
@@ -24,13 +23,9 @@ class PuzzlePage extends StatefulWidget {
   const PuzzlePage({
     super.key,
     required this.userId,
-    required this.pieceAnimation,
-    required this.boardTheme,
   });
 
   final String userId;
-  final PieceAnimation pieceAnimation;
-  final BoardTheme boardTheme;
 
   @override
   State<PuzzlePage> createState() => _PuzzlePageState();
@@ -117,8 +112,6 @@ class _PuzzlePageState extends State<PuzzlePage> {
     return ChessboardInterpreter(
       controller: _controller,
       onPromotion: (turn) => showPromotionDialog(context, turn),
-      pieceAnimation: widget.pieceAnimation,
-      boardTheme: widget.boardTheme,
     );
   }
 

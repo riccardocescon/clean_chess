@@ -7,20 +7,20 @@ import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
     as secure_storage_helper;
 
 class DisplaySettingsModel {
-  late PieceAnimation _pieceAnimation;
-  late final _MagnifiedDraggedPiece? _magnifiedDraggedPieces;
-  late final _BoardHighlights? _boardHighlights;
-  late final _MoveListWhilePlaying? _moveListWhilePlaying;
-  late final _PieceDestinations? _pieceDestinations;
-  late final _BoardCoordinates? _boardCoordinates;
-  late final _MoveNotation? _moveNotation;
-  late final _ZenMode? _zenMode;
-  late final _BlindfoldChess? _blindfoldChess;
-  late final _BoardScreenSide? _boardScreenSide;
-  late final _BoardOrientation? _boardOrientation;
+  PieceAnimation? _pieceAnimation;
+  _MagnifiedDraggedPiece? _magnifiedDraggedPieces;
+  _BoardHighlights? _boardHighlights;
+  _MoveListWhilePlaying? _moveListWhilePlaying;
+  _PieceDestinations? _pieceDestinations;
+  _BoardCoordinates? _boardCoordinates;
+  _MoveNotation? _moveNotation;
+  _ZenMode? _zenMode;
+  _BlindfoldChess? _blindfoldChess;
+  _BoardScreenSide? _boardScreenSide;
+  _BoardOrientation? _boardOrientation;
 
   // Getters
-  PieceAnimation get pieceAnimation => _pieceAnimation;
+  PieceAnimation? get pieceAnimation => _pieceAnimation;
   SwitchSetting? get magnifiedDraggedPieces => _magnifiedDraggedPieces;
   SwitchSetting? get boardHighlights => _boardHighlights;
   SwitchSetting? get moveListWhilePlaying => _moveListWhilePlaying;
@@ -33,7 +33,7 @@ class DisplaySettingsModel {
   ButtonsSetting? get boardOrientation => _boardOrientation;
 
   List<dynamic> get values => [
-        pieceAnimation,
+        if (pieceAnimation != null) pieceAnimation,
         if (magnifiedDraggedPieces != null) magnifiedDraggedPieces,
         if (boardHighlights != null) boardHighlights,
         if (moveListWhilePlaying != null) moveListWhilePlaying,
@@ -118,6 +118,8 @@ class DisplaySettingsModel {
       _blindfoldChess = _BlindfoldChess(value: prefs.blindfold! == 1);
     }
   }
+
+  DisplaySettingsModel.none();
 }
 
 class _MagnifiedDraggedPiece extends SwitchSetting {

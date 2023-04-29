@@ -15,14 +15,10 @@ class ChessboardInterpreter extends StatefulWidget {
     super.key,
     required this.controller,
     required this.onPromotion,
-    required this.pieceAnimation,
-    required this.boardTheme,
   });
 
   final ChessboardController controller;
   final Future<Role> Function(Side) onPromotion;
-  final PieceAnimation pieceAnimation;
-  final BoardTheme boardTheme;
 
   @override
   State<ChessboardInterpreter> createState() => _ChessboardInterpreterState();
@@ -78,8 +74,6 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
         selectedSquare: _controller._selectedSquare,
         pieces: _chessKit.pieces,
         boardSide: _controller._boardSide,
-        pieceAnimation: widget.pieceAnimation,
-        boardTheme: widget.boardTheme,
       ),
     );
   }

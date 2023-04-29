@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class PrivacySettingsModel {
-  late final _Follow? _follow;
-  late final _Challenge? _challenge;
-  late final _Message? _message;
-  late final _Study? _study;
-  late final _ChessInsights? _chessInsights;
+  _Follow? _follow;
+  _Challenge? _challenge;
+  _Message? _message;
+  _Study? _study;
+  _ChessInsights? _chessInsights;
 
   //getters
   SwitchSetting? get follow => _follow;
@@ -67,6 +67,8 @@ class PrivacySettingsModel {
               .firstWhere((element) => element.id == prefs.insightShare));
     }
   }
+
+  PrivacySettingsModel.none();
 }
 
 class _Follow extends SwitchSetting {
@@ -119,11 +121,11 @@ class _ChessInsights extends ButtonsSetting<ChessInsights> {
 }
 
 enum Challenge with Namable {
-  never('Never', 0),
-  always('Always', 1),
-  friends('Friends', 2),
-  registered('Registered', 3),
-  rating('Rating +- 300', 4);
+  never('Never', 1),
+  always('Always', 2),
+  friends('Friends', 3),
+  registered('Registered', 4),
+  rating('Rating +- 300', 5);
 
   const Challenge(this._name, this.id);
 
@@ -135,9 +137,9 @@ enum Challenge with Namable {
 }
 
 enum Message with Namable {
-  always('Always', 0),
-  friends('Friends', 1),
-  existing('Only existing conversations', 2);
+  always('Always', 1),
+  friends('Friends', 2),
+  existing('Only existing conversations', 3);
 
   const Message(this._name, this.id);
 
@@ -149,9 +151,9 @@ enum Message with Namable {
 }
 
 enum Study with Namable {
-  never('Never', 0),
-  always('Always', 1),
-  friends('Friends', 2);
+  never('Never', 1),
+  always('Always', 2),
+  friends('Friends', 3);
 
   const Study(this._name, this.id);
 
@@ -163,9 +165,9 @@ enum Study with Namable {
 }
 
 enum ChessInsights with Namable {
-  noone('No one', 0),
-  friends('Friends', 1),
-  everyone('Everyone', 2);
+  noone('No one', 1),
+  friends('Friends', 2),
+  everyone('Everyone', 3);
 
   const ChessInsights(this._name, this.id);
 

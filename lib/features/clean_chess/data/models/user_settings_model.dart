@@ -6,19 +6,19 @@ import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
     as secure_storage_helper;
 
 class UserSettingsModel {
-  late final DisplaySettingsModel _displaySettingsModel;
+  late DisplaySettingsModel _displaySettingsModel;
 
-  late final ClockSettingsModel _clockSettingsModel;
+  late ClockSettingsModel _clockSettingsModel;
 
-  late final BehaviorSettingsModel _behaviorSettingsModel;
+  late BehaviorSettingsModel _behaviorSettingsModel;
 
-  late final LanguageSettingsModel _languageSettingsModel;
+  late LanguageSettingsModel _languageSettingsModel;
 
   late BoardTheme _boardTheme;
 
-  late final SoundSettingsModel _soundSettingsModel;
+  late SoundSettingsModel _soundSettingsModel;
 
-  late final PrivacySettingsModel _privacySettingsModel;
+  late PrivacySettingsModel _privacySettingsModel;
 
   // Getters
   DisplaySettingsModel get displaySettingsModel => _displaySettingsModel;
@@ -28,6 +28,9 @@ class UserSettingsModel {
   BoardTheme get boardTheme => _boardTheme;
   SoundSettingsModel get soundSettingsModel => _soundSettingsModel;
   PrivacySettingsModel get privacySettingsModel => _privacySettingsModel;
+
+  // Setter
+  set setBoardTheme(BoardTheme value) => _boardTheme = value;
 
   UserSettingsModel({
     required DisplaySettingsModel displaySettingsModel,
@@ -55,6 +58,27 @@ class UserSettingsModel {
     _privacySettingsModel = PrivacySettingsModel.fromAPI(prefs);
     _soundSettingsModel = SoundSettingsModel.fromAPI(prefs);
     _languageSettingsModel = LanguageSettingsModel(language: Languages.english);
+  }
+
+  void updateFromAPI(UserPreferences prefs) {
+    secure_storage_helper.getBoardTheme().then((value) {
+      _boardTheme = value;
+    });
+    _behaviorSettingsModel = BehaviorSettingsModel.fromAPI(prefs);
+    _clockSettingsModel = ClockSettingsModel.fromAPI(prefs);
+    _displaySettingsModel = DisplaySettingsModel.fromAPI(prefs);
+    _privacySettingsModel = PrivacySettingsModel.fromAPI(prefs);
+    _soundSettingsModel = SoundSettingsModel.fromAPI(prefs);
+  }
+
+  UserSettingsModel.none() {
+    _displaySettingsModel = DisplaySettingsModel.none();
+    _clockSettingsModel = ClockSettingsModel.none();
+    _behaviorSettingsModel = BehaviorSettingsModel.none();
+    _boardTheme = BoardTheme.blue;
+    _languageSettingsModel = LanguageSettingsModel(language: Languages.english);
+    _soundSettingsModel = SoundSettingsModel.none();
+    _privacySettingsModel = PrivacySettingsModel.none();
   }
 
   UserSettingsModel.test() {

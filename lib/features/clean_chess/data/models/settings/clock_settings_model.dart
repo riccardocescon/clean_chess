@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class ClockSettingsModel {
-  late final _ClockPosition? _clockPosition;
-  late final _TenthsOfSeconds? _tenthsOfSeconds;
-  late final _Progressbar? _progressbar;
-  late final _SoundWhenTimeGetsCritical? _soundWhenTimeGetsCritical;
-  late final _GiveMoreTime? _giveMoreTime;
+  _ClockPosition? _clockPosition;
+  _TenthsOfSeconds? _tenthsOfSeconds;
+  _Progressbar? _progressbar;
+  _SoundWhenTimeGetsCritical? _soundWhenTimeGetsCritical;
+  _GiveMoreTime? _giveMoreTime;
 
   // Getters
   ButtonsSetting? get clockPosition => _clockPosition;
@@ -70,6 +70,8 @@ class ClockSettingsModel {
           _SoundWhenTimeGetsCritical(value: prefs.clockSound!);
     }
   }
+
+  ClockSettingsModel.none();
 }
 
 class _ClockPosition extends ButtonsSetting<ClockPosition> {
@@ -148,9 +150,9 @@ enum TenthsOfSeconds with Namable {
 }
 
 enum GiveMoreTime with Namable {
-  on('On', 0),
-  off('Off', 2),
-  casualOnly('Casual only', 1);
+  on('On', 1),
+  off('Off', 3),
+  casualOnly('Casual only', 2);
 
   const GiveMoreTime(this._name, this.id);
 
