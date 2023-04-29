@@ -65,7 +65,8 @@ class _HomepageState extends State<Homepage> {
 
       // if the saved puzzle is compelted before it's next midnight,
       // then the puzzle is the one that's completed
-      if (value.millisecondsSinceEpoch < midnight.millisecondsSinceEpoch) {
+      final now = DateTime.now();
+      if (now.millisecondsSinceEpoch < midnight.millisecondsSinceEpoch) {
         setState(() {
           _dailyPuzzleCompleted = true;
         });
