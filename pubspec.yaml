@@ -44,7 +44,8 @@ dependencies:
   url_launcher: ^6.1.10
   flutter_web_auth: ^0.5.0
   flutter_secure_storage: ^8.0.0
-  lichess_client_dio: ^0.0.6
+  lichess_client: ^0.0.22
+  lichess_client_dio: ^0.0.8
   # Useful tools to remove Flutter boilerplate code from context and navigator mainly.
   # Also includes useful extensions to work with pixels and dp.
   flutter_shared_tools:
@@ -58,8 +59,8 @@ dependencies:
   bloc_test: ^9.1.1
   dartchess:
     git:
-      url: https://github.com/lichess-org/dartchess
-      ref: main
+      url: https://github.com/alexrintt/chesskit
+      ref: master
   auto_size_text: ^3.0.0
   fl_chart: ^0.61.0
   skeletons: ^0.0.3
@@ -68,6 +69,8 @@ dependencies:
   shared_preferences: ^2.0.20
   matrix_gesture_detector: ^0.2.0-nullsafety.1
   injectable: ^2.1.1
+  flutter_svg: ^2.0.5
+  chess: ^0.8.0
 
 dev_dependencies:
   flutter_test:

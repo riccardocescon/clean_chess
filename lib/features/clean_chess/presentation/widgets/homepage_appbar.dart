@@ -3,24 +3,31 @@ import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/profile_screen.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/settings_screen.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/settings/settings_pick_board_theme_page.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/settings/settings_pick_piece_animation_page.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lichess_client_dio/lichess_client_dio.dart';
 import 'package:skeletons/skeletons.dart';
+import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
+    as secure_storage_helper;
 
 class HomepageAppbar extends StatefulWidget {
-  const HomepageAppbar({super.key});
+  const HomepageAppbar({
+    super.key,
+    required this.onSettingsApplied,
+  });
+
+  final void Function() onSettingsApplied;
 
   @override
   State<HomepageAppbar> createState() => _HomepageAppbarState();
 }
 
 class _HomepageAppbarState extends State<HomepageAppbar> {
-  User? user;
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
@@ -50,6 +57,31 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
                     Navigator.push(context, 
                       MaterialPageRoute(builder: (context) => const SettingsScreen())
                     );
+/*
+                  onPressed: () async {
+                    final animation =
+                        await secure_storage_helper.getAnimationType();
+                    final boardTheme =
+                        await secure_storage_helper.getBoardTheme();
+
+                    if (mounted) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return SettingsPickPagePieceAnimationPage(
+                              currentPieceAnimation: animation,
+                            );
+                            // return SettingsPickBoardThemePage(
+                            //   currentBoardTheme: boardTheme,
+                            // );
+                          },
+                        ),
+                      ).then(
+                        (value) => widget.onSettingsApplied(),
+                      );
+                    }
+                    */
                   },
                   icon: const Icon(
                     Icons.settings_outlined,

@@ -4,13 +4,13 @@ import 'package:cleanchess/features/clean_chess/domain/repositories/puzzle_repos
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class GetDailyPuzzle extends UseCaseNoArgs<Puzzle> {
+class GetDailyPuzzle extends UseCaseNoArgs<LichessPuzzle> {
   final PuzzleRepository repository;
 
   GetDailyPuzzle(this.repository);
 
   @override
-  Future<Either<Failure, Puzzle>> call() async {
+  Future<Either<Failure, LichessPuzzle>> call() async {
     return repository.getDailyPuzzle();
   }
 }

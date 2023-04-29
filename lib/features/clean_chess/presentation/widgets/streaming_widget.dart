@@ -1,6 +1,7 @@
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/tv_game_stream_cubit.dart';
-import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard_interpreter.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/padded_items.dart';
 import 'package:cleanchess/injection_container.dart';
@@ -10,7 +11,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class StreamingWidget extends StatefulWidget {
-  const StreamingWidget({super.key});
+  const StreamingWidget({
+    super.key,
+    required this.pieceAnimation,
+    required this.boardTheme,
+  });
+
+  final PieceAnimation pieceAnimation;
+  final BoardTheme boardTheme;
 
   @override
   State<StreamingWidget> createState() => _StreamingWidgetState();
@@ -49,19 +57,21 @@ class _StreamingWidgetState extends State<StreamingWidget> {
               ),
             ]),
             heigth5,
-            AspectRatio(
-              aspectRatio: 1,
-              child: BlocBuilder<TvGameStreamCubit,
-                  AsyncSnapshot<LichessTvGameSummary>>(
-                bloc: _tvGameStreamBloc,
-                builder: (context, state) {
-                  final fen = state.data?.data?.fen;
+            BlocBuilder<TvGameStreamCubit, AsyncSnapshot<LichessTvGameSummary>>(
+              bloc: _tvGameStreamBloc,
+              builder: (context, state) {
+                final fen = state.data?.data?.fen;
 
-                  return ChessboardInterpreter(
+                return ChessboardInterpreter(
+                  controller: BaseController(
                     setup: fen != null ? Setup.parseFen(fen) : Setup.standard,
-                  );
-                },
-              ),
+                  ),
+                  //FIXME: Replace Role.queen with the promotion choosen on the [fen]
+                  onPromotion: (_) => Future.value(Role.queen),
+                  pieceAnimation: widget.pieceAnimation,
+                  boardTheme: widget.boardTheme,
+                );
+              },
             ),
             heigth5,
             PaddedItems(

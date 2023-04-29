@@ -4,13 +4,13 @@ import 'package:cleanchess/features/clean_chess/domain/repositories/puzzle_repos
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
-class GetPuzzleById extends UseCase<Puzzle, String> {
+class GetPuzzleById extends UseCase<LichessPuzzle, String> {
   final PuzzleRepository repository;
 
   GetPuzzleById(this.repository);
 
   @override
-  Future<Either<Failure, Puzzle>> call(String params) async {
+  Future<Either<Failure, LichessPuzzle>> call(String params) async {
     return repository.getPuzzleById(params);
   }
 }

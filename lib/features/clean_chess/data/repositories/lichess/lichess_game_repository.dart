@@ -1,9 +1,9 @@
 import 'package:cleanchess/core/errors/failure.dart';
 import 'package:cleanchess/features/clean_chess/data/datasources/remote_game_data_source.dart';
 import 'package:cleanchess/features/clean_chess/domain/repositories/game_repository.dart';
-import 'package:lichess_client/src/models/tv.dart';
 import 'package:dartz/dartz.dart';
 import 'package:lichess_client/src/models/user.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class LichessGameRepository implements GameRepository {
   final RemoteGameDataSource remoteGameDataSource;
@@ -46,7 +46,7 @@ class LichessGameRepository implements GameRepository {
     String? vs,
     bool? rated,
     List<PerfType>? perfTypes,
-    ChessColor? color,
+    LichessColor? color,
     bool? analysed,
     bool moves = true,
     bool pgnInJson = false,

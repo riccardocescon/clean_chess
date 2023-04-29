@@ -10,24 +10,24 @@ class LichessPuzzleRepository implements PuzzleRepository {
   LichessPuzzleRepository(this.remotePuzzleDataSource);
 
   @override
-  Future<Either<Failure, Puzzle>> getDailyPuzzle() async {
+  Future<Either<Failure, LichessPuzzle>> getDailyPuzzle() async {
     return remotePuzzleDataSource.getDailyPuzzle();
   }
 
   @override
-  Future<Either<Failure, Puzzle>> getPuzzleById(String id) async {
+  Future<Either<Failure, LichessPuzzle>> getPuzzleById(String id) async {
     return remotePuzzleDataSource.getPuzzleById(id);
   }
 
   @override
-  Future<Either<Failure, Stream<PuzzleActivity>>> getPuzzleActivity({
+  Future<Either<Failure, Stream<LichessPuzzleActivity>>> getPuzzleActivity({
     int? max,
   }) async {
     return remotePuzzleDataSource.getPuzzleActivity(max: max);
   }
 
   @override
-  Future<Either<Failure, PuzzleDashboard>> getPuzzleDashboard({
+  Future<Either<Failure, LichessPuzzleDashboard>> getPuzzleDashboard({
     int days = 30,
   }) async {
     return remotePuzzleDataSource.getPuzzleDashboard(days: days);

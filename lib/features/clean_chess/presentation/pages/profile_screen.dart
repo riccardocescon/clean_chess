@@ -1,5 +1,8 @@
+import 'package:cleanchess/core/presentation/bloc/utilities/cubit_helper.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/game_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/social_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/user_cubit.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/puzzle_dashboard_page.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/stats_screen.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/loading_skeleton.dart';
@@ -7,6 +10,7 @@ import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/profilepage_mode_items.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart' as lichess;
 
@@ -46,17 +50,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Text("Send Message"),
   ];
 
-  void _requestRealTimeStatus(BuildContext context) {
-    sl<UserCubit>().getRealtimeStatus(userIds: [widget.user.id!]);
-  }
+  int _index = 0;
 
-  void _requestFollowingUsers(BuildContext context) {
-    sl<SocialCubit>().getFollowingUsers();
+  @override
+  void initState() {
+    sl<CubitHelper>().loadProfile(widget.user.id!);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    _requestRealTimeStatus(context);
+    // _requestRealTimeStatus(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
@@ -141,10 +145,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 37.5),
-          child: Image(
-            image: const AssetImage("assets/icons/flags/italy_flag.png"),
-            height: kIconsHeigth,
-          ),
+          child: 
+            // thanks to https://github.com/lipis/flag-icons
+            SvgPicture.asset("assets/icons/flags/${widget.user.profile?.country?.toLowerCase() ?? "xx"}.svg", height: kIconsHeigth)
         ),
       ],
     );
@@ -171,7 +174,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           state.maybeMap(
             realtimeStatus: (value) {
               _realTimeUserStatus = value.realtimeStatus.first;
-              _requestFollowingUsers(context);
             },
             orElse: () {},
           );
@@ -423,12 +425,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      // child: modeItems[index],
                       child: statsCard(
                         mode: _supportedStats[index],
                       ),
                       onTap: () {
-                        navigateToStatsPage(context);
+                        final PerfMode selectedMode = _supportedStats[index];
+                        if (selectedMode.gameMode == GameMode.puzzle) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const PuzzleDashboardPage(),
+                            ),
+                          );
+                        } else {
+                          _index = index;
+                          navigateToStatsPage(context, selectedMode);
+                        }
                       },
                     );
                   },
@@ -473,31 +485,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final wonGames = widget.user.count?.win ?? 0;
     final drawnGames = widget.user.count?.draw ?? 0;
     final lostGames = widget.user.count?.loss ?? 0;
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 30, right: 70),
-          child: Text("Time played: $timeplayed hours"),
-        ),
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: "${wonGames}W",
-                style: const TextStyle(color: Colors.green),
-              ),
-              TextSpan(
-                text: " / ${drawnGames}D / ",
-                style: const TextStyle(color: Colors.grey),
-              ),
-              TextSpan(
-                text: "${lostGames}L",
-                style: const TextStyle(color: Colors.red),
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("Time played: $timeplayed hours"),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "${wonGames}W",
+                  style: const TextStyle(color: Colors.green),
+                ),
+                TextSpan(
+                  text: " / ${drawnGames}D / ",
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                TextSpan(
+                  text: "${lostGames}L",
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -556,12 +569,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void popupMenuButtonPressed() {}
 
 //Navigates to stats page
-  void navigateToStatsPage(BuildContext context) {
+  void navigateToStatsPage(BuildContext context, PerfMode mode) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const StatsPage(
+        builder: (context) => StatsPage(
           numberOfGames: 1,
+          selectedGameMode: mode,
+          onNextMode: () {
+            sl<GameCubit>().stopExportingGames();
+            if (_index == _supportedStats.length - 2) {
+              _index = -1;
+            }
+            Navigator.pop(context);
+            _index++;
+            navigateToStatsPage(context, _supportedStats[_index]);
+          },
+          onPreviousMode: () {
+            sl<GameCubit>().stopExportingGames();
+            if (_index == 0) {
+              _index = _supportedStats.length - 1;
+            }
+            Navigator.pop(context);
+            _index--;
+            navigateToStatsPage(context, _supportedStats[_index]);
+          },
         ),
       ),
     );
