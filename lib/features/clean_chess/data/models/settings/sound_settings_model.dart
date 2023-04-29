@@ -1,15 +1,16 @@
 import 'package:cleanchess/features/clean_chess/domain/entities/settings/setting.dart';
 import 'package:flutter/material.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class SoundSettingsModel {
-  late final Notifications _notifications;
-  late final Vibrate _vibrate;
-  late final Sound _sound;
+  late final Notifications? _notifications;
+  late final Vibrate? _vibrate;
+  late final Sound? _sound;
 
   // Getters
-  SwitchSetting get notifications => _notifications;
-  SwitchSetting get vibrate => _vibrate;
-  SwitchSetting get sound => _sound;
+  SwitchSetting? get notifications => _notifications;
+  SwitchSetting? get vibrate => _vibrate;
+  SwitchSetting? get sound => _sound;
 
   List<dynamic> get values => [
         notifications,
@@ -18,9 +19,9 @@ class SoundSettingsModel {
       ];
 
   // Setters
-  set setNotifications(bool value) => _notifications.value = value;
-  set setVibrate(bool value) => _vibrate.value = value;
-  set setSound(bool value) => _sound.value = value;
+  set setNotifications(bool value) => _notifications?.value = value;
+  set setVibrate(bool value) => _vibrate?.value = value;
+  set setSound(bool value) => _sound?.value = value;
 
   SoundSettingsModel({
     required bool notifications,
@@ -30,6 +31,12 @@ class SoundSettingsModel {
     _notifications = Notifications(value: notifications);
     _vibrate = Vibrate(value: vibrate);
     _sound = Sound(value: sound);
+  }
+
+  SoundSettingsModel.fromAPI(UserPreferences prefs) {
+    // if(prefs.soundSet != null) {
+    //   _sound = Sound(value: prefs.soundSet!);
+    // }
   }
 }
 
