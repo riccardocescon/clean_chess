@@ -13,9 +13,9 @@ class SoundSettingsModel {
   SwitchSetting? get sound => _sound;
 
   List<dynamic> get values => [
-        notifications,
-        vibrate,
-        sound,
+        if (notifications != null) notifications,
+        if (vibrate != null) vibrate,
+        if (sound != null) sound,
       ];
 
   // Setters

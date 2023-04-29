@@ -34,16 +34,16 @@ class DisplaySettingsModel {
 
   List<dynamic> get values => [
         pieceAnimation,
-        magnifiedDraggedPieces,
-        boardHighlights,
-        moveListWhilePlaying,
-        pieceDestinations,
-        boardCoordinates,
-        moveNotation,
-        zenMode,
-        blindfoldChess,
-        boardScreenSide,
-        boardOrientation,
+        if (magnifiedDraggedPieces != null) magnifiedDraggedPieces,
+        if (boardHighlights != null) boardHighlights,
+        if (moveListWhilePlaying != null) moveListWhilePlaying,
+        if (pieceDestinations != null) pieceDestinations,
+        if (boardCoordinates != null) boardCoordinates,
+        if (moveNotation != null) moveNotation,
+        if (zenMode != null) zenMode,
+        if (blindfoldChess != null) blindfoldChess,
+        if (boardScreenSide != null) boardScreenSide,
+        if (boardOrientation != null) boardOrientation,
       ];
 
   // Setters

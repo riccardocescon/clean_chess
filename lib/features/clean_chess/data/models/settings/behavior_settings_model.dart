@@ -28,16 +28,16 @@ class BehaviorSettingsModel {
   SwitchSetting? get goodGameAfterDefeat => _goodGameAfterDefeat;
 
   List<dynamic> get values => [
-        moveType,
-        premove,
-        takebacks,
-        promoteToQueen,
-        drawOnThreefoldRepetition,
-        confirmResignation,
-        castlingMode,
-        keyboardInput,
-        snapArrows,
-        goodGameAfterDefeat,
+        if (moveType != null) moveType,
+        if (premove != null) premove,
+        if (takebacks != null) takebacks,
+        if (promoteToQueen != null) promoteToQueen,
+        if (drawOnThreefoldRepetition != null) drawOnThreefoldRepetition,
+        if (confirmResignation != null) confirmResignation,
+        if (castlingMode != null) castlingMode,
+        if (keyboardInput != null) keyboardInput,
+        if (snapArrows != null) snapArrows,
+        if (goodGameAfterDefeat != null) goodGameAfterDefeat,
       ];
 
   // Setters

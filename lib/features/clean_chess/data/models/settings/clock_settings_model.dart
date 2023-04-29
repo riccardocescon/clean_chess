@@ -18,11 +18,11 @@ class ClockSettingsModel {
   ButtonsSetting? get giveMoreTime => _giveMoreTime;
 
   List<dynamic> get values => [
-        clockPosition,
-        tenthsOfSeconds,
-        progressbar,
-        soundWhenTimeGetsCritical,
-        giveMoreTime,
+        if (clockPosition != null) clockPosition,
+        if (tenthsOfSeconds != null) tenthsOfSeconds,
+        if (progressbar != null) progressbar,
+        if (soundWhenTimeGetsCritical != null) soundWhenTimeGetsCritical,
+        if (giveMoreTime != null) giveMoreTime,
       ];
 
   // Setters

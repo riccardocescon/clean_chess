@@ -18,11 +18,11 @@ class PrivacySettingsModel {
   ButtonsSetting? get chessInsights => _chessInsights;
 
   List<dynamic> get values => [
-        follow,
-        challenge,
-        message,
-        study,
-        chessInsights,
+        if (follow != null) follow,
+        if (challenge != null) challenge,
+        if (message != null) message,
+        if (study != null) study,
+        if (chessInsights != null) chessInsights,
       ];
 
   //setters
