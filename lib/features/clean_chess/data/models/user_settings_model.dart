@@ -1,9 +1,9 @@
 import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/features/clean_chess/data/models/settings/settings.dart';
-import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
-import 'package:cleanchess/injection_container.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
+import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
+    as secure_storage_helper;
 
 class UserSettingsModel {
   late final DisplaySettingsModel _displaySettingsModel;
@@ -45,7 +45,17 @@ class UserSettingsModel {
         _soundSettingsModel = soundSettingsModel,
         _privacySettingsModel = privacySettingsModel;
 
-  UserSettingsModel.fromAPI(UserPreferences prefs) {}
+  UserSettingsModel.fromAPI(UserPreferences prefs) {
+    secure_storage_helper.getBoardTheme().then((value) {
+      _boardTheme = value;
+    });
+    _behaviorSettingsModel = BehaviorSettingsModel.fromAPI(prefs);
+    // _clockSettingsModel = ClockSettingsModel.fromAPI(prefs);
+    _displaySettingsModel = DisplaySettingsModel.fromAPI(prefs);
+    // _languageSettingsModel = LanguageSettingsModel.fromAPI(prefs);
+    // _privacySettingsModel = PrivacySettingsModel.fromAPI(prefs);
+    // _soundSettingsModel = SoundSettingsModel.fromAPI(prefs);
+  }
 
   UserSettingsModel.test() {
     _displaySettingsModel = DisplaySettingsModel(

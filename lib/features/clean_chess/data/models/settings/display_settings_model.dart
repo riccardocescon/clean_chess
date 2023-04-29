@@ -8,29 +8,29 @@ import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
 
 class DisplaySettingsModel {
   late PieceAnimation _pieceAnimation;
-  late final _MagnifiedDraggedPiece _magnifiedDraggedPieces;
-  late final _BoardHighlights _boardHighlights;
-  late final _MoveListWhilePlaying _moveListWhilePlaying;
-  late final _PieceDestinations _pieceDestinations;
-  late final _BoardCoordinates _boardCoordinates;
-  late final _MoveNotation _moveNotation;
-  late final _ZenMode _zenMode;
-  late final _BlindfoldChess _blindfoldChess;
-  late final _BoardScreenSide _boardScreenSide;
-  late final _BoardOrientation _boardOrientation;
+  late final _MagnifiedDraggedPiece? _magnifiedDraggedPieces;
+  late final _BoardHighlights? _boardHighlights;
+  late final _MoveListWhilePlaying? _moveListWhilePlaying;
+  late final _PieceDestinations? _pieceDestinations;
+  late final _BoardCoordinates? _boardCoordinates;
+  late final _MoveNotation? _moveNotation;
+  late final _ZenMode? _zenMode;
+  late final _BlindfoldChess? _blindfoldChess;
+  late final _BoardScreenSide? _boardScreenSide;
+  late final _BoardOrientation? _boardOrientation;
 
   // Getters
   PieceAnimation get pieceAnimation => _pieceAnimation;
-  SwitchSetting get magnifiedDraggedPieces => _magnifiedDraggedPieces;
-  SwitchSetting get boardHighlights => _boardHighlights;
-  SwitchSetting get moveListWhilePlaying => _moveListWhilePlaying;
-  SwitchSetting get pieceDestinations => _pieceDestinations;
-  SwitchSetting get boardCoordinates => _boardCoordinates;
-  ButtonsSetting get moveNotation => _moveNotation;
-  SwitchSetting get zenMode => _zenMode;
-  SwitchSetting get blindfoldChess => _blindfoldChess;
-  ButtonsSetting get boardScreenSide => _boardScreenSide;
-  ButtonsSetting get boardOrientation => _boardOrientation;
+  SwitchSetting? get magnifiedDraggedPieces => _magnifiedDraggedPieces;
+  SwitchSetting? get boardHighlights => _boardHighlights;
+  SwitchSetting? get moveListWhilePlaying => _moveListWhilePlaying;
+  SwitchSetting? get pieceDestinations => _pieceDestinations;
+  SwitchSetting? get boardCoordinates => _boardCoordinates;
+  ButtonsSetting? get moveNotation => _moveNotation;
+  SwitchSetting? get zenMode => _zenMode;
+  SwitchSetting? get blindfoldChess => _blindfoldChess;
+  ButtonsSetting? get boardScreenSide => _boardScreenSide;
+  ButtonsSetting? get boardOrientation => _boardOrientation;
 
   List<dynamic> get values => [
         pieceAnimation,
@@ -49,20 +49,20 @@ class DisplaySettingsModel {
   // Setters
   set setPieceAnimation(PieceAnimation value) => _pieceAnimation = value;
   set setMagnifiedDraggedPieces(bool value) =>
-      _magnifiedDraggedPieces.value = value;
-  set setBoardHighlights(bool value) => _boardHighlights.value = value;
+      _magnifiedDraggedPieces?.value = value;
+  set setBoardHighlights(bool value) => _boardHighlights?.value = value;
   set setMoveListWhilePlaying(bool value) =>
-      _moveListWhilePlaying.value = value;
-  set setPieceDestinations(bool value) => _pieceDestinations.value = value;
-  set setBoardCoordinates(bool value) => _boardCoordinates.value = value;
+      _moveListWhilePlaying?.value = value;
+  set setPieceDestinations(bool value) => _pieceDestinations?.value = value;
+  set setBoardCoordinates(bool value) => _boardCoordinates?.value = value;
   set setMoveNotation(MoveNotation value) =>
-      _moveNotation.setValueByReference = value;
-  set setZenMode(bool value) => _zenMode.value = value;
-  set setBlindfoldChess(bool value) => _blindfoldChess.value = value;
+      _moveNotation?.setValueByReference = value;
+  set setZenMode(bool value) => _zenMode?.value = value;
+  set setBlindfoldChess(bool value) => _blindfoldChess?.value = value;
   set setBoardScreenSide(BoardScreenSide value) =>
-      _boardScreenSide.setValueByReference = value;
+      _boardScreenSide?.setValueByReference = value;
   set setBoardOrientation(BoardOrientation value) =>
-      _boardOrientation.setValueByReference = value;
+      _boardOrientation?.setValueByReference = value;
 
   DisplaySettingsModel({
     required PieceAnimation pieceAnimation,
@@ -96,6 +96,27 @@ class DisplaySettingsModel {
     secure_storage_helper
         .getAnimationType()
         .then((value) => _pieceAnimation = value);
+    if (prefs.highlight != null) {
+      _boardHighlights = _BoardHighlights(value: prefs.highlight!);
+    }
+    if (prefs.destination != null) {
+      _pieceDestinations = _PieceDestinations(value: prefs.destination!);
+    }
+    if (prefs.coords != null) {
+      _boardCoordinates = _BoardCoordinates(value: prefs.coords! == 1);
+    }
+    if (prefs.replay != null) {
+      _moveListWhilePlaying = _MoveListWhilePlaying(value: prefs.replay! > 0);
+    }
+    if (prefs.coords != null) {
+      _boardCoordinates = _BoardCoordinates(value: prefs.coords! == 1);
+    }
+    if (prefs.zen != null) {
+      _zenMode = _ZenMode(value: prefs.zen! == 1);
+    }
+    if (prefs.blindfold != null) {
+      _blindfoldChess = _BlindfoldChess(value: prefs.blindfold! == 1);
+    }
   }
 }
 
