@@ -1,20 +1,21 @@
 import 'package:cleanchess/core/utilities/mixins/nameable.dart';
 import 'package:cleanchess/features/clean_chess/domain/entities/settings/setting.dart';
 import 'package:flutter/material.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class PrivacySettingsModel {
-  late final _Follow _follow;
-  late final _Challenge _challenge;
-  late final _Message _message;
-  late final _Study _study;
-  late final _ChessInsights _chessInsights;
+  late final _Follow? _follow;
+  late final _Challenge? _challenge;
+  late final _Message? _message;
+  late final _Study? _study;
+  late final _ChessInsights? _chessInsights;
 
   //getters
-  SwitchSetting get follow => _follow;
-  ButtonsSetting get challenge => _challenge;
-  ButtonsSetting get message => _message;
-  ButtonsSetting get study => _study;
-  ButtonsSetting get chessInsights => _chessInsights;
+  SwitchSetting? get follow => _follow;
+  ButtonsSetting? get challenge => _challenge;
+  ButtonsSetting? get message => _message;
+  ButtonsSetting? get study => _study;
+  ButtonsSetting? get chessInsights => _chessInsights;
 
   List<dynamic> get values => [
         follow,
@@ -25,12 +26,12 @@ class PrivacySettingsModel {
       ];
 
   //setters
-  set setFollow(bool value) => _follow.value = value;
-  set setChallenge(Challenge value) => _challenge.setValueByReference = value;
-  set setMessage(Message value) => _message.setValueByReference = value;
-  set setStudy(Study value) => _study.setValueByReference = value;
+  set setFollow(bool value) => _follow?.value = value;
+  set setChallenge(Challenge value) => _challenge?.setValueByReference = value;
+  set setMessage(Message value) => _message?.setValueByReference = value;
+  set setStudy(Study value) => _study?.setValueByReference = value;
   set setChessInsights(ChessInsights value) =>
-      _chessInsights.setValueByReference = value;
+      _chessInsights?.setValueByReference = value;
 
   PrivacySettingsModel({
     required bool follow,
@@ -44,6 +45,27 @@ class PrivacySettingsModel {
     _message = _Message(value: message);
     _study = _Study(value: study);
     _chessInsights = _ChessInsights(value: chessInsights);
+  }
+
+  PrivacySettingsModel.fromAPI(UserPreferences prefs) {
+    if (prefs.follow != null) {
+      _follow = _Follow(value: prefs.follow!);
+    }
+    if (prefs.challenge != null) {
+      _challenge = _Challenge(
+          value: Challenge.values
+              .firstWhere((element) => element.id == prefs.challenge));
+    }
+    if (prefs.message != null) {
+      _message = _Message(
+          value: Message.values
+              .firstWhere((element) => element.id == prefs.message));
+    }
+    if (prefs.insightShare != null) {
+      _chessInsights = _ChessInsights(
+          value: ChessInsights.values
+              .firstWhere((element) => element.id == prefs.insightShare));
+    }
   }
 }
 
@@ -97,54 +119,58 @@ class _ChessInsights extends ButtonsSetting<ChessInsights> {
 }
 
 enum Challenge with Namable {
-  never('Never'),
-  always('Always'),
-  friends('Friends'),
-  registered('Registered'),
-  rating('Rating +- 300');
+  never('Never', 0),
+  always('Always', 1),
+  friends('Friends', 2),
+  registered('Registered', 3),
+  rating('Rating +- 300', 4);
 
-  const Challenge(this._name);
+  const Challenge(this._name, this.id);
 
   final String _name;
+  final int id;
 
   @override
   String get name => _name;
 }
 
 enum Message with Namable {
-  always('Always'),
-  friends('Friends'),
-  existing('Only existing conversations');
+  always('Always', 0),
+  friends('Friends', 1),
+  existing('Only existing conversations', 2);
 
-  const Message(this._name);
+  const Message(this._name, this.id);
 
   final String _name;
+  final int id;
 
   @override
   String get name => _name;
 }
 
 enum Study with Namable {
-  never('Never'),
-  always('Always'),
-  friends('Friends');
+  never('Never', 0),
+  always('Always', 1),
+  friends('Friends', 2);
 
-  const Study(this._name);
+  const Study(this._name, this.id);
 
   final String _name;
+  final int id;
 
   @override
   String get name => _name;
 }
 
 enum ChessInsights with Namable {
-  noone('No one'),
-  friends('Friends'),
-  everyone('Everyone');
+  noone('No one', 0),
+  friends('Friends', 1),
+  everyone('Everyone', 2);
 
-  const ChessInsights(this._name);
+  const ChessInsights(this._name, this.id);
 
   final String _name;
+  final int id;
 
   @override
   String get name => _name;

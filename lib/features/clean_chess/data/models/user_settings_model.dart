@@ -53,7 +53,7 @@ class UserSettingsModel {
     _clockSettingsModel = ClockSettingsModel.fromAPI(prefs);
     _displaySettingsModel = DisplaySettingsModel.fromAPI(prefs);
     // _languageSettingsModel = LanguageSettingsModel.fromAPI(prefs);
-    // _privacySettingsModel = PrivacySettingsModel.fromAPI(prefs);
+    _privacySettingsModel = PrivacySettingsModel.fromAPI(prefs);
     // _soundSettingsModel = SoundSettingsModel.fromAPI(prefs);
   }
 
