@@ -70,10 +70,6 @@ class PuzzleDashboardPage extends StatelessWidget {
                 puzzleDashboard: (dashboard) {
                   return RadarChart(
                     RadarChartData(
-                      radarTouchData: RadarTouchData(
-                        enabled: true,
-                        touchCallback: (touchEvent, touchResponse) {},
-                      ),
                       dataSets: showingDataSets(dashboard),
                       radarBackgroundColor: Colors.transparent,
                       borderData: FlBorderData(show: false),
@@ -129,15 +125,18 @@ class PuzzleDashboardPage extends StatelessWidget {
       final index = entry.key;
       final rawDataSet = entry.value;
 
-      final isGhost = index == 0;
+      final isGhost = index != 0;
+
+      List<RadarEntry> data =
+          rawDataSet.values.map((e) => RadarEntry(value: e)).toList();
+      print(data);
 
       return RadarDataSet(
         fillColor:
             isGhost ? Colors.transparent : rawDataSet.color.withOpacity(0.2),
         borderColor: isGhost ? Colors.transparent : rawDataSet.color,
         entryRadius: _chartDotSize,
-        dataEntries:
-            rawDataSet.values.map((e) => RadarEntry(value: e)).toList(),
+        dataEntries: data,
         borderWidth: _chartBorderWidth,
       );
     }).toList();
@@ -149,18 +148,19 @@ class PuzzleDashboardPage extends StatelessWidget {
       // This is a Workaround for the fl_chart library
       // because there is no way to set the minimum - maximum value of the chart
       // This holds the min and max values [0 - 2000]
-      RawDataSet(
-        title: 'Ghost',
-        color: Colors.transparent,
-        values: [
-          ...List.generate(_stats.length - 1, (index) => 0),
-          2000,
-        ],
-      ),
+      // RawDataSet(
+      //   title: 'Ghost',
+      //   color: Colors.transparent,
+      //   values: [
+      //     ...List.generate(_stats.length - 1, (index) => 1000),
+      //     2000,
+      //   ],
+      // ),
       RawDataSet(
         title: 'LichessPuzzle',
         color: Colors.pink,
         values: _sortedPuzzleRatings(dashboard),
+        // values: [1000, 2000, 1800, 800],
       ),
     ];
   }
@@ -245,7 +245,7 @@ class PuzzleDashboardPage extends StatelessWidget {
       return 0;
     }
 
-    return refStat.results?.puzzleRatingAvg ?? 0;
+    return refStat.results?.performance ?? 0;
   }
 
   List<double> _sortedPuzzleRatings(lichess.LichessPuzzleDashboard dashboard) {
