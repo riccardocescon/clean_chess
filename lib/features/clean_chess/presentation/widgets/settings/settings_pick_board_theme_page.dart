@@ -24,7 +24,7 @@ class SettingsPickBoardThemePage extends StatelessWidget {
       cellItemBuilder: (item, index) => Container(
         color: getCellColor(
           index,
-          boardSize: 4,
+          boardSize: 5,
           whiteColor: item.lightColor,
           blackColor: item.darkColor,
         ),
