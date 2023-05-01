@@ -12,6 +12,8 @@ import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
+import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
+    as secure_storage_helper;
 
 class HomepageAppbar extends StatefulWidget {
   const HomepageAppbar({
@@ -50,7 +52,6 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
               children: [
                 _accountName(context),
                 IconButton(
-
                   onPressed: () {
                     // sl<AuthCubit>().revoke();
                     Navigator.push(
@@ -59,31 +60,32 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
                             builder: (context) => const SettingsScreen())).then(
                       (value) => widget.onSettingsApplied(),
                     );
-                  onPressed: () async {
-                    final animation =
-                        await secure_storage_helper.getAnimationType();
-                    const pieceTheme =
-                        // await secure_storage_helper.getPieceTheme();
-                        PieceTheme.flat;
-                    final boardTheme =
-                        await secure_storage_helper.getBoardTheme();
-                    if (mounted) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return SettingsPickPieceThemePage(
-                              boardTheme: boardTheme,
-                              pieceTheme: pieceTheme,
-                              // currentPieceAnimation: animation,
-                            );
-                          },
-                        ),
-                      ).then(
-                        (value) => widget.onSettingsApplied(),
-                      );
-                    }
-
+                    onPressed:
+                    () async {
+                      final animation =
+                          await secure_storage_helper.getAnimationType();
+                      const pieceTheme =
+                          // await secure_storage_helper.getPieceTheme();
+                          PieceTheme.flat;
+                      final boardTheme =
+                          await secure_storage_helper.getBoardTheme();
+                      if (mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return SettingsPickPieceThemePage(
+                                boardTheme: boardTheme,
+                                pieceTheme: pieceTheme,
+                                // currentPieceAnimation: animation,
+                              );
+                            },
+                          ),
+                        ).then(
+                          (value) => widget.onSettingsApplied(),
+                        );
+                      }
+                    };
                   },
                   icon: const Icon(
                     Icons.settings_outlined,
