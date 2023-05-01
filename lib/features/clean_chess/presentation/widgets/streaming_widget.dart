@@ -148,9 +148,7 @@ class _StreamingWidgetState extends State<StreamingWidget> {
         child: Padding(
           padding: const EdgeInsets.all(3),
           child: Image.asset(
-            isWhite
-                ? 'assets/pieces/flat/white_pawn.png'
-                : 'assets/pieces/flat/black_pawn.png',
+            isWhite ? 'assets/pieces/flat/wP.png' : 'assets/pieces/flat/bP.png',
           ),
         ),
       );
