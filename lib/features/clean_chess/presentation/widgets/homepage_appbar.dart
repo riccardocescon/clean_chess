@@ -6,13 +6,12 @@ import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/profile_screen.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/settings_screen.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/settings/settings_pick_piece_theme_page.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
-import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
-    as secure_storage_helper;
 
 class HomepageAppbar extends StatefulWidget {
   const HomepageAppbar({
@@ -51,6 +50,15 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
               children: [
                 _accountName(context),
                 IconButton(
+
+                  onPressed: () {
+                    // sl<AuthCubit>().revoke();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SettingsScreen())).then(
+                      (value) => widget.onSettingsApplied(),
+                    );
                   onPressed: () async {
                     final animation =
                         await secure_storage_helper.getAnimationType();
@@ -75,6 +83,7 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
                         (value) => widget.onSettingsApplied(),
                       );
                     }
+
                   },
                   icon: const Icon(
                     Icons.settings_outlined,

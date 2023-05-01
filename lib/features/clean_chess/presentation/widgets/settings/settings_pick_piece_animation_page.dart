@@ -2,20 +2,17 @@ import 'dart:async';
 
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
+import 'package:cleanchess/features/clean_chess/data/models/user_settings_model.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/titled_app_bar.dart';
+import 'package:cleanchess/injection_container.dart';
 import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
 import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
     as secure_storage_helper;
 
 class SettingsPickPagePieceAnimationPage extends StatefulWidget {
-  const SettingsPickPagePieceAnimationPage({
-    super.key,
-    required this.currentPieceAnimation,
-  });
-
-  final PieceAnimation currentPieceAnimation;
+  const SettingsPickPagePieceAnimationPage({super.key});
 
   @override
   State<SettingsPickPagePieceAnimationPage> createState() =>
@@ -28,13 +25,18 @@ class _SettingsPickPagePieceAnimationPageState
   final double _piecePadding = 4;
   final double _selectorPadding = 10;
 
-  late int _selectedId = widget.currentPieceAnimation.id;
+  late final int _oldAnimationId;
+
+  late int _selectedId;
   late Timer _animationTimer;
   StateSetter? _selectedBoardRef;
   bool _animate = true;
 
   @override
   void initState() {
+    _oldAnimationId =
+        sl<UserSettingsModel>().displaySettingsModel.pieceAnimation!.id;
+    _selectedId = _oldAnimationId;
     _animationTimer =
         Timer.periodic(const Duration(milliseconds: 1500), (timer) {
       if (_selectedBoardRef != null) {
@@ -181,6 +183,8 @@ class _SettingsPickPagePieceAnimationPageState
   }
 
   Future<void> _handlePop() async {
+    sl<UserSettingsModel>().displaySettingsModel.setPieceAnimation =
+        PieceAnimation.values[_selectedId];
     await secure_storage_helper.saveAnimationType(_selectedId);
   }
 }

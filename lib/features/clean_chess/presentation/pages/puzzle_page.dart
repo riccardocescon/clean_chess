@@ -8,11 +8,11 @@ import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_bo
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard_interpreter.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/dialogs/pawn_promotion_dialog.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/puzzle_mode/puzzle_bottom_graph.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/puzzle_mode/puzzle_hint_button.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/puzzle_mode/puzzle_top_stats.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/timer_widget.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/titled_app_bar.dart';
 import 'package:cleanchess/injection_container.dart';
-import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
@@ -23,13 +23,9 @@ class PuzzlePage extends StatefulWidget {
   const PuzzlePage({
     super.key,
     required this.userId,
-    required this.pieceAnimation,
-    required this.boardTheme,
   });
 
   final String userId;
-  final PieceAnimation pieceAnimation;
-  final BoardTheme boardTheme;
 
   @override
   State<PuzzlePage> createState() => _PuzzlePageState();
@@ -53,7 +49,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
   final TimerController _timerController = TimerController();
   int _retries = 0;
   int _hintCount = 0;
-  _HintMove _hintMove = _HintMove.highlight;
+  // _HintMove _hintMove = _HintMove.highlight;
 
   final List<_PuzzleStreakData> _streak = [];
 
@@ -62,7 +58,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
     // Able to call 2 events at the same time
     // because [PuzzleModelCubit] is a Local Cubit, no web calls
     _requestPuzzleRating();
-    sl<PuzzleModelCubit>().getRandomPuzzle();
+    sl<PuzzleModeCubit>().getRandomPuzzle();
     super.initState();
   }
 
@@ -80,7 +76,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
   Widget _body() {
     return Column(
       children: [
-        BlocConsumer<PuzzleModelCubit, PuzzleModeState>(
+        BlocConsumer<PuzzleModeCubit, PuzzleModeState>(
           listener: _topBarListener,
           builder: _topBarBuilder,
         ),
@@ -94,13 +90,13 @@ class _PuzzlePageState extends State<PuzzlePage> {
         ),
         Expanded(
           child: Center(
-            child: BlocConsumer<PuzzleModelCubit, PuzzleModeState>(
+            child: BlocConsumer<PuzzleModeCubit, PuzzleModeState>(
               listener: _chessboardListener,
               builder: _chessboardBuilder,
             ),
           ),
         ),
-        BlocBuilder<PuzzleModelCubit, PuzzleModeState>(
+        BlocBuilder<PuzzleModeCubit, PuzzleModeState>(
           builder: (context, state) {
             return state.maybeWhen(
               pieceMoved: (move) => _bottomBar(_puzzleCompleted(move.uci)),
@@ -116,8 +112,6 @@ class _PuzzlePageState extends State<PuzzlePage> {
     return ChessboardInterpreter(
       controller: _controller,
       onPromotion: (turn) => showPromotionDialog(context, turn),
-      pieceAnimation: widget.pieceAnimation,
-      boardTheme: widget.boardTheme,
     );
   }
 
@@ -133,44 +127,16 @@ class _PuzzlePageState extends State<PuzzlePage> {
           crossFadeState: puzzleCompleted
               ? CrossFadeState.showSecond
               : CrossFadeState.showFirst,
-          firstChild: _bottomBarShowNextMove(),
+          firstChild: PuzzleHintButton(
+            onHintPressed: () => _hintCount++,
+            onGetNextMove: () => _puzzle!.moves.first,
+            onGetHintCell: (move) => _controller.highLightHintCell(move),
+            onForceUserMove: (move) => _controller.forceUserMove(move),
+          ),
           secondChild: _bottomBarGraph(),
         ),
       ),
     );
-  }
-
-  Widget _bottomBarShowNextMove() {
-    return StatefulBuilder(builder: (context, localSetState) {
-      return MaterialButton(
-        onPressed: () {
-          _hintCount++;
-          if (_hintMove == _HintMove.highlight) {
-            _controller.highLightHintCell(_puzzle!.moves.first);
-            localSetState(() {
-              _hintMove = _HintMove.reveal;
-            });
-          } else {
-            final move = _puzzle!.moves.first;
-            _controller.forceUserMove(move);
-            localSetState(() {
-              _hintMove = _HintMove.highlight;
-            });
-          }
-        },
-        splashColor: Colors.amber,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.tips_and_updates_rounded,
-            ),
-            width10,
-            Text(_hintMove.message),
-          ],
-        ),
-      );
-    });
   }
 
   Widget _bottomBarGraph() {
@@ -273,7 +239,7 @@ class _PuzzlePageState extends State<PuzzlePage> {
           setState(() {
             _retries = 0;
             _hintCount = 0;
-            sl<PuzzleModelCubit>().getRandomPuzzle();
+            sl<PuzzleModeCubit>().getRandomPuzzle();
           });
         } else if (value == 1) {
           //TODO: get puzzle info from api based on id, maybe on init state
@@ -299,31 +265,14 @@ class _PuzzlePageState extends State<PuzzlePage> {
 
   //#region Builders
   Widget _topBarBuilder(BuildContext context, PuzzleModeState state) {
-    return state.maybeMap(
-      turnOf: (value) => PuzzleMessageBar(
-        // invert the output because the first move is the bot one
-        barType: value.side == Side.black ? TopBarType.white : TopBarType.black,
-      ),
-      pieceMoved: (value) {
-        if (_puzzleCompleted(value.move.uci)) {
-          return PuzzleMessageBar(
-            barType: _hintCount > 0
-                ? TopBarType.solvedWithHints
-                : _retries == 0
-                    ? TopBarType.solvedWithoutHints
-                    : TopBarType.solvedInMultipleTries,
-          );
-        }
-
-        // Validate move and show the right message
-        if (value.move.uci == _puzzle!.moves.first) {
-          _puzzle!.moves.removeAt(0);
-          return const PuzzleMessageBar(barType: TopBarType.rightMove);
-        } else {
-          return const PuzzleMessageBar(barType: TopBarType.wrongMove);
-        }
-      },
-      orElse: () => const SizedBox.shrink(),
+    return PuzzleMessageBarBuilder(
+      context: context,
+      state: state,
+      onGetHintCount: () => _hintCount,
+      onGetRetriesCount: () => _retries,
+      onGetNextMove: () => _puzzle!.moves.first,
+      onNextMoveValidated: () => _puzzle!.moves.removeAt(0),
+      isPuzzleCompleted: _puzzleCompleted,
     );
   }
 
@@ -394,15 +343,6 @@ class _PuzzlePageState extends State<PuzzlePage> {
     );
   }
   //#endregion
-}
-
-enum _HintMove {
-  highlight('Show next move'),
-  reveal('Reveal move');
-
-  const _HintMove(this.message);
-
-  final String message;
 }
 
 class _PuzzleStreakData {

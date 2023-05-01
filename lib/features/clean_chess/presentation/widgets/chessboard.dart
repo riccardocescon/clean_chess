@@ -1,9 +1,15 @@
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/core/utilities/enum_themes.dart';
+import 'package:cleanchess/features/clean_chess/data/models/user_settings_model.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
+import 'package:cleanchess/injection_container.dart';
 import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
+    as secure_storage_helper;
+
+PieceAnimation? _pieceAnimation;
 
 class Chessboard extends StatelessWidget {
   const Chessboard({
@@ -13,12 +19,10 @@ class Chessboard extends StatelessWidget {
     this.selectedSquare,
     this.pieces = const [],
     this.boardSide = Side.white,
-    this.pieceAnimation = PieceAnimation.none,
-    this.boardTheme = BoardTheme.brown,
   });
 
   /// Callback for when a cell is tapped.
-  final Function(Square)? onCellTap;
+  final void Function(Square)? onCellTap;
 
   /// List of squares that should be highlighted
   final List<Square> selectedSquares;
@@ -34,25 +38,26 @@ class Chessboard extends StatelessWidget {
   /// Getter for the splash color
   Color get _splashColor => _tappable ? Colors.pink : Colors.transparent;
 
+  BoardTheme get _boardTheme => sl<UserSettingsModel>().boardTheme;
+
   final Side boardSide;
-
-  final PieceAnimation pieceAnimation;
-
-  final BoardTheme boardTheme;
 
   @override
   Widget build(BuildContext context) {
-    final board = _flipBoard(
-      child: GridView.builder(
-        itemCount: 64,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 8,
+    final board = StatefulBuilder(builder: (context, localSetState) {
+      _loadPieceAnimation(localSetState);
+      return _flipBoard(
+        child: GridView.builder(
+          itemCount: 64,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 8,
+          ),
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
+          itemBuilder: (_, index) => _cell(index),
         ),
-        physics: const NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.zero,
-        itemBuilder: (_, index) => _cell(index),
-      ),
-    );
+      );
+    });
     if (boardSide == Side.white) {
       return board;
     }
@@ -77,7 +82,7 @@ class Chessboard extends StatelessWidget {
         onGetPiece: () => _getPiece(index),
         duration: const Duration(milliseconds: 500),
         scale: 8,
-        pieceAnim: pieceAnimation,
+        pieceAnim: _pieceAnimation!,
       ),
     );
     if (boardSide == Side.white) {
@@ -120,8 +125,24 @@ class Chessboard extends StatelessWidget {
     }
     return getCellColor(
       index,
-      whiteColor: boardTheme.lightColor,
-      blackColor: boardTheme.darkColor,
+      whiteColor: _boardTheme.lightColor,
+      blackColor: _boardTheme.darkColor,
     );
+  }
+
+  PieceAnimation _loadPieceAnimation(StateSetter localSetState) {
+    _pieceAnimation ??=
+        sl<UserSettingsModel>().displaySettingsModel.pieceAnimation;
+    if (_pieceAnimation == null) {
+      _pieceAnimation = PieceAnimation.none;
+      secure_storage_helper.getAnimationType().then(
+            (value) => localSetState(
+              () {
+                _pieceAnimation = value;
+              },
+            ),
+          );
+    }
+    return _pieceAnimation!;
   }
 }

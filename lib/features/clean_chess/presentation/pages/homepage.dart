@@ -1,15 +1,23 @@
 import 'package:cleanchess/core/clean_chess/presentation/widgets/homepage_mode_items.dart'
     as homepage_mode_items;
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
+import 'package:cleanchess/core/presentation/bloc/utilities/cubit_helper.dart';
 import 'package:cleanchess/core/utilities/enum_themes.dart';
-import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
+import 'package:cleanchess/core/utilities/extentions.dart';
+import 'package:cleanchess/core/utilities/parser.dart' as parser;
+import 'package:cleanchess/features/clean_chess/data/models/user_settings_model.dart';
+import 'package:cleanchess/features/clean_chess/presentation/blocs/puzzle_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/match_page.dart';
+import 'package:cleanchess/features/clean_chess/presentation/pages/daily_puzzle_page.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard_interpreter.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/homepage_appbar.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/streaming_widget.dart';
 import 'package:cleanchess/injection_container.dart';
+import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart' as lichess;
 import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
@@ -25,8 +33,11 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  PieceAnimation pieceAnimation = PieceAnimation.none;
-  BoardTheme boardTheme = BoardTheme.horsey;
+  PieceAnimation pieceAnimation =
+      sl<UserSettingsModel>().displaySettingsModel.pieceAnimation ??
+          PieceAnimation.none;
+  BoardTheme boardTheme = sl<UserSettingsModel>().boardTheme;
+  bool _dailyPuzzleCompleted = false;
 
   void _loadSettings() {
     secure_storage_helper.getAnimationType().then((value) {
@@ -42,13 +53,46 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
+  void _loadDailyPuzzleState() {
+    secure_storage_helper.getDailyPuzzle().then((value) {
+      // If no puzzle is saved, then the puzzle cannot be completed
+      if (value == null) {
+        setState(() {
+          _dailyPuzzleCompleted = false;
+        });
+        return;
+      }
+
+      final midnight =
+          DateTime(value.year, value.month, value.day + 1, 0, 0, 0);
+
+      // if the saved puzzle is compelted before it's next midnight,
+      // then the puzzle is the one that's completed
+      final now = DateTime.now();
+      if (now.millisecondsSinceEpoch < midnight.millisecondsSinceEpoch) {
+        setState(() {
+          _dailyPuzzleCompleted = true;
+        });
+        return;
+      }
+
+      // If the next midnight is passed, request the new puzzle
+      setState(() {
+        _dailyPuzzleCompleted = false;
+      });
+      secure_storage_helper.deleteDailyPuzzle();
+      sl<PuzzleCubit>().getDailyPuzzle();
+    });
+  }
+
   @override
   void initState() {
     super.initState();
 
     _loadSettings();
+    _loadDailyPuzzleState();
 
-    sl<AccountCubit>().getMyProfile();
+    sl<CubitHelper>().loadHomepage();
   }
 
   @override
@@ -71,25 +115,49 @@ class _HomepageState extends State<Homepage> {
               ),
             ),
             _modesList(),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  heigth20,
-                  _dailyPuzzleSection(completed: false),
-                  heigth20,
-                  _liveStreamingText(),
-                  heigth10,
-                ],
-              ),
-            ),
-            StreamingWidget(
-              pieceAnimation: pieceAnimation,
-              boardTheme: boardTheme,
-            ),
+            ..._boards(),
           ],
         ),
       ),
     );
+  }
+
+  List<Widget> _boards() {
+    List<Widget> widgets = [];
+    if (_dailyPuzzleCompleted) {
+      widgets.addAll(_streamingWidget());
+      widgets.add(_dailyPuzzleWidget());
+    } else {
+      widgets.add(_dailyPuzzleWidget());
+      widgets.addAll(_streamingWidget());
+    }
+    return widgets;
+  }
+
+  Widget _dailyPuzzleWidget() {
+    return SliverList(
+      delegate: SliverChildListDelegate(
+        [
+          heigth20,
+          _dailyPuzzleSection(completed: _dailyPuzzleCompleted),
+          heigth20,
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _streamingWidget() {
+    return [
+      SliverList(
+        delegate: SliverChildListDelegate(
+          [
+            _liveStreamingText(),
+            heigth10,
+          ],
+        ),
+      ),
+      const StreamingWidget(),
+    ];
   }
 
   Widget _modesList() {
@@ -98,15 +166,11 @@ class _HomepageState extends State<Homepage> {
         (context, index) => homepage_mode_items.preReleaseModes(
           context,
           () => user?.id ?? '',
-          () => pieceAnimation,
-          () => boardTheme,
         )[index],
         childCount: homepage_mode_items
             .preReleaseModes(
               context,
               () => user?.id ?? '',
-              () => pieceAnimation,
-              () => boardTheme,
             )
             .length,
       ),
@@ -119,8 +183,8 @@ class _HomepageState extends State<Homepage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CircleAvatar(
-              backgroundColor: Colors.lightBlue,
+            CircleAvatar(
+              backgroundColor: completed ? Colors.grey : Colors.lightBlue,
               radius: 5,
             ),
             width10,
@@ -131,9 +195,9 @@ class _HomepageState extends State<Homepage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return MatchPage(
+                      return const MatchPage(
                         gameMode: '3+0 Blitz Rated',
-                        white: const lichess.User(
+                        white: lichess.User(
                           username: 'RiccardoCescon',
                           title: lichess.Title.lm,
                           perfs: lichess.Perfs(
@@ -142,7 +206,7 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
                         ),
-                        black: const lichess.User(
+                        black: lichess.User(
                           username: 'Hardal',
                           title: lichess.Title.gm,
                           perfs: lichess.Perfs(
@@ -151,18 +215,16 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
                         ),
-                        pieceAnimation: pieceAnimation,
-                        boardTheme: boardTheme,
                       );
                     },
                   ),
                 );
               },
-              child: const Text(
-                'Puzzle of the day',
+              child: Text(
+                'Puzzle of the day'.hardcoded,
                 style: TextStyle(
                   fontSize: 20,
-                  color: Colors.white,
+                  color: completed ? Colors.grey.shade400 : Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -172,21 +234,61 @@ class _HomepageState extends State<Homepage> {
         heigth10,
         AspectRatio(
           aspectRatio: 1,
-
-          child: Chessboard(
-            boardTheme: boardTheme,
+          child: Stack(
+            children: [
+              BlocBuilder<PuzzleCubit, PuzzleState>(
+                builder: (context, state) {
+                  return state.maybeMap(
+                    dailyPuzzle: (value) {
+                      final pgn = value.puzzle.game!.pgn!;
+                      final parsedPgn = parser.parsePGN(pgn);
+                      final fen = parsedPgn.item1;
+                      final side = parsedPgn.item2;
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return DailyPuzzlePage(
+                                  puzzle: value.puzzle,
+                                  userId: user?.id ?? '',
+                                );
+                              },
+                            ),
+                          ).then((value) => _loadDailyPuzzleState());
+                        },
+                        child: AbsorbPointer(
+                          child: Hero(
+                            tag: 'chessboard',
+                            child: ChessboardInterpreter(
+                              controller: PuzzleController(
+                                setup: Setup.parseFen(fen),
+                                interactable: false,
+                                boardSide: side,
+                              ),
+                              onPromotion: (_) async => Role.queen,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    orElse: () {
+                      return const Chessboard();
+                    },
+                  );
+                },
+              ),
+              IgnorePointer(
+                child: Visibility(
+                  visible: completed,
+                  child: Container(
+                    color: Colors.grey.withOpacity(0.5),
+                  ),
+                ),
+              ),
+            ],
           ),
-          // child: Stack(
-          //   children: [
-          //     const Chessboard(),
-          //     Visibility(
-          //       visible: completed,
-          //       child: Container(
-          //         color: Colors.grey.withAlpha(50),
-          //       ),
-          //     ),
-          //   ],
-          // ),
         ),
       ],
     );

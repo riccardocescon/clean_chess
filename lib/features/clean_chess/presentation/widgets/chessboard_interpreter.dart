@@ -15,14 +15,10 @@ class ChessboardInterpreter extends StatefulWidget {
     super.key,
     required this.controller,
     required this.onPromotion,
-    required this.pieceAnimation,
-    required this.boardTheme,
   });
 
   final ChessboardController controller;
   final Future<Role> Function(Side) onPromotion;
-  final PieceAnimation pieceAnimation;
-  final BoardTheme boardTheme;
 
   @override
   State<ChessboardInterpreter> createState() => _ChessboardInterpreterState();
@@ -73,13 +69,11 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
     return AspectRatio(
       aspectRatio: 1,
       child: Chessboard(
-        onCellTap: _onCellTap,
+        onCellTap: _controller._interactable ? _onCellTap : null,
         selectedSquares: _controller._selectedSquares,
         selectedSquare: _controller._selectedSquare,
         pieces: _chessKit.pieces,
         boardSide: _controller._boardSide,
-        pieceAnimation: widget.pieceAnimation,
-        boardTheme: widget.boardTheme,
       ),
     );
   }
@@ -185,7 +179,7 @@ class _ChessboardInterpreterState extends State<ChessboardInterpreter> {
 
     _controller._moves.add(Tuple2(_chessKit.fen, move));
     _controller._pCurrentMove++;
-    sl<PuzzleModelCubit>().pieceMoved(move);
+    sl<PuzzleModeCubit>().pieceMoved(move);
 
     if (_chessKit.gameEnded) {
       final outcome = _chessKit.outcome;
@@ -248,9 +242,14 @@ abstract class ChessboardController extends ChangeNotifier {
   final List<Tuple2<String, Move>> _moves = [];
   int _pCurrentMove = 0;
 
-  ChessboardController({required this.setup, Side? boardSide}) {
+  ChessboardController({
+    required this.setup,
+    Side? boardSide,
+    bool? interactable,
+  }) {
     _chessKit = ChessKit(setup);
     if (boardSide != null) _boardSide = boardSide;
+    if (interactable != null) _interactable = interactable;
   }
 
   void previousMove() {
@@ -315,7 +314,7 @@ abstract class ChessboardController extends ChangeNotifier {
   void loadFen(String fen) {
     _reset();
     _chessKit = ChessKit(Setup.parseFen(fen));
-    sl<PuzzleModelCubit>().turnOf(_chessKit.turn);
+    sl<PuzzleModeCubit>().turnOf(_chessKit.turn);
     notifyListeners();
   }
 
@@ -347,14 +346,21 @@ class BaseController extends ChessboardController {
 }
 
 class PuzzleController extends ChessboardController {
-  PuzzleController({Setup setup = Setup.standard, Side boardSide = Side.white})
-      : super(setup: setup, boardSide: boardSide);
+  PuzzleController({
+    Setup setup = Setup.standard,
+    Side boardSide = Side.white,
+    bool interactable = true,
+  }) : super(
+          setup: setup,
+          boardSide: boardSide,
+          interactable: interactable,
+        );
 
   @override
   void loadFen(String fen) {
     _reset();
     _chessKit = ChessKit(Setup.parseFen(fen));
-    sl<PuzzleModelCubit>().turnOf(_chessKit.turn);
+    sl<PuzzleModeCubit>().turnOf(_chessKit.turn);
     _moves.add(
       Tuple2(_chessKit.fen, const NormalMove(from: -1, to: -1)),
     );
@@ -385,6 +391,6 @@ class PuzzleController extends ChessboardController {
     _selectedSquare = null;
     _selectedSquares.clear();
     final move = Move.fromUci(uci)!;
-    sl<PuzzleModelCubit>().pieceMoved(move);
+    sl<PuzzleModeCubit>().pieceMoved(move);
   }
 }
