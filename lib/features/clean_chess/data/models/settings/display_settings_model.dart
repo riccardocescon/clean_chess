@@ -1,3 +1,4 @@
+import 'package:cleanchess/core/utilities/enum_pieces.dart';
 import 'package:cleanchess/core/utilities/mixins/nameable.dart';
 import 'package:cleanchess/features/clean_chess/domain/entities/settings/setting.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
@@ -7,6 +8,7 @@ import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
     as secure_storage_helper;
 
 class DisplaySettingsModel {
+  PieceTheme? _pieceTheme;
   PieceAnimation? _pieceAnimation;
   _MagnifiedDraggedPiece? _magnifiedDraggedPieces;
   _BoardHighlights? _boardHighlights;
@@ -20,6 +22,7 @@ class DisplaySettingsModel {
   _BoardOrientation? _boardOrientation;
 
   // Getters
+  PieceTheme? get pieceTheme => _pieceTheme;
   PieceAnimation? get pieceAnimation => _pieceAnimation;
   SwitchSetting? get magnifiedDraggedPieces => _magnifiedDraggedPieces;
   SwitchSetting? get boardHighlights => _boardHighlights;
@@ -33,6 +36,7 @@ class DisplaySettingsModel {
   ButtonsSetting? get boardOrientation => _boardOrientation;
 
   List<dynamic> get values => [
+        if (pieceTheme != null) pieceTheme,
         if (pieceAnimation != null) pieceAnimation,
         if (magnifiedDraggedPieces != null) magnifiedDraggedPieces,
         if (boardHighlights != null) boardHighlights,
@@ -47,6 +51,7 @@ class DisplaySettingsModel {
       ];
 
   // Setters
+  set setPieceTheme(PieceTheme value) => _pieceTheme = value;
   set setPieceAnimation(PieceAnimation value) => _pieceAnimation = value;
   set setMagnifiedDraggedPieces(bool value) =>
       _magnifiedDraggedPieces?.value = value;
@@ -65,6 +70,7 @@ class DisplaySettingsModel {
       _boardOrientation?.setValueByReference = value;
 
   DisplaySettingsModel({
+    required PieceTheme pieceTheme,
     required PieceAnimation pieceAnimation,
     required bool magnifiedDraggedPieces,
     required bool boardHighlights,
@@ -77,6 +83,7 @@ class DisplaySettingsModel {
     required BoardScreenSide boardScreenSide,
     required BoardOrientation boardOrientation,
   }) {
+    _pieceTheme = pieceTheme;
     _pieceAnimation = pieceAnimation;
     _magnifiedDraggedPieces =
         _MagnifiedDraggedPiece(value: magnifiedDraggedPieces);
@@ -96,6 +103,7 @@ class DisplaySettingsModel {
     secure_storage_helper
         .getAnimationType()
         .then((value) => _pieceAnimation = value);
+    secure_storage_helper.getPieceTheme().then((value) => _pieceTheme = value);
     if (prefs.highlight != null) {
       _boardHighlights = _BoardHighlights(value: prefs.highlight!);
     }

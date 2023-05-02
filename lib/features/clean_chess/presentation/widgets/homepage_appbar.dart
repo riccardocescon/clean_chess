@@ -75,10 +75,9 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
                           MaterialPageRoute(
                             builder: (context) {
                               return SettingsPickPieceThemePage(
-                                boardTheme: boardTheme,
-                                pieceTheme: pieceTheme,
-                                // currentPieceAnimation: animation,
-                              );
+
+                                  // currentPieceAnimation: animation,
+                                  );
                             },
                           ),
                         ).then(
