@@ -36,7 +36,6 @@ class DisplaySettingsModel {
   ButtonsSetting? get boardOrientation => _boardOrientation;
 
   List<dynamic> get values => [
-        if (pieceTheme != null) pieceTheme,
         if (pieceAnimation != null) pieceAnimation,
         if (magnifiedDraggedPieces != null) magnifiedDraggedPieces,
         if (boardHighlights != null) boardHighlights,

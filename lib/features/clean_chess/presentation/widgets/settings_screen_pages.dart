@@ -2,6 +2,7 @@ import 'package:cleanchess/features/clean_chess/data/models/settings/settings.da
 import 'package:cleanchess/features/clean_chess/data/models/user_settings_model.dart';
 import 'package:cleanchess/features/clean_chess/domain/entities/settings/setting.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/settings/settings_pick_piece_animation_page.dart';
+import 'package:cleanchess/features/clean_chess/presentation/widgets/settings/settings_pick_piece_theme_page.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,11 +38,21 @@ class Display extends StatelessWidget {
               );
             } else {
               // If used more than once, consider building a PageSwtting class
-              return _settingPage(
-                settingName: "Pice animation",
-                settingIcon: Icons.animation,
-                context: context,
-                page: const SettingsPickPagePieceAnimationPage(),
+              return Column(
+                children: [
+                  _settingPage(
+                    settingName: "Pice animation",
+                    settingIcon: Icons.animation,
+                    context: context,
+                    page: const SettingsPickPagePieceAnimationPage(),
+                  ),
+                  _settingPage(
+                    settingName: "Pice theme",
+                    settingIcon: Icons.color_lens,
+                    context: context,
+                    page: SettingsPickPieceThemePage(),
+                  ),
+                ],
               );
             }
           }).toList()
