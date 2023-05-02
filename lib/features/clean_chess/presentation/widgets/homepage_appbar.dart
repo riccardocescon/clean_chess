@@ -64,9 +64,9 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
                     () async {
                       final animation =
                           await secure_storage_helper.getAnimationType();
-                      const pieceTheme =
-                          // await secure_storage_helper.getPieceTheme();
-                          PieceTheme.flat;
+                      final pieceTheme =
+                          await secure_storage_helper.getPieceTheme();
+                      PieceTheme.flat;
                       final boardTheme =
                           await secure_storage_helper.getBoardTheme();
                       if (mounted) {

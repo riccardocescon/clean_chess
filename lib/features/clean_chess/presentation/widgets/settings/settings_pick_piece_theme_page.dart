@@ -2,21 +2,22 @@ import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/core/utilities/enum_pieces.dart';
 import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
+import 'package:cleanchess/features/clean_chess/data/models/user_settings_model.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/settings/settings_pick_table_page.dart';
+import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
     as secure_storage_helper;
 import 'package:flutter_svg/svg.dart';
 
 class SettingsPickPieceThemePage extends StatelessWidget {
-  const SettingsPickPieceThemePage({
+  SettingsPickPieceThemePage({
     super.key,
-    required this.pieceTheme,
-    required this.boardTheme,
   });
 
-  final PieceTheme pieceTheme;
-  final BoardTheme boardTheme;
+  final PieceTheme pieceTheme = sl<UserSettingsModel>().pieceTheme;
+
+  final BoardTheme boardTheme = sl<UserSettingsModel>().boardTheme;
 
   @override
   Widget build(BuildContext context) {
