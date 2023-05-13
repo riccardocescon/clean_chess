@@ -2,6 +2,7 @@ import 'package:cleanchess/core/clean_chess/presentation/widgets/homepage_mode_i
     as homepage_mode_items;
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
 import 'package:cleanchess/core/presentation/bloc/utilities/cubit_helper.dart';
+import 'package:cleanchess/core/utilities/enum_pieces.dart';
 import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/core/utilities/parser.dart' as parser;
@@ -37,6 +38,7 @@ class _HomepageState extends State<Homepage> {
       sl<UserSettingsModel>().displaySettingsModel.pieceAnimation ??
           PieceAnimation.none;
   BoardTheme boardTheme = sl<UserSettingsModel>().boardTheme;
+  PieceTheme piceTheme = sl<UserSettingsModel>().pieceTheme;
   bool _dailyPuzzleCompleted = false;
 
   void _loadSettings() {
@@ -49,6 +51,12 @@ class _HomepageState extends State<Homepage> {
     secure_storage_helper.getBoardTheme().then((value) {
       setState(() {
         boardTheme = value;
+      });
+    });
+
+    secure_storage_helper.getPieceTheme().then((value) {
+      setState(() {
+        piceTheme = value;
       });
     });
   }

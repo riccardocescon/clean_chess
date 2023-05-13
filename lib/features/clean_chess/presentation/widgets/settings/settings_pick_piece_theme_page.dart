@@ -11,16 +11,14 @@ import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
 import 'package:flutter_svg/svg.dart';
 
 class SettingsPickPieceThemePage extends StatelessWidget {
-  SettingsPickPieceThemePage({
+  const SettingsPickPieceThemePage({
     super.key,
   });
 
-  final PieceTheme pieceTheme = sl<UserSettingsModel>().pieceTheme;
-
-  final BoardTheme boardTheme = sl<UserSettingsModel>().boardTheme;
-
   @override
   Widget build(BuildContext context) {
+    final PieceTheme pieceTheme = sl<UserSettingsModel>().pieceTheme;
+    final BoardTheme boardTheme = sl<UserSettingsModel>().boardTheme;
     return SettingsPickTablePage<PieceTheme>(
       title: 'Piece Theme'.hardcoded,
       subtitle: 'Pick a piece theme'.hardcoded,
@@ -73,10 +71,9 @@ class SettingsPickPieceThemePage extends StatelessWidget {
   }
 
   Future<void> _handlePop(String identifier) async {
-    await secure_storage_helper.savePieceTheme(
-      PieceTheme.values.firstWhere(
-        (element) => element.name == identifier,
-      ),
-    );
+    final selectedPiece =
+        PieceTheme.values.firstWhere((element) => element.name == identifier);
+    sl<UserSettingsModel>().setPieceTheme = selectedPiece;
+    await secure_storage_helper.savePieceTheme(selectedPiece);
   }
 }
