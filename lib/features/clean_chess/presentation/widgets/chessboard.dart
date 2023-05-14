@@ -131,7 +131,7 @@ class Chessboard extends StatelessWidget {
   }
 
   PieceAnimation _loadPieceAnimation(StateSetter localSetState) {
-    _pieceAnimation ??=
+    _pieceAnimation =
         sl<UserSettingsModel>().displaySettingsModel.pieceAnimation;
     if (_pieceAnimation == null) {
       _pieceAnimation = PieceAnimation.none;
