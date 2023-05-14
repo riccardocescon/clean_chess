@@ -1,11 +1,9 @@
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
-import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/core/utilities/extentions.dart';
 import 'package:cleanchess/core/utilities/parser.dart' as parser;
 import 'package:cleanchess/features/clean_chess/data/models/puzzle_model.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/in_game/puzzle_mode_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/puzzle_page.dart';
-import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/chessboard_interpreter.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/dialogs/pawn_promotion_dialog.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/puzzle_mode/puzzle_hint_button.dart';
