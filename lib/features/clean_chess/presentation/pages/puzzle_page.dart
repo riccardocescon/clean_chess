@@ -13,7 +13,6 @@ import 'package:cleanchess/features/clean_chess/presentation/widgets/puzzle_mode
 import 'package:cleanchess/features/clean_chess/presentation/widgets/timer_widget.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/titled_app_bar.dart';
 import 'package:cleanchess/injection_container.dart';
-import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';

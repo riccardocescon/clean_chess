@@ -360,23 +360,23 @@ enum _SupportedPuzzleStats {
     "Defending in chess is the act of avoiding or protecting yourself against an undesirable outcome. Defensive moves can prevent the loss of material, protect the king against checks, and stop checkmates. They can also deter the opponent from gaining a strategic edge, like creating a passed pawn or dominating a key square",
     Colors.cyan,
   ),
-  rookEndgame(
-    'rookEndgame',
-    'Rook Endgame',
-    "The rook endgame is a chess endgame in which only the rooks and kings remain on the board",
-    Colors.grey,
-  ),
+  // rookEndgame(
+  //   'rookEndgame',
+  //   'Rook Endgame',
+  //   "The rook endgame is a chess endgame in which only the rooks and kings remain on the board",
+  //   Colors.grey,
+  // ),
   attraction(
     'attraction',
     'Attraction',
     "Attraction is a tactical motif, typically involving a sacrifice that attracts an opposing piece, often the king, to a square where its new position can be exploited by a tactic favoring the attacker",
     Colors.deepPurple,
   ),
-  quietMove(
-      'quietMove',
-      'Quiet Move',
-      "A quiet chess move doesn’t look particularly significant and may only change the structure of the position by a small margin",
-      Colors.lime),
+  // quietMove(
+  //     'quietMove',
+  //     'Quiet Move',
+  //     "A quiet chess move doesn’t look particularly significant and may only change the structure of the position by a small margin",
+  //     Colors.lime),
   intermezzo(
     'intermezzo',
     'Intermezzo',
@@ -400,12 +400,12 @@ enum _SupportedPuzzleStats {
     "The idea behind this term is that in certain positions, it would be beneficial for a player to skip their turn because moving any piece would result in an advantage for their opponent.",
     Colors.green,
   ),
-  pawnEndgame(
-    'pawnEndgame',
-    'Pawn Endgame',
-    "The pawn endgame is a chess endgame in which only the pawns and kings remain on the board",
-    Colors.green,
-  ),
+  // pawnEndgame(
+  //   'pawnEndgame',
+  //   'Pawn Endgame',
+  //   "The pawn endgame is a chess endgame in which only the pawns and kings remain on the board",
+  //   Colors.green,
+  // ),
   trappedPiece(
     'trappedPiece',
     'Traps',

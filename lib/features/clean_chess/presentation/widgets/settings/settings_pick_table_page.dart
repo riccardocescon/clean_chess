@@ -1,4 +1,3 @@
-import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:flutter/material.dart';
 
 import '../titled_app_bar.dart';

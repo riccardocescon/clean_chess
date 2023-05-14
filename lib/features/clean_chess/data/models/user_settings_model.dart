@@ -1,8 +1,6 @@
 import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/features/clean_chess/data/models/settings/settings.dart';
-import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
-import 'package:cleanchess/injection_container.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class UserSettingsModel {
