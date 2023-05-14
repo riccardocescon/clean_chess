@@ -31,7 +31,7 @@ List<Piece> get blackPromotionPieces => [
 
 /// Converts a [Piece] to the correct image path
 ///
-final PieceTheme pieceTheme = sl<UserSettingsModel>().pieceTheme;
+PieceTheme get pieceTheme => sl<UserSettingsModel>().pieceTheme;
 
 String getPiecePath(Piece piece) {
   final paths = {
