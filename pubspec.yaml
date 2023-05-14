@@ -104,8 +104,44 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/pieces/base/
     - assets/pieces/flat/
+    
+    - assets/pieces/alpha/
+    - assets/pieces/anarcandy/
+    - assets/pieces/california/
+    - assets/pieces/cardinal/
+    - assets/pieces/cburnett/
+    - assets/pieces/celtic/
+    - assets/pieces/chess7/
+    - assets/pieces/chessnut/
+    - assets/pieces/companion/
+    - assets/pieces/disguised/
+    - assets/pieces/dubrovny/
+    - assets/pieces/fantasy/
+    - assets/pieces/fresca/
+    - assets/pieces/gioco/
+    - assets/pieces/governor/
+    - assets/pieces/horsey/
+    - assets/pieces/icpieces/
+    - assets/pieces/kosal/
+    - assets/pieces/leipzig/
+    - assets/pieces/letter/
+    - assets/pieces/libra/
+    - assets/pieces/maestro/
+    - assets/pieces/merida/
+    - assets/pieces/mono/
+    - assets/pieces/pirouetti/
+    - assets/pieces/pixel/
+    - assets/pieces/reillycraig/
+    - assets/pieces/riohacha/
+    - assets/pieces/shapes/
+    - assets/pieces/spatial/
+    - assets/pieces/staunty/
+    - assets/pieces/tatiana/
+
+
+
+
     - assets/puzzles/
     - assets/img/
     - assets/icons/

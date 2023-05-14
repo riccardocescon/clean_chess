@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class BehaviorSettingsModel {
-  late final _MoveType? _moveType;
-  late final _Premove? _premove;
-  late final _Takebacks? _takebacks;
-  late final _PromoteToQueen? _promoteToQueen;
-  late final _DrawOnThreefoldRepetition? _drawOnThreefoldRepetition;
-  late final _ConfirmResignation? _confirmResignation;
-  late final _CastlingMode? _castlingMode;
-  late final _KeyboardInput? _keyboardInput;
-  late final _SnapArrows? _snapArrows;
-  late final _GoodGameAfterDefeat? _goodGameAfterDefeat;
+  _MoveType? _moveType;
+  _Premove? _premove;
+  _Takebacks? _takebacks;
+  _PromoteToQueen? _promoteToQueen;
+  _DrawOnThreefoldRepetition? _drawOnThreefoldRepetition;
+  _ConfirmResignation? _confirmResignation;
+  _CastlingMode? _castlingMode;
+  _KeyboardInput? _keyboardInput;
+  _SnapArrows? _snapArrows;
+  _GoodGameAfterDefeat? _goodGameAfterDefeat;
 
   // Getters
   ButtonsSetting? get moveType => _moveType;
@@ -28,16 +28,16 @@ class BehaviorSettingsModel {
   SwitchSetting? get goodGameAfterDefeat => _goodGameAfterDefeat;
 
   List<dynamic> get values => [
-        moveType,
-        premove,
-        takebacks,
-        promoteToQueen,
-        drawOnThreefoldRepetition,
-        confirmResignation,
-        castlingMode,
-        keyboardInput,
-        snapArrows,
-        goodGameAfterDefeat,
+        if (moveType != null) moveType,
+        if (premove != null) premove,
+        if (takebacks != null) takebacks,
+        if (promoteToQueen != null) promoteToQueen,
+        if (drawOnThreefoldRepetition != null) drawOnThreefoldRepetition,
+        if (confirmResignation != null) confirmResignation,
+        if (castlingMode != null) castlingMode,
+        if (keyboardInput != null) keyboardInput,
+        if (snapArrows != null) snapArrows,
+        if (goodGameAfterDefeat != null) goodGameAfterDefeat,
       ];
 
   // Setters
@@ -124,6 +124,8 @@ class BehaviorSettingsModel {
       _keyboardInput = _KeyboardInput(value: prefs.keyboardMove! == 1);
     }
   }
+
+  BehaviorSettingsModel.none();
 }
 
 class _MoveType extends ButtonsSetting<MoveType> {
@@ -237,9 +239,9 @@ enum MoveType with Namable {
 }
 
 enum Takebacks with Namable {
-  never('Never', 0),
-  always('Always', 1),
-  casualOnly('Casual Only', 2);
+  never('Never', 1),
+  always('Always', 2),
+  casualOnly('Casual Only', 3);
 
   const Takebacks(this._name, this.id);
 

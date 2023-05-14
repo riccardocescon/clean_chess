@@ -1,4 +1,5 @@
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
+import 'package:cleanchess/features/clean_chess/data/models/user_settings_model.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/board_cubit.dart';
@@ -44,55 +45,69 @@ class _RootState extends State<Root> {
           statusBarColor: theme.scaffoldBackgroundColor,
           systemNavigationBarColor: theme.scaffoldBackgroundColor,
         ),
-        child: BlocBuilder<AuthCubit, AuthState>(
-          bloc: sl<AuthCubit>(),
-          builder: (context, state) {
-            final isLogged = state.maybeMap(
-              logged: (_) => true,
-              orElse: () => false,
-            );
-
-            return MaterialApp(
-              key: isLogged
-                  ? Key(AuthState.logged.toString())
-                  : Key(AuthState.notLogged.toString()),
-              theme: theme,
-              debugShowCheckedModeBanner: false,
-              initialRoute: Navigation.homepage,
-              builder: (context, child) {
-                return ScrollConfiguration(
-                  behavior: const ScrollBehavior().copyWith(
-                    physics: const ClampingScrollPhysics(),
-                  ),
-                  child: child!,
-                );
+        child: BlocListener<AccountCubit, AccountState>(
+          listener: (context, state) {
+            state.maybeWhen(
+              myPreferences: (preferences) {
+                sl<UserSettingsModel>().updateFromAPI(preferences);
               },
-              onGenerateRoute: (settings) {
-                if (!isLogged) {
-                  return PageRouteBuilder(
-                    settings: settings,
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        const LoginScreen(),
-                  );
-                }
+              orElse: () {},
+            );
+          },
+          child: BlocBuilder<AuthCubit, AuthState>(
+            bloc: sl<AuthCubit>(),
+            builder: (context, state) {
+              final isLogged = state.maybeMap(
+                logged: (_) => true,
+                orElse: () => false,
+              );
 
-                switch (settings.name) {
-                  case Navigation.homepage:
-                    return PageRouteBuilder(
-                      settings: settings,
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          const Homepage(),
-                    );
-                  default:
+              if (isLogged) {
+                sl<AccountCubit>().getMyPreferences();
+              }
+
+              return MaterialApp(
+                key: isLogged
+                    ? Key(AuthState.logged.toString())
+                    : Key(AuthState.notLogged.toString()),
+                theme: theme,
+                debugShowCheckedModeBanner: false,
+                initialRoute: Navigation.homepage,
+                builder: (context, child) {
+                  return ScrollConfiguration(
+                    behavior: const ScrollBehavior().copyWith(
+                      physics: const ClampingScrollPhysics(),
+                    ),
+                    child: child!,
+                  );
+                },
+                onGenerateRoute: (settings) {
+                  if (!isLogged) {
                     return PageRouteBuilder(
                       settings: settings,
                       pageBuilder: (context, animation, secondaryAnimation) =>
                           const LoginScreen(),
                     );
-                }
-              },
-            );
-          },
+                  }
+
+                  switch (settings.name) {
+                    case Navigation.homepage:
+                      return PageRouteBuilder(
+                        settings: settings,
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            const Homepage(),
+                      );
+                    default:
+                      return PageRouteBuilder(
+                        settings: settings,
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            const LoginScreen(),
+                      );
+                  }
+                },
+              );
+            },
+          ),
         ),
       ),
     );

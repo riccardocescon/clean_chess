@@ -9,7 +9,11 @@ Color getCellColor(
   Color? blackColor,
   int boardSize = 8,
 }) {
-  int cellColor = (index % 2);
+  int cellColor = (boardSize % 2 == 0
+      ? index % 2
+      : index % 2 == 0
+          ? 1
+          : 0);
   int row = (index ~/ boardSize) % 2;
   if (row == 0) {
     cellColor = (index % 2) == 0 ? 1 : 0;

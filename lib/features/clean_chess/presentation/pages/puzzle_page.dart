@@ -23,13 +23,9 @@ class PuzzlePage extends StatefulWidget {
   const PuzzlePage({
     super.key,
     required this.userId,
-    required this.pieceAnimation,
-    required this.boardTheme,
   });
 
   final String userId;
-  final PieceAnimation pieceAnimation;
-  final BoardTheme boardTheme;
 
   @override
   State<PuzzlePage> createState() => _PuzzlePageState();
@@ -116,8 +112,6 @@ class _PuzzlePageState extends State<PuzzlePage> {
     return ChessboardInterpreter(
       controller: _controller,
       onPromotion: (turn) => showPromotionDialog(context, turn),
-      pieceAnimation: widget.pieceAnimation,
-      boardTheme: widget.boardTheme,
     );
   }
 

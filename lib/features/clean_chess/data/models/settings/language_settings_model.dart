@@ -3,7 +3,7 @@ import 'package:cleanchess/features/clean_chess/domain/entities/settings/setting
 import 'package:flutter/material.dart';
 
 class LanguageSettingsModel {
-  late final _Language _language;
+  late _Language _language;
 
   // Getters
   ButtonsSetting get language => _language;

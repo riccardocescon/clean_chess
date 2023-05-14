@@ -1,4 +1,3 @@
-import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/settings/settings_pick_board_theme_page.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/settings_screen_pages.dart';
 import 'package:flutter/material.dart';
@@ -65,9 +64,7 @@ Widget _body(BuildContext context) {
         settingName: "Theme",
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => SettingsPickBoardThemePage(
-              currentBoardTheme: BoardTheme.blue,
-            ),
+            builder: (context) => const SettingsPickBoardThemePage(),
           ),
         ),
         settingIcon: Icons.color_lens,

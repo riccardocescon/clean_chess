@@ -91,10 +91,10 @@ class _SettingsPickTablePageState<T> extends State<SettingsPickTablePage<T>> {
               child: StatefulBuilder(
                 builder: (context, localSetState) {
                   return GridView.count(
-                    crossAxisCount: 4,
+                    crossAxisCount: 5,
                     physics: const NeverScrollableScrollPhysics(),
                     children: List.generate(
-                      16,
+                      25,
                       (index) => widget.cellItemBuilder(item, index),
                     ),
                   );
