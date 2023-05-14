@@ -1,3 +1,4 @@
+import 'package:cleanchess/core/utilities/enum_pieces.dart';
 import 'package:cleanchess/core/utilities/enum_themes.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -46,6 +47,7 @@ Future<BoardTheme> getBoardTheme() async {
 Future<void> deleteBoardTheme() async =>
     const FlutterSecureStorage().delete(key: _boardTheme);
 
+
 // Daily Puzzle
 const String _dailyPuzzle = 'daily_puzzle';
 Future saveDailyPuzzle(DateTime compeltedDatetime) async =>
@@ -63,3 +65,19 @@ Future<DateTime?> getDailyPuzzle() async {
 
 Future<void> deleteDailyPuzzle() async =>
     const FlutterSecureStorage().delete(key: _dailyPuzzle);
+
+//Piece Theme
+const String _pieceTheme = 'piece_theme';
+Future savePieceTheme(PieceTheme pieceTheme) async =>
+    const FlutterSecureStorage()
+        .write(key: _pieceTheme, value: pieceTheme.name);
+
+Future<PieceTheme> getPieceTheme() async {
+  String name = await const FlutterSecureStorage().read(key: _pieceTheme) ??
+      PieceTheme.flat.name;
+  return PieceTheme.values.firstWhere((element) => element.name == name);
+}
+
+Future<void> deletePieceTheme() async =>
+    const FlutterSecureStorage().delete(key: _pieceTheme);
+

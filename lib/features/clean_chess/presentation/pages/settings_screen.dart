@@ -1,3 +1,4 @@
+import 'package:cleanchess/features/clean_chess/presentation/widgets/settings/settings_pick_board_theme_page.dart';
 import 'package:cleanchess/features/clean_chess/presentation/widgets/settings_screen_pages.dart';
 import 'package:flutter/material.dart';
 
@@ -61,8 +62,11 @@ Widget _body(BuildContext context) {
       ),
       _settingButton(
         settingName: "Theme",
-        onTap: () => Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => const Themes())),
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const SettingsPickBoardThemePage(),
+          ),
+        ),
         settingIcon: Icons.color_lens,
       ),
       _settingButton(
@@ -87,10 +91,11 @@ Widget _body(BuildContext context) {
   );
 }
 
-Widget _settingButton(
-    {required String settingName,
-    required void Function() onTap,
-    required IconData settingIcon}) {
+Widget _settingButton({
+  required String settingName,
+  required void Function() onTap,
+  required IconData settingIcon,
+}) {
   return DefaultTextStyle(
     style: universalTextStyle,
     child: InkWell(

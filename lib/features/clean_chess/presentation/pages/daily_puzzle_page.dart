@@ -30,14 +30,10 @@ class DailyPuzzlePage extends StatelessWidget {
   const DailyPuzzlePage({
     super.key,
     required this.puzzle,
-    required this.pieceAnimation,
-    required this.boardTheme,
     required this.userId,
   });
 
   final LichessPuzzle puzzle;
-  final PieceAnimation pieceAnimation;
-  final BoardTheme boardTheme;
   final String userId;
   bool _puzzleCompleted(String lastMove) =>
       _puzzle!.moves.length == 1 && lastMove == _puzzle!.moves.first;
@@ -95,13 +91,10 @@ class DailyPuzzlePage extends StatelessWidget {
           child: Hero(
             tag: 'chessboard',
             child: ChessboardInterpreter(
-              controller: _controller,
-              onPromotion: (piece) async {
-                return await showPromotionDialog(context, Side.black);
-              },
-              pieceAnimation: pieceAnimation,
-              boardTheme: boardTheme,
-            ),
+                controller: _controller,
+                onPromotion: (piece) async {
+                  return await showPromotionDialog(context, Side.black);
+                }),
           ),
         ),
       ),
@@ -146,11 +139,7 @@ class DailyPuzzlePage extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return PuzzlePage(
-                userId: userId,
-                pieceAnimation: pieceAnimation,
-                boardTheme: boardTheme,
-              );
+              return PuzzlePage(userId: userId);
             },
           ),
         );

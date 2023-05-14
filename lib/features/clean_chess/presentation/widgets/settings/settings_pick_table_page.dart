@@ -1,4 +1,3 @@
-import 'package:cleanchess/features/clean_chess/presentation/widgets/animated_board_piece.dart';
 import 'package:flutter/material.dart';
 
 import '../titled_app_bar.dart';
@@ -92,10 +91,10 @@ class _SettingsPickTablePageState<T> extends State<SettingsPickTablePage<T>> {
               child: StatefulBuilder(
                 builder: (context, localSetState) {
                   return GridView.count(
-                    crossAxisCount: 4,
+                    crossAxisCount: 5,
                     physics: const NeverScrollableScrollPhysics(),
                     children: List.generate(
-                      16,
+                      25,
                       (index) => widget.cellItemBuilder(item, index),
                     ),
                   );

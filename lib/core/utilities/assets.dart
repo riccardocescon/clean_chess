@@ -1,3 +1,6 @@
+import 'package:cleanchess/core/utilities/enum_pieces.dart';
+import 'package:cleanchess/features/clean_chess/data/models/user_settings_model.dart';
+import 'package:cleanchess/injection_container.dart';
 import 'package:dartchess/dartchess.dart';
 
 List<Piece> get whitePieces => [
@@ -27,20 +30,23 @@ List<Piece> get blackPromotionPieces => [
     ];
 
 /// Converts a [Piece] to the correct image path
+///
+PieceTheme get pieceTheme => sl<UserSettingsModel>().pieceTheme;
+
 String getPiecePath(Piece piece) {
   final paths = {
-    Piece.whitePawn: 'assets/pieces/flat/white_pawn.png',
-    Piece.whiteKnight: 'assets/pieces/flat/white_knight.png',
-    Piece.whiteBishop: 'assets/pieces/flat/white_bishop.png',
-    Piece.whiteRook: 'assets/pieces/flat/white_rook.png',
-    Piece.whiteQueen: 'assets/pieces/flat/white_queen.png',
-    Piece.whiteKing: 'assets/pieces/flat/white_king.png',
-    Piece.blackPawn: 'assets/pieces/flat/black_pawn.png',
-    Piece.blackKnight: 'assets/pieces/flat/black_knight.png',
-    Piece.blackBishop: 'assets/pieces/flat/black_bishop.png',
-    Piece.blackRook: 'assets/pieces/flat/black_rook.png',
-    Piece.blackQueen: 'assets/pieces/flat/black_queen.png',
-    Piece.blackKing: 'assets/pieces/flat/black_king.png',
+    Piece.whitePawn: '${pieceTheme.location}wP.svg',
+    Piece.whiteKnight: '${pieceTheme.location}wN.svg',
+    Piece.whiteBishop: '${pieceTheme.location}wB.svg',
+    Piece.whiteRook: '${pieceTheme.location}wR.svg',
+    Piece.whiteQueen: '${pieceTheme.location}wQ.svg',
+    Piece.whiteKing: '${pieceTheme.location}wK.svg',
+    Piece.blackPawn: '${pieceTheme.location}bP.svg',
+    Piece.blackKnight: '${pieceTheme.location}bN.svg',
+    Piece.blackBishop: '${pieceTheme.location}bB.svg',
+    Piece.blackRook: '${pieceTheme.location}bR.svg',
+    Piece.blackQueen: '${pieceTheme.location}bQ.svg',
+    Piece.blackKing: '${pieceTheme.location}bK.svg',
   };
 
   return paths[piece]!;

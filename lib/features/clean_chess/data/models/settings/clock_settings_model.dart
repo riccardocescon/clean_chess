@@ -1,39 +1,40 @@
 import 'package:cleanchess/core/utilities/mixins/nameable.dart';
 import 'package:cleanchess/features/clean_chess/domain/entities/settings/setting.dart';
 import 'package:flutter/material.dart';
+import 'package:lichess_client_dio/lichess_client_dio.dart';
 
 class ClockSettingsModel {
-  late final _ClockPosition _clockPosition;
-  late final _TenthsOfSeconds _tenthsOfSeconds;
-  late final _Progressbar _progressbar;
-  late final _SoundWhenTimeGetsCritical _soundWhenTimeGetsCritical;
-  late final _GiveMoreTime _giveMoreTime;
+  _ClockPosition? _clockPosition;
+  _TenthsOfSeconds? _tenthsOfSeconds;
+  _Progressbar? _progressbar;
+  _SoundWhenTimeGetsCritical? _soundWhenTimeGetsCritical;
+  _GiveMoreTime? _giveMoreTime;
 
   // Getters
-  ButtonsSetting get clockPosition => _clockPosition;
-  ButtonsSetting get tenthsOfSeconds => _tenthsOfSeconds;
-  SwitchSetting get progressbar => _progressbar;
-  SwitchSetting get soundWhenTimeGetsCritical => _soundWhenTimeGetsCritical;
-  ButtonsSetting get giveMoreTime => _giveMoreTime;
+  ButtonsSetting? get clockPosition => _clockPosition;
+  ButtonsSetting? get tenthsOfSeconds => _tenthsOfSeconds;
+  SwitchSetting? get progressbar => _progressbar;
+  SwitchSetting? get soundWhenTimeGetsCritical => _soundWhenTimeGetsCritical;
+  ButtonsSetting? get giveMoreTime => _giveMoreTime;
 
   List<dynamic> get values => [
-        clockPosition,
-        tenthsOfSeconds,
-        progressbar,
-        soundWhenTimeGetsCritical,
-        giveMoreTime,
+        if (clockPosition != null) clockPosition,
+        if (tenthsOfSeconds != null) tenthsOfSeconds,
+        if (progressbar != null) progressbar,
+        if (soundWhenTimeGetsCritical != null) soundWhenTimeGetsCritical,
+        if (giveMoreTime != null) giveMoreTime,
       ];
 
   // Setters
   set setClockPosition(ClockPosition value) =>
-      _clockPosition.setValueByReference = value;
+      _clockPosition?.setValueByReference = value;
   set setTenthsOfSeconds(TenthsOfSeconds value) =>
-      _tenthsOfSeconds.setValueByReference = value;
-  set setProgressbar(bool value) => _progressbar.value = value;
+      _tenthsOfSeconds?.setValueByReference = value;
+  set setProgressbar(bool value) => _progressbar?.value = value;
   set setSoundWhenTimeGetsCritical(bool value) =>
-      _soundWhenTimeGetsCritical.value = value;
+      _soundWhenTimeGetsCritical?.value = value;
   set setGiveMoreTime(GiveMoreTime value) =>
-      _giveMoreTime.setValueByReference = value;
+      _giveMoreTime?.setValueByReference = value;
 
   ClockSettingsModel({
     required ClockPosition clockPosition,
@@ -49,6 +50,28 @@ class ClockSettingsModel {
         _SoundWhenTimeGetsCritical(value: soundWhenTimeGetsCritical);
     _giveMoreTime = _GiveMoreTime(value: giveMoreTime);
   }
+
+  ClockSettingsModel.fromAPI(UserPreferences prefs) {
+    if (prefs.moretime != null) {
+      _giveMoreTime = _GiveMoreTime(
+          value: GiveMoreTime.values
+              .firstWhere((element) => element.id == prefs.moretime));
+    }
+    if (prefs.clockTenths != null) {
+      _tenthsOfSeconds = _TenthsOfSeconds(
+          value: TenthsOfSeconds.values
+              .firstWhere((element) => element.id == prefs.clockTenths));
+    }
+    if (prefs.clockBar != null) {
+      _progressbar = _Progressbar(value: prefs.clockBar!);
+    }
+    if (prefs.clockSound != null) {
+      _soundWhenTimeGetsCritical =
+          _SoundWhenTimeGetsCritical(value: prefs.clockSound!);
+    }
+  }
+
+  ClockSettingsModel.none();
 }
 
 class _ClockPosition extends ButtonsSetting<ClockPosition> {
@@ -100,38 +123,41 @@ class _GiveMoreTime extends ButtonsSetting<GiveMoreTime> {
 }
 
 enum ClockPosition with Namable {
-  top('Top'),
-  bottom('Bottom');
+  top('Top', 0),
+  bottom('Bottom', 1);
 
-  const ClockPosition(this._name);
+  const ClockPosition(this._name, this.id);
 
   final String _name;
+  final int id;
 
   @override
   String get name => _name;
 }
 
 enum TenthsOfSeconds with Namable {
-  on('On'),
-  off('Off'),
-  lessThan10('< 10 seconds');
+  on('On', 0),
+  off('Off', 2),
+  lessThan10('< 10 seconds', 1);
 
-  const TenthsOfSeconds(this._name);
+  const TenthsOfSeconds(this._name, this.id);
 
   final String _name;
+  final int id;
 
   @override
   String get name => _name;
 }
 
 enum GiveMoreTime with Namable {
-  on('On'),
-  off('Off'),
-  casualOnly('Casual only');
+  on('On', 1),
+  off('Off', 3),
+  casualOnly('Casual only', 2);
 
-  const GiveMoreTime(this._name);
+  const GiveMoreTime(this._name, this.id);
 
   final String _name;
+  final int id;
 
   @override
   String get name => _name;
