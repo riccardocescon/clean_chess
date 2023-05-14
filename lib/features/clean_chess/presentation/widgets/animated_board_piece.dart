@@ -8,7 +8,7 @@ class AnimatedBoardPiece extends StatelessWidget {
   const AnimatedBoardPiece({
     super.key,
     required this.onGetPiece,
-    this.scale = 1,
+    this.scale = 10,
     this.pieceAnim = PieceAnimation.none,
     this.duration = const Duration(milliseconds: 500),
   });
