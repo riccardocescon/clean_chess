@@ -1,19 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
 import 'package:cleanchess/core/clean_chess/utilities/style.dart';
-import 'package:cleanchess/core/utilities/enum_pieces.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/homepage.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/profile_screen.dart';
 import 'package:cleanchess/features/clean_chess/presentation/pages/settings_screen.dart';
-import 'package:cleanchess/features/clean_chess/presentation/widgets/settings/settings_pick_piece_theme_page.dart';
 import 'package:cleanchess/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
-import 'package:cleanchess/core/utilities/secure_storage_helper.dart'
-    as secure_storage_helper;
 
 class HomepageAppbar extends StatefulWidget {
   const HomepageAppbar({
@@ -55,36 +51,13 @@ class _HomepageAppbarState extends State<HomepageAppbar> {
                   onPressed: () {
                     // sl<AuthCubit>().revoke();
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SettingsScreen())).then(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SettingsScreen(),
+                      ),
+                    ).then(
                       (value) => widget.onSettingsApplied(),
                     );
-                    onPressed:
-                    () async {
-                      final animation =
-                          await secure_storage_helper.getAnimationType();
-                      final pieceTheme =
-                          await secure_storage_helper.getPieceTheme();
-                      PieceTheme.flat;
-                      final boardTheme =
-                          await secure_storage_helper.getBoardTheme();
-                      if (mounted) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return SettingsPickPieceThemePage(
-
-                                  // currentPieceAnimation: animation,
-                                  );
-                            },
-                          ),
-                        ).then(
-                          (value) => widget.onSettingsApplied(),
-                        );
-                      }
-                    };
                   },
                   icon: const Icon(
                     Icons.settings_outlined,

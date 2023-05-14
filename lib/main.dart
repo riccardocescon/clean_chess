@@ -1,5 +1,4 @@
 import 'package:cleanchess/chess/core/utilities/navigation.dart';
-import 'package:cleanchess/features/clean_chess/data/models/puzzle_model.dart';
 import 'package:cleanchess/features/clean_chess/data/models/user_settings_model.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/account_cubit.dart';
 import 'package:cleanchess/features/clean_chess/presentation/blocs/auth_cubit.dart';

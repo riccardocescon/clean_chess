@@ -1,6 +1,5 @@
 import 'package:cleanchess/core/errors/failure.dart';
 import 'package:cleanchess/features/clean_chess/domain/usecases/users/users.dart';
-import 'package:cleanchess/injection_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:equatable/equatable.dart';
